@@ -1,0 +1,17 @@
+{
+  "featureId": "create-memory-synthesizer-droid",
+  "status": "pass",
+  "issues": [],
+  "sharedStateObservations": [
+    {
+      "type": "pattern",
+      "description": "Custom droids use YAML frontmatter with name, description, model, and tools fields. The model field should specify a low-cost model like 'claude-3-5-haiku-latest' for efficiency.",
+      "suggestedLocation": "library"
+    },
+    {
+      "type": "convention",
+      "description": "Droid files are stored in ~/.factory/droids/ directory with .md extension and SKILL.md body containing the workflow instructions.",
+      "suggestedLocation": "library"
+    }
+  ]
+}

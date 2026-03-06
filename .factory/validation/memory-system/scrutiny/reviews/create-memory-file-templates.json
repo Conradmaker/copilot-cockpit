@@ -1,0 +1,17 @@
+{
+  "featureId": "create-memory-file-templates",
+  "status": "pass",
+  "issues": [],
+  "sharedStateObservations": [
+    {
+      "type": "pattern",
+      "description": "Memory files use markdown format with ## headings for categories. Personal memory has 3 categories (Personal Preferences, Decision Patterns, Learning Notes), Project memory has 5 categories (Architecture Decisions, Technical Debt, Domain Knowledge, Team Conventions, Project Patterns).",
+      "suggestedLocation": "library"
+    },
+    {
+      "type": "convention",
+      "description": "Personal memory stored at ~/.factory/memories.md, Project memory at .factory/memories.md (relative to project root). Files use UTF-8 encoding for international text support.",
+      "suggestedLocation": "library"
+    }
+  ]
+}
