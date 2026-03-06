@@ -1,0 +1,128 @@
+{
+  "groupId": "file-assertions",
+  "testedAt": "2026-03-06T22:50:00Z",
+  "credentials": {
+    "account": "file-assertions",
+    "namespace": "file-assertions"
+  },
+  "toolsUsed": ["ls", "cat", "grep", "file", "test"],
+  "assertions": [
+    {
+      "id": "VAL-FILE-001",
+      "title": "Personal Memory File Location",
+      "status": "pass",
+      "steps": [
+        { "action": "Check file existence at ~/.factory/memories.md", "expected": "File exists", "observed": "File exists at /Users/wongeun/.factory/memories.md" }
+      ],
+      "evidence": {
+        "filePath": "~/.factory/memories.md",
+        "fileSize": "814 bytes",
+        "permissions": "-rw-r--r--"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-FILE-002",
+      "title": "Project Memory File Location",
+      "status": "pass",
+      "steps": [
+        { "action": "Check file existence at .factory/memories.md", "expected": "File exists in project root", "observed": "File exists at /Users/wongeun/Documents/droid-boiler-plate/.factory/memories.md" }
+      ],
+      "evidence": {
+        "filePath": ".factory/memories.md",
+        "fileSize": "1385 bytes",
+        "permissions": "-rw-r--r--"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-FILE-003",
+      "title": "Personal Memory Categories",
+      "status": "pass",
+      "steps": [
+        { "action": "Check for Personal Preferences section", "expected": "Section exists", "observed": "Found '## Personal Preferences' heading with 도구 선호, 커뮤니케이션 스타일, 워크플로우 패턴" },
+        { "action": "Check for Decision Patterns section", "expected": "Section exists", "observed": "Found '## Decision Patterns' heading with 개인적 의사결정 패턴, 선택 기준, 우선순위 원칙" },
+        { "action": "Check for Learning Notes section", "expected": "Section exists", "observed": "Found '## Learning Notes' heading with 개인 학습 내용, 새로 습득한 지식, 인사이트" }
+      ],
+      "evidence": {
+        "categoriesFound": ["Personal Preferences", "Decision Patterns", "Learning Notes"],
+        "categoryCount": 3,
+        "koreanDescriptionsPresent": true
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-FILE-004",
+      "title": "Project Memory Categories",
+      "status": "pass",
+      "steps": [
+        { "action": "Check for Architecture Decisions section", "expected": "Section exists", "observed": "Found '## Architecture Decisions' heading with 아키텍처 결정" },
+        { "action": "Check for Technical Debt section", "expected": "Section exists", "observed": "Found '## Technical Debt' heading with 기술 부채" },
+        { "action": "Check for Domain Knowledge section", "expected": "Section exists", "observed": "Found '## Domain Knowledge' heading with 도메인 지식" },
+        { "action": "Check for Team Conventions section", "expected": "Section exists", "observed": "Found '## Team Conventions' heading with 팀 컨벤션" },
+        { "action": "Check for Project Patterns section", "expected": "Section exists", "observed": "Found '## Project Patterns' heading with 프로젝트 패턴" }
+      ],
+      "evidence": {
+        "categoriesFound": ["Architecture Decisions", "Technical Debt", "Domain Knowledge", "Team Conventions", "Project Patterns"],
+        "categoryCount": 5,
+        "koreanDescriptionsPresent": true
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-FILE-005",
+      "title": "Markdown Format Compliance",
+      "status": "pass",
+      "steps": [
+        { "action": "Check heading hierarchy (## for categories)", "expected": "Proper heading structure", "observed": "Categories use ## heading level, main title uses #" },
+        { "action": "Check bullet point formatting", "expected": "Consistent bullet formatting", "observed": "Uses - for bullets with **bold** labels" },
+        { "action": "Check date/timestamp format", "expected": "Date format present", "observed": "Last updated: 2026-03-06 in file header" }
+      ],
+      "evidence": {
+        "headingLevels": { "mainTitle": "#", "categories": "##" },
+        "bulletFormat": "- **Label**: content",
+        "hasDateStamp": true,
+        "hasComments": true
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-FILE-006",
+      "title": "File Permissions",
+      "status": "pass",
+      "steps": [
+        { "action": "Check personal memory file permissions", "expected": "Readable and writable", "observed": "-rw-r--r-- (readable and writable by owner)" },
+        { "action": "Test read permission on personal memory", "expected": "Readable", "observed": "test -r passed" },
+        { "action": "Test write permission on personal memory", "expected": "Writable", "observed": "test -w passed" },
+        { "action": "Check project memory file permissions", "expected": "Readable and writable", "observed": "-rw-r--r-- (readable and writable by owner)" },
+        { "action": "Test read permission on project memory", "expected": "Readable", "observed": "test -r passed" },
+        { "action": "Test write permission on project memory", "expected": "Writable", "observed": "test -w passed" }
+      ],
+      "evidence": {
+        "personalMemory": { "permissions": "-rw-r--r--", "readable": true, "writable": true },
+        "projectMemory": { "permissions": "-rw-r--r--", "readable": true, "writable": true }
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-FILE-007",
+      "title": "Encoding Consistency",
+      "status": "pass",
+      "steps": [
+        { "action": "Check encoding of personal memory file", "expected": "UTF-8 encoding", "observed": "text/plain; charset=utf-8" },
+        { "action": "Check encoding of project memory file", "expected": "UTF-8 encoding", "observed": "text/plain; charset=utf-8" },
+        { "action": "Verify Korean text present and readable", "expected": "Korean characters display correctly", "observed": "Korean text (도구 선호, 커뮤니케이션 스타일, 아키텍처 결정, etc.) renders correctly" }
+      ],
+      "evidence": {
+        "personalMemoryEncoding": "utf-8",
+        "projectMemoryEncoding": "utf-8",
+        "koreanTextPresent": true,
+        "sampleKoreanText": ["도구 선호", "커뮤니케이션 스타일", "아키텍처 결정", "기술 부채", "도메인 지식", "팀 컨벤션", "프로젝트 패턴"]
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 7 FILE assertions: All 7 passed. Both personal memory file (~/.factory/memories.md) and project memory file (.factory/memories.md) exist with correct category sections, proper markdown formatting, appropriate read/write permissions, and UTF-8 encoding for Korean text support."
+}

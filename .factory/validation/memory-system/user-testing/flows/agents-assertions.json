@@ -1,0 +1,66 @@
+{
+  "groupId": "agents-assertions",
+  "testedAt": "2026-03-06T00:00:00Z",
+  "credentials": {
+    "account": "test-agent",
+    "namespace": "agents-assertions"
+  },
+  "toolsUsed": ["Read", "Grep"],
+  "assertions": [
+    {
+      "id": "VAL-AGENTS-001",
+      "title": "AGENTS.md contains Memory Capture Guide section",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Read AGENTS.md file",
+          "expected": "File contains 'Memory Capture Guide' or similar section",
+          "observed": "Found '## Memory Capture Guide for Orchestrator' at line 20"
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "none",
+        "network": "none",
+        "findings": "Section '## Memory Capture Guide for Orchestrator' exists at line 20"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-AGENTS-002",
+      "title": "AGENTS.md documents orchestrator should invoke memory-synthesizer after user interactions/decisions",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Search for memory-synthesizer invocation documentation",
+          "expected": "AGENTS.md contains documentation about invoking memory-synthesizer after user interactions",
+          "observed": "Found '### 언제 memory-synthesizer를 호출해야 하는가' section with detailed guidance"
+        },
+        {
+          "action": "Verify invocation trigger documentation",
+          "expected": "Documentation specifies when to invoke (after user communication/decisions)",
+          "observed": "Line 24: '사용자와의 소통이나 결정 이후 다음과 같은 내용이 발견되면 memory-synthesizer를 호출하세요' (After communication or decisions with the user, call memory-synthesizer if the following content is found)"
+        },
+        {
+          "action": "Verify orchestrator behavior documentation",
+          "expected": "Orchestrator workflow documented for memory capture",
+          "observed": "Found '### Orchestrator 동작' section with 4-step workflow including memory-synthesizer invocation"
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "none",
+        "network": "none",
+        "findings": [
+          "Line 22: '### 언제 memory-synthesizer를 호출해야 하는가' section exists",
+          "Line 24: Documents invocation after user communication/decisions",
+          "Line 49: '3. 사용자가 \"네\"라고 하면 memory-synthesizer 호출' confirms invocation flow"
+        ]
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 2 assertions: 2 passed. VAL-AGENTS-001: Memory Capture Guide section found. VAL-AGENTS-002: memory-synthesizer invocation documentation verified with clear trigger conditions and orchestrator workflow."
+}

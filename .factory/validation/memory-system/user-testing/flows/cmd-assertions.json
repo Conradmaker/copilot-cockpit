@@ -1,0 +1,82 @@
+{
+  "groupId": "cmd-assertions",
+  "testedAt": "2026-03-06T00:00:00Z",
+  "credentials": {
+    "account": "n/a",
+    "namespace": "cmd-assertions"
+  },
+  "toolsUsed": ["Read"],
+  "assertions": [
+    {
+      "id": "VAL-CMD-001",
+      "title": "Command File Existence",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Check if ~/.factory/commands/save-memory.md exists",
+          "expected": "File exists at ~/.factory/commands/save-memory.md",
+          "observed": "File exists at ~/.factory/commands/save-memory.md with valid YAML frontmatter and content"
+        }
+      ],
+      "evidence": {
+        "filePath": "~/.factory/commands/save-memory.md",
+        "fileContent": "Contains YAML frontmatter with description and full documentation"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-CMD-002",
+      "title": "Command Invokes memory-synthesizer Droid",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Verify command content mentions invoking memory-synthesizer droid",
+          "expected": "Command documentation describes invoking memory-synthesizer droid",
+          "observed": "Command description states 'Invokes the memory-synthesizer droid' and Behavior section states 'memory-synthesizer 드로이드를 호출합니다'"
+        }
+      ],
+      "evidence": {
+        "quote": "Invokes the memory-synthesizer droid to analyze current session context",
+        "location": "YAML frontmatter description and Behavior section"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-CMD-003",
+      "title": "Project Context Independence",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Verify command description indicates it works from any directory",
+          "expected": "Documentation mentions command works from any project directory",
+          "observed": "Notes section explicitly states '이 커맨드는 어떤 프로젝트 디렉토리에서도 실행 가능합니다' (This command can be executed from any project directory)"
+        }
+      ],
+      "evidence": {
+        "quote": "이 커맨드는 어떤 프로젝트 디렉토리에서도 실행 가능합니다",
+        "location": "Notes section"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-CMD-004",
+      "title": "Context Passing",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Verify command passes current session context to droid",
+          "expected": "Documentation describes passing session context to droid for analysis",
+          "observed": "Behavior section describes '현재 세션의 컨텍스트 (대화 내용, 결정사항, 학습 내용 등) 를 분석합니다' (analyzes current session context including conversation, decisions, learnings)"
+        }
+      ],
+      "evidence": {
+        "quote": "현재 세션의 컨텍스트 (대화 내용, 결정사항, 학습 내용 등) 를 분석합니다",
+        "location": "Behavior section step 2"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 4 assertions: 4 passed, 0 failed, 0 blocked. All CMD assertions verified successfully. The /save-memory command file exists with proper documentation describing droid invocation, directory independence, and context passing."
+}
