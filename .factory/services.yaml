@@ -1,0 +1,4 @@
+commands:
+  install: echo "No dependencies to install"
+
+services: {}
