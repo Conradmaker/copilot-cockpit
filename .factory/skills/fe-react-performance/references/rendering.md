@@ -280,3 +280,111 @@ function Dropdown({isOpen}: Props) {
 ```
 
 비용이 큰 리렌더와 상태 손실을 방지한다.
+
+---
+
+## 10. 모션은 축소 가능하고 합성 가능한 속성만 애니메이션
+
+애니메이션은 `transform`과 `opacity` 중심으로 구성하고, 사용자의 모션 축소 선호를 존중한다. `transition: all`은 레이아웃·페인트 비용이 큰 속성까지 전부 감시하므로 피한다.
+
+**❌ 잘못된 예 (불필요한 속성까지 전환):**
+
+```css
+.card {
+  transition: all 200ms ease;
+}
+```
+
+**✅ 올바른 예 (명시적 전환 + reduced motion 대응):**
+
+```css
+.card {
+  transition:
+    transform 200ms ease,
+    opacity 200ms ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition-duration: 0ms;
+  }
+
+  .card:hover {
+    transform: none;
+  }
+}
+```
+
+- 애니메이션은 가능하면 `transform`, `opacity`만 사용한다. width, height, top, left는 레이아웃 재계산을 유발한다.
+- `transition: all` 대신 실제로 바뀌는 속성만 나열한다.
+- 로딩 스피너, 카드 호버, 탭 전환처럼 빈도가 높은 인터랙션일수록 `prefers-reduced-motion` 대응을 함께 넣는다.
+
+---
+
+## 11. 레이아웃 읽기와 쓰기를 섞지 않기
+
+렌더 중 또는 이벤트 핸들러에서 DOM 읽기와 쓰기를 번갈아 수행하면 강제 리플로우가 발생한다. 레이아웃 측정은 한 번에 읽고, 스타일 변경은 한 번에 적용한다.
+
+**❌ 잘못된 예 (레이아웃 스래싱):**
+
+```tsx
+function resizePanel(panel: HTMLDivElement) {
+  panel.style.width = "320px";
+  const height = panel.offsetHeight;
+  panel.style.height = `${height + 40}px`;
+}
+```
+
+**✅ 올바른 예 (읽기/쓰기 분리):**
+
+```tsx
+function resizePanel(panel: HTMLDivElement) {
+  const nextHeight = panel.offsetHeight + 40;
+  panel.classList.add("panel-expanded");
+  panel.style.height = `${nextHeight}px`;
+}
+```
+
+- `getBoundingClientRect()`, `offsetWidth`, `offsetHeight`, `scrollTop` 같은 레이아웃 읽기는 렌더 함수 안에서 호출하지 않는다.
+- DOM 측정이 필요하면 `useLayoutEffect`나 이벤트 핸들러에서 읽기를 먼저 모으고, 클래스 토글이나 style 변경은 뒤에서 한 번에 적용한다.
+- 가능하면 JS 측정보다 flex, grid, `aspect-ratio`, `minmax()` 같은 CSS 레이아웃 기능으로 해결한다.
+
+---
+
+## 12. 이미지 레이아웃 시프트 방지와 지연 로드
+
+이미지는 화면에 그려지기 전에 크기를 예측할 수 있어야 CLS가 줄어든다. 즉시 보이지 않는 이미지는 지연 로드하고, 첫 화면 핵심 이미지는 우선순위를 높인다.
+
+**❌ 잘못된 예 (크기 미지정):**
+
+```tsx
+<img src="/hero.png" alt="제품 미리보기" />
+```
+
+**✅ 올바른 예 (크기 지정 + 로딩 전략 분리):**
+
+```tsx
+<img
+  src="/gallery/item-1.png"
+  alt="갤러리 썸네일"
+  width="320"
+  height="240"
+  loading="lazy"
+/>
+
+<img
+  src="/hero.png"
+  alt="제품 미리보기"
+  width="1440"
+  height="900"
+  fetchPriority="high"
+/>
+```
+
+- 모든 `<img>`에는 `width`와 `height`를 명시해 레이아웃 시프트를 줄인다.
+- 첫 화면 아래 이미지에는 `loading="lazy"`를 사용한다.
+- LCP 후보가 되는 히어로 이미지에는 `fetchPriority="high"` 또는 프레임워크의 우선 로드 옵션을 사용한다.

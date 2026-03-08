@@ -52,8 +52,32 @@
 - 페이지 새로고침 없이 동작하려면 `onsubmit`에서 `event.preventDefault()` 호출
 - 제출 버튼: `<button type="submit">` (기본 타입이 submit)
 - 단순 클릭 버튼: `<button type="button">` (반드시 명시!)
+- 입력 필드에는 의미 있는 `name`과 적절한 `autocomplete`을 함께 제공
+- 이메일, 전화번호, URL, 숫자 입력은 목적에 맞는 `type`을 사용하고, 모바일 키패드 최적화가 필요하면 `inputMode`를 추가
 
 > ⚠️ `<form>` 안의 `<button>`은 기본적으로 submit 동작을 한다. 단순 클릭 이벤트만 필요한 버튼은 `type="button"`을 꼭 명시한다.
+
+### 입력 필드 기본 속성
+
+폼 접근성은 레이블만으로 끝나지 않는다. 브라우저 자동완성, 모바일 키패드, 맞춤법 검사, 비밀번호 관리자 동작까지 함께 고려해야 한다.
+
+```tsx
+<label htmlFor="email">이메일</label>
+<input
+  id="email"
+  name="email"
+  type="email"
+  autoComplete="email"
+  inputMode="email"
+  spellCheck={false}
+/>
+```
+
+- 모든 입력에는 의미 있는 `name`을 부여한다. `field1`, `value` 같은 이름은 서버 처리와 자동완성 모두에 불리하다.
+- `type="email"`, `type="tel"`, `type="url"`, `type="number"`처럼 의미에 맞는 타입을 우선 사용한다. 숫자 전용 키패드가 필요하지만 값은 문자열이어야 하면 `type="text"` + `inputMode="numeric"` 조합을 쓴다.
+- 이메일, 사용자명, 인증코드처럼 맞춤법 검사 대상이 아닌 입력은 `spellCheck={false}`를 명시한다.
+- 로그인·결제처럼 브라우저 자동완성이 도움이 되는 필드는 `autocomplete`을 켠다. 반대로 검색, 초대코드, 일회성 필터처럼 비인증 입력에서 비밀번호 관리자가 오동작하면 `autocomplete="off"`를 검토한다.
+- 붙여넣기 차단을 위해 `onPaste`에서 `preventDefault()`를 호출하지 않는다. 비밀번호 관리자, OTP 복사, 보조기기 워크플로우를 깨뜨릴 수 있다.
 
 ### 버튼이 form 바깥에 있을 때
 
@@ -83,6 +107,62 @@
 ```
 
 > 삭제 버튼에 `tabindex="-1"`을 지정하여 키보드 포커스를 받지 않게 했다. 텍스트는 `Backspace` 키로 지울 수 있기 때문에 키보드 사용자에게 불필요한 포커스 이동을 방지한다.
+
+---
+
+## 유효성 검사와 제출 상태
+
+에러 메시지와 제출 상태는 시각적으로만 보여주면 충분하지 않다. 어떤 필드가 잘못됐는지 바로 알 수 있어야 하고, 제출 중 상태도 명확해야 한다.
+
+```tsx
+function SignupForm() {
+  const emailRef = useRef<HTMLInputElement>(null);
+  const [error, setError] = useState<string | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    if (!emailRef.current?.value) {
+      setError("이메일을 입력해 주세요.");
+      emailRef.current?.focus();
+      return;
+    }
+
+    setIsSubmitting(true);
+    try {
+      await submit();
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label htmlFor="signup-email">이메일</label>
+      <input
+        id="signup-email"
+        ref={emailRef}
+        name="email"
+        type="email"
+        autoComplete="email"
+      />
+      {error ? (
+        <p role="status" aria-live="polite">
+          {error}
+        </p>
+      ) : null}
+      <button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? "가입 중…" : "가입하기"}
+      </button>
+    </form>
+  );
+}
+```
+
+- 에러 메시지는 필드 근처에 인라인으로 보여주고, 제출 실패 시 첫 번째 오류 필드로 포커스를 이동한다.
+- 제출 버튼은 요청이 시작되기 전까지 비활성화하지 않는다. 클릭 전부터 비활성화하면 키보드 사용자와 보조기기 사용자 모두 현재 상태를 이해하기 어렵다.
+- 요청 중에는 버튼 텍스트나 스피너로 진행 상태를 드러낸다. 텍스트를 바꾸면 `저장 중…`, `가입 중…`처럼 동사를 포함한 문구가 좋다.
+- 비동기 검증 메시지, 저장 완료 안내 등은 `aria-live="polite"` 또는 `role="status"`로 전달한다.
 
 ---
 

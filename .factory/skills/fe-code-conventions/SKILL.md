@@ -3,7 +3,7 @@ name: fe-code-conventions
 description: "Frontend clean code conventions and code quality principles. Use this skill when writing new frontend code, refactoring existing code, reviewing code quality, or when the user asks about naming conventions, code readability, file/directory structure, component organization, or coupling/cohesion decisions. This covers language-agnostic frontend principles (not React-specific patterns - see fe-react-patterns for those). Always consult this skill during any frontend code writing or refactoring task, even if the user doesn't explicitly ask about code quality. Triggers on: code refactoring, clean code, naming, readability, file structure, code organization, coupling, cohesion, code conventions, 코드 컨벤션, 클린코드, 리팩토링, 변수명, 함수명, 폴더 구조, 디렉토리 구조, 코드 정리, 코드 개선, 좋은 코드, 매직넘버, 하드코딩, 조건문 정리, 코드 구조, 코드 품질, 읽기 쉬운 코드, 유지보수, 코드가 복잡해, 함수가 너무 길어."
 ---
 
-# 프론트엔드 코드 컨벤션
+# 프론트엔드 클린 코드
 
 ## 목표
 

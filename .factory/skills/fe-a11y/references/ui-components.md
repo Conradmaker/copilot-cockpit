@@ -90,6 +90,19 @@ useEffect(() => {
 }, [isOpen]);
 ```
 
+#### 4. 스크롤 체인 끊기
+
+모달, 드로어, 바텀시트처럼 자체 스크롤 영역이 있는 컴포넌트는 내부 끝에 도달했을 때 배경 페이지가 함께 스크롤되지 않도록 제어한다.
+
+```css
+.dialog-body {
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+```
+
+`overscroll-behavior: contain`을 주면 터치 스크롤과 트랙패드 스크롤이 배경으로 전파되는 것을 막을 수 있다.
+
 ### 모달 체크리스트
 
 - [ ] `<dialog>` + `showModal()` 사용 (또는 `role="dialog"` + `aria-modal="true"`)
@@ -98,6 +111,7 @@ useEffect(() => {
 - [ ] 모달 닫힐 때 원래 포커스로 복원
 - [ ] ESC 키로 닫기 가능
 - [ ] 모달 열려있는 동안 배경 콘텐츠 상호작용 차단
+- [ ] 스크롤 가능한 본문이 있으면 `overscroll-behavior: contain` 적용
 - [ ] 트리거 버튼에 `aria-haspopup="dialog"` 추가
 
 ---

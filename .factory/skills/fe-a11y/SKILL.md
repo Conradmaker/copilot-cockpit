@@ -1,13 +1,13 @@
 ---
 name: fe-a11y
-description: "Frontend web accessibility patterns and best practices. Use this skill when building UI components that need to be accessible, implementing ARIA attributes, creating forms/modals/tabs/accordions, reviewing accessibility compliance, setting up a11y ESLint rules, or when the user asks about screen reader support, keyboard navigation, semantic HTML, or ARIA. IMPORTANT: Always consult this skill when creating any interactive UI component (buttons, forms, modals, tabs, accordions, switches, checkboxes, radios, dropdowns, dialogs, popups, toggles), even if the user doesn't explicitly mention accessibility. Triggers on: accessibility, a11y, ARIA, screen reader, keyboard navigation, semantic HTML, role, aria-label, aria-expanded, form accessibility, modal dialog, tab component, 접근성, 스크린리더, 키보드 네비게이션, 시맨틱, 모달 만들기, 탭 만들기, 폼 만들기, 아코디언, 토글, 스위치, 체크박스, 라디오, 다이얼로그, 팝업, 버튼, input, select, 드롭다운, 사용성, UX, 웹표준, UI 컴포넌트."
+description: "Frontend web accessibility patterns and best practices. Use this skill when building UI components that need to be accessible, implementing ARIA attributes, creating forms/modals/tabs/accordions, reviewing accessibility compliance, setting up a11y ESLint rules, or when the user asks about screen reader support, keyboard navigation, semantic HTML, or ARIA. IMPORTANT: Always consult this skill when creating any interactive UI component (buttons, forms, modals, tabs, accordions, switches, checkboxes, radios, dropdowns, dialogs, popups, toggles), including shared UI wrappers and reusable design-system primitives, even if the user doesn't explicitly mention accessibility. Triggers on: accessibility, a11y, ARIA, screen reader, keyboard navigation, semantic HTML, role, aria-label, aria-expanded, form accessibility, modal dialog, tab component, shared UI component, reusable component, 접근성, 스크린리더, 키보드 네비게이션, 시맨틱, 모달 만들기, 탭 만들기, 폼 만들기, 아코디언, 토글, 스위치, 체크박스, 라디오, 다이얼로그, 팝업, 버튼, input, select, 드롭다운, 사용성, UX, 웹표준, UI 컴포넌트, 재사용 컴포넌트."
 ---
 
 # 프론트엔드 웹 접근성 (fe-a11y)
 
 ## 목표
 
-인터랙티브 UI 컴포넌트(모달, 탭, 폼, 아코디언, 스위치, 체크박스, 라디오, 다이얼로그 등)를 모든 사용자가 사용할 수 있도록 만든다. 접근성을 지키면 스크린 리더/키보드 사용자뿐 아니라, `testing-library`의 `getByRole` 쿼리로 요소를 특정할 수 있어 테스트 코드도 견고해진다.
+인터랙티브 UI 컴포넌트(모달, 탭, 폼, 아코디언, 스위치, 체크박스, 라디오, 다이얼로그 등)를 모든 사용자가 사용할 수 있도록 만든다. 앱 화면용 컴포넌트뿐 아니라 shared UI wrapper, trigger, primitive adapter 같은 재사용 컴포넌트도 이 기준을 먼저 만족해야 한다. 접근성을 지키면 스크린 리더/키보드 사용자뿐 아니라, `testing-library`의 `getByRole` 쿼리로 요소를 특정할 수 있어 테스트 코드도 견고해진다.
 
 이 문서는 빠른 판단을 위한 요약 가이드다. 실제로 UI 컴포넌트를 만들거나 접근성을 개선할 때는 아래 reference 문서를 직접 읽고 컴포넌트별 체크리스트와 코드 예시를 확인한 뒤 적용한다.
 
@@ -88,6 +88,8 @@ description: "Frontend web accessibility patterns and best practices. Use this s
 - `<button>` 사용이 어려운 경우(block 요소 내부 등)에는 `role="button"` + `tabIndex={0}` + `onKeyDown` 으로 Enter/Space 키 입력을 처리하거나, react-aria의 `useButton` 훅을 사용한다
 - `<form>` 안에 배치해야 Enter 키 제출, 자동완성, 스크린 리더 단축키 탐색이 동작한다. 제출이 아닌 버튼에는 반드시 `type="button"`을 명시한다
 - 페이지 이동이 목적이면 `<button>` 대신 `<a>` 태그를 사용한다. 우클릭 컨텍스트 메뉴(새 창, 링크 복사)가 제공되기 때문이다
+- 입력 필드에는 레이블 외에도 의미 있는 `name`, 적절한 `autocomplete`, 목적에 맞는 `type`/`inputMode`를 제공한다. 이메일·인증코드처럼 맞춤법 검사 대상이 아닌 입력은 `spellCheck={false}`를 검토한다
+- 붙여넣기 차단을 위해 `onPaste` + `preventDefault()`를 사용하지 않는다. 비밀번호 관리자와 보조기기 흐름을 깨뜨릴 수 있다
 
 실제 적용 전에는 [references/forms.md](references/forms.md)와 [references/semantic-structure.md](references/semantic-structure.md)를 직접 읽고, 폼·가짜 버튼·react-aria 활용 예시를 확인한다.
 
@@ -114,9 +116,12 @@ description: "Frontend web accessibility patterns and best practices. Use this s
 
 - **동적 상태**: 펼침/접힘, 선택 여부 등 동적 상태는 `aria-expanded`, `aria-selected`, `aria-checked`로 동기화한다. 주요 aria 상태 속성으로는 `aria-checked`(체크박스·스위치), `aria-selected`(탭·리스트), `aria-expanded`(아코디언·드롭다운), `aria-disabled`(비활성화), `aria-current`(네비게이션·달력), `aria-busy`(로딩), `aria-live`(실시간 업데이트)가 있다.
 - **포커스 관리**: 모달이 열릴 때 포커스를 모달 내부로 이동하고, 닫힐 때 트리거 요소로 복귀시킨다. `<dialog>` + `showModal()`을 사용하면 포커스 이동·포커스 트랩·ESC 닫기·복원이 브라우저 기본 동작으로 제공된다. `<dialog>` 없이 구현할 때는 `inert` 속성으로 배경 콘텐츠를 비활성화하고 포커스 저장/복원을 직접 처리한다.
+- **포커스 표시**: `outline: none` 또는 `outline-none`으로 기본 포커스를 제거했다면 반드시 `:focus-visible` 또는 `:focus-within`으로 대체 표시를 제공한다.
 - **라이브 리전**: 비동기 알림/에러는 `aria-live="polite"`로 감싸야 스크린 리더가 변경을 자동으로 읽는다.
+- **폼 에러 처리**: 제출 실패 시 첫 번째 오류 필드로 포커스를 이동하고, 에러 메시지는 필드 근처에서 `role="status"` 또는 `aria-live`로 전달한다.
 - **스위치 컴포넌트**: `role="switch"` + `aria-checked`를 설정하고, 커스텀 요소일 때는 `tabIndex={0}`으로 키보드 포커스를, Space 키로 상태 변경을 지원한다.
 - **탭 컴포넌트**: 탭 목록에 `role="tablist"`, 각 탭에 `role="tab"` + `aria-selected`, 패널에 `role="tabpanel"` + `aria-labelledby`를 설정한다. 비활성 탭 패널은 반드시 `hidden`으로 숨긴다.
+- **오버스크롤 제어**: 모달·드로어·바텀시트처럼 자체 스크롤 영역이 있는 컴포넌트는 `overscroll-behavior: contain`을 검토한다.
 
 실제로 모달·탭·스위치·체크박스·아코디언 등 구체적인 UI 컴포넌트를 구현할 때는 [references/ui-components.md](references/ui-components.md)의 컴포넌트별 체크리스트와 코드 예시를 반드시 확인한다.
 
@@ -128,14 +133,14 @@ description: "Frontend web accessibility patterns and best practices. Use this s
 
 컴포넌트별 ARIA 패턴이 필요할 때 아래 파일을 읽는다.
 
-| 파일                                                        | 내용                                                   |
-| ----------------------------------------------------------- | ------------------------------------------------------ |
-| [ui-components.md](./references/ui-components.md)           | 모달, 스위치, 탭, 체크박스, 라디오, 아코디언 패턴      |
-| [forms.md](./references/forms.md)                           | 폼, 가짜 버튼, react-aria 활용                         |
-| [basics.md](./references/basics.md)                         | Role/Label/State 상세 가이드                           |
-| [semantic-structure.md](./references/semantic-structure.md) | 시맨틱 HTML, 인터랙티브 요소 중첩 금지                 |
-| [eslint.md](./references/eslint.md)                         | eslint-plugin-jsx-a11y 을 통해 접근성 규칙 검사 자동화 |
-| [alt-text.md](./references/alt-text.md)                     | 이미지 대체 텍스트 작성법                              |
+| 파일                                                        | 내용                                                                       |
+| ----------------------------------------------------------- | -------------------------------------------------------------------------- |
+| [ui-components.md](./references/ui-components.md)           | 모달, 스위치, 탭, 체크박스, 라디오, 아코디언 패턴과 포커스/오버스크롤 제어 |
+| [forms.md](./references/forms.md)                           | 폼, 입력 속성, 유효성 검사, 가짜 버튼, react-aria 활용                     |
+| [basics.md](./references/basics.md)                         | Role/Label/State 상세 가이드                                               |
+| [semantic-structure.md](./references/semantic-structure.md) | 시맨틱 HTML, 인터랙티브 요소 중첩 금지, focus-visible/focus-within 패턴    |
+| [eslint.md](./references/eslint.md)                         | eslint-plugin-jsx-a11y 을 통해 접근성 규칙 검사 자동화                     |
+| [alt-text.md](./references/alt-text.md)                     | 이미지 대체 텍스트 작성법                                                  |
 
 ---
 

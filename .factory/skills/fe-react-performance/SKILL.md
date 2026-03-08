@@ -110,8 +110,14 @@ barrel 파일의 re-export는 트리 셰이킹을 방해해 사용하지 않는 
   1000개 메시지 리스트에서 화면 밖 ~990개 항목의 레이아웃/페인트를 건너뛰어 초기 렌더가 10배 빨라질 수 있다. `contain-intrinsic-size`로 예상 크기를 지정한다.
 - 정적 JSX는 컴포넌트 외부로 호이스팅
   매 렌더마다 변하지 않는 큰 정적 JSX(특히 SVG)를 컴포넌트 밖 상수로 추출하면 재생성 비용이 사라진다.
+- 애니메이션은 `transform`과 `opacity` 중심으로 구성하고 `transition: all`은 피한다
+  자주 발생하는 인터랙션일수록 레이아웃 재계산이 큰 속성을 피해야 한다. 사용자의 모션 축소 선호가 있으면 `prefers-reduced-motion`으로 애니메이션을 줄이거나 끈다.
+- 레이아웃 읽기와 쓰기를 섞지 않는다
+  `getBoundingClientRect()`, `offsetHeight` 같은 레이아웃 읽기와 `style` 변경을 번갈아 호출하면 강제 리플로우가 발생한다. 읽기를 먼저 모으고, 쓰기는 뒤에서 한 번에 적용한다.
+- 이미지 크기와 로딩 우선순위를 명시한다
+  `<img>`에는 `width`/`height`를 제공해 CLS를 줄이고, 아래 폴드 이미지는 `loading="lazy"`, 핵심 이미지는 `fetchPriority="high"` 또는 프레임워크 우선 로드 옵션을 사용한다.
 
-실제 적용 전에는 [references/rendering.md](references/rendering.md)를 직접 읽고, 하이드레이션 불일치 방지·SVG 애니메이션 래퍼·suppressHydrationWarning 등의 코드 예시를 확인한다.
+실제 적용 전에는 [references/rendering.md](references/rendering.md)를 직접 읽고, 하이드레이션 불일치 방지·SVG 애니메이션 래퍼·reduced motion·레이아웃 스래싱 방지·이미지 로딩 전략의 코드 예시를 확인한다.
 
 → 상세: [references/rendering.md](references/rendering.md)
 
@@ -148,15 +154,15 @@ barrel 파일의 re-export는 트리 셰이킹을 방해해 사용하지 않는 
 
 각 최적화 패턴에 대한 상세 설명과 코드 예시는 `references/` 디렉토리의 개별 파일에 있다.
 
-| 파일                 | 내용                        |
-| -------------------- | --------------------------- |
-| `async-waterfall.md` | 비동기 워터폴 제거 패턴     |
-| `bundle.md`          | 번들 최적화 패턴            |
-| `server.md`          | 서버사이드 성능 패턴        |
-| `client.md`          | 클라이언트 데이터 페칭 패턴 |
-| `rerender.md`        | 리렌더 최적화 패턴          |
-| `rendering.md`       | 렌더링 성능 패턴            |
-| `js-optimization.md` | JS 마이크로 최적화 패턴     |
+| 파일                 | 내용                                                                     |
+| -------------------- | ------------------------------------------------------------------------ |
+| `async-waterfall.md` | 비동기 워터폴 제거 패턴                                                  |
+| `bundle.md`          | 번들 최적화 패턴                                                         |
+| `server.md`          | 서버사이드 성능 패턴                                                     |
+| `client.md`          | 클라이언트 데이터 페칭 패턴                                              |
+| `rerender.md`        | 리렌더 최적화 패턴                                                       |
+| `rendering.md`       | 렌더링 성능 패턴, reduced motion, 레이아웃 스래싱 방지, 이미지 로딩 전략 |
+| `js-optimization.md` | JS 마이크로 최적화 패턴                                                  |
 
 ---
 
