@@ -1,12 +1,12 @@
 # UI 컴포넌트별 접근성 패턴
 
-각 UI 컴포넌트를 접근성 있게 구현하는 방법과 체크리스트를 다뤄요.
+각 UI 컴포넌트를 접근성 있게 구현하는 방법과 체크리스트를 다룬다.
 
 ---
 
 ## 모달(Modal / Dialog)
 
-모달은 사용자의 주의를 끌어 중요한 정보나 작업을 처리할 때 사용해요. 모달이 열렸다는 것을 인식하고, **모달 내부에서만 상호작용**할 수 있어야 해요.
+모달은 사용자의 주의를 끌어 중요한 정보나 작업을 처리할 때 사용한다. 모달이 열렸다는 것을 인식하고, **모달 내부에서만 상호작용**할 수 있어야 한다.
 
 ### ✅ 권장: `<dialog>` 요소 + `showModal()` 사용
 
@@ -27,25 +27,28 @@ return (
 ```
 
 `showModal()`을 사용하면 브라우저가 자동으로 제공하는 기능:
+
 - 쌓임맥락과 상관없이 최상위에 위치
 - 다이얼로그 내부로 포커스 자동 이동
 - 다이얼로그 내부 요소만 포커스 가능 (포커스 트랩)
 - ESC 키로 닫기
 - 닫으면 원래 포커스로 복원
 
-> ⚠️ `show()` 또는 `<dialog open={true}>`는 "비대화형 다이얼로그"로 판단되어 위 기능을 사용할 수 없어요.
+> ⚠️ `show()` 또는 `<dialog open={true}>`는 "비대화형 다이얼로그"로 판단되어 위 기능을 사용할 수 없다.
 
 ### `<dialog>` 없이 구현할 때
 
 `role="dialog"`와 `aria-modal="true"`를 사용하고, 추가로 직접 구현해야 할 것들:
 
 ```tsx
-{isOpen && (
-  <div role="dialog" aria-modal="true" aria-labelledby="modal-title">
-    <h3 id="modal-title">다음에 다시 시도해 주세요</h3>
-    <button onClick={closeModal}>확인</button>
-  </div>
-)}
+{
+  isOpen && (
+    <div role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <h3 id="modal-title">다음에 다시 시도해 주세요</h3>
+      <button onClick={closeModal}>확인</button>
+    </div>
+  );
+}
 ```
 
 #### 1. 포커스 저장과 복원
@@ -101,7 +104,7 @@ useEffect(() => {
 
 ## 스위치(Switch)
 
-스위치는 두 가지 상태(ON/OFF) 중 하나를 선택할 때 사용해요.
+스위치는 두 가지 상태(ON/OFF) 중 하나를 선택할 때 사용한다.
 
 ### ✅ input + label 방식
 
@@ -152,7 +155,7 @@ useEffect(() => {
 
 ## 탭(Tab)
 
-탭은 관련된 콘텐츠를 그룹화하여 빠르게 접근할 수 있도록 하는 컴포넌트예요.
+탭은 관련된 콘텐츠를 그룹화하여 빠르게 접근할 수 있도록 하는 컴포넌트다.
 
 ### ✅ 탭 목록 + 탭 패널
 
@@ -176,16 +179,16 @@ useEffect(() => {
 
 ### 역할 설명
 
-| 속성 | 역할 |
-|------|------|
-| `role="tablist"` | 탭 버튼 그룹 컨테이너 |
-| `role="tab"` | 개별 탭 버튼 |
-| `role="tabpanel"` | 활성화된 탭의 콘텐츠 영역 |
-| `aria-selected` | 현재 선택된 탭 표시 |
-| `aria-controls` | 탭 버튼이 제어하는 패널의 id |
-| `aria-labelledby` | 패널과 연결된 탭 버튼의 id |
+| 속성              | 역할                         |
+| ----------------- | ---------------------------- |
+| `role="tablist"`  | 탭 버튼 그룹 컨테이너        |
+| `role="tab"`      | 개별 탭 버튼                 |
+| `role="tabpanel"` | 활성화된 탭의 콘텐츠 영역    |
+| `aria-selected`   | 현재 선택된 탭 표시          |
+| `aria-controls`   | 탭 버튼이 제어하는 패널의 id |
+| `aria-labelledby` | 패널과 연결된 탭 버튼의 id   |
 
-> ⚠️ 비활성 탭의 패널은 `hidden` 속성으로 숨겨야 해요. `aria-selected`만으로는 스크린 리더가 구분하지 못해요.
+> ⚠️ 비활성 탭의 패널은 `hidden` 속성으로 숨겨야 한다. `aria-selected`만으로는 스크린 리더가 구분하지 못한다.
 
 ### 탭 체크리스트
 
@@ -200,7 +203,7 @@ useEffect(() => {
 
 ## 체크박스(Checkbox)
 
-체크박스는 여러 옵션 중 하나 이상을 선택할 수 있는 컴포넌트예요.
+체크박스는 여러 옵션 중 하나 이상을 선택할 수 있는 컴포넌트다.
 
 ### ✅ fieldset/legend + label 연결
 
@@ -238,7 +241,7 @@ const [checked, setChecked] = useState(false);
 >
   <span>커스텀 체크박스</span>
   {checked && <span>✓</span>}
-</div>
+</div>;
 ```
 
 ### 체크박스 체크리스트
@@ -252,7 +255,7 @@ const [checked, setChecked] = useState(false);
 
 ## 라디오(Radio)
 
-라디오 버튼은 여러 옵션 중 **하나만** 선택할 수 있는 컴포넌트예요.
+라디오 버튼은 여러 옵션 중 **하나만** 선택할 수 있는 컴포넌트다.
 
 ### ✅ fieldset/legend + name 속성
 
@@ -316,14 +319,16 @@ const [checked, setChecked] = useState(false);
 
 ## 아코디언(Accordion)
 
-아코디언은 정보를 공간을 절약하면서 단계적으로 제공하는 컴포넌트예요.
+아코디언은 정보를 공간을 절약하면서 단계적으로 제공하는 컴포넌트다.
 
 ### ✅ 권장: `<details>` + `<summary>` 사용
 
 ```tsx
 <details open={isOpen} onToggle={handleToggle}>
   <summary>토스뱅크의 한도제한계좌는 어떻게 해제할 수 있나요?</summary>
-  <p>금융거래목적을 확인할 수 있는 증빙서류를 제출하여 한도 계좌 해제 신청을 할 수 있어요.</p>
+  <p>
+    금융거래목적을 확인할 수 있는 증빙서류를 제출하여 한도 계좌 해제 신청을 할 수 있어요.
+  </p>
 </details>
 ```
 
@@ -331,11 +336,7 @@ const [checked, setChecked] = useState(false);
 
 ```tsx
 <div>
-  <button
-    aria-expanded={isOpen}
-    aria-controls="panel-1"
-    onClick={handleClick}
-  >
+  <button aria-expanded={isOpen} aria-controls="panel-1" onClick={handleClick}>
     토스뱅크의 한도제한계좌는 어떻게 해제할 수 있나요?
   </button>
   <div id="panel-1" role="region" aria-labelledby="button-1" hidden={!isOpen}>

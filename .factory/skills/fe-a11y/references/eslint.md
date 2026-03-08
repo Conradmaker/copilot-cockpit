@@ -1,6 +1,6 @@
 # ESLint 접근성 규칙
 
-`eslint-plugin-jsx-a11y`를 사용하여 코드 작성 단계에서 접근성 문제를 미리 발견하고 해결하는 방법을 다뤄요.
+`eslint-plugin-jsx-a11y`를 사용하여 코드 작성 단계에서 접근성 문제를 미리 발견하고 해결하는 방법을 다룬다.
 
 ---
 
@@ -47,7 +47,7 @@ export default [
 
 ### alt-text
 
-`<img />` 에는 반드시 `alt` 속성이 있어야 해요. 정보를 전달하지 않는 이미지라도 빈 값(`alt=""`)이 필요해요.
+`<img />` 에는 반드시 `alt` 속성이 있어야 한다. 정보를 전달하지 않는 이미지라도 빈 값(`alt=""`)이 필요하다.
 
 ```tsx
 // ❌ 링크에 이미지만 있을 때 alt 없음
@@ -85,7 +85,7 @@ export default [
 
 ### control-has-associated-label
 
-인터랙티브 요소에 반드시 목적을 알려주는 이름이 필요해요.
+인터랙티브 요소에 반드시 목적을 알려주는 이름이 필요하다.
 
 ```tsx
 // ❌ 아이콘 버튼에 레이블 없음
@@ -105,7 +105,7 @@ export default [
 
 ### no-noninteractive-element-interactions
 
-비상호작용 요소(`<div>`, `<span>` 등)에 클릭 이벤트를 추가할 때는 `role` 속성으로 상호작용 요소임을 명시해야 해요.
+비상호작용 요소(`<div>`, `<span>` 등)에 클릭 이벤트를 추가할 때는 `role` 속성으로 상호작용 요소임을 명시해야 한다.
 
 ```tsx
 // ❌ role 없이 클릭 이벤트
@@ -117,7 +117,7 @@ export default [
 
 ### no-noninteractive-element-to-interactive-role
 
-의미 있는 컨테이너 요소(`<main>`, `<h1>`, `<ul>` 등)에 상호작용 역할을 부여하면 안 돼요.
+의미 있는 컨테이너 요소(`<main>`, `<h1>`, `<ul>` 등)에 상호작용 역할을 부여하면 안 된다.
 
 ```tsx
 // ❌ 의미 요소에 interactive role
@@ -131,7 +131,7 @@ export default [
 
 ### no-noninteractive-tabindex
 
-비상호작용 요소에 `tabIndex`를 부여하면 안 돼요.
+비상호작용 요소에 `tabIndex`를 부여하면 안 된다.
 
 ```tsx
 // ❌ 비상호작용 요소에 tabIndex
@@ -145,13 +145,14 @@ export default [
 ```
 
 > **왜?** 비상호작용 요소에 `tabIndex`를 부여하면:
+>
 > 1. 스크린 리더 사용자가 상호작용 가능하다고 오해
 > 2. 키보드 사용자가 예상치 못한 요소에 포커스
 > 3. DOM의 자연스러운 포커스 순서가 깨짐
 
 ### tabindex-no-positive
 
-`tabIndex`에 1 이상의 값을 쓰면 DOM 순서와 다르게 포커스가 이동하여 예측이 어려워져요.
+`tabIndex`에 1 이상의 값을 쓰면 DOM 순서와 다르게 포커스가 이동하여 예측이 어려워진다.
 
 ```tsx
 // ❌ 양수 tabIndex
@@ -165,11 +166,11 @@ export default [
 
 ## 디자인 시스템과 결합하기
 
-`eslint-plugin-jsx-a11y`는 기본적으로 표준 HTML 태그에만 동작해요. 디자인 시스템 컴포넌트에도 적용하려면 추가 설정이 필요해요.
+`eslint-plugin-jsx-a11y`는 기본적으로 표준 HTML 태그에만 동작한다. 디자인 시스템 컴포넌트에도 적용하려면 추가 설정이 필요하다.
 
 ### 1. 컴포넌트 매핑
 
-자체 컴포넌트가 어떤 HTML 요소를 렌더링하는지 매핑해요.
+자체 컴포넌트가 어떤 HTML 요소를 렌더링하는지 매핑한다.
 
 ```js
 // eslint.config.js (flat config)
@@ -207,14 +208,16 @@ export default [
 }
 ```
 
-이렇게 하면 `<MyButton>`에도 `<button>`에 적용되는 접근성 규칙이 동일하게 적용돼요.
+이렇게 하면 `<MyButton>`에도 `<button>`에 적용되는 접근성 규칙이 동일하게 적용된다.
 
 ### 2. Polymorphic prop 지원
 
 `as` 같은 prop으로 다양한 태그를 렌더링하는 컴포넌트:
 
 ```tsx
-<MyButton as="a" href="/home">홈으로</MyButton>
+<MyButton as="a" href="/home">
+  홈으로
+</MyButton>
 ```
 
 `polymorphicPropName` 옵션으로 설정:
@@ -260,9 +263,12 @@ settings: {
 // Legacy config
 {
   "rules": {
-    "jsx-a11y/control-has-associated-label": [2, {
-      "labelAttributes": ["contents"]
-    }]
+    "jsx-a11y/control-has-associated-label": [
+      2,
+      {
+        "labelAttributes": ["contents"]
+      }
+    ]
   }
 }
 ```
