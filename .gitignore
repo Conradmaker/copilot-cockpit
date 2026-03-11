@@ -1,3 +1,9 @@
 .agent/**
 .factory/**
 ref/**
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
