@@ -1,0 +1,20 @@
+{
+  "github.copilot.chat.responsesApiContextManagement.enabled": true,
+  "chat.mcp.access": "all",
+  "chat.agent.maxRequests": 1000,
+  "chat.customAgentInSubagent.enabled": true,
+  "chat.useAgentSkills": true,
+  "github.copilot.chat.anthropic.useMessagesApi": true,
+  "github.copilot.chat.responsesApiReasoningEffort": "xhigh",
+  "github.copilot.chat.responsesApiReasoningSummary": "detailed",
+  "github.copilot.chat.anthropic.tools.websearch.enabled": true,
+  "github.copilot.chat.anthropic.thinking.effort": "high",
+  "github.copilot.chat.anthropic.tools.websearch.maxUses": 8,
+  "github.copilot.chat.anthropic.thinking.budgetTokens": 32000,
+  "[markdown]": {
+    "editor.unicodeHighlight.ambiguousCharacters": false,
+    "editor.unicodeHighlight.invisibleCharacters": false,
+    "diffEditor.ignoreTrimWhitespace": false,
+    "editor.formatOnSave": false
+  }
+}

@@ -65,6 +65,7 @@ AGENTS.md는 항상 보이는 요약과 통합 인덱스를 맡고, 개별 `.age
 - downstream phase가 시작되기 전에는 `plan.md`와 `handoff.md`를 최신 상태로 맞춘다.
 - 역할 경계를 넘는 ownership theft를 허용하지 않는다.
 - raw subagent output을 그대로 전달하지 않고 현재 phase 맥락에 맞게 합성한다.
+- nested delegation 은 허용하지만 각 레이어는 context 를 압축하고 final verification owner 를 명시해야 한다.
 
 ## 공유 산출물과 수명주기
 
@@ -164,6 +165,12 @@ Mate는 사용자를 제외한 planning phase의 주도권을 갖고, 사용자 
 - `handoff.md` only after pass, surfaced when handoff-ready
 - approved plan briefing shown to user
 
+### planning role boundaries
+
+- `Mate` 는 planning-only 역할이며, handoff 뒤에는 종료된다.
+- `Mate` 가 만드는 plan 과 spec 은 downstream implementation consumer 가 문서만 읽고도 높은 품질 결과를 낼 수 있을 정도로 자세하고 정교해야 한다.
+- planning 은 execution-ready spec 작성뿐 아니라 사용자 intent, scope, success condition 을 특정하는 단계다.
+
 ### planning guardrails
 
 - implementation file edit를 시작하지 않는다.
@@ -250,6 +257,12 @@ Fleet Mode는 split 또는 merge orchestration이 품질에 의미 있게 도움
 - final review orchestration: Deep Execution Agent
 
 Rush Mode는 context continuity와 단일 implementer 흐름이 유리할 때 선택한다.
+
+### execution role boundaries
+
+- `Commander` 는 Fleet Mode 의 main implementation owner 이자 execution orchestrator 다.
+- `Deep Execution Agent` 는 Rush Mode 의 primary implementer 이거나 Fleet Mode 의 coding worker 다.
+- `Commander` 와 `Deep Execution Agent` 는 Mate 를 제외한 필요한 서브에이전트를 호출할 수 있다.
 
 ### execution 공통 규칙
 
@@ -437,6 +450,10 @@ Review는 implementation 뒤의 broad quality gate다.
 ### owner
 
 - Memory Synthesizer
+
+### memory tail authority
+
+- `Memory-synthesizer` 는 durable signal 이 충분하면 사용자 확인 없이 저장할 수 있다.
 
 ### memory tail workflow
 
