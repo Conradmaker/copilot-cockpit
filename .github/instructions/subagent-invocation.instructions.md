@@ -58,7 +58,7 @@ Mate가 Coordinator에 planning lane 검토를 요청할 때 쓴다.
 <planning_review_packet>
 	<phase>planning</phase>
 	<mode>plan-review</mode>
-	<coordinator_mode>{product-coord|manager-coord}</coordinator_mode>
+	<coordinator_type>{product|manager|visual-design|technical|...}</coordinator_type>
 	<planning_goal>{what this revision is trying to solve}</planning_goal>
 	<current_plan_summary>{current plan summary}</current_plan_summary>
 	<current_spec_state>{spec completeness state}</current_spec_state>
@@ -72,7 +72,7 @@ Mate가 Coordinator에 planning lane 검토를 요청할 때 쓴다.
 ```
 
 이 packet의 목적은 coordinator에게 현재 revision의 무엇을 비판적으로 봐야 하는지 명확히 주는 것이다.
-Mate는 planning checkpoint가 열리면 `product-coord`와 `manager-coord`를 병렬로 각각 호출할 수 있다.
+Mate는 planning checkpoint가 열리면 작업 성격에 맞는 coordinator type을 최소 2개 동적으로 선택해 병렬로 호출할 수 있다.
 
 ### implementation_handoff_packet
 
@@ -85,6 +85,7 @@ Mate가 Fleet Mode 또는 Rush Mode execution으로 넘길 때 쓴다.
 	<objective>{execution objective}</objective>
 	<why_this_task_exists>{why now}</why_this_task_exists>
 	<user_intent_summary>{condensed user intent}</user_intent_summary>
+	<context_and_rationale>{background, purpose, scope boundary}</context_and_rationale>
 	<active_plan_ref>/memories/session/plan.md</active_plan_ref>
 	<spec_digest>{execution-ready spec digest}</spec_digest>
 	<included_scope>{included scope}</included_scope>
@@ -127,7 +128,8 @@ Mate가 Fleet Mode 또는 Rush Mode execution으로 넘길 때 쓴다.
 
 - independent evidence need일 때만 병렬화한다.
 - 같은 파일과 같은 질문을 중복 조사하지 않는다.
-- planning checkpoint에서는 `manager-coord`, `product-coord`, Explore, Librarian를 같은 wave로 묶을 수 있다. 단, review와 evidence need가 독립적이고 current revision을 sharpen할 가치가 있을 때만 그렇다.
+- planning checkpoint에서는 작업 성격에 맞는 coordinator lane, Explore, Librarian를 같은 wave로 묶을 수 있다. 단, review와 evidence need가 독립적이고 current revision을 sharpen할 가치가 있을 때만 그렇다.
+- coordinator lane과 research lane은 현재 revision을 sharpen할 때만 같은 wave로 묶는다.
 - coordinator lane과 research lane은 현재 revision을 sharpen할 때만 같은 wave로 묶는다.
 
 ## 에이전트 선택 인덱스
@@ -148,9 +150,9 @@ Mate가 Fleet Mode 또는 Rush Mode execution으로 넘길 때 쓴다.
 
 ### Coordinator
 
-- 역할: planning council과 major milestone validator
-- 왜 필요한가: plan fidelity, verification gap, decomposition risk를 독립적으로 점검해 planning drift를 줄인다.
-- caller가 강조할 입력: `product-coord` 또는 `manager-coord` lane, current plan summary, decision focus, known risks, unresolved items, execution milestone일 때는 current todo 또는 progress state
+- 역할: dynamic planning council과 major milestone validator
+- 왜 필요한가: plan fidelity, verification gap, decomposition risk를 독립적으로 점검해 planning drift를 줄인다. coord-types/{type}.md를 동적 로드해 type-specific 검토를 수행한다.
+- caller가 강조할 입력: `coordinator_type` (product, manager, visual-design, technical 등), current plan summary, decision focus, known risks, unresolved items, execution milestone일 때는 current todo 또는 progress state
 - 기대 결과: Council verdict, Required changes, Quality lift ideas, Evidence, Questions for main agent or user, milestone-related sections, Todo sync status
 
 ### Commander

@@ -77,10 +77,17 @@ AGENTS.md는 항상 보이는 요약과 통합 인덱스를 맡고, 개별 `.age
 
 ### `/memories/session/handoff.md`
 
-- latest coordinator-reviewed revision이 planning quality gate를 통과한 뒤에만 생성하거나 갱신한다.
-- handoff surface가 열린 뒤에도 latest `plan.md`와 sync 상태를 유지한다.
-- execution-ready `implementation_handoff_packet`을 담는다.
-- approved scope, verification contract, open questions, escalation policy를 잃지 않아야 한다.
+- planning quality gate pass + mode 결정 후에만 생성하거나 갱신한다.
+- 실행 agent를 위한 mode-specific operations brief를 담는다.
+- execution-ready `implementation_handoff_packet`을 포함한다.
+- approved scope, verification contract, context & rationale, escalation policy를 잃지 않아야 한다.
+- `handoff.md`가 완성되기 전에는 handoff surface를 노출하지 않는다.
+
+### `/memories/session/references.md`
+
+- plan에서 참조하는 evidence의 상세 내용을 보관한다.
+- Explore, Librarian, Mate 자체 조사 결과를 여기에 정리한다.
+- plan.md의 References & Evidence 섹션이 resource index로 이 파일을 가리킨다.
 
 ### `/memories/session/notepad.md`
 
@@ -99,7 +106,7 @@ AGENTS.md는 항상 보이는 요약과 통합 인덱스를 맡고, 개별 `.age
 ### 목적
 
 Planning의 목적은 user intent를 execution-ready spec으로 바꾸는 것이다.
-이 단계는 구현이 아니라, scope를 고정하고 verification 가능한 plan을 만드는 단계다.
+이 단계는 구현이 아니라, scope를 고정하고 EARS requirements와 다차원 커버리지로 verification 가능한 spec-first plan을 만드는 단계다.
 Mate는 사용자를 제외한 planning phase의 주도권을 갖고, 사용자 의도와 목적을 정확히 파악해 상세하고 구현 가능한 spec으로 수렴시킨다.
 
 ### owner
@@ -119,35 +126,50 @@ Mate는 사용자를 제외한 planning phase의 주도권을 갖고, 사용자 
 
 - local pattern, entry point, constraint, reusable template, 가까운 rules와 skill/reference를 찾는다.
 - scope, success criteria, non-goal, user intent, preference가 덜 선명하면 early askQuestions를 사용한다.
-- context gap, evidence gap, reference need, reusable pattern 또는 skill/reference value가 보이면 Explore 또는 Librarian를 편하게 연다.
+- context gap, evidence gap, reference need가 보이면 Explore 또는 Librarian를 연다.
+- 조사 결과는 `references.md`에 정리한다.
 - Mate는 discovery를 무조건 넓게 돌리지 않고 현재 revision을 sharpen하는 데 의미 있는 조사와 질문을 우선한다.
 
-#### 2. Council Checkpoint
+#### 2. EARS 다차원 커버리지 체크
 
-- Mate는 current revision에 독립적인 검토 가치가 있으면 `manager-coord`와 `product-coord`를 같은 wave에서 병렬로 연다.
-- `product-coord`는 디자이너, 개발자의 관점에서 결과물 완성도, product quality, validation, feedback, idea, 필요한 reference support를 본다.
-- `manager-coord`는 plan, spec, procedure, sequencing, scope, risk, verification quality를 본다.
-- same-wave 안에서 current revision을 더 예리하게 만들 independent supporting evidence가 있으면 Explore 또는 Librarian도 편하게 병렬로 붙일 수 있다.
+- 작업에 해당하는 차원(functional, visual-design, UX, technical, content)을 식별한다.
+- 해당하는데 빠진 차원이 있으면 askQuestions로 확인한다.
+- 핵심: 빠진 차원이 없는 것 > EARS 구문 완벽함.
+
+#### 3. Council Checkpoint
+
+- Mate는 작업 성격에 맞는 coordinator lane을 최소 2개 동적으로 선택해 병렬로 호출한다.
+- lane 선택 기준: 작업 성격에 맞는 전문 영역 (예: UI → product + visual-design, 아키텍처 → manager + technical).
+- Coordinator는 coord-types/{type}.md를 동적으로 로드해 type-specific 검토를 수행한다.
+- same-wave 안에서 Explore 또는 Librarian도 병렬로 붙일 수 있다.
 - coordinator feedback은 raw 상태로 user에게 넘기지 않고 Mate가 합성한다.
 
-#### 3. Design
+#### 4. Coordinator 개선 루프
 
-- execution-ready spec을 쓴다.
-- objective, user intent summary, included scope, excluded scope, hard constraints, evidence, steps, verification contract, risks, unresolved choices를 채운다.
+- green → pass, 다음 단계로.
+- yellow → 해당 항목 수정. Mate가 자체 판단으로 재검토 여부 결정.
+- red → 해당 항목 수정 후 재검토 필수.
+
+#### 5. Design
+
+- execution-ready spec을 EARS 템플릿으로 쓴다.
+- Context & Rationale, Requirements (EARS), Product Spec, Design Approach, References & Evidence, Implementation Outline, Verification Contract를 채운다.
 - downstream implementer가 채팅을 다시 읽지 않아도 실행할 수 있을 정도의 file and symbol specificity를 유지한다.
 
-#### 4. Refinement
+#### 6. Refinement
 
 - user feedback, new evidence, coordinator verdict를 반영해 plan을 다듬는다.
-- critical ambiguity뿐 아니라 user intent, preference, success criteria, execution recommendation 근거가 덜 선명하면 마지막 gate까지 미루지 말고 바로 askQuestions로 정리한다.
+- askQuestions는 어떤 시점에서든 반복해서 사용할 수 있다. 마지막 gate까지 미루지 않는다.
 - 현재 revision을 바꾸는 증거가 생기면 필요한 lane만 다시 검증한다.
 
-#### 5. Quality Gate And User Gate
+#### 7. Quality Gate, Mode Selection, Handoff
 
 - planning quality gate를 먼저 통과시킨다.
 - pass 기준은 latest revision이 coordinator-reviewed 상태이고, total 88 이상이며, critical blocker가 없는 것이다.
-- pass 전에는 `handoff.md`를 만들지 않는다.
-- pass 후에는 `handoff.md`를 만들거나 갱신하고 approved plan briefing과 함께 surfaced handoff를 연다.
+- pass 후 approved plan briefing을 user에게 보여준다.
+- askQuestions로 execution mode(Fleet / Rush / Open in Editor)를 확인한다.
+- 확인된 mode 기반으로 `handoff.md`를 작성한다.
+- `handoff.md`가 완성된 뒤에만 handoff surface를 노출한다.
 - user가 명시적으로 승인하기 전에는 implementation을 시작하지 않는다.
 
 ### planning inputs
@@ -161,8 +183,9 @@ Mate는 사용자를 제외한 planning phase의 주도권을 갖고, 사용자 
 ### planning outputs
 
 - updated `plan.md`
+- updated `references.md`
 - optional `notepad.md`
-- `handoff.md` only after pass, surfaced when handoff-ready
+- `handoff.md` only after gate pass + mode confirmation
 - approved plan briefing shown to user
 
 ### planning role boundaries
@@ -177,7 +200,7 @@ Mate는 사용자를 제외한 planning phase의 주도권을 갖고, 사용자 
 - raw coordinator question을 그대로 user에게 전달하지 않는다.
 - Mate가 final recommendation owner라는 점을 잊지 않는다.
 - 질문이 필요한데도 추측으로 메우거나 마지막 gate까지 askQuestions를 미루지 않는다.
-- quality gate 전에 execution mode 선택 질문으로 바로 가지 않는다.
+- `handoff.md`가 완성되기 전에 handoff surface를 노출하지 않는다.
 - file path, symbol, verification이 vague해지면 refinement로 되돌린다.
 
 ### planning escalation signals
@@ -189,8 +212,7 @@ Mate는 사용자를 제외한 planning phase의 주도권을 갖고, 사용자 
 
 ### planning drift signals
 
-- spec이 latest user intent와 어긋난다.
-- file and symbol specificity가 사라진다.
+- spec이 latest user intent와 어긋난다.- EARS 다차원 커버리지에서 해당 차원이 빠져 있다.- file and symbol specificity가 사라진다.
 - verification이 선언형 문장만 있고 실제 check 방법이 없다.
 - risks와 excluded scope가 비어 있다.
 
@@ -228,7 +250,7 @@ Librarian는 external evidence를 모을 때 쓴다.
 - 서로 독립적인 evidence need일 때만 병렬화한다.
 - 중복 검색이나 strongly dependent 단계는 순차로 둔다.
 - 결과는 raw transcript가 아니라 synthesis로 합친다.
-- planning wave에서는 `manager-coord`, `product-coord`, Explore, Librarian를 같은 wave로 병렬화할 수 있다. 단, 각 lane의 검토 가치와 evidence need가 독립적이고 current revision을 sharpen할 실질 가치가 있을 때만 그렇다.
+- planning wave에서는 작업 성격에 맞는 coordinator lane, Explore, Librarian를 같은 wave로 병렬화할 수 있다. 단, 각 lane의 검토 가치와 evidence need가 독립적이고 current revision을 sharpen할 실질 가치가 있을 때만 그렇다.
 - Mate는 coordinator 대기 중에도 Explore와 Librarian 결과를 합성해 다음 revision을 sharpen할 수 있다.
 - Mate나 implementer가 현재 revision에 바로 반영할 수 있는 evidence만 남긴다.
 
@@ -510,7 +532,8 @@ phase별 기본 원칙은 아래와 같다.
 - plan score total 88 이상
 - no critical blocker
 - latest revision coordinator-reviewed
-- pass 뒤 `handoff.md`가 준비되면 mode handoff surface를 노출할 수 있다.
+- pass 후 askQuestions로 mode를 확인하고 `handoff.md`를 작성한다.
+- `handoff.md`가 완성된 뒤에만 handoff surface를 노출한다.
 - explicit user approval 전에는 implementation을 시작하지 않는다.
 
 ### Execution

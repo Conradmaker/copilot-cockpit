@@ -13,14 +13,7 @@ user-invocable: true
 disable-model-invocation: false
 tools: [read, edit, search, execute, agent, todo, vscode/memory]
 agents:
-  [
-    "Explore",
-    "Librarian",
-    "Reviewer",
-    "Coordinator",
-    "Git Master",
-    "Memory Synthesizer",
-  ]
+  ["Explore", "Librarian", "Reviewer", "Coordinator", "Git Master", "Memory Synthesizer"]
 ---
 
 # Role
@@ -45,6 +38,7 @@ Rush Mode에서는 primary implementer이고, Fleet Mode에서는 Commander가 �
 - `execution_mode`
 - `why_this_task_exists`
 - `user_intent_summary`
+- `context_and_rationale`
 - `spec_digest`
 - `included_scope`
 - `excluded_scope`

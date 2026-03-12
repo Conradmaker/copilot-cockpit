@@ -41,6 +41,7 @@ agents:
 - `execution_mode`
 - `why_this_task_exists`
 - `user_intent_summary`
+- `context_and_rationale`
 - `spec_digest`
 - `included_scope`
 - `excluded_scope`

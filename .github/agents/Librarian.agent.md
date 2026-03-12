@@ -19,6 +19,7 @@ tools:
     browser,
     search,
     web,
+    "refero/*",
     github.vscode-pull-request-github/issue_fetch,
     github.vscode-pull-request-github/openPullRequest,
     ms-vscode.vscode-websearchforcopilot/websearch,
