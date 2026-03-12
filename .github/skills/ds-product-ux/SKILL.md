@@ -1,6 +1,6 @@
 ---
 name: ds-product-ux
-description: "Product UX principles for UX writing, CTA labels, loading, feedback, confirmation, destructive actions, share and selection flows, navigation, motion, inclusive design, and dark pattern prevention. Use this skill when designing or reviewing product-level user flows, button labels, error messages, empty states, onboarding prompts, loading states, confirmation dialogs, delete flows, share flows, selection flows, navigation behavior, or motion guidelines. Always consult this skill for UX decisions that affect what users read, expect, choose, recover from, or trust, even if the user only asked for copy polish or screen-level UX feedback. For implementation-level accessibility use fe-a11y. For React architecture use fe-react-patterns. Triggers on: UX writing, voice and tone, CTA copy, error message, empty state, loading UX, spinner, skeleton, confirmation dialog, delete flow, share flow, selection flow, navigation UX, motion guideline, dark pattern, inclusive writing, UX review, 제품 UX, UX 라이팅, 버튼 문구, 에러 문구, 빈 상태, 로딩, 스피너, 스켈레톤, 확인 모달, 삭제, 공유, 선택, 내비게이션, 인터랙션, 모션, 다크패턴."
+description: "Product UX principles for UX writing, CTA labels, loading, feedback, confirmation, destructive actions, share and selection flows, navigation, motion, inclusive design, dark pattern prevention, product thinking, user intent design, all-states design, native experience patterns, and common UX mistake prevention. Use this skill when designing or reviewing product-level user flows, button labels, error messages, empty states, onboarding prompts, loading states, confirmation dialogs, delete flows, share flows, selection flows, navigation behavior, motion guidelines, optimistic UI, progressive disclosure, or when checking for common UI/UX mistakes. Always consult this skill for UX decisions that affect what users read, expect, choose, recover from, or trust, even if the user only asked for copy polish or screen-level UX feedback. For visual design foundations (color, typography, spacing, hierarchy) use ds-visual-design. For UI layout patterns, dashboard design, SaaS structures use ds-ui-patterns. For implementation-level accessibility use fe-a11y. For React architecture use fe-react-patterns. Triggers on: UX writing, voice and tone, CTA copy, error message, empty state, loading UX, spinner, skeleton, confirmation dialog, delete flow, share flow, selection flow, navigation UX, motion guideline, dark pattern, inclusive writing, UX review, product thinking, user intent, all states, optimistic UI, progressive disclosure, native experience, UX mistake, 제품 UX, UX 라이팅, 버튼 문구, 에러 문구, 빈 상태, 로딩, 스피너, 스켈레톤, 확인 모달, 삭제, 공유, 선택, 내비게이션, 인터랙션, 모션, 다크패턴, 프로덕트 사고, 사용자 의도, 모든 상태, 낙관적 UI, 점진적 공개, UX 실수."
 ---
 
 # 제품 UX 원칙 (ds-product-ux)
@@ -141,14 +141,19 @@ description: "Product UX principles for UX writing, CTA labels, loading, feedbac
 | [references/04-interaction-motion.md](references/04-interaction-motion.md)           | 인터랙션과 모션의 역할, 기기별 상호작용, 모션 시스템화를 판단할 때          |
 | [references/05-accessibility-inclusion.md](references/05-accessibility-inclusion.md) | 접근성, 포용성, 색상 대비, 큰 글씨, 제스처 대안, 입력/오류 흐름을 검토할 때 |
 | [references/06-foundations-principles.md](references/06-foundations-principles.md)   | 상위 UX 원칙, 신뢰, 연속성, 브랜드 보이스, 핵심 과업 우선순위를 정리할 때   |
-| [references/08-docs-index.md](references/07-docs-index.md)                           | retrieval 중심으로 관련 reference를 빠르게 찾을 때                          |
+| [references/07-docs-index.md](references/07-docs-index.md)                           | retrieval 중심으로 관련 reference를 빠르게 찾을 때                          |
+| [references/08-product-thinking.md](references/08-product-thinking.md)               | 사용자 의도 중심 설계, 모든 상태 디자인, 흐름 구축, 디자인 시스템 판단할 때 |
+| [references/09-native-experience.md](references/09-native-experience.md)             | 네이티브 경험, 낙관적 UI, 점진적 공개, 다크/라이트 모드 설계할 때           |
+| [references/10-common-ux-mistakes.md](references/10-common-ux-mistakes.md)           | 흔한 UI/UX 실수 점검, 불필요한 요소 제거, 피드백 누락 확인할 때             |
 
 ### 추천 로드 순서
 
-- 플로우 리뷰나 화면 구조 판단: `06 → 01 → 03 → 05`
+- 플로우 리뷰나 화면 구조 판단: `06 → 08 → 01 → 03 → 05`
 - 문구 작성이나 카피 개선: `06 → 02 → 01`
-- 로딩/피드백/상태 전환 설계: `03 → 04 → 05`
+- 로딩/피드백/상태 전환 설계: `03 → 04 → 09 → 05`
 - 민감한 액션(삭제, 결제, 동의, 공유): `01 → 02 → 05`
+- 프로덕트 사고와 전체 설계 방향: `08 → 06 → 09 → 10`
+- UI/UX 실수 점검과 리뷰: `10 → 01 → 03 → 05`
 
 ---
 
