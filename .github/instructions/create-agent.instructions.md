@@ -50,18 +50,18 @@ applyTo: "**/*.agent.md"
 
 ### 권장 필드
 
-| 필드 | 의미 |
-| --- | --- |
-| `description` | 라우팅 신호이자 역할 요약 |
-| `name` | UI에서 더 명확한 이름이 필요할 때 사용 |
-| `tools` | role에 필요한 최소 도구 집합 |
-| `model` | 역할에 맞는 모델 선택 |
-| `target` | 특정 환경 전용일 때 명시 |
-| `argument-hint` | user-invocable agent의 입력 구조를 유도 |
-| `agents` | coordinator 또는 orchestrator의 하위 agent 제한 |
-| `user-invocable` | 직접 진입점인지 여부 |
-| `disable-model-invocation` | user 전용 agent의 서브호출 차단 여부 |
-| `handoffs` | guided flow에서 자연스러운 다음 단계 |
+| 필드                       | 의미                                            |
+| -------------------------- | ----------------------------------------------- |
+| `description`              | 라우팅 신호이자 역할 요약                       |
+| `name`                     | UI에서 더 명확한 이름이 필요할 때 사용          |
+| `tools`                    | role에 필요한 최소 도구 집합                    |
+| `model`                    | 역할에 맞는 모델 선택                           |
+| `target`                   | 특정 환경 전용일 때 명시                        |
+| `argument-hint`            | user-invocable agent의 입력 구조를 유도         |
+| `agents`                   | coordinator 또는 orchestrator의 하위 agent 제한 |
+| `user-invocable`           | 직접 진입점인지 여부                            |
+| `disable-model-invocation` | user 전용 agent의 서브호출 차단 여부            |
+| `handoffs`                 | guided flow에서 자연스러운 다음 단계            |
 
 ### 최소 frontmatter baseline
 
@@ -154,16 +154,15 @@ disable-model-invocation: false
 - 2~3개 이하의 자연스러운 다음 단계만 둔다.
 - `label`은 다음 행동을 바로 이해하게 만든다.
 - `prompt`는 현재 결과를 가리키되 장황한 transcript 복붙을 피한다.
-- handoff가 열리기 전 필요한 gate가 있다면 본문 rules에도 분명히 적는다.
 
 ### handoff 필드 quick reference
 
-| 필드 | 의미 |
-| --- | --- |
-| `label` | 다음 행동을 바로 이해하게 만드는 문구 |
-| `agent` | 전환할 대상 agent 이름 |
-| `prompt` | 다음 agent에 줄 최소한의 구조화된 브리핑 |
-| `send` | `true`면 자동 전송, 아니면 사용자가 확인 후 보냄 |
+| 필드     | 의미                                             |
+| -------- | ------------------------------------------------ |
+| `label`  | 다음 행동을 바로 이해하게 만드는 문구            |
+| `agent`  | 전환할 대상 agent 이름                           |
+| `prompt` | 다음 agent에 줄 최소한의 구조화된 브리핑         |
+| `send`   | `true`면 자동 전송, 아니면 사용자가 확인 후 보냄 |
 
 ## 도구 설계 규칙
 
@@ -174,13 +173,13 @@ disable-model-invocation: false
 
 ### 역할별 tool profile quick reference
 
-| 역할 | 기본 권장 도구 |
-| --- | --- |
-| 탐색 또는 조사 | `read`, `search` |
-| 리뷰 또는 검증 | `read`, `search`, 필요 시 `web` |
-| planning lead | `read`, `search`, `agent`, 필요 시 `vscode/askQuestions` |
-| implementer | `read`, `edit`, `search`, `execute` |
-| coordinator 또는 orchestrator | `read`, `search`, `agent`, 필요 시 `todo` |
+| 역할                          | 기본 권장 도구                                           |
+| ----------------------------- | -------------------------------------------------------- |
+| 탐색 또는 조사                | `read`, `search`                                         |
+| 리뷰 또는 검증                | `read`, `search`, 필요 시 `web`                          |
+| planning lead                 | `read`, `search`, `agent`, 필요 시 `vscode/askQuestions` |
+| implementer                   | `read`, `edit`, `search`, `execute`                      |
+| coordinator 또는 orchestrator | `read`, `search`, `agent`, 필요 시 `todo`                |
 
 도구 profile은 절대 규칙이 아니라 baseline이다.
 현재 workflow와 role boundary가 더 중요하다.
@@ -230,7 +229,7 @@ workflow playbook에 거의 모든 process detail을 옮기더라도, 각 agent 
 ### handoff 실수
 
 - handoff가 너무 많아 선택 기준이 흐려짐
-- current state보다 다음 단계의 욕심이 앞서 gate 없이 노출됨
+- current state보다 다음 단계의 욕심이 앞서 gate 없이 실행 가능한 것처럼 서술됨
 - prompt에 전체 대화를 복붙함
 
 ## 검증 체크리스트
@@ -263,7 +262,7 @@ workflow playbook에 거의 모든 process detail을 옮기더라도, 각 agent 
 - unsupported field를 Copilot native field처럼 적지 않는다.
 - 다른 플랫폼에서 온 개념은 그대로 복사하지 말고 현재 하네스 규칙에 맞춘다.
 - 저장 후에는 대표 프롬프트로 실제 도구, handoff, output contract가 기대대로 동작하는지 수동 검증한다.
-- guided handoff가 있는 agent는 gate 전후 노출 시점도 함께 확인한다.
+- guided handoff가 있는 agent는 gate 전후 handoff 실행 허용 조건과 `handoff.md` 작성 순서를 함께 확인한다.
 
 ## 마지막 원칙
 

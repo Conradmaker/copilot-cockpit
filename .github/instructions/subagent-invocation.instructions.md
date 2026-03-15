@@ -50,29 +50,31 @@ planning, execution, review, git, memory tail의 상세 흐름은 [product-workf
 이 envelope는 phase, 현재 상태, 기대 결과를 공통 언어로 맞춘다.
 receiver-side field interpretation은 각 `.agent.md`에서 정의한다.
 
-### planning_review_packet
+### coordinator_review_packet
 
-Mate가 Coordinator에 planning lane 검토를 요청할 때 쓴다.
+Coordinator에 롤 기반 리뷰를 요청할 때 쓴다. planning과 execution 공통으로 사용하며, `phase` 필드로 구분한다.
 
 ```xml
-<planning_review_packet>
-	<phase>planning</phase>
-	<mode>plan-review</mode>
-	<coordinator_type>{product|manager|visual-design|technical|...}</coordinator_type>
-	<planning_goal>{what this revision is trying to solve}</planning_goal>
+<coordinator_review_packet>
+	<phase>{planning|execution}</phase>
+	<mode>{plan-review|execution-review}</mode>
+	<coordinator_role>{product|manager|visual-design|technical|...}</coordinator_role>
+	<review_goal>{what this review is trying to answer or solve}</review_goal>
 	<current_plan_summary>{current plan summary}</current_plan_summary>
-	<current_spec_state>{spec completeness state}</current_spec_state>
+	<current_spec_state>{spec completeness state - planning phase only}</current_spec_state>
+	<current_implementation_state>{current implementation state — execution phase only}</current_implementation_state>
 	<relevant_evidence>{key evidence}</relevant_evidence>
 	<decision_focus>{what to critique}</decision_focus>
 	<known_risks>{known risks}</known_risks>
 	<unresolved_items>{unresolved user choices only}</unresolved_items>
 	<recommendation_request>{what recommendation is needed}</recommendation_request>
-	<expected_output>{planning review response}</expected_output>
-</planning_review_packet>
+	<expected_output>{review response}</expected_output>
+</coordinator_review_packet>
 ```
 
-이 packet의 목적은 coordinator에게 현재 revision의 무엇을 비판적으로 봐야 하는지 명확히 주는 것이다.
-Mate는 planning checkpoint가 열리면 작업 성격에 맞는 coordinator type을 최소 2개 동적으로 선택해 병렬로 호출할 수 있다.
+이 packet의 목적은 coordinator에게 현재 상태의 무엇을 비판적으로 봐야 하는지 명확히 주는 것이다.
+planning에서는 Mate가 작업 성격에 맞는 coordinator role을 최소 2개 동적으로 선택해 병렬 호출할 수 있다.
+execution에서는 구현 방향에 대한 확신이 흔들리거나 drift가 의심될 때 필요한 롤을 선택해 호출한다. (병렬 호출 가능)
 
 ### implementation_handoff_packet
 
@@ -106,7 +108,6 @@ Mate가 Fleet Mode 또는 Rush Mode execution으로 넘길 때 쓴다.
 ### review and tail phase field expectations
 
 - review phase는 common envelope에 `change_surface`, `validation_focus`, `available_evidence`를 함께 준다.
-- execution milestone validation은 current milestone 상태와 관련 todo 또는 progress 상태를 함께 주고, 결과에는 `todo_sync_status`를 기대한다.
 - git tail은 common envelope에 `goal`, `repo_state`, `constraints`, `deliverable`을 분명히 준다.
 - memory tail은 common envelope에 `candidates`, `save_target`, `deliverable`을 분명히 준다.
 
@@ -130,7 +131,6 @@ Mate가 Fleet Mode 또는 Rush Mode execution으로 넘길 때 쓴다.
 - 같은 파일과 같은 질문을 중복 조사하지 않는다.
 - planning checkpoint에서는 작업 성격에 맞는 coordinator lane, Explore, Librarian를 같은 wave로 묶을 수 있다. 단, review와 evidence need가 독립적이고 current revision을 sharpen할 가치가 있을 때만 그렇다.
 - coordinator lane과 research lane은 현재 revision을 sharpen할 때만 같은 wave로 묶는다.
-- coordinator lane과 research lane은 현재 revision을 sharpen할 때만 같은 wave로 묶는다.
 
 ## 에이전트 선택 인덱스
 
@@ -150,24 +150,36 @@ Mate가 Fleet Mode 또는 Rush Mode execution으로 넘길 때 쓴다.
 
 ### Coordinator
 
-- 역할: dynamic planning council과 major milestone validator
-- 왜 필요한가: plan fidelity, verification gap, decomposition risk를 독립적으로 점검해 planning drift를 줄인다. coord-types/{type}.md를 동적 로드해 type-specific 검토를 수행한다.
-- caller가 강조할 입력: `coordinator_type` (product, manager, visual-design, technical 등), current plan summary, decision focus, known risks, unresolved items, execution milestone일 때는 current todo 또는 progress state
-- 기대 결과: Council verdict, Required changes, Quality lift ideas, Evidence, Questions for main agent or user, milestone-related sections, Todo sync status
+- 역할: planning council 겸 롤 기반 리뷰 카운슬
+- 왜 필요한가: plan fidelity, verification gap, decomposition risk를 독립적으로 점검해 planning drift를 줄인다. execution에서는 구현 방향에 대한 확신이 흔들리거나 drift가 의심될 때 롤 관점의 리뷰를 제공한다. coord-roles/{role}.md를 동적 로드해 role-specific 검토를 수행한다.
+- caller가 강조할 입력: `coordinator_role` (product, manager, visual-design, technical 등), current plan summary 또는 current implementation state, decision focus, known risks, unresolved items
+- 기대 결과: Council verdict, Required changes, Quality lift ideas, Evidence, Questions for main agent or user
+
+#### Coordinator 롤 선택 기준
+
+| role          | 언제 선택하는가                                        | 관점             |
+| ------------- | ------------------------------------------------------ | ---------------- |
+| product       | UI/UX, 사용자 흐름, 결과물 완성도가 중요할 때          | 디자이너, 개발자 |
+| manager       | 계획 구조, 순서, scope, risk, verification이 중요할 때 | 기획자, PM       |
+| visual-design | 색상, 타이포, 스페이싱, 시각적 계층이 중요할 때        | 비주얼 디자이너  |
+| technical     | 성능, 보안, 아키텍처, 비기능 요구사항이 중요할 때      | 테크 리드        |
+
+planning에서는 Mate가 작업 성격에 맞는 롤을 최소 2개 동적으로 선택한다.
+다른 phase에서는 호출하는 에이전트가 필요한 롤을 선택해 호출한다. (병렬 호출 가능)
 
 ### Commander
 
 - 역할: Fleet Mode execution orchestrator
 - 왜 필요한가: coding worker와 orchestration ownership을 분리해 split, merge, review, tail 판단을 더 안정적으로 수행한다.
 - caller가 강조할 입력: approved plan, implementation strategy, work breakdown, verification contract, escalation policy
-- 기대 결과: Execution verdict, Orchestration summary, Worker results, Reviewer outcomes, Coordinator milestone verdicts, Tail actions
+- 기대 결과: Execution verdict, Orchestration summary, Worker results, Reviewer outcomes, Coordinator review feedback (if any), Tail actions
 
 ### Deep Execution Agent
 
 - 역할: Rush Mode primary implementer 또는 Fleet worker
 - 왜 필요한가: approved scope 안에서 continuity를 유지하며 구현과 verification을 끝까지 밀어붙인다.
 - caller가 강조할 입력: execution mode, assigned scope, verification contract, open questions, escalation policy
-- 기대 결과: Status, Changes made, Verification, Reviewer outcomes, Coordinator milestone verdicts, Need from Commander, Coordinator, or main agent
+- 기대 결과: Status, Changes made, Verification, Reviewer outcomes, Coordinator review feedback (if any), Need from Commander, Coordinator, or main agent
 
 ### Reviewer
 

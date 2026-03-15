@@ -1,10 +1,10 @@
-# Coordinator Type Index
+# Coordinator Role Index
 
-Coordinator가 `coordinator_type`을 받으면 이 디렉토리에서 해당 `{type}.md`를 로드한다.
+Coordinator가 `coordinator_role`을 받으면 이 디렉토리에서 해당 `{role}.md`를 로드한다.
 
 ## Lane 활성화 기준
 
-| type | 언제 선택하는가 | 관점 |
+| role | 언제 선택하는가 | 관점 |
 |---|---|---|
 | product | UI/UX, 사용자 흐름, 결과물 완성도가 중요할 때 | 디자이너, 개발자 |
 | manager | 계획 구조, 순서, scope, risk, verification이 중요할 때 | 기획자, PM |
@@ -13,6 +13,6 @@ Coordinator가 `coordinator_type`을 받으면 이 디렉토리에서 해당 `{t
 
 ## 사용 규칙
 
-- Mate는 작업 성격에 맞는 type을 최소 2개 동적으로 선택한다.
-- 파일이 없는 type이 요청되면 범용 기준으로 검토하되 누락을 명시한다.
-- 새 type이 필요하면 이 디렉토리에 `{type}.md`를 추가한다.
+- Mate는 작업 성격에 맞는 role을 최소 2개 동적으로 선택한다.
+- 파일이 없는 role이 요청되면 범용 기준으로 검토하되 누락을 명시한다.
+- 새 role이 필요하면 이 디렉토리에 `{role}.md`를 추가한다.
