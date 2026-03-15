@@ -34,7 +34,7 @@ applyTo: "**/*.agent.md"
 - `agents`: coordinator나 orchestrator의 위임 체인을 끊지 않게 유지한다.
 - `handoffs`: 기존 guided flow를 깨뜨리지 않게 유지한다.
 - `user-invocable`, `disable-model-invocation`: 진입점과 worker의 경계를 지킨다.
-- output contract 섹션명: 상위 agent가 합성할 때 기대하는 형태를 깨지 않게 유지한다.
+- output contract 섹션명: 상위 agent가 합성할 때 기대하는 형태를 깨지 않게 유지하되, 바꿔야 한다면 canonical template 단위로 함께 맞춘다.
 
 호환성을 해치지 않는 한에서만 더 깔끔한 표현으로 다듬는다.
 
@@ -139,8 +139,19 @@ disable-model-invocation: false
 ### Output Contract
 
 - 상위 agent가 합성하기 쉬운 section name을 유지한다.
+- 가능하면 아래 canonical template 중 하나를 사용한다.
 - raw tool log가 아니라 synthesis를 돌려주게 만든다.
 - uncertainty가 남으면 숨기지 않는다.
+
+#### Canonical output templates
+
+- Research: `Outcome`, `Evidence`, `Implication`, `Open items`
+- Review: `Verdict`, `Findings`, `Evidence`, `Risks`
+- Execution: `Status`, `Work summary`, `Verification`, `Open items`
+- Tail: `Status`, `Actions`, `Verification`, `Follow-up`
+- Planning lead처럼 artifact 자체가 1차 산출물인 역할만 template 예외를 둘 수 있다.
+
+Agent-specific nuance는 새로운 top-level heading을 늘리기보다 각 섹션 설명 안에 넣는다.
 
 ### Re-entry Authority
 
@@ -187,14 +198,19 @@ disable-model-invocation: false
 ## 위임 packet high-signal 기준
 
 agent prompt는 전체 대화 복붙보다 high-signal 브리핑이 중요하다.
-최소한 아래 요소는 의식적으로 유지한다.
+현재 canonical call-context core는 아래 여섯 필드다.
 
-- immediate objective
-- why this task exists now
-- relevant background
-- scope와 concrete references
-- constraints와 non-goals
-- expected output
+- `TASK`: 한 번에 수행할 단일하고 구체적인 목표
+- `EXPECTED_OUTCOME`: 구체적인 deliverable과 success criteria
+- `MUST_DO`: 누락되면 안 되는 요구사항
+- `MUST_NOT_DO`: 금지사항과 safety rail
+- `CONTEXT`: 관련 배경, 패턴, 제약, rationale
+- `ARTIFACTS`: plan, handoff, references, 관련 파일 포인터
+
+필요한 경우에만 아래 hint를 추가한다.
+
+- `CURRENT_DATE`: Librarian의 freshness-sensitive research anchor
+- `SEARCH_STRATEGY`: Explore의 retrieval order, narrowing sequence, stopping rule
 
 worker가 추측하지 않게 하되, raw transcript 때문에 context budget을 낭비하지 않게 만드는 것이 기준이다.
 

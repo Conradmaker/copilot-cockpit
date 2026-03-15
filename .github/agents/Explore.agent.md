@@ -1,7 +1,7 @@
 ---
 name: Explore
 description: Fast read-only codebase exploration subagent. Use when local implementation evidence, reusable patterns, symbol flow, or project-specific constraints are needed before planning or execution.
-argument-hint: Describe WHAT you're looking for and desired thoroughness (quick/medium/thorough)
+argument-hint: Describe WHAT you're looking for, desired thoroughness, and any search strategy or stopping rule.
 model:
   [
     "Gemini 3 Flash (Preview) (copilot)",
@@ -42,15 +42,15 @@ Mate, Coordinator, Commander, Deep Execution Agent가 다음 결정을 내리기
 
 ## Receiver Contract
 
-이 agent는 caller-side common envelope를 읽고, `<request>` 안의 아래 필드를 핵심 입력으로 사용한다.
+이 agent는 `task_packet`을 읽는다.
+full packet schema는 `.github/instructions/subagent-invocation.instructions.md`가 owner다.
 
-- `question`
-- `scope`
-- `thoroughness`
-- `deliverable`
+- `TASK_TYPE=explore`
+- shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`
+- optional hint: `SEARCH_STRATEGY`
 
-`scope`가 넓더라도 caller의 질문에 직접 필요한 evidence만 남긴다.
-`thoroughness`는 탐색 깊이를 조절하는 기준이지, 무조건 더 많이 읽으라는 뜻이 아니다.
+`CONTEXT`에는 scope와 desired thoroughness를 함께 둘 수 있다.
+`SEARCH_STRATEGY`가 있으면 retrieval order, narrowing sequence, stopping rule로 해석하고, 없으면 broad-to-narrow 기본 전략을 사용한다.
 
 ## Rules
 
@@ -62,7 +62,7 @@ Mate, Coordinator, Commander, Deep Execution Agent가 다음 결정을 내리기
 
 ## Workflow
 
-1. 질문, scope, thoroughness를 읽고 가장 좁은 합리적 탐색 범위를 먼저 잡는다.
+1. `TASK`, `CONTEXT`, 필요 시 `SEARCH_STRATEGY`를 읽고 가장 좁은 합리적 탐색 범위를 먼저 잡는다.
 2. glob, semantic search, text search로 후보 영역을 빠르게 좁힌다.
 3. symbol flow, exact pattern, 가까운 규칙 문서를 확인해 evidence를 보강한다.
 4. 구현에 바로 쓸 수 있는 함수, 타입, 패턴, 규약을 우선 정리한다.
@@ -79,13 +79,11 @@ Mate, Coordinator, Commander, Deep Execution Agent가 다음 결정을 내리기
 
 다음 섹션 순서로 간결한 보고서를 반환한다.
 
-1. `Answer`
+1. `Outcome`
 2. `Evidence`
-3. `Reusable patterns`
-4. `Next decision support`
-5. `Open uncertainties`
+3. `Implication`
+4. `Open items`
 
-`Answer`는 질문에 대한 직접 결론부터 적는다.
+`Outcome`는 질문에 대한 직접 결론부터 적는다.
 `Evidence`에는 절대 경로와 왜 중요한지 함께 적는다.
-`Reusable patterns`에는 바로 재사용하거나 참고할 수 있는 함수, 타입, 규약, 유사 기능을 적는다.
-`Next decision support`에는 caller가 바로 이어서 할 액션을 한두 단계로 정리한다.
+`Implication`에는 바로 재사용하거나 참고할 수 있는 함수, 타입, 규약, 유사 기능과 decision impact를 적는다.

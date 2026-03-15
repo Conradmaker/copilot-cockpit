@@ -24,11 +24,12 @@ tools: [read, search, execute, web, vscode/memory]
 
 ## Receiver Contract
 
-이 agent는 common envelope와 아래 review field를 핵심 입력으로 읽는다.
+이 agent는 `task_packet`을 읽는다.
+full packet schema는 `.github/instructions/subagent-invocation.instructions.md`가 owner다.
 
-- `change_surface`
-- `validation_focus`
-- `available_evidence`
+- `TASK_TYPE=broad-review`
+- shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`
+- `CONTEXT` 안의 changed surface, validation focus, available evidence
 
 가능하면 `plan.md`를 먼저 읽고, 있으면 `handoff.md`와 관련 session memory도 확인한다.
 
@@ -58,12 +59,10 @@ tools: [read, search, execute, web, vscode/memory]
 ## Output Contract
 
 - `Verdict`
-- `Validation evidence`
-- `Code and security review`
-- `Design and product review`
-- `Residual risks`
-- `Release recommendation`
-- `Follow-up needed`
+- `Findings`
+- `Evidence`
+- `Risks`
 
 `Verdict`는 `approve`, `approve-with-risks`, `rework-required` 중 하나로 시작한다.
-`Follow-up needed`에는 implementer가 다시 Commander, Coordinator, 또는 user gate로 넘겨야 할 항목을 적는다.
+`Findings`에는 code and security review를 먼저, design and product review를 뒤에 적는다.
+`Risks`에는 residual risk와 release readiness를 적는다.

@@ -1,5 +1,5 @@
 ---
-description: "Guidelines for when and how the main agent should invoke subagents for specialized tasks like internal code exploration, external research, Git operations, and memory synthesis. This document helps ensure that subagent calls are made strategically to maximize efficiency, relevance, and result quality while minimizing unnecessary overhead and context pollution."
+description: "Guidelines for when and how the main agent should invoke subagents for specialized tasks like internal code exploration, external research, execution orchestration, and review. This document helps ensure that subagent calls are made strategically to maximize efficiency, relevance, and result quality while minimizing unnecessary overhead and context pollution."
 applyTo: "**"
 ---
 
@@ -14,7 +14,7 @@ planning, execution, review, git, memory tail의 상세 흐름은 [product-workf
 ## 적용 범위
 
 - `.github/agents/` 아래 일반 서브에이전트 호출 판단에 적용한다.
-- `Explore`, `Librarian`, `Coordinator`, `Commander`, `Deep Execution Agent`, `Reviewer`, `Git Master`, `Memory Synthesizer`를 다룬다.
+- `Explore`, `Librarian`, `Coordinator`, `Commander`, `Deep Execution Agent`, `Reviewer`를 다룬다.
 - `.github/skills/skill-creator/agents/*` 같은 스킬 전용 에이전트는 해당 스킬 문서가 우선한다.
 
 ## 핵심 원칙
@@ -29,87 +29,93 @@ planning, execution, review, git, memory tail의 상세 흐름은 [product-workf
 ## caller-side packet 표준
 
 모든 서브에이전트 호출은 XML packet으로 구조화한다.
-`CONTEXT:` 같은 자유형 대문자 섹션을 새 표준으로 쓰지 않는다.
+`CONTEXT:` 같은 자유형 대문자 섹션을 임의로 늘리지 않고, canonical XML tag를 사용한다.
 
-### 공통 envelope
+canonical packet family는 두 개만 둔다.
+
+- `task_packet`: Explore, Librarian, Coordinator, Reviewer용 공통 packet
+- `implementation_handoff_packet`: Commander, Deep Execution Agent용 execution handoff packet
+
+### task_packet
 
 ```xml
-<packet>
-	<phase>{planning|execution|review|git|memory}</phase>
-	<mode>{mode-name}</mode>
-	<objective>{why this call exists}</objective>
-	<relevant_context>{concise context only}</relevant_context>
-	<active_plan_ref>/memories/session/plan.md</active_plan_ref>
-	<current_state>{current state summary}</current_state>
-	<latest_evidence>{latest evidence summary}</latest_evidence>
-	<request>{the concrete request}</request>
-	<expected_output>{expected return shape}</expected_output>
-</packet>
+
+<task_packet>
+	<PHASE>{planning|execution|review|git|memory}</PHASE>
+	<TASK_TYPE>{explore|research|role-review|broad-review}</TASK_TYPE>
+	<TASK>{single atomic goal}</TASK>
+	<EXPECTED_OUTCOME>{concrete deliverables and success criteria}</EXPECTED_OUTCOME>
+	<MUST_DO>{non-negotiable requirements}</MUST_DO>
+	<MUST_NOT_DO>{forbidden actions and safety rails}</MUST_NOT_DO>
+	<CONTEXT>{relevant background, patterns, rationale, and constraints}</CONTEXT>
+	<ARTIFACTS>
+		<ACTIVE_PLAN_REF>/memories/session/plan.md</ACTIVE_PLAN_REF>
+		<HANDOFF_REF>/memories/session/handoff.md</HANDOFF_REF>
+		<REFERENCES_REF>/memories/session/references.md</REFERENCES_REF>
+	</ARTIFACTS>
+	<CURRENT_DATE>{optional freshness anchor for Librarian}</CURRENT_DATE>
+	<SEARCH_STRATEGY>{optional retrieval order, narrowing, and stopping rules for Explore}</SEARCH_STRATEGY>
+</task_packet>
 ```
 
-이 envelope는 phase, 현재 상태, 기대 결과를 공통 언어로 맞춘다.
+이 packet은 비실행 호출의 공통 언어다.
+`TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`가 shared core이고, `PHASE`와 `TASK_TYPE`은 최소 라우팅 메타다.
+`CURRENT_DATE`와 `SEARCH_STRATEGY`는 모든 호출의 공통 필드는 아니며, 각각 Librarian와 Explore에서만 필요할 때 쓰는 optional hint다.
 receiver-side field interpretation은 각 `.agent.md`에서 정의한다.
 
-### coordinator_review_packet
+이 구조의 목적은 field fan-out을 줄이면서도 아래 정보를 잃지 않는 것이다.
 
-Coordinator에 롤 기반 리뷰를 요청할 때 쓴다. planning과 execution 공통으로 사용하며, `phase` 필드로 구분한다.
-
-```xml
-<coordinator_review_packet>
-	<phase>{planning|execution}</phase>
-	<mode>{plan-review|execution-review}</mode>
-	<coordinator_role>{product|manager|visual-design|technical|...}</coordinator_role>
-	<review_goal>{what this review is trying to answer or solve}</review_goal>
-	<current_plan_summary>{current plan summary}</current_plan_summary>
-	<current_spec_state>{spec completeness state - planning phase only}</current_spec_state>
-	<current_implementation_state>{current implementation state — execution phase only}</current_implementation_state>
-	<relevant_evidence>{key evidence}</relevant_evidence>
-	<decision_focus>{what to critique}</decision_focus>
-	<known_risks>{known risks}</known_risks>
-	<unresolved_items>{unresolved user choices only}</unresolved_items>
-	<recommendation_request>{what recommendation is needed}</recommendation_request>
-	<expected_output>{review response}</expected_output>
-</coordinator_review_packet>
-```
-
-이 packet의 목적은 coordinator에게 현재 상태의 무엇을 비판적으로 봐야 하는지 명확히 주는 것이다.
-planning에서는 Mate가 작업 성격에 맞는 coordinator role을 최소 2개 동적으로 선택해 병렬 호출할 수 있다.
-execution에서는 구현 방향에 대한 확신이 흔들리거나 drift가 의심될 때 필요한 롤을 선택해 호출한다. (병렬 호출 가능)
+- 지금 어떤 phase에 있는가
+- 왜 이 호출이 필요한가
+- 어떤 artifact를 먼저 읽어야 하는가
+- 지금 반드시 해야 하는 것과 하면 안 되는 것이 무엇인가
+- 어떤 형태의 결과를 기대하는가
 
 ### implementation_handoff_packet
 
-Mate가 Fleet Mode 또는 Rush Mode execution으로 넘길 때 쓴다.
+Mate가 Fleet Mode handoff로 execution에 넘길 때 쓴다.
 
 ```xml
 <implementation_handoff_packet>
-	<phase>execution</phase>
-	<execution_mode>{fleet-mode|rush-mode}</execution_mode>
-	<objective>{execution objective}</objective>
-	<why_this_task_exists>{why now}</why_this_task_exists>
-	<user_intent_summary>{condensed user intent}</user_intent_summary>
-	<context_and_rationale>{background, purpose, scope boundary}</context_and_rationale>
-	<active_plan_ref>/memories/session/plan.md</active_plan_ref>
-	<spec_digest>{execution-ready spec digest}</spec_digest>
-	<included_scope>{included scope}</included_scope>
-	<excluded_scope>{excluded scope}</excluded_scope>
-	<hard_constraints>{must not break}</hard_constraints>
-	<implementation_strategy>{chosen strategy}</implementation_strategy>
-	<work_breakdown>{ordered work units}</work_breakdown>
-	<verification_contract>{required verification}</verification_contract>
-	<latest_evidence>{latest evidence}</latest_evidence>
-	<open_questions>{only user-choice items}</open_questions>
-	<escalation_policy>{when to escalate}</escalation_policy>
-	<expected_output>{expected execution summary}</expected_output>
+	<TASK>{execution objective}</TASK>
+	<EXPECTED_OUTCOME>{expected execution summary and success criteria}</EXPECTED_OUTCOME>
+	<MUST_DO>{non-negotiable execution requirements and escalation triggers}</MUST_DO>
+	<MUST_NOT_DO>{forbidden behavior such as scope expansion or skipped verification}</MUST_NOT_DO>
+	<CONTEXT>{why this task exists, user intent, context and rationale}</CONTEXT>
+	<ARTIFACTS>
+		<ACTIVE_PLAN_REF>/memories/session/plan.md</ACTIVE_PLAN_REF>
+		<REFERENCES_REF>/memories/session/references.md</REFERENCES_REF>
+	</ARTIFACTS>
+	<SCOPE>
+		<INCLUDED>{included scope}</INCLUDED>
+		<EXCLUDED>{excluded scope}</EXCLUDED>
+	</SCOPE>
+	<EXECUTION_PLAN>{implementation strategy, work breakdown, verification contract}</EXECUTION_PLAN>
 </implementation_handoff_packet>
 ```
 
 이 packet의 목적은 implementer나 orchestrator가 채팅을 다시 읽지 않고도 시작하게 만드는 것이다.
+execution handoff는 shared core 위에 `SCOPE`, `EXECUTION_PLAN`만 추가로 두고, execution safety에 필요한 구조를 유지한다.
 
-### review and tail phase field expectations
+### migration quick map
 
-- review phase는 common envelope에 `change_surface`, `validation_focus`, `available_evidence`를 함께 준다.
-- git tail은 common envelope에 `goal`, `repo_state`, `constraints`, `deliverable`을 분명히 준다.
-- memory tail은 common envelope에 `candidates`, `save_target`, `deliverable`을 분명히 준다.
+- old `objective`, `review_goal`, `goal` → `TASK`
+- old `expected_output` or `deliverable` variants → `EXPECTED_OUTCOME`
+- old `task_inputs` fan-out → `TASK`, `CONTEXT`, optional hints such as `CURRENT_DATE` or `SEARCH_STRATEGY`
+- old `constraints` fan-out → `MUST_DO`, `MUST_NOT_DO`, and `CONTEXT`
+- old `active_plan_ref`, `handoff_ref`, `references_ref` → `ARTIFACTS`
+- old `execution_mode` → dropped (Fleet Mode path is implicit in the Commander handoff)
+- old `included_scope`, `excluded_scope` → `SCOPE`
+- old `implementation_strategy`, `work_breakdown`, `verification_contract` → `EXECUTION_PLAN`
+
+## Skill-first tail work
+
+현재 harness에서 Git Tail과 Memory Tail은 dedicated subagent surface가 아니다.
+
+- Git Tail: current execution owner가 `.github/skills/git-workflow`와 `.github/skills/gh-cli`를 inline으로 읽고 수행한다.
+- Memory Tail: current execution owner가 `.github/skills/memory-synthesizer/SKILL.md`를 inline으로 읽고 수행한다.
+
+subagent를 새로 만들기보다, 현재 owner가 이미 가진 tool ceiling과 기존 skill surface를 우선 사용한다.
 
 ## 조사 lane 사용 원칙
 
@@ -117,13 +123,19 @@ Mate가 Fleet Mode 또는 Rush Mode execution으로 넘길 때 쓴다.
 
 - local evidence, reusable pattern, symbol flow, project rule을 확보할 때 쓴다.
 - 추측 기반 구현이나 과도한 수동 탐색을 줄이는 데 가치가 크고, planning loop 초반에 plan/spec을 sharpen하는 데도 편하게 쓸 수 있다.
-- packet에서는 `question`, `scope`, `thoroughness`, `deliverable`을 또렷하게 주는 것이 중요하다.
+- `TASK`에는 찾고 싶은 atomic question을, `EXPECTED_OUTCOME`에는 필요한 evidence shape를 적는다.
+- `MUST_DO`와 `MUST_NOT_DO`에는 반드시 확인할 것과 하지 말아야 할 것을 적는다.
+- `CONTEXT`에는 scope, desired thoroughness, 관련 배경을 적는다.
+- `SEARCH_STRATEGY`가 필요하면 retrieval order, narrowing sequence, stopping rule을 적는다.
 
 ### Librarian
 
 - external contract, official doc, source-level reference를 확보할 때 쓴다.
 - outdated memory보다 현재 버전의 근거를 우선하게 만든다.
-- packet에서는 `target`, `version`, `goal`, `deliverable`, `evidence_policy`를 분명히 주는 것이 좋다.
+- `TASK`에는 research goal을, `EXPECTED_OUTCOME`에는 원하는 deliverable과 success criteria를 적는다.
+- `MUST_DO`에는 `official > source > web` 같은 evidence policy와 freshness-sensitive requirement를 적는다.
+- `CONTEXT`에는 target, version, relevant background를 적는다.
+- 최신성 판단이 중요하면 `CURRENT_DATE`를 명시해 recency anchor를 제공한다.
 
 ### 병렬 조사
 
@@ -134,73 +146,56 @@ Mate가 Fleet Mode 또는 Rush Mode execution으로 넘길 때 쓴다.
 
 ## 에이전트 선택 인덱스
 
+이 인덱스는 caller-side invocation 기준만 다룬다.
+packet field의 세부 해석과 local workflow는 각 `.agent.md`가 owner다.
+
 ### Explore
 
 - 역할: local codebase exploration과 evidence gathering
 - 왜 필요한가: 구현 위치, 재사용 패턴, symbol flow를 빠르게 찾아 planning과 execution의 추측 비용을 줄인다.
-- caller가 강조할 입력: 찾고 싶은 질문, scope, 필요한 thoroughness, 원하는 deliverable
-- 기대 결과: Answer, Evidence, Reusable patterns, Next decision support, Open uncertainties
+- caller가 강조할 입력: `TASK_TYPE=explore`, shared core, 필요 시 `SEARCH_STRATEGY`
+- 기대 결과: Outcome, Evidence, Implication, Open items, Next step
 
 ### Librarian
 
 - 역할: official-first external research
 - 왜 필요한가: 외부 계약과 버전 의존 동작을 현재 시점 근거로 검증해 잘못된 가정을 줄인다.
-- caller가 강조할 입력: target, version, goal, deliverable, evidence policy
-- 기대 결과: Answer, Evidence by tier, Recommended usage or implication, Decision impact, Open uncertainties
+- caller가 강조할 입력: `TASK_TYPE=research`, shared core, 필요 시 `CURRENT_DATE`
+- 기대 결과: Outcome, Evidence, Implication, Open items, Next step
 
 ### Coordinator
 
 - 역할: planning council 겸 롤 기반 리뷰 카운슬
 - 왜 필요한가: plan fidelity, verification gap, decomposition risk를 독립적으로 점검해 planning drift를 줄인다. execution에서는 구현 방향에 대한 확신이 흔들리거나 drift가 의심될 때 롤 관점의 리뷰를 제공한다. coord-roles/{role}.md를 동적 로드해 role-specific 검토를 수행한다.
-- caller가 강조할 입력: `coordinator_role` (product, manager, visual-design, technical 등), current plan summary 또는 current implementation state, decision focus, known risks, unresolved items
-- 기대 결과: Council verdict, Required changes, Quality lift ideas, Evidence, Questions for main agent or user
+- caller가 강조할 입력: `TASK_TYPE=role-review`, shared core, `CONTEXT` 안의 role, current plan or implementation state, decision focus, known risks, unresolved items
+- 기대 결과: Verdict, Findings, Evidence, Risks, Next step
 
 #### Coordinator 롤 선택 기준
 
-| role          | 언제 선택하는가                                        | 관점             |
-| ------------- | ------------------------------------------------------ | ---------------- |
-| product       | UI/UX, 사용자 흐름, 결과물 완성도가 중요할 때          | 디자이너, 개발자 |
-| manager       | 계획 구조, 순서, scope, risk, verification이 중요할 때 | 기획자, PM       |
-| visual-design | 색상, 타이포, 스페이싱, 시각적 계층이 중요할 때        | 비주얼 디자이너  |
-| technical     | 성능, 보안, 아키텍처, 비기능 요구사항이 중요할 때      | 테크 리드        |
-
-planning에서는 Mate가 작업 성격에 맞는 롤을 최소 2개 동적으로 선택한다.
-다른 phase에서는 호출하는 에이전트가 필요한 롤을 선택해 호출한다. (병렬 호출 가능)
+- role 의미와 선택 기준의 상세는 `.github/agents/coord-roles/_index.md`가 owner다.
+- planning에서는 Mate가 작업 성격에 맞는 role을 최소 2개 동적으로 선택한다.
+- 다른 phase에서는 현재 uncertainty나 drift에 직접 관련된 role만 좁게 선택한다. (병렬 호출 가능)
 
 ### Commander
 
-- 역할: Fleet Mode execution orchestrator
+- 역할: execution orchestrator
 - 왜 필요한가: coding worker와 orchestration ownership을 분리해 split, merge, review, tail 판단을 더 안정적으로 수행한다.
-- caller가 강조할 입력: approved plan, implementation strategy, work breakdown, verification contract, escalation policy
-- 기대 결과: Execution verdict, Orchestration summary, Worker results, Reviewer outcomes, Coordinator review feedback (if any), Tail actions
+- caller가 강조할 입력: `implementation_handoff_packet`의 shared core, `SCOPE`, `EXECUTION_PLAN`
+- 기대 결과: Status, Work summary, Verification, Open items, Next step
 
 ### Deep Execution Agent
 
-- 역할: Rush Mode primary implementer 또는 Fleet worker
-- 왜 필요한가: approved scope 안에서 continuity를 유지하며 구현과 verification을 끝까지 밀어붙인다.
-- caller가 강조할 입력: execution mode, assigned scope, verification contract, open questions, escalation policy
-- 기대 결과: Status, Changes made, Verification, Reviewer outcomes, Coordinator review feedback (if any), Need from Commander, Coordinator, or main agent
+- 역할: Commander-directed implementation worker
+- 왜 필요한가: approved scope 안에서 focused delegated execution과 verification을 안정적으로 수행한다.
+- caller가 강조할 입력: `implementation_handoff_packet`의 shared core, `SCOPE`, `EXECUTION_PLAN`
+- 기대 결과: Status, Work summary, Verification, Open items, Next step
 
 ### Reviewer
 
 - 역할: broad quality gate reviewer
 - 왜 필요한가: correctness, regression risk, security, design consistency, product impact를 구현 후 단계에서 독립적으로 확인한다.
-- caller가 강조할 입력: changed surface, validation focus, available evidence
-- 기대 결과: Verdict, Validation evidence, Code and security review, Design and product review, Residual risks, Release recommendation, Follow-up needed
-
-### Git Master
-
-- 역할: git tail specialist
-- 왜 필요한가: validated change를 GitHub Flow, commit convention, gh workflow 기준에 맞게 정리해 git 실수를 줄인다.
-- caller가 강조할 입력: goal, current repo state, branch or PR constraints, deliverable
-- 기대 결과: branch or commit or PR result, verification summary, follow-up needed for conflicts or failures
-
-### Memory Synthesizer
-
-- 역할: memory tail specialist
-- 왜 필요한가: durable signal만 personal 또는 project memory에 남겨 future task 품질을 높이고 memory pollution을 줄인다.
-- caller가 강조할 입력: candidate items, save target intent, why these signals seem durable
-- 기대 결과: saved items summary, skipped items summary, chosen scope and rationale
+- caller가 강조할 입력: `TASK_TYPE=broad-review`, shared core, `CONTEXT` 안의 changed surface, validation focus, available evidence
+- 기대 결과: Verdict, Findings, Evidence, Risks, Next step
 
 ## 병렬 위임 규칙
 
