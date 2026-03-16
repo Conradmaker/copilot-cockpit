@@ -119,8 +119,9 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 | 상태 | 색상 방향 |
 | --- | --- |
 | Default | 기본색 |
-| Hover | 기본색보다 약간 더 밝게 |
-| Active/Press | 기본색보다 약간 더 어둡게 |
+| Hover (filled/accent 요소) | 기본색보다 한 단계 **더 어둥게** |
+| Hover (ghost/outline/subtle 요소) | 배경에 살짝 틴트 추가 또는 약간 **더 밝게** |
+| Active/Press | 기본색보다 한 단계 더 어둥게 |
 | Focus | 포커스 링(outline)으로 표시 |
 | Disabled | 채도를 낮춘 회색 계열 |
 

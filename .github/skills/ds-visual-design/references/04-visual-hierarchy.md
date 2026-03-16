@@ -50,8 +50,9 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 | 상태 | 색상 변화 | 설명 |
 | --- | --- | --- |
 | Default | 기본색 | 안정 상태 |
-| Hover | 약간 더 밝게 | 마우스 올렸을 때 |
-| Active/Press | 약간 더 어둡게 | 클릭 중 |
+| Hover (filled/accent) | 한 단계 **더 어둥게** | 배경색이 채워진 버튼, 강조색 요소 |
+| Hover (ghost/outline/subtle) | 배경 틴트 추가 또는 약간 **더 밝게** | 테두리/텍스트만 있는 버튼 |
+| Active/Press | 한 단계 더 어둥게 | 클릭 중 |
 | Focus | 포커스 링(outline) | 키보드 포커스 |
 | Disabled | 채도 낮춘 회색 | 사용 불가 |
 
