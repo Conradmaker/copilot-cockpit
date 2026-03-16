@@ -5,6 +5,16 @@
       "source": "referodesign/refero_skill",
       "sourceType": "github",
       "computedHash": "e65c46ee932c4d4a718f743b1c845b4e6b981ec71239e7ca2119ed7bea3a690a"
+    },
+    "tanstack-query-best-practices": {
+      "source": "deckardger/tanstack-agent-skills",
+      "sourceType": "github",
+      "computedHash": "21d2e8b7468a81d772b6527ad8ca178cc2f3f08af777bb9061333013ee88a0c9"
+    },
+    "zustand": {
+      "source": "vercel-labs/json-render",
+      "sourceType": "github",
+      "computedHash": "41cb7e8b24638b78524e9b71a3fcd6f54a672009526b1643920a258f3baccb32"
     }
   }
 }
