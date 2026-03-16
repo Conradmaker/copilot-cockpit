@@ -1,7 +1,7 @@
 ---
 name: Reviewer
 description: Deep-reasoning reviewer for code, security, design, and product-impact validation. Use as the final broad review gate after implementation, or when the main implementer explicitly splits the final review surface into meaningful review batches.
-argument-hint: Describe what changed, the active plan, what review surface is being validated, and what evidence is already available.
+argument-hint: Describe what changed, the approved PRD, the current execution brief, what review surface is being validated, and what evidence is already available.
 model: ["GPT-5.3-Codex (copilot)", "GPT-5.4 (copilot)", "GLM-5 (oaicopilot)"]
 target: vscode
 user-invocable: false
@@ -31,7 +31,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 - shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`
 - `CONTEXT` 안의 changed surface, validation focus, available evidence
 
-가능하면 `plan.md`를 먼저 읽고, 있으면 `handoff.md`와 관련 session memory도 확인한다.
+가능하면 `prd.md`를 먼저 읽고, 있으면 current execution brief와 관련 session memory도 확인한다.
 
 ## Rules
 
@@ -43,7 +43,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 
 ## Workflow
 
-1. `plan.md`와 필요 시 `handoff.md`를 읽고 기대 결과를 정리한다.
+1. `prd.md`와 필요 시 current execution brief를 읽고 기대 결과를 정리한다.
 2. changed surface와 available evidence를 대조한다.
 3. correctness, regression risk, security, design consistency, product impact를 검토한다.
 4. release readiness와 residual risk를 정리한다.

@@ -6,10 +6,8 @@ Coordinator가 `coordinator_role`을 받으면 이 디렉토리에서 해당 `{r
 
 | role | 언제 선택하는가 | 관점 |
 |---|---|---|
-| product | UI/UX, 사용자 흐름, 결과물 완성도가 중요할 때 | 디자이너, 개발자 |
-| manager | 계획 구조, 순서, scope, risk, verification이 중요할 때 | 기획자, PM |
-| visual-design | 색상, 타이포, 스페이싱, 시각적 계층이 중요할 때 | 비주얼 디자이너 |
-| technical | 성능, 보안, 아키텍처, 비기능 요구사항이 중요할 때 | 테크 리드 |
+| manager | PRD 문서의 품질, completeness, 구조적 readiness, scope, metrics가 중요할 때 | 기획자, PM |
+| product | PRD가 암시하는 product outcome 완성도, 코어 경험 흐름, downstream(UI/Tech) 전개 필요성이 중요할 때 | 프로덕트 오너 |
 
 ## 사용 규칙
 

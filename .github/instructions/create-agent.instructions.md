@@ -16,7 +16,7 @@ applyTo: "**/*.agent.md"
 - Prefer retrieval over pre-training.
 - 좋은 agent file은 많이 설명하는 문서가 아니라, 언제 호출되고 어떻게 행동하며 어떤 결과를 돌려주는지가 분명한 문서다.
 - process detail 전체를 agent file에 다시 쓰지 않는다.
-- harness-wide workflow는 [product-workflow.instructions.md](product-workflow.instructions.md)에 두고, caller-side delegation contract는 [subagent-invocation.instructions.md](subagent-invocation.instructions.md)에 둔다.
+- always-on workflow core는 [product-workflow.instructions.md](product-workflow.instructions.md)에 두고, 장문의 workflow playbook은 [../docs/workflow/WORKFLOW-PLAYBOOK.md](../docs/workflow/WORKFLOW-PLAYBOOK.md)에 두며, caller-side delegation contract는 [subagent-invocation.instructions.md](subagent-invocation.instructions.md)에 둔다.
 - agent file은 receiver-side local workflow와 cautions를 맡는다.
 
 ## 언어 규칙
@@ -225,6 +225,13 @@ workflow playbook에 거의 모든 process detail을 옮기더라도, 각 agent 
 - 어떤 형식으로 결과를 내야 하는지
 
 이 다섯 가지가 없으면 agent는 global rule은 알아도 자기 역할을 흐리기 쉽다.
+
+## template와 style guide 분리 원칙
+
+- 긴 workflow narrative는 `.github/docs/workflow/` 아래 long-form 문서로 분리한다.
+- plan template, report rubric, style guide처럼 구조화된 산출물 양식은 `.github/docs/artifacts/` 아래 별도 파일로 둘 수 있다.
+- agent file에는 언제 그 문서를 읽는지, 어떤 heading이나 rule이 mandatory인지, local exception이 무엇인지 정도만 남긴다.
+- 짧고 거의 변하지 않는 agent 고유 규칙은 굳이 분리하지 않는다.
 
 ## 자주 발생하는 실수
 

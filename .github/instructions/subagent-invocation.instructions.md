@@ -9,13 +9,7 @@ applyTo: "**"
 메인 에이전트나 orchestrator가 서브에이전트를 고를 때 왜 그 역할이 필요한지, 어떤 packet을 써야 하는지, 어떤 evidence gap에서 호출 가치가 생기는지를 한곳에 정리한다.
 
 이 문서는 phase detail을 모두 설명하는 문서가 아니다.
-planning, execution, review, git, memory tail의 상세 흐름은 [product-workflow.instructions.md](product-workflow.instructions.md)를 따른다.
-
-## 적용 범위
-
-- `.github/agents/` 아래 일반 서브에이전트 호출 판단에 적용한다.
-- `Explore`, `Librarian`, `Coordinator`, `Commander`, `Deep Execution Agent`, `Reviewer`를 다룬다.
-- `.github/skills/skill-creator/agents/*` 같은 스킬 전용 에이전트는 해당 스킬 문서가 우선한다.
+always-on workflow guardrail과 loading rule은 [product-workflow.instructions.md](product-workflow.instructions.md)를 따르고, planning, execution, review, git, memory tail의 장문 설명은 [../docs/workflow/WORKFLOW-PLAYBOOK.md](../docs/workflow/WORKFLOW-PLAYBOOK.md)를 필요할 때 읽는다.
 
 ## 핵심 원칙
 
@@ -33,7 +27,7 @@ planning, execution, review, git, memory tail의 상세 흐름은 [product-workf
 
 canonical packet family는 두 개만 둔다.
 
-- `task_packet`: Explore, Librarian, Coordinator, Reviewer용 공통 packet
+- `task_packet`: Explore, Librarian, Designer, Architector, Coordinator, Reviewer용 공통 packet
 - `implementation_handoff_packet`: Commander, Deep Execution Agent용 execution handoff packet
 
 ### task_packet
@@ -42,14 +36,14 @@ canonical packet family는 두 개만 둔다.
 
 <task_packet>
 	<PHASE>{planning|execution|review|git|memory}</PHASE>
-	<TASK_TYPE>{explore|research|role-review|broad-review}</TASK_TYPE>
+	<TASK_TYPE>{explore|research|design-definition|technical-definition|role-review|broad-review}</TASK_TYPE>
 	<TASK>{single atomic goal}</TASK>
 	<EXPECTED_OUTCOME>{concrete deliverables and success criteria}</EXPECTED_OUTCOME>
 	<MUST_DO>{non-negotiable requirements}</MUST_DO>
 	<MUST_NOT_DO>{forbidden actions and safety rails}</MUST_NOT_DO>
 	<CONTEXT>{relevant background, patterns, rationale, and constraints}</CONTEXT>
 	<ARTIFACTS>
-		<ACTIVE_PLAN_REF>/memories/session/plan.md</ACTIVE_PLAN_REF>
+		<ACTIVE_PLAN_REF>/memories/session/prd.md</ACTIVE_PLAN_REF>
 		<HANDOFF_REF>/memories/session/handoff.md</HANDOFF_REF>
 		<REFERENCES_REF>/memories/session/references.md</REFERENCES_REF>
 	</ARTIFACTS>
@@ -57,6 +51,8 @@ canonical packet family는 두 개만 둔다.
 	<SEARCH_STRATEGY>{optional retrieval order, narrowing, and stopping rules for Explore}</SEARCH_STRATEGY>
 </task_packet>
 ```
+
+`ACTIVE_PLAN_REF`라는 field name은 legacy 이름이지만, current planning workflow에서는 planning source of truth인 `prd.md`를 가리키는 것으로 해석한다.
 
 이 packet은 비실행 호출의 공통 언어다.
 `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`가 shared core이고, `PHASE`와 `TASK_TYPE`은 최소 라우팅 메타다.
@@ -73,7 +69,7 @@ receiver-side field interpretation은 각 `.agent.md`에서 정의한다.
 
 ### implementation_handoff_packet
 
-Mate가 Fleet Mode handoff로 execution에 넘길 때 쓴다.
+downstream execution-planning owner가 Fleet Mode handoff로 execution에 넘길 때 쓴다.
 
 ```xml
 <implementation_handoff_packet>
@@ -83,7 +79,7 @@ Mate가 Fleet Mode handoff로 execution에 넘길 때 쓴다.
 	<MUST_NOT_DO>{forbidden behavior such as scope expansion or skipped verification}</MUST_NOT_DO>
 	<CONTEXT>{why this task exists, user intent, context and rationale}</CONTEXT>
 	<ARTIFACTS>
-		<ACTIVE_PLAN_REF>/memories/session/plan.md</ACTIVE_PLAN_REF>
+		<ACTIVE_PLAN_REF>/memories/session/prd.md</ACTIVE_PLAN_REF>
 		<REFERENCES_REF>/memories/session/references.md</REFERENCES_REF>
 	</ARTIFACTS>
 	<SCOPE>
@@ -166,8 +162,8 @@ packet field의 세부 해석과 local workflow는 각 `.agent.md`가 owner다.
 ### Coordinator
 
 - 역할: planning council 겸 롤 기반 리뷰 카운슬
-- 왜 필요한가: plan fidelity, verification gap, decomposition risk를 독립적으로 점검해 planning drift를 줄인다. execution에서는 구현 방향에 대한 확신이 흔들리거나 drift가 의심될 때 롤 관점의 리뷰를 제공한다. coord-roles/{role}.md를 동적 로드해 role-specific 검토를 수행한다.
-- caller가 강조할 입력: `TASK_TYPE=role-review`, shared core, `CONTEXT` 안의 role, current plan or implementation state, decision focus, known risks, unresolved items
+- 왜 필요한가: PRD clarity, scope discipline, requirement quality, downstream ambiguity를 독립적으로 점검해 planning drift를 줄인다. execution에서는 구현 방향에 대한 확신이 흔들리거나 drift가 의심될 때 롤 관점의 리뷰를 제공한다. coord-roles/{role}.md를 동적 로드해 role-specific 검토를 수행한다.
+- caller가 강조할 입력: `TASK_TYPE=role-review`, shared core, `CONTEXT` 안의 role, current PRD or implementation state, decision focus, known risks, unresolved items
 - 기대 결과: Verdict, Findings, Evidence, Risks, Next step
 
 #### Coordinator 롤 선택 기준
@@ -176,12 +172,20 @@ packet field의 세부 해석과 local workflow는 각 `.agent.md`가 owner다.
 - planning에서는 Mate가 작업 성격에 맞는 role을 최소 2개 동적으로 선택한다.
 - 다른 phase에서는 현재 uncertainty나 drift에 직접 관련된 role만 좁게 선택한다. (병렬 호출 가능)
 
-### Commander
+### Designer
 
-- 역할: execution orchestrator
-- 왜 필요한가: coding worker와 orchestration ownership을 분리해 split, merge, review, tail 판단을 더 안정적으로 수행한다.
-- caller가 강조할 입력: `implementation_handoff_packet`의 shared core, `SCOPE`, `EXECUTION_PLAN`
-- 기대 결과: Status, Work summary, Verification, Open items, Next step
+- 역할: approved PRD를 `design.md`로 확장하는 downstream UI+UX design owner
+- 왜 필요한가: PRD를 다시 쓰지 않고, 기존 톤앤매너와 레퍼런스를 바탕으로 visual, UX, interaction 결정을 execution 이전 문서로 구체화한다.
+- caller가 강조할 입력: `TASK_TYPE=design-definition`, shared core, `CONTEXT` 안의 platform, existing tone evidence, current UI surface, current `design.md` path if present, desired depth, reference direction, user gate 상태
+- 기대 결과: Status, Work summary, Evidence, Open items
+
+### Architector
+
+- 역할: approved PRD를 `technical.md`로 확장하는 downstream technical design owner
+- 왜 필요한가: PRD를 다시 쓰지 않고, architecture, integration, stack choice, library search, technical constraints, NFR mapping을 execution 이전 문서로 구체화한다.
+- caller가 강조할 입력: `TASK_TYPE=technical-definition`, shared core, `CONTEXT` 안의 current system baseline, technical seed, integration constraints, execution pressure, user gate 상태
+- caller는 local precedent가 충분한지 먼저 적고, 부족하면 stack/library comparison과 evidence tier 사용을 명시한다.
+- 기대 결과: Status, Work summary, Evidence, Open items
 
 ### Deep Execution Agent
 
