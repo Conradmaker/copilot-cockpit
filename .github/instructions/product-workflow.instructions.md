@@ -103,12 +103,20 @@ receiver-local workflow는 각 `.agent.md`가, caller-side packet contract는 `.
 - `/memories/session/design.md`
 - `/memories/session/technical.md`
 - `/memories/session/handoff.md` 또는 equivalent execution brief
+- `/memories/session/execution-plan.md`
+
+### `/memories/session/execution-plan.md`
+
+- execution phase에서 Commander가 만드는 dependency-aware execution plan이다.
+- template은 `.github/docs/artifacts/EXECUTION-PLAN-TEMPLATE.md`를 따른다.
+- session 동안 task 상태의 source of truth로 유지하며, rework 시 갱신한다.
+- execution 전용 artifact이므로 planning phase에서는 만들지 않는다.
 
 ### Reading Order
 
 - planning 또는 planning validation agent는 먼저 active `prd.md`를 읽는다.
 - downstream definition agent는 `prd.md`를 먼저 읽고 relevant downstream artifact를 그 다음에 읽는다.
-- execution agent는 current execution brief가 있으면 먼저 읽고, 그 다음에 `prd.md`와 relevant downstream artifact를 읽는다.
+- execution agent는 current execution brief가 있으면 먼저 읽고, current `execution-plan.md`가 있으면 그 다음에 읽는다. 그 뒤 `prd.md`와 relevant downstream artifact를 읽는다.
 - artifact 사이에 충돌이 있으면 충돌 사실부터 명시한다.
 
 ## Escalation Summary

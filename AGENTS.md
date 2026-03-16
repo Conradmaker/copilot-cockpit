@@ -46,6 +46,7 @@ agent/skill authoring rule은 [.github/instructions/create-agent.instructions.md
 - [.github/docs/artifacts/PRD-TEMPLATE.md](.github/docs/artifacts/PRD-TEMPLATE.md): Mate PRD artifact의 구조와 rubric을 정의한다.
 - [.github/docs/artifacts/DESIGN-TEMPLATE.md](.github/docs/artifacts/DESIGN-TEMPLATE.md): Designer design artifact의 구조와 design-to-dev bridge 기준을 정의한다.
 - [.github/docs/artifacts/TECHNICAL-TEMPLATE.md](.github/docs/artifacts/TECHNICAL-TEMPLATE.md): Architector technical artifact의 구조와 architecture-to-execution bridge 기준을 정의한다.
+- [.github/docs/artifacts/EXECUTION-PLAN-TEMPLATE.md](.github/docs/artifacts/EXECUTION-PLAN-TEMPLATE.md): Commander execution plan artifact의 구조와 rubric을 정의한다.
 - [.github/docs/AGENT-SYSTEM-GUIDE.md](.github/docs/AGENT-SYSTEM-GUIDE.md): `.github` surface ownership과 alignment rule을 정리한다.
 
 ### Agents
@@ -55,7 +56,7 @@ agent/skill authoring rule은 [.github/instructions/create-agent.instructions.md
 - [.github/agents/Architector.agent.md](.github/agents/Architector.agent.md): approved PRD 뒤 user-gated downstream technical work를 맡아 `technical.md`를 만든다.
 - [.github/agents/Explore.agent.md](.github/agents/Explore.agent.md), [.github/agents/Librarian.agent.md](.github/agents/Librarian.agent.md): local evidence와 external evidence를 분리해 조회 품질을 올린다.
 - [.github/agents/Coordinator.agent.md](.github/agents/Coordinator.agent.md): role-based planning/execution review를 제공한다.
-- [.github/agents/Commander.agent.md](.github/agents/Commander.agent.md), [.github/agents/Deep-execution.agent.md](.github/agents/Deep-execution.agent.md): execution orchestration과 delegated implementation을 분리한다.
+- [.github/agents/Commander.agent.md](.github/agents/Commander.agent.md), [.github/agents/Deep-execution.agent.md](.github/agents/Deep-execution.agent.md): execution plan 수립, dependency-aware orchestration, todo 기반 진행 추적, delegated implementation을 분리한다.
 - [.github/agents/Reviewer.agent.md](.github/agents/Reviewer.agent.md): broad quality gate를 맡는다.
 
 ### Skills

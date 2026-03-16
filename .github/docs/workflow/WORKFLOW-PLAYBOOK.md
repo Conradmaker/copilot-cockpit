@@ -66,7 +66,7 @@
 
 - planning 또는 planning validation agent는 먼저 active `prd.md`를 읽는다.
 - downstream definition agent는 `prd.md`를 먼저 읽고 relevant downstream artifact를 그 다음에 읽는다.
-- execution agent는 current execution brief가 있으면 먼저 읽고, 그 다음에 `prd.md`와 relevant downstream artifact를 읽는다.
+- execution agent는 current execution brief가 있으면 먼저 읽고, current `execution-plan.md`가 있으면 그 다음에 읽는다. 그 뒤 `prd.md`와 relevant downstream artifact를 읽는다.
 - PRD, downstream artifact, execution brief 사이에 충돌이 있으면 충돌 사실부터 명시한다.
 
 ## Planning Phase
@@ -222,14 +222,20 @@ Approved execution은 Fleet Mode 경로를 따른다.
 
 ### Workflow
 
-1. Commander가 current execution brief를 읽고, 그 다음 approved PRD와 relevant downstream artifacts를 읽어 execution strategy를 확정한다.
-2. 필요하면 Explore 또는 Librarian로 context augmentation을 한다.
-3. dependency, file overlap, interface clarity, verification cost를 기준으로 work unit을 split 또는 merge한다.
-4. Deep Execution Agent가 coding work를 수행한다.
-5. 구현 방향에 대한 확신이 흔들리거나 drift가 의심되면 Coordinator에 role-based review를 요청할 수 있다.
-6. implementation 완료 후 Reviewer broad review를 연다.
-7. review failure면 focused rework를 하고 review를 다시 돌린다.
-8. review pass 뒤 Git Tail 또는 Memory Tail 필요 여부를 판단한다.
+1. Commander가 current execution brief를 읽고, 그 다음 approved PRD와 relevant downstream artifacts를 읽어 execution context를 확보한다.
+2. 독립적인 서브시스템이 여러 개면 별도 plan으로 분리할지 scope check를 한다.
+3. 필요하면 Explore 또는 Librarian로 context augmentation을 한다.
+4. 영향받는 파일과 책임을 file structure map으로 정리한다.
+5. `.github/docs/artifacts/EXECUTION-PLAN-TEMPLATE.md`를 따라 dependency-aware execution plan을 수립하고 `/memories/session/execution-plan.md`에 저장한다. plan의 각 task를 todo 항목으로 생성한다.
+6. user에게 plan verification 방식을 물어본다 (Coordinator execution role review / 자체 검증 / 건너뛰기).
+7. gotcha/risk를 식별하고 필요하면 plan을 갱신한다.
+8. dependency wave 기반으로 Deep Execution Agent에게 coding work를 배분한다. todo를 `in-progress`로 전환한다.
+9. worker 결과를 합성하고 todo와 execution-plan.md를 갱신한다.
+10. 구현 방향에 대한 확신이 흔들리거나 drift가 의심되면 Coordinator에 role-based review를 요청할 수 있다.
+11. implementation 완료 후 Reviewer broad review를 연다.
+12. review failure면 targeted rework를 하고 review를 다시 돌린다.
+13. review pass 뒤 Git Tail 또는 Memory Tail 필요 여부를 판단한다.
+14. orchestration summary와 todo 기반 진행률, 남은 리스크를 합성해 반환한다.
 
 ### Guardrails
 
@@ -248,6 +254,7 @@ Approved execution은 Fleet Mode 경로를 따른다.
 
 - implementation이 execution brief나 approved PRD와 달라진다.
 - milestone completion claim에 verification이 없다.
+- execution plan의 task 상태와 실제 구현 결과가 일치하지 않는다.
 - split strategy가 context fragmentation을 만든다.
 
 ## Review Phase
