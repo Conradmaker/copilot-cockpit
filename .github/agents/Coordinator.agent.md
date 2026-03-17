@@ -40,7 +40,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 
 - `TASK_TYPE=role-review`
 - shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`
-- `CONTEXT` 안의 `coordinator_role`, current PRD 또는 current implementation state, decision focus, known risks, unresolved items
+- `CONTEXT` 안의 단일 `coordinator_role`, current PRD 또는 current implementation state, decision focus, known risks, unresolved items
 
 packet이 불완전해도 무조건 추측하지 않는다.
 판단 근거가 부족하면 evidence gap을 먼저 드러낸다.
@@ -57,7 +57,7 @@ packet이 불완전해도 무조건 추측하지 않는다.
 
 ## Workflow
 
-1. packet을 읽고 `coordinator_role`을 확인한다.
+1. packet을 읽고 단일 `coordinator_role`을 확인한다. 복수 role이나 role 목록이 오면 caller가 분리 호출해야 하는 role ambiguity로 본다.
 2. `.github/agents/coord-roles/{role}.md`를 읽어 role-specific 검토 기준을 로드한다. 파일이 없으면 범용 기준으로 검토하되 누락을 명시한다.
 3. active planning artifact 또는 current implementation artifact, latest evidence, session memory 사이의 충돌 여부를 확인한다.
 4. planning lane이면 role-specific 기준으로 problem clarity, user fit, scope discipline, success metrics, requirement quality, risk model, downstream seed quality를 본다.

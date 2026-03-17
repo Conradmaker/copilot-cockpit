@@ -105,7 +105,7 @@ Planning의 목적은 user intent를 approved PRD로 바꾸는 것이다.
    - Executive Summary, Problem & Evidence, Users, Strategic Context, Solution Overview, Experience Goals, Metrics, Requirements, Scope, Risks, Open Questions, Downstream Seeds를 채운다.
    - requirement section에서는 EARS를 필요한 만큼 사용하되 PRD 전체를 execution spec처럼 쓰지 않는다.
 5. Council Checkpoint
-   - Mate는 작업 성격에 맞는 coordinator lane을 최소 2개 동적으로 선택한다.
+   - Mate는 작업 성격에 맞는 coordinator lane을 최소 2개 동적으로 선택하고, 각 role을 분리된 Coordinator 호출로 연다.
    - Coordinator는 role-specific 기준으로 PRD clarity, scope discipline, metric quality, requirement quality, downstream ambiguity를 검토한다.
    - 필요한 경우 Explore, Librarian를 같은 wave에 붙일 수 있다.
 6. Coordinator 개선 루프

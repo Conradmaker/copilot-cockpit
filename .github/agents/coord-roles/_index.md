@@ -1,6 +1,6 @@
 # Coordinator Role Index
 
-Coordinator가 `coordinator_role`을 받으면 이 디렉토리에서 해당 `{role}.md`를 로드한다.
+Coordinator가 단일 `coordinator_role`을 받으면 이 디렉토리에서 해당 `{role}.md`를 로드한다.
 
 ## Lane 활성화 기준
 
@@ -12,6 +12,6 @@ Coordinator가 `coordinator_role`을 받으면 이 디렉토리에서 해당 `{r
 
 ## 사용 규칙
 
-- Mate는 작업 성격에 맞는 role을 최소 2개 동적으로 선택한다.
+- Mate는 작업 성격에 맞는 role을 최소 2개 동적으로 선택하고, 각 role을 별도 Coordinator lane으로 호출한다.
 - 파일이 없는 role이 요청되면 범용 기준으로 검토하되 누락을 명시한다.
 - 새 role이 필요하면 이 디렉토리에 `{role}.md`를 추가한다.

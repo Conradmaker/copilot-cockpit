@@ -163,13 +163,13 @@ packet field의 세부 해석과 local workflow는 각 `.agent.md`가 owner다.
 
 - 역할: planning council 겸 롤 기반 리뷰 카운슬
 - 왜 필요한가: PRD clarity, scope discipline, requirement quality, downstream ambiguity를 독립적으로 점검해 planning drift를 줄인다. execution에서는 구현 방향에 대한 확신이 흔들리거나 drift가 의심될 때 롤 관점의 리뷰를 제공한다. coord-roles/{role}.md를 동적 로드해 role-specific 검토를 수행한다.
-- caller가 강조할 입력: `TASK_TYPE=role-review`, shared core, `CONTEXT` 안의 role, current PRD or implementation state, decision focus, known risks, unresolved items
+- caller가 강조할 입력: `TASK_TYPE=role-review`, shared core, `CONTEXT` 안의 단일 `coordinator_role`, current PRD or implementation state, decision focus, known risks, unresolved items
 - 기대 결과: Verdict, Findings, Evidence, Risks, Next step
 
 #### Coordinator 롤 선택 기준
 
 - role 의미와 선택 기준의 상세는 `.github/agents/coord-roles/_index.md`가 owner다.
-- planning에서는 Mate가 작업 성격에 맞는 role을 최소 2개 동적으로 선택한다.
+- planning에서는 Mate가 작업 성격에 맞는 role을 최소 2개 동적으로 선택하고, 각 role마다 별도 Coordinator 호출을 연다.
 - 다른 phase에서는 현재 uncertainty나 drift에 직접 관련된 role만 좁게 선택한다. (병렬 호출 가능)
 
 ### Designer
