@@ -1,6 +1,6 @@
 ---
 name: memory-synthesizer
-description: Synthesizes durable user preferences and repository facts into the correct memory scope while avoiding memory pollution. Use this skill after validated work when you need to decide whether something should be saved to persistent memory, repo memory, or skipped. Always consult this skill before writing to memory after a completed task, even if the user only says "remember this", "save this", or the session surfaced a useful project convention. Do not use this skill for temporary scratch notes, generic file creation, or one-off session bookkeeping; use normal memory tools or file-creator for those. Triggers on: memory tail, remember this, save to memory, durable signal, user preference, project fact, repo memory, personal memory, memory pollution, 기억해, 메모리에 저장, 사용자 선호 저장, 프로젝트 사실 저장, 메모리 테일.
+description: Synthesizes durable user preferences and repository facts into the correct memory scope while avoiding memory pollution. Use this skill after validated work when you need to decide whether something should be saved to persistent memory, repo memory, or skipped. Always consult this skill before writing to memory after a completed task, even if the user only says "remember this", "save this", or the session surfaced a useful project convention. Do not use this skill for temporary scratch notes, generic file creation, or one-off session bookkeeping; use normal memory tools . Triggers on: memory tail, remember this, save to memory, durable signal, user preference, project fact, repo memory, personal memory, memory pollution, 기억해, 메모리에 저장, 사용자 선호 저장, 프로젝트 사실 저장, 메모리 테일.
 ---
 
 # 메모리 합성 가이드
@@ -96,7 +96,6 @@ scope마다 포맷이 다르다. 특히 repo memory는 JSON 필드가 정확해�
 
 ## 범위
 
-- generic memory file 생성이나 템플릿 생성 → `file-creator`
 - 현재 task용 plan, references, scratch 정리 → session memory inline flow
 - 단순히 아무 메모나 많이 남기는 작업 → 이 skill의 범위가 아니다
 

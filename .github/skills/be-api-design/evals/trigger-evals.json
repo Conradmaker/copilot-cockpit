@@ -1,0 +1,34 @@
+[
+  {
+    "query": "B2B SaaS용 사용자 관리 API를 설계해야 해. 관리자 목록 조회, 사용자 초대, 사용자 비활성화, 감사 로그 조회가 필요하고, 외부 파트너도 쓰게 될 가능성이 있어. resource model, endpoint table, status code, pagination, error contract, OpenAPI 3.1 starter를 정리해줘.",
+    "should_trigger": true
+  },
+  {
+    "query": "지금 가입 API가 실패해도 항상 200을 주고 body에 success false만 넣고 있어. 이메일 중복, 토큰 만료, rate limit 초과를 어떤 status code와 에러 구조로 바꿔야 할지 리뷰해줘.",
+    "should_trigger": true
+  },
+  {
+    "query": "주문 목록 API를 리뷰해줘. 지금은 GET /getOrders?page=1 로 호출하고 응답 필드는 createdAt, created_at, orderStatus가 섞여 있어. 데이터가 커서 무한 스크롤도 붙일 예정인데 계약을 어떻게 정리하는 게 좋을까?",
+    "should_trigger": true
+  },
+  {
+    "query": "OpenAPI 3.1로 결제 API 초안을 만들고 싶은데, 인증 방식하고 429 응답, RFC 7807 오류 구조까지 같이 제안해줘.",
+    "should_trigger": true
+  },
+  {
+    "query": "Fastify에서 사용자 생성 라우트 구현 중인데 zod 검증과 service layer wiring 예제를 TypeScript 코드로만 보여줘. API 계약 리뷰보다는 서버 코드가 필요해.",
+    "should_trigger": false
+  },
+  {
+    "query": "Prisma schema를 어떻게 나누면 좋을지랑 인덱스 최적화 방향을 보고 싶어. REST 엔드포인트 설계는 아직 안 할 거야.",
+    "should_trigger": false
+  },
+  {
+    "query": "GraphQL schema에서 union type이랑 federation boundary를 어떻게 잡아야 할지 고민 중이야. resolver 설계도 같이 보고 싶어.",
+    "should_trigger": false
+  },
+  {
+    "query": "Next.js app router에서 회원가입 폼 submit handler를 고치고 싶어. 지금은 fetch만 하고 있는데 UI loading/error state 코드 예시를 보여줘.",
+    "should_trigger": false
+  }
+]
