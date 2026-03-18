@@ -6,7 +6,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ---
 
-## 1. 아이콘 통일
+## 1. 아이콘과 일러스트레이션 통일
 
 ### 하나의 라이브러리
 
@@ -14,15 +14,33 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - Lucide, Phosphor, Feather Icons 같은 **하나의 아이콘 동아리**에서 통일된 스타일로 사용한다
 - 아이콘은 선 두께(Stroke Width), 채우기 여부(Filled/Outlined), 디테일 수준이 모두 일치해야 한다
 
+### Active 상태의 논리적 전환 (Filled vs Outline)
+
+- 사이드바 메뉴나 네비게이션 탭에서 현재 위치(Active)를 나타낼 때, 단순히 색상만 바꾸는 것보다 아이콘의 스타일을 즉각적으로 대비시키는 것이 직관적이다
+- **기본 상태는 Outline(외곽선), Active 상태는 Filled(채워짐)**로 전환하는 규칙을 일관되게 적용한다
+
 ### 아이콘 크기와 라벨
 
 - 아이콘이 작을수록 디테일은 적어야 한다 — 심플할수록 좋다
 - 잘 알려지지 않은 아이콘에는 라벨이나 툴팁을 추가한다
 - 이모지는 노션 같은 특별한 브랜드 맥락이 아닌 이상 전문 아이콘으로 대체한다
 
+### 마스코트와 일러스트레이션 시스템
+
+- 마스코트나 3D 그래픽을 사용할 경우, 단발성 이미지로 소모하지 않고 브랜드 시스템으로 구축한다
+- 로그인 화면, 빈 화면(Empty State), 에러 발생, 성공 축하 등 **다양한 형태의 상태와 시나리오에 맞춰 변형(Variation)** 모델을 준비하여 화면 곳곳에서 활용한다
+
 ---
 
-## 2. Less is More: 절제의 원칙
+## 2. 의도된 대비와 핸드드로잉 포인트
+
+- 너무 딱딱한 직선과 정형화된 그리드 안에서는 때로 인간적인 위트가 필요하다
+- 이럴 때 펜으로 직접 그린 듯한 화살표, 별표, 동그라미(Hand-drawn marks)를 의도적인 대비 요소로 추가한다
+- 단일 셰이프로 만들어 중립색 혹은 액센트로만 배치하며 화면의 응집력을 해치지 않게 '포인트'로만 사용한다
+
+---
+
+## 3. Less is More: 절제의 원칙
 
 ### 화면을 다 채울 필요 없다
 
@@ -45,7 +63,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ---
 
-## 3. 일관성 확보
+## 4. 일관성 확보
 
 ### 변수(Variables) 사용
 
@@ -59,7 +77,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ---
 
-## 4. 반복과 변형
+## 5. 반복과 변형
 
 ### 첫 번째 디자인에 집착하지 않는다
 
@@ -82,7 +100,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ---
 
-## 5. 실제 화면에서 확인한다
+## 6. 실제 화면에서 확인한다
 
 - Figma에서 확대/축소된 상태로만 보면 폰트 크기나 간격을 착각하기 쉽다
 - 반드시 실제 데스크톱 브라우저나 모바일 앱(Figma Mirror 등)에서 확인한다
@@ -93,6 +111,8 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 ## 체크리스트
 
 - [ ] 아이콘이 하나의 라이브러리에서 통일된 스타일로 사용되는가
+- [ ] Active 상태 아이콘이 Filled vs Outline 규칙 등으로 명확히 대비되는가
+- [ ] 마스코트나 일러스트가 다양한 상태에 맞춰 시스템화되어 있는가
 - [ ] 불필요한 장식 요소가 남아있지 않은가
 - [ ] 색상, 간격, 곡률에 일관된 변수가 사용되는가
 - [ ] 디자인의 변형(반전, 교체)을 최소 1회 시도했는가

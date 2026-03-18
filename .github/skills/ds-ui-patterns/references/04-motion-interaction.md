@@ -57,7 +57,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 ### 유형
 
 - **타이핑 효과**: 단어가 하나씩 입력되듯 나타난다
-- **단어 변환**: 특정 단어가 시각적 요소(진행 바, 아이콘)로 변했다가 다시 글자로 돌아온다
+- **단어 변환 (Text Swapping)**: 특정 단어가 시각적 요소(진행 바, 아이콘)나 다른 단어로 변했다가 다시 글자로 돌아온다
 - **강조 애니메이션**: 핵심 단어에 밑줄이 그어지거나 하이라이트가 나타난다
 
 ### 주의
@@ -84,7 +84,20 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ---
 
-## 6. 키보드 단축키와 시각적 피드백
+## 6. 공간적 전환과 연속성 (Spatial & Continuity Transitions)
+
+단절 없이 화면과 화면, 상태와 상태를 부드럽게 잇는다.
+
+- **공간적 스와이프와 카드 스택 (Spatial Swipe & Card-stack)**: 층층이 쌓인 요소들을 넘길 때 평면이 아니라 깊이감(Z축)을 활용하여 이동 방향과 현재 위치를 인지시킨다.
+- 화면 가장자리의 카드나 썸네일은 살짝 기울고 작아지게 만들어 edge-spool이나 horizon처럼 다음 콘텐츠가 이어진다는 감각을 줄 수 있다.
+- **연속성 전환 (Continuity Transitions)**: 이전 화면의 요소가 다음 화면으로 형태를 유지하며 부드럽게 이동하여(Shared Element Transition) 작업 흐름의 끊어짐을 막는다.
+- 스와이프 방향과 다음 화면이 등장하는 방향이 어긋나지 않아야 연속성이 자연스럽다.
+- **유동적 온보딩 (Fluid Onboarding)**: 절차적 단계를 딱딱하게 나누지 않고, 상호작용이 물 흐르듯 이어지는 하나의 모션 안에서 온보딩을 완수하게 돕는다.
+- **무거운 몰핑 주의 (Performance Cautions for Heavy Morphing)**: 복잡한 SVG 변화나 DOM 구조가 크게 바뀌는 몰핑은 프레임 드롭(Jank)을 유발하므로 과도한 사용을 피하고 필수적인 맥락 연결에만 사용한다.
+
+---
+
+## 7. 키보드 단축키와 시각적 피드백
 
 ### 피드백의 필요성
 
@@ -98,7 +111,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ---
 
-## 7. 시각적 피드백 필수 체크포인트
+## 8. 시각적 피드백 필수 체크포인트
 
 사용자의 행동에 대해 시각적 피드백이 필요한 핵심 순간들:
 
@@ -119,5 +132,6 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - [ ] 모든 애니메이션이 목적(상태 변화, 주의 유도, 피드백)을 갖고 있는가
 - [ ] 정적 UI로도 같은 정보를 전달할 수 있는 불필요한 모션은 없는가
 - [ ] 사용자 인터랙션에 시각적 피드백이 빠짐없이 있는가
+- [ ] 카드 스택, continuity transition, heavy morphing이 모바일에서도 성능을 해치지 않는가
 - [ ] 패럴랙스 효과가 모바일에서도 자연스러운가
 - [ ] 텍스트 애니메이션이 절제되어 있는가 (페이지당 1~2곳)

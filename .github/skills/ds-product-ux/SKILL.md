@@ -1,13 +1,13 @@
 ---
 name: ds-product-ux
-description: "Product UX principles for UX writing, CTA labels, loading, feedback, confirmation, destructive actions, share and selection flows, navigation, motion, inclusive design, dark pattern prevention, product thinking, user intent design, all-states design, native experience patterns, common UX mistake prevention, and design practice attitude. Use this skill when designing or reviewing product-level user flows, button labels, error messages, empty states, onboarding prompts, loading states, confirmation dialogs, delete flows, share flows, selection flows, navigation behavior, motion guidelines, optimistic UI, progressive disclosure, checking for common UI/UX mistakes, or applying design practice mindset (moodboard, iteration, real device testing). Always consult this skill for UX decisions that affect what users read, expect, choose, recover from, or trust, even if the user only asked for copy polish or screen-level UX feedback. For visual design foundations (color, typography, spacing, hierarchy) use ds-visual-design. For UI layout patterns, dashboard design, SaaS structures use ds-ui-patterns. For implementation-level accessibility use fe-a11y. For React architecture use fe-react-patterns. Triggers on: UX writing, voice and tone, CTA copy, error message, empty state, loading UX, spinner, skeleton, confirmation dialog, delete flow, share flow, selection flow, navigation UX, motion guideline, dark pattern, inclusive writing, UX review, product thinking, user intent, all states, optimistic UI, progressive disclosure, native experience, UX mistake, design attitude, moodboard, iteration, real device testing, 제품 UX, UX 라이팅, 버튼 문구, 에러 문구, 빈 상태, 로딩, 스피너, 스켈레톤, 확인 모달, 삭제, 공유, 선택, 내비게이션, 인터랙션, 모션, 다크패턴, 프로덕트 사고, 사용자 의도, 모든 상태, 낙관적 UI, 점진적 공개, UX 실수, 디자인 태도, 무드보드, 반복, 실기기 검증."
+description: "Product UX principles for UX writing, CTA labels, loading, feedback, confirmation, destructive actions, share and selection flows, navigation, motion, tooltip timing, gesture UX, swipe confirmations, haptic feedback, hover reveal patterns, empty-state strategy, inclusive design, dark pattern prevention, product thinking, user intent design, all-states design, native experience patterns, common UX mistake prevention, and design practice attitude. Use this skill when designing or reviewing product-level user flows, button labels, error messages, empty states, onboarding prompts, loading states, confirmation dialogs, delete flows, share flows, selection flows, navigation behavior, tooltip behavior, shortcut discoverability, search expansion, gesture interactions, swipe-to-dismiss patterns, slide-to-confirm flows, motion guidelines, optimistic UI, progressive disclosure, or applying design practice mindset (moodboard, iteration, real device testing). Always consult this skill for UX decisions that affect what users read, expect, choose, recover from, or trust, even if the user only asked for copy polish or screen-level UX feedback. For visual design foundations (color, typography, spacing, hierarchy) use ds-visual-design. For UI layout patterns, dashboard design, SaaS structures use ds-ui-patterns. For implementation-level accessibility use fe-a11y. For React architecture use fe-react-patterns. Triggers on: UX writing, voice and tone, CTA copy, error message, empty state, loading UX, spinner, skeleton, tooltip, confirmation dialog, slide to confirm, swipe gesture, haptic, hover reveal, delete flow, share flow, selection flow, navigation UX, shortcut hint, search expansion, motion guideline, dark pattern, inclusive writing, UX review, product thinking, user intent, all states, optimistic UI, progressive disclosure, native experience, UX mistake, design attitude, moodboard, iteration, real device testing, 제품 UX, UX 라이팅, 버튼 문구, 에러 문구, 빈 상태, 로딩, 스피너, 스켈레톤, 툴팁, 확인 모달, 스와이프, 햅틱, 삭제, 공유, 선택, 내비게이션, 인터랙션, 모션, 다크패턴, 프로덕트 사고, 사용자 의도, 모든 상태, 낙관적 UI, 점진적 공개, UX 실수, 디자인 태도, 무드보드, 반복, 실기기 검증."
 ---
 
 # 제품 UX 원칙 (ds-product-ux)
 
 ## 목표
 
-사용자가 화면에서 읽고, 선택하고, 기다리고, 복구하는 모든 순간을 더 명확하고 예측 가능하게 설계한다. 이 스킬은 문구만 다듬는 용도가 아니라, CTA부터 로딩, 확인, 삭제, 공유, 선택, 피드백, 내비게이션, 모션, 접근성까지 제품 UX의 판단 기준을 통합해서 다룬다.
+사용자가 화면에서 읽고, 선택하고, 기다리고, 복구하는 모든 순간을 더 명확하고 예측 가능하게 설계한다. 이 스킬은 문구만 다듬는 용도가 아니라, CTA부터 로딩, 확인, 삭제, 공유, 선택, 피드백, 내비게이션, 모션, 툴팁, 제스처, 햅틱, 접근성까지 제품 UX의 판단 기준을 통합해서 다룬다.
 
 이 문서는 빠른 판단을 위한 요약 가이드다. 실제로 플로우를 설계하거나 문구를 쓰거나 UX를 리뷰할 때는 아래 reference 문서를 직접 읽고 상황에 맞는 기준과 예시를 확인한 뒤 적용한다.
 
@@ -85,6 +85,7 @@ description: "Product UX principles for UX writing, CTA labels, loading, feedbac
 
 - 먼저 실제 성능을 개선하고, 로더는 보조수단으로 쓴다
 - 로딩 시간과 콘텐츠 구조에 맞춰 spinner, skeleton, progress를 고른다
+- 피드백 채널은 행동의 중요도와 침습성에 맞춰 고른다
 - 성공과 실패 피드백은 사용자가 다음 행동을 정할 수 있게 해준다
 
 #### 빠른 판단 기준
@@ -100,6 +101,8 @@ description: "Product UX principles for UX writing, CTA labels, loading, feedbac
 좋은 모션은 원인과 결과를 보여주고 주의를 올바른 곳으로 이끈다. 구현 공수만 높이고 의미를 더하지 못하는 모션은 줄이는 편이 낫다.
 
 - 모션은 상태 변화, 전환, 강조, 몰입에만 쓴다
+- 눌림, 확장, 스와이프, 닫기 같은 상호작용에는 물리감 있는 반응과 문맥 연속성을 준다
+- 제스처는 발견 가능성을 위해 버튼, 라벨, 튜토리얼 같은 대안 경로와 함께 설계한다
 - 기기와 맥락에 맞는 상호작용을 설계한다
 - 반복되는 패턴은 토큰과 템플릿으로 시스템화한다
 
@@ -107,7 +110,9 @@ description: "Product UX principles for UX writing, CTA labels, loading, feedbac
 
 - 정적인 UI로도 같은 가치를 전달할 수 있다면 모션을 다시 검토한다
 - 모션이 있어도 무엇이 바뀌었는지 설명되지 않으면 실패한 모션으로 본다
+- swipe나 hover로만 드러나는 기능인데 학습 힌트나 대체 경로가 없으면 보완한다
 - 자동 재생, 자동 스크롤, 자동 사라짐에는 제어권을 같이 제공한다
+- 반복 입력과 완료 액션에 같은 강도의 피드백을 쓰고 있으면 무게감을 다시 나눈다
 
 → 상세: [references/04-interaction-motion.md](references/04-interaction-motion.md)
 
@@ -133,18 +138,18 @@ description: "Product UX principles for UX writing, CTA labels, loading, feedbac
 
 아래 문서는 “더 자세한 참고자료”가 아니라, 실제 제품 UX 결정을 내리기 전 직접 읽어야 하는 구현 가이드다. 작업 성격에 따라 필요한 reference를 먼저 읽고 판단한다.
 
-| 파일                                                                                 | 읽을 때                                                                                                                       |
-| ------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- |
-| [references/01-action-patterns.md](references/01-action-patterns.md)                 | CTA, 확인, 삭제, 공유, 선택, 내비게이션, 다크패턴 여부를 판단할 때                                                            |
-| [references/02-ux-writing.md](references/02-ux-writing.md)                           | 버튼 문구, 에러 메시지, 빈 상태, 안내 문구, 톤을 쓸 때                                                                        |
-| [references/03-loading-feedback.md](references/03-loading-feedback.md)               | spinner, skeleton, progress, toast, snackbar, 실패 안내를 결정할 때                                                           |
-| [references/04-interaction-motion.md](references/04-interaction-motion.md)           | 인터랙션과 모션의 역할, 기기별 상호작용, 모션 시스템화를 판단할 때                                                            |
-| [references/05-accessibility-inclusion.md](references/05-accessibility-inclusion.md) | 접근성, 포용성, 색상 대비, 큰 글씨, 제스처 대안, 입력/오류 흐름을 검토할 때                                                   |
-| [references/06-foundations-principles.md](references/06-foundations-principles.md)   | 상위 UX 원칙, 신뢰, 연속성, 브랜드 보이스, 핵심 과업 우선순위를 정리할 때                                                     |
-| [references/07-docs-index.md](references/07-docs-index.md)                           | retrieval 중심으로 관련 reference를 빠르게 찾을 때                                                                            |
-| [references/08-product-thinking.md](references/08-product-thinking.md)               | 사용자 의도 중심 설계, 모든 상태 디자인, 흐름 구축, 디자인 시스템, 디자인 실무 태도(참고 수집, 반복, 실기기 검증)를 판단할 때 |
-| [references/09-native-experience.md](references/09-native-experience.md)             | 네이티브 경험, 낙관적 UI, 점진적 공개, 다크/라이트 모드 설계할 때                                                             |
-| [references/10-common-ux-mistakes.md](references/10-common-ux-mistakes.md)           | 흔한 UI/UX 실수 점검, 불필요한 요소 제거, 피드백 누락 확인할 때                                                               |
+| 파일                                                                                 | 읽을 때                                                                                                                |
+| ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
+| [references/01-action-patterns.md](references/01-action-patterns.md)                 | CTA, 확인, 삭제, 공유, 선택, 내비게이션, 다크패턴 여부를 판단할 때                                                     |
+| [references/02-ux-writing.md](references/02-ux-writing.md)                           | 버튼 문구, 에러 메시지, 빈 상태, 안내 문구, 톤을 쓸 때                                                                 |
+| [references/03-loading-feedback.md](references/03-loading-feedback.md)               | spinner, skeleton, progress, toast, snackbar, haptic, 실패 안내와 피드백 강도를 결정할 때                              |
+| [references/04-interaction-motion.md](references/04-interaction-motion.md)           | 인터랙션과 모션의 역할, 지연형 툴팁, 단축키 학습, hover reveal, 검색 확장 같은 패턴을 판단할 때                        |
+| [references/05-accessibility-inclusion.md](references/05-accessibility-inclusion.md) | 접근성, 포용성, 색상 대비, 큰 글씨, 제스처 대안, 입력/오류 흐름을 검토할 때                                            |
+| [references/06-foundations-principles.md](references/06-foundations-principles.md)   | 상위 UX 원칙, 신뢰, 연속성, 브랜드 보이스, 핵심 과업 우선순위를 정리할 때                                              |
+| [references/07-docs-index.md](references/07-docs-index.md)                           | retrieval 중심으로 관련 reference를 빠르게 찾을 때                                                                     |
+| [references/08-product-thinking.md](references/08-product-thinking.md)               | 사용자 의도 중심 설계, 모든 상태 디자인, 빈 상태 일러스트 전략, 흐름 구축, 디자인 시스템, 디자인 실무 태도를 판단할 때 |
+| [references/09-native-experience.md](references/09-native-experience.md)             | 네이티브 경험, swipe-to-dismiss, slide-to-confirm, 낙관적 UI, 점진적 공개를 설계할 때                                  |
+| [references/10-common-ux-mistakes.md](references/10-common-ux-mistakes.md)           | 흔한 UI/UX 실수 점검, 불필요한 요소 제거, 피드백 누락 확인할 때                                                        |
 
 ### 추천 로드 순서
 
@@ -178,6 +183,7 @@ description: "Product UX principles for UX writing, CTA labels, loading, feedbac
 - 진입 CTA와 그 이유
 - 확인이 필요한지 여부
 - 다이얼로그 제목, 본문, 버튼 라벨
+- 오조작 비용이 큰 경우 slide-to-confirm 같은 승인 패턴이 필요한지 여부
 - 실행 후 피드백과 undo 또는 대체 경로
 - 연쇄 영향과 접근성 주의점
 

@@ -1,6 +1,6 @@
 ---
 name: ds-visual-design
-description: "Visual design foundations for color systems, typography, spacing, visual hierarchy, depth, shadows, and icons. Use this skill when choosing colors, building color palettes, setting up dark mode, defining spacing scales, selecting and pairing fonts, setting font size scales and line-height, creating visual hierarchy with weight and opacity, applying shadows and depth, choosing icons, or reviewing the visual quality of UI designs. Always consult this skill when making visual design decisions that affect how users perceive structure, emphasis, and brand, even if the user only asked to 'pick a color' or 'fix the spacing'. For product-level UX flows and copy use ds-product-ux. For layout patterns and section composition use ds-ui-patterns. For Tailwind CSS tokens and utilities use fe-tailwindcss. Triggers on: color system, color palette, 60-30-10, dark mode color, OKLCH, typography, font pairing, font size scale, golden ratio, line-height, letter-spacing, fluid typography, clamp, spacing, spacing scale, rem, optical correction, relationship strength, visual hierarchy, opacity, shadow, depth, icon style, accent color, semantic color, muted color, 색상, 색상 시스템, 컬러 팔레트, 다크모드 색상, 타이포그래피, 폰트 조합, 폰트 크기, 폰트 스케일, 행간, 자간, 유동 타이포그래피, 간격, 스페이싱, 시각 보정, 관계 강도, 시각적 계층, 불투명도, 그림자, 깊이감, 아이콘, 색상 실수, 폰트 두께, 대비."
+description: "Visual design foundations for color systems, typography, spacing, visual hierarchy, depth, shadows, and icons. Use this skill when choosing colors, building color palettes, setting up dark mode, defining spacing scales, selecting and pairing fonts, setting font size scales and line-height, creating visual hierarchy with weight and opacity, applying shadows and depth, choosing icons, or reviewing the visual quality of UI designs. Always consult this skill when making visual design decisions that affect how users perceive structure, emphasis, and brand, even if the user only asked to 'pick a color' or 'fix the spacing'. For product-level UX flows and copy use ds-product-ux. For layout patterns and section composition use ds-ui-patterns. For Tailwind CSS tokens and utilities use fe-tailwindcss. Triggers on: color system, color palette, 60-30-10, dark mode color, OKLCH, typography, custom font, font pairing, font size scale, art direction, golden ratio, line-height, letter-spacing, fluid typography, text morphing, clamp, spacing, spacing scale, rem, optical correction, relationship strength, visual hierarchy, off-white canvas, opacity, shadow, offset backplate, depth, noise texture, icon style, active state icon, hand-drawn accent, mascot system, accent color, semantic color, muted color, 색상, 색상 시스템, 컬러 팔레트, 다크모드 색상, 타이포그래피, 폰트 조합, 폰트 라이선스, 폰트 크기, 폰트 스케일, 행간, 자간, 유동 타이포그래피, 간격, 스페이싱, 시각 보정, 관계 강도, 시각적 계층, 불투명도, 그림자, 깊이감, 아이콘, 텍스트 스와핑, 오프화이트 캔버스, 핸드드로잉, 마스코트, 일러스트레이션, 대비."
 ---
 
 # 시각 디자인 기초 (ds-visual-design)
@@ -37,15 +37,17 @@ description: "Visual design foundations for color systems, typography, spacing, 
 
 ### 2. 타이포그래피로 개성과 계층을 만든다
 
-폰트 선택은 미적 취향이 아니라, 브랜드 성격을 설정하고 텍스트 간 역할을 구분하는 구조적 결정이다.
+폰트 선택은 미적 취향이 아니라, 브랜드 성격을 설정하고 텍스트 간 역할을 구분하는 구조적 결정이다. 타이포그래피 자체가 강력한 아트 디렉션이 될 수 있다.
 
 - 헤드라인(앵커 폰트)를 먼저 정하고, 시각적 대비가 느껴지는 본문 폰트를 조합한다
+- 구글 폰트 등 기본 제공 폰트 외에도 커스텀 폰트 리서치를 습관화하되, 실사용 전 상업용 라이선스를 반드시 확인한다
 - 너무 비슷한 폰트끼리 조합하면 오히려 어색하다 — 대비감이 핵심이다
 - 폰트 수는 1~2개가 안정적이고, 3개까지 허용 가능하지만 4개 이상은 거의 항상 과하다
 - 한 디자인에 폰트 두께는 최대 2가지, 텍스트 색상은 기본 + 투명도 조정 1~2가지로 제한한다
 - 폰트 크기는 비율 기반 스케일(golden ratio 1.618 또는 촘촘한 1.272)로 시스템화한다 — 랜딩은 6개 이하, 대시보드는 24px 이하 스케일이 일반적이다
 - line-height는 본문 약 150%, 큰 제목 110~130%로 설정하고, 큰 제목은 letter-spacing을 약간 줄여 밀도감을 만든다
 - 반응형에서는 clamp 같은 fluid typography로 화면 크기에 따라 자연스럽게 변화시킨다
+- 텍스트 스와핑이나 모핑 등 텍스트 자체를 시각적 변화 요소로 다룰 수 있다
 - 숙련도가 부족하면 단일 sans-serif가 안전하고, 강한 브랜드 성격이 필요하면 앵커+대비 body 조합을 적극 활용한다
 - Display Font는 시각 요소로 활용할 수 있지만 페이지당 1~2회로 절제한다
 - 가변 폰트(Variable Fonts)는 굵기, 기울기, 형태를 세밀하게 제어할 수 있어 타이포그래피 표현력을 높인다
@@ -106,14 +108,17 @@ description: "Visual design foundations for color systems, typography, spacing, 
 
 평면적인 화면에 물리적 공간감을 부여하면 인터페이스가 더 자연스럽고 몰입감 있게 느껴진다.
 
-- 배경에 미세한 노이즈 텍스처를 추가하면 입체감이 생긴다 — 단, 메인 요소를 방해하지 않도록 극히 미세하게 적용한다
+- 순백색(#FFFFFF) 대신 미세한 Off-white 캔버스를 활용해 눈의 피로를 줄이고 다른 요소와의 대비를 입체적으로 만든다
+- 배경에 미세한 노이즈 텍스처를 추가하면 입체감과 전체적인 응집력(Cohesion)이 생기지만, 메인 요소를 방해하지 않도록 극히 미세하게 적용한다
 - 그림자는 X ≤ Y, Blur = Y × 1.3~2, 불투명도 15~20%가 자연스러운 기본값이다
+- 겹겹이 쌓이는 요소에는 Offset backplate(어긋난 배경 판)를 활용해 평면적이면서도 깊이감 있는 계층을 구성할 수 있다
 - 잘못 쓴 그림자와 그라데이션은 없는 것보다 나쁘다 — 확신이 없으면 제거한다
 - 글래스모피즘(반투명 + blur + 1px 테두리 + 내부 그림자)은 고급스러운 유리 느낌을 준다
 - 시각적 라이밍(Visual Rhyming): 로고의 도형, 색상, 텍스처를 다른 요소에 반복해서 사이트 전체의 통일감을 높인다
 
 #### 빠른 판단 기준
 
+- 배경이 완전히 쨍한 흰색이라면 약간의 색온도가 들어간 Off-white나 극미세 노이즈 텍스처를 검토한다
 - 그림자가 피그마 기본값 그대로라면 불투명도를 낮추고 블러를 높여 자연스럽게 만든다
 - 그라데이션이 조잡해 보이면 같은 색상의 명도 차이만으로 바꾸거나 제거한다
 - 깊이감 요소가 시각적 주인공(Star of the Show)을 가리고 있으면 제거를 먼저 검토한다
@@ -125,7 +130,10 @@ description: "Visual design foundations for color systems, typography, spacing, 
 화려한 기술보다 절제된 일관성이 더 전문적인 결과물을 만든다.
 
 - 아이콘은 하나의 라이브러리(Lucide, Phosphor, Feather 등)에서 통일된 스타일로 사용한다
+- 선택된(Active) 상태와 기본 상태는 외곽선(Outline)과 채움(Filled) 스타일 혹은 명확한 대비를 통해 시각적으로 즉각 분리한다
 - 여러 스타일의 아이콘을 섞거나 이모지를 대체로 쓰면 전문성이 떨어진다
+- 정형화된 UI에 대비를 주고자 할 때만 핸드드로잉 형태의 액센트나 마크를 의도적으로 사용한다
+- 마스코트나 일러스트레이션은 단발성이 아니라, 상태와 시나리오(성공, 에러, 로딩 등)에 맞춰 변형할 수 있는 시스템으로 접근한다
 - 디자인이 막혔을 때는 수정보다 전체를 반전(다크/라이트, 레이아웃 뒤집기)시켜보는 시도가 효과적이다
 - 화면 전체를 채울 필요 없다 — 적은 것으로 더 많이 보여주는(Less is More) 접근이 결과적으로 더 사용성이 높다
 - 간격, 모서리 곡률, 색상에 변수(Variables)를 사용해 통일성을 유지한다
@@ -133,7 +141,9 @@ description: "Visual design foundations for color systems, typography, spacing, 
 #### 빠른 판단 기준
 
 - 서로 다른 스타일의 아이콘이 한 화면에 섞여 있다면 하나의 라이브러리로 통일한다
+- active 상태를 색만으로 구분하고 있다면 filled/outline 같은 형태 언어를 함께 검토한다
 - 화면에 요소가 많아 복잡해 보이면 "없어도 되는 것"부터 지우고 시작한다
+- 손그림 액센트나 마스코트가 포인트를 넘어서 화면의 주인공이 되고 있으면 줄인다
 - 모서리 곡률이 컴포넌트마다 다르면 하나의 값으로 통일한다
 
 → 상세: [references/06-design-craft.md](references/06-design-craft.md)
@@ -144,14 +154,14 @@ description: "Visual design foundations for color systems, typography, spacing, 
 
 아래 문서는 실제 시각 디자인 결정을 내리기 전 직접 읽어야 하는 구현 가이드다. 작업 성격에 따라 필요한 reference를 먼저 읽고 판단한다.
 
-| 파일                                                                   | 읽을 때                                                                                                                                                         |
-| ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [references/01-color-system.md](references/01-color-system.md)         | 색상 팔레트, 중립색, 액센트, 시맨틱 컬러, 다크모드 색상, OKLCH, 컬러 램프를 설계할 때                                                                           |
-| [references/02-typography.md](references/02-typography.md)             | 폰트 조합, 앵커 폰트, 폰트 분류와 수 제한, 브랜드 분기, 크기 스케일링(golden ratio/1.272), line-height, letter-spacing, fluid typography, 가변 폰트를 결정할 때 |
-| [references/03-spacing-system.md](references/03-spacing-system.md)     | 스페이싱 스케일, rem 기반 간격, 그룹화/분리, inner/outer, optical correction, relationship strength, exponential scaling, 컨테이너 vs 여백 분기를 설계할 때     |
-| [references/04-visual-hierarchy.md](references/04-visual-hierarchy.md) | 텍스트 불투명도, 버튼 우선순위, 상태 색상, 강조 절제를 판단할 때                                                                                                |
-| [references/05-depth-texture.md](references/05-depth-texture.md)       | 그림자, 노이즈 텍스처, 글래스모피즘, 시각적 라이밍, 깊이감을 적용할 때                                                                                          |
-| [references/06-design-craft.md](references/06-design-craft.md)         | 아이콘 통일, 절제와 일관성, 디자인 반복과 변형을 검토할 때                                                                                                      |
+| 파일                                                                   | 읽을 때                                                                                                                                                     |
+| ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [references/01-color-system.md](references/01-color-system.md)         | 색상 팔레트, 중립색, 액센트, 시맨틱 컬러, 다크모드 색상, OKLCH, 컬러 램프를 설계할 때                                                                       |
+| [references/02-typography.md](references/02-typography.md)             | 폰트 조합, 앵커 폰트, 커스텀 폰트 리서치, 타이포 아트 디렉션, line-height, fluid typography를 결정할 때                                                     |
+| [references/03-spacing-system.md](references/03-spacing-system.md)     | 스페이싱 스케일, rem 기반 간격, 그룹화/분리, inner/outer, optical correction, relationship strength, exponential scaling, 컨테이너 vs 여백 분기를 설계할 때 |
+| [references/04-visual-hierarchy.md](references/04-visual-hierarchy.md) | 텍스트 불투명도, 버튼 우선순위, 상태 색상, 강조 절제를 판단할 때                                                                                            |
+| [references/05-depth-texture.md](references/05-depth-texture.md)       | 그림자, 오프화이트 캔버스, 노이즈 텍스처, offset backplate, 글래스모피즘을 적용할 때                                                                        |
+| [references/06-design-craft.md](references/06-design-craft.md)         | 아이콘 상태 언어, hand-drawn accent, 마스코트 시스템, 절제와 일관성을 검토할 때                                                                             |
 
 ### 추천 로드 순서
 
@@ -166,6 +176,7 @@ description: "Visual design foundations for color systems, typography, spacing, 
 
 - 프로덕트 UX 흐름, CTA, 로딩, 피드백, 확인 → `ds-product-ux`
 - UI 레이아웃 패턴, 대시보드, SaaS 섹션 구성 → `ds-ui-patterns`
+- 모션의 물리감, swipe choreography, high-risk interaction policy → `ds-product-ux` 또는 `ds-ui-patterns`
 - Tailwind CSS 토큰, 유틸리티, className 병합 → `fe-tailwindcss`
 - 구현 수준의 접근성, ARIA, 키보드, 시맨틱 HTML → `fe-a11y`
 - 공유 UI 컴포넌트 API, 디자인 시스템 아키텍처 → `fe-ui-element-components`
