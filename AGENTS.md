@@ -48,6 +48,7 @@ agent/skill authoring rule은 [.github/instructions/create-agent.instructions.md
 - [.github/docs/artifacts/DESIGN-TEMPLATE.md](.github/docs/artifacts/DESIGN-TEMPLATE.md): Designer design artifact의 구조와 design-to-dev bridge 기준을 정의한다.
 - [.github/docs/artifacts/TECHNICAL-TEMPLATE.md](.github/docs/artifacts/TECHNICAL-TEMPLATE.md): Architector technical artifact의 구조와 architecture-to-execution bridge 기준을 정의한다.
 - [.github/docs/artifacts/EXECUTION-PLAN-TEMPLATE.md](.github/docs/artifacts/EXECUTION-PLAN-TEMPLATE.md): Commander execution plan artifact의 구조와 rubric을 정의한다.
+- [.github/docs/artifacts/WEB_IMAGE_PROMPT_TEMPLATE.md](.github/docs/artifacts/WEB_IMAGE_PROMPT_TEMPLATE.md): Painter가 prompt를 조립할 때 읽는 visual prompt grammar reference다.
 - [.github/docs/AGENT-SYSTEM-GUIDE.md](.github/docs/AGENT-SYSTEM-GUIDE.md): `.github` surface ownership과 alignment rule을 정리한다.
 
 ### Agents
@@ -55,6 +56,7 @@ agent/skill authoring rule은 [.github/instructions/create-agent.instructions.md
 - [.github/agents/Mate.agent.md](.github/agents/Mate.agent.md): planning owner이며 approved PRD와 references를 만든다.
 - [.github/agents/Designer.agent.md](.github/agents/Designer.agent.md): approved PRD 뒤 user-gated downstream design work를 맡아 `design.md`를 만든다.
 - [.github/agents/Architector.agent.md](.github/agents/Architector.agent.md): approved PRD 뒤 user-gated downstream technical work를 맡아 `technical.md`를 만든다.
+- [.github/agents/Painter.agent.md](.github/agents/Painter.agent.md): `design.md` 또는 현재 page/section 맥락을 읽고 one-shot으로 web-ready prompt와 generated asset path를 만든다.
 - [.github/agents/Explore.agent.md](.github/agents/Explore.agent.md), [.github/agents/Librarian.agent.md](.github/agents/Librarian.agent.md): local evidence와 external evidence를 분리해 조회 품질을 올린다.
 - [.github/agents/Coordinator.agent.md](.github/agents/Coordinator.agent.md): role-based planning/execution review를 제공한다.
 - [.github/agents/Commander.agent.md](.github/agents/Commander.agent.md), [.github/agents/Deep-execution.agent.md](.github/agents/Deep-execution.agent.md): execution plan과 review strategy 수립, dependency-aware orchestration, todo 기반 진행 추적, delegated implementation을 분리한다.
@@ -64,6 +66,8 @@ agent/skill authoring rule은 [.github/instructions/create-agent.instructions.md
 
 - Design & UX: [.github/skills/ds-product-ux/SKILL.md](.github/skills/ds-product-ux/SKILL.md), [.github/skills/ds-visual-design/SKILL.md](.github/skills/ds-visual-design/SKILL.md), [.github/skills/ds-ui-patterns/SKILL.md](.github/skills/ds-ui-patterns/SKILL.md), [.github/skills/refero-design/SKILL.md](.github/skills/refero-design/SKILL.md)
 	화면 구조, UX writing, visual craft, reference-led UI research가 필요할 때 읽는다.
+- Web visuals: [.agents/skills/ds-image-gen/SKILL.md](.agents/skills/ds-image-gen/SKILL.md)
+	OpenAI-compatible image generation backend가 필요할 때 읽는다. Prompt construction은 Painter와 [.github/docs/artifacts/WEB_IMAGE_PROMPT_TEMPLATE.md](.github/docs/artifacts/WEB_IMAGE_PROMPT_TEMPLATE.md)가 담당한다.
 - Frontend engineering: [.github/skills/fe-a11y/SKILL.md](.github/skills/fe-a11y/SKILL.md), [.github/skills/fe-code-conventions/SKILL.md](.github/skills/fe-code-conventions/SKILL.md), [.github/skills/fe-code-review/SKILL.md](.github/skills/fe-code-review/SKILL.md), [.github/skills/fe-react-patterns/SKILL.md](.github/skills/fe-react-patterns/SKILL.md), [.github/skills/fe-react-performance/SKILL.md](.github/skills/fe-react-performance/SKILL.md), [.github/skills/fe-tailwindcss/SKILL.md](.github/skills/fe-tailwindcss/SKILL.md), [.github/skills/fe-ui-element-components/SKILL.md](.github/skills/fe-ui-element-components/SKILL.md)
 	접근성, clean code, review, React architecture, performance, Tailwind, shared UI API를 다룰 때 읽는다.
 - Security & backend: [.github/skills/dev-security/SKILL.md](.github/skills/dev-security/SKILL.md), [.github/skills/be-api-design/SKILL.md](.github/skills/be-api-design/SKILL.md), [.github/skills/fastify-best-practices/SKILL.md](.github/skills/fastify-best-practices/SKILL.md)

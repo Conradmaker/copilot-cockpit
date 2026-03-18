@@ -25,6 +25,7 @@ Commander가 primary owner지만, Coordinator가 execution plan quality를 검�
 - plan 작성 후 gotcha/risk를 식별하고, 발견된 위험이 plan 수정을 필요로 하면 갱신한다.
 - review strategy는 mandatory reviewer 역할, optional role activation, final `board` gate를 포함해야 한다.
 - execution plan은 session 동안 실행 상태의 source of truth로서 task 상태를 갱신하며 유지한다.
+- `design.md`나 execution brief에 generated image asset list가 있으면 dedicated asset generation phase를 만들고, 그 안에 asset item별 Painter task를 둔다. 자세한 shape는 아래 template를 따른다.
 
 ## Template
 
@@ -63,7 +64,28 @@ Scope decision: {single plan / split into N plans — 근거}
 
 ## 3. Phases & Tasks
 
-### Phase 1: {Name}
+### Phase 1: Asset Generation
+
+**Goal**: {design.md의 image requirement list에 있는 asset item들을 Painter로 생성한다}
+**Demo/Validation**: {각 output_path가 생성되고 asset_id별 결과가 확인된다}
+
+#### T-IMG1: Generate {asset_id}
+- **depends_on**: [{design-ready task id or []}]
+- **location**: {/memories/session/design.md, {output_path}}
+- **description**: {Call Painter with explicit asset_id and output_path to generate one required asset item}
+- **validation**: {output_path exists, generated file matches asset_id, rough tone fits design.md}
+- **status**: not-started
+- **log**: {실행 후 기록}
+
+#### T-IMG2: Generate {asset_id}
+- **depends_on**: [{design-ready task id or []}]
+- **location**: {/memories/session/design.md, {output_path}}
+- **description**: {Call Painter with explicit asset_id and output_path to generate one required asset item}
+- **validation**: {output_path exists, generated file matches asset_id, rough tone fits design.md}
+- **status**: not-started
+- **log**: {실행 후 기록}
+
+### Phase 2: {Name}
 
 **Goal**: {이 phase가 달성하는 것}
 **Demo/Validation**: {이 phase 완료 시 검증 방법}
@@ -92,11 +114,6 @@ Scope decision: {single plan / split into N plans — 근거}
 - **status**: not-started
 - **log**: {실행 후 기록}
 
-### Phase 2: {Name}
-
-**Goal**: {이 phase가 달성하는 것}
-**Demo/Validation**: {이 phase 완료 시 검증 방법}
-
 #### T4: {Task name}
 - **depends_on**: [T2, T3]
 - ...
@@ -117,9 +134,10 @@ T2 ──┴── T4 ──┘
 
 | Wave | Tasks | Can Start When |
 |------|-------|----------------|
-| 1 | T1, T2 | Immediately |
-| 2 | T3, T4 | Wave 1 complete |
-| 3 | T5 | T3, T4 complete |
+| 1 | T-IMG1, T-IMG2 | Immediately |
+| 2 | T1, T2 | Asset generation phase complete or independent |
+| 3 | T3, T4 | Wave 2 complete |
+| 4 | T5 | T3, T4 complete |
 | ... | ... | ... |
 
 ## 6. Review Strategy

@@ -1,6 +1,7 @@
 .agent/**
 .factory/**
 ref/**
+config.local.json
 
 # Dependencies
 node_modules/

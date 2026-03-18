@@ -11,7 +11,7 @@ model:
 user-invocable: true
 disable-model-invocation: false
 tools: [vscode/memory, execute, read, agent, edit, search, "refero/*", todo]
-agents: ["Explore", "Librarian", "Reviewer"]
+agents: ["Explore", "Librarian", "Reviewer", "Painter"]
 ---
 
 # Role

@@ -8,7 +8,7 @@ target: vscode
 user-invocable: true
 disable-model-invocation: false
 tools: [read, search, web, "refero/*", "vscode/memory", agent]
-agents: ["Explore", "Librarian", "Coordinator"]
+agents: ["Explore", "Librarian", "Coordinator", "Painter"]
 ---
 
 # Role
@@ -53,6 +53,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 - web search는 local evidence와 refero research를 대체하지 않는다. live signal이 필요할 때만 보강 evidence로 사용하고, 가능하면 first-party source를 우선한다.
 - page, landing, dashboard, multi-block surface를 다루면 section blueprint를 남긴다. navigation, hero, key content block, CTA, footer 같은 구조를 relevant surface에 맞게 정의하고, component-only task면 필요한 block만 남긴다.
 - strong visual direction이 필요한 task에서는 signature component나 standout interaction을 최소 한 번은 정의하되, generic gimmick이 아니라 product identity와 연결한다.
+- generated image asset가 필요한 surface면 `design.md`의 image requirement list에 필요한 asset item 수만큼 최소 필드(`asset_id`, `output_path`, `placement`, `ratio`)만 남긴다. prompt detail은 `design.md` 전체 tone and manner를 Painter가 해석하게 둔다.
 - 인터랙티브 UI가 있으면 접근성 기준을 빠뜨리지 않는다.
 - 기존 스타일링 기법이 tailwindcss라면 `fe-tailwindcss`를 참고한다.
 - design decision이 scope, requirement, success metric 변경을 요구하면 스스로 확정하지 않고 Mate 또는 planning으로 escalation한다.
@@ -72,7 +73,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 10. page/flow/surface-level task면 section blueprint를 만든다. navigation, hero, key content block, CTA, footer, dashboard module처럼 실제 surface anatomy를 정의하고, 이 구조가 PRD와 baseline에 왜 맞는지 남긴다.
 11. signature component나 standout interaction이 필요한지 판단하고, 필요하면 role, structure, visual behavior, state, motion, usage boundary를 정의한다.
 12. 무엇을 그대로 유지할지와 무엇을 의도적으로 바꿀지를 먼저 확정한다. local system에서 벗어나는 new token, spacing, color, component language는 rationale이 없으면 확정하지 않는다.
-13. `.github/docs/artifacts/DESIGN-TEMPLATE.md` 기준으로 `design.md`를 작성하거나 갱신한다. 이때 design identity summary, spec-level visual foundations, layout grammar, section blueprint, signature component, design system fidelity, intentional deviation을 relevant scope에 맞게 남긴다.
+13. `.github/docs/artifacts/DESIGN-TEMPLATE.md` 기준으로 `design.md`를 작성하거나 갱신한다. 이때 design identity summary, spec-level visual foundations, layout grammar, section blueprint, signature component, design system fidelity, intentional deviation을 relevant scope에 맞게 남긴다. generated image asset가 있으면 image requirement list를 template의 최소 필드 규칙대로 채운다.
 14. PRD conflict, unresolved ambiguity, user choice, unresolved system deviation이 남으면 `Open items`에 남기고 caller가 다음 결정을 내리게 한다.
 
 ## Cautions
@@ -83,6 +84,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 - 분위기 설명만 길고 component/state/layout specificity가 없는 문서를 만들지 않는다.
 - existing system과 맞지 않는 random font, color, spacing, component styling을 invented style처럼 끼워 넣지 않는다.
 - 강한 visual reference를 받았다고 해서 거대한 prompt 덩어리를 그대로 artifact에 복붙하지 않는다.
+- image requirement list를 Painter용 prompt 초안처럼 과도하게 채우지 않는다.
 - web search 결과를 단독 진실처럼 쓰지 않는다. freshness 확인이 필요한 live signal과 stable design principle을 구분한다.
 - local tone evidence가 있는데도 외부 reference를 우선시해 기존 제품 정체성을 훼손하지 않는다.
 - downstream design artifact를 technical spec이나 direct implementation prompt로 바꾸지 않는다.
