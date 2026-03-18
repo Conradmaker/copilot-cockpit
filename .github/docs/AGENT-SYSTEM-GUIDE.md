@@ -8,7 +8,7 @@ authoring 세부 규칙을 다시 쓰지 않고, AGENTS / instructions / agents 
 - `AGENTS.md`: always-on passive context. 전역 불변식, 얇은 workflow 요약, grouped retrieval index를 둔다.
 - `instructions/`: always-on workflow core, packet schema, editing contract 같은 공통 규칙을 둔다.
 - `docs/`: on-demand workflow playbook, artifact template, system guide 같은 장문 reference를 둔다.
-- `agents/`: receiver-local workflow, cautions, output contract를 둔다.
+- `agents/`: receiver-local workflow, cautions, output contract, role-local reviewer/coordinator 문서를 둔다.
 - `memories/`: project memory 경로와 durable project facts를 둔다.
 - `skills/`: reusable capability가 skill-owned surface일 때 수정한다.
 
@@ -34,6 +34,7 @@ authoring 세부 규칙을 다시 쓰지 않고, AGENTS / instructions / agents 
 ## Alignment Rules
 
 - role 이름이나 역할 분담이 바뀌면 `AGENTS.md`, `instructions/subagent-invocation.instructions.md`, 해당 `.agent.md`를 함께 수정한다.
+- role index 디렉토리(`coord-roles/`, `reviewer-roles/`)가 추가되거나 role 구성이 바뀌면 해당 index와 owner agent 문서를 함께 수정한다.
 - gate, handoff, artifact lifecycle 표현은 AGENTS, workflow instruction, agent file 사이에서 충돌하면 안 된다.
 - 장문의 workflow narrative나 artifact template를 추가할 때는 `docs/`에 두고, instructions나 agents에 긴 복제본을 남기지 않는다.
 - project memory 경로를 참조하는 문구는 `.github/memories/memories.md`와 맞춘다.

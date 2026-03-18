@@ -12,6 +12,7 @@ always-on workflow core는 [.github/instructions/product-workflow.instructions.m
 - broad review를 통과하기 전에는 git tail이나 memory tail을 기본 경로로 취급하지 않는다.
 - invalidated lane만 다시 검증하고, 모든 lane을 기계적으로 재실행하지 않는다.
 - Mate, Designer, Architector, Coordinator, Commander, Deep Execution Agent, Reviewer의 subagent ownership 경계를 섞지 않는다.
+- execution review에서는 Commander가 review strategy를 설계하고, Reviewer가 reviewer_role call과 final `board` gate를 맡는다.
 - AGENTS.md에는 요약만 두고, 상세 workflow, packet schema, receiver-local behavior는 owner 문서에 둔다.
 - frontmatter는 영어로 유지하고, 서술형 본문은 AI가 이해하기 쉬운 간결한 한국어로 작성한다.
 - 도구 사용과 위임 판단은 현재 코드베이스와 문서를 먼저 조회한 뒤 내린다.
@@ -56,8 +57,8 @@ agent/skill authoring rule은 [.github/instructions/create-agent.instructions.md
 - [.github/agents/Architector.agent.md](.github/agents/Architector.agent.md): approved PRD 뒤 user-gated downstream technical work를 맡아 `technical.md`를 만든다.
 - [.github/agents/Explore.agent.md](.github/agents/Explore.agent.md), [.github/agents/Librarian.agent.md](.github/agents/Librarian.agent.md): local evidence와 external evidence를 분리해 조회 품질을 올린다.
 - [.github/agents/Coordinator.agent.md](.github/agents/Coordinator.agent.md): role-based planning/execution review를 제공한다.
-- [.github/agents/Commander.agent.md](.github/agents/Commander.agent.md), [.github/agents/Deep-execution.agent.md](.github/agents/Deep-execution.agent.md): execution plan 수립, dependency-aware orchestration, todo 기반 진행 추적, delegated implementation을 분리한다.
-- [.github/agents/Reviewer.agent.md](.github/agents/Reviewer.agent.md): broad quality gate를 맡는다.
+- [.github/agents/Commander.agent.md](.github/agents/Commander.agent.md), [.github/agents/Deep-execution.agent.md](.github/agents/Deep-execution.agent.md): execution plan과 review strategy 수립, dependency-aware orchestration, todo 기반 진행 추적, delegated implementation을 분리한다.
+- [.github/agents/Reviewer.agent.md](.github/agents/Reviewer.agent.md), [.github/agents/reviewer-roles/_index.md](.github/agents/reviewer-roles/_index.md): reviewer_role 기반 review council과 final `board` gate를 맡는다.
 
 ### Skills
 
@@ -65,9 +66,11 @@ agent/skill authoring rule은 [.github/instructions/create-agent.instructions.md
 	화면 구조, UX writing, visual craft, reference-led UI research가 필요할 때 읽는다.
 - Frontend engineering: [.github/skills/fe-a11y/SKILL.md](.github/skills/fe-a11y/SKILL.md), [.github/skills/fe-code-conventions/SKILL.md](.github/skills/fe-code-conventions/SKILL.md), [.github/skills/fe-code-review/SKILL.md](.github/skills/fe-code-review/SKILL.md), [.github/skills/fe-react-patterns/SKILL.md](.github/skills/fe-react-patterns/SKILL.md), [.github/skills/fe-react-performance/SKILL.md](.github/skills/fe-react-performance/SKILL.md), [.github/skills/fe-tailwindcss/SKILL.md](.github/skills/fe-tailwindcss/SKILL.md), [.github/skills/fe-ui-element-components/SKILL.md](.github/skills/fe-ui-element-components/SKILL.md)
 	접근성, clean code, review, React architecture, performance, Tailwind, shared UI API를 다룰 때 읽는다.
+- Security & backend: [.github/skills/dev-security/SKILL.md](.github/skills/dev-security/SKILL.md), [.github/skills/be-api-design/SKILL.md](.github/skills/be-api-design/SKILL.md), [.github/skills/fastify-best-practices/SKILL.md](.github/skills/fastify-best-practices/SKILL.md)
+	auth, input validation, secrets, exploitability, API contract, secure server implementation을 다룰 때 읽는다.
 - Data fetching & state integration: [.agents/skills/tanstack-query-best-practices/SKILL.md](.agents/skills/tanstack-query-best-practices/SKILL.md), [.agents/skills/zustand/SKILL.md](.agents/skills/zustand/SKILL.md)
 	TanStack Query 기반 server state, caching, mutations, hydration과 `@json-render/zustand` 기반 state adapter 통합이 필요할 때 읽는다.
-- Workflow & tooling: [.github/skills/agent-browser/SKILL.md](.github/skills/agent-browser/SKILL.md), [.github/skills/brainstorming/SKILL.md](.github/skills/brainstorming/SKILL.md), [.github/skills/crafting-effective-readmes/SKILL.md](.github/skills/crafting-effective-readmes/SKILL.md), [.github/skills/file-creator/SKILL.md](.github/skills/file-creator/SKILL.md), [.github/skills/gh-cli/SKILL.md](.github/skills/gh-cli/SKILL.md), [.github/skills/git-workflow/SKILL.md](.github/skills/git-workflow/SKILL.md), [.github/skills/pdf/SKILL.md](.github/skills/pdf/SKILL.md), [.github/skills/seo-audit/SKILL.md](.github/skills/seo-audit/SKILL.md), [.github/skills/skill-creator/SKILL.md](.github/skills/skill-creator/SKILL.md)
+- Workflow & tooling: [.github/skills/agent-browser/SKILL.md](.github/skills/agent-browser/SKILL.md), [.github/skills/brainstorming/SKILL.md](.github/skills/brainstorming/SKILL.md), [.github/skills/crafting-effective-readmes/SKILL.md](.github/skills/crafting-effective-readmes/SKILL.md), [.github/skills/gh-cli/SKILL.md](.github/skills/gh-cli/SKILL.md), [.github/skills/git-workflow/SKILL.md](.github/skills/git-workflow/SKILL.md), [.github/skills/pdf/SKILL.md](.github/skills/pdf/SKILL.md), [.github/skills/seo-audit/SKILL.md](.github/skills/seo-audit/SKILL.md), [.github/skills/skill-creator/SKILL.md](.github/skills/skill-creator/SKILL.md)
 	browser automation, quick ideation, README, file scaffolding, git/gh, PDF, SEO, skill maintenance가 필요할 때 읽는다.
 - Memory & context: [.github/skills/memory-synthesizer/SKILL.md](.github/skills/memory-synthesizer/SKILL.md)
 	durable signal 판별, memory scope 선택, memory pollution 방지가 필요할 때 읽는다.

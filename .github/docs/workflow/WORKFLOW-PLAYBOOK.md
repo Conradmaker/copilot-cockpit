@@ -67,6 +67,7 @@
 - planning 또는 planning validation agent는 먼저 active `prd.md`를 읽는다.
 - downstream definition agent는 `prd.md`를 먼저 읽고 relevant downstream artifact를 그 다음에 읽는다.
 - execution agent는 current execution brief가 있으면 먼저 읽고, current `execution-plan.md`가 있으면 그 다음에 읽는다. 그 뒤 `prd.md`와 relevant downstream artifact를 읽는다.
+- review agent는 current `execution-plan.md`를 먼저 읽고, 그 다음 `prd.md`, current execution brief, relevant downstream artifact(`design.md`, `technical.md`)를 reviewer_role과 changed surface에 맞게 읽는다.
 - PRD, downstream artifact, execution brief 사이에 충돌이 있으면 충돌 사실부터 명시한다.
 
 ## Planning Phase
@@ -226,14 +227,14 @@ Approved execution은 Fleet Mode 경로를 따른다.
 2. 독립적인 서브시스템이 여러 개면 별도 plan으로 분리할지 scope check를 한다.
 3. 필요하면 Explore 또는 Librarian로 context augmentation을 한다.
 4. 영향받는 파일과 책임을 file structure map으로 정리한다.
-5. `.github/docs/artifacts/EXECUTION-PLAN-TEMPLATE.md`를 따라 dependency-aware execution plan을 수립하고 `/memories/session/execution-plan.md`에 저장한다. plan의 각 task를 todo 항목으로 생성한다.
+5. `.github/docs/artifacts/EXECUTION-PLAN-TEMPLATE.md`를 따라 dependency-aware execution plan을 수립하고 `/memories/session/execution-plan.md`에 저장한다. plan에는 implementation task 구조와 review strategy를 함께 남긴다. plan의 각 task를 todo 항목으로 생성한다.
 6. user에게 plan verification 방식을 물어본다 (Coordinator execution role review / 자체 검증 / 건너뛰기).
 7. gotcha/risk를 식별하고 필요하면 plan을 갱신한다.
 8. dependency wave 기반으로 Deep Execution Agent에게 coding work를 배분한다. todo를 `in-progress`로 전환한다.
 9. worker 결과를 합성하고 todo와 execution-plan.md를 갱신한다.
 10. 구현 방향에 대한 확신이 흔들리거나 drift가 의심되면 Coordinator에 role-based review를 요청할 수 있다.
-11. implementation 완료 후 Reviewer broad review를 연다.
-12. review failure면 targeted rework를 하고 review를 다시 돌린다.
+11. implementation 완료 후 review strategy에 따라 필요한 Reviewer `reviewer_role` call을 병렬로 열고, 마지막에 Reviewer `board` role로 final broad review를 닫는다.
+12. review failure면 targeted rework를 하고 relevant reviewer_role call과 `board` gate를 다시 연다.
 13. review pass 뒤 Git Tail 또는 Memory Tail 필요 여부를 판단한다.
 14. orchestration summary와 todo 기반 진행률, 남은 리스크를 합성해 반환한다.
 
@@ -262,6 +263,7 @@ Approved execution은 Fleet Mode 경로를 따른다.
 ### Purpose
 
 Review는 implementation 뒤의 broad quality gate다.
+Commander가 reviewer_role wave를 orchestration하고, Reviewer가 role-aware review와 final `board` gate를 수행한다.
 스타일보다 correctness, regression risk, security, design consistency, product impact, release readiness를 먼저 본다.
 
 ### Owner
@@ -273,10 +275,15 @@ Review는 implementation 뒤의 broad quality gate다.
 
 - `prd.md`
 - current execution brief when present
+- current `execution-plan.md`
+- `design.md` when present
+- `technical.md` when present
+- `reviewer_role`
 - relevant downstream artifacts when present
 - changed surface
 - available evidence
 - validation focus
+- lane findings when `reviewer_role=board`
 
 ### Outputs
 
@@ -297,6 +304,7 @@ Review는 implementation 뒤의 broad quality gate다.
 - review 안에서 직접 구현하지 않는다.
 - validation focus 밖으로 scope를 불필요하게 넓히지 않는다.
 - evidence가 부족하면 부족한 evidence를 명시한다.
+- `board`는 parallel lane가 아니라 final synthesis and gate 역할이다.
 
 ### Re-entry Rule
 
@@ -324,7 +332,7 @@ Review는 implementation 뒤의 broad quality gate다.
 
 - non-execution subagent 호출은 `task_packet`을 쓴다.
 - execution handoff는 `implementation_handoff_packet`을 쓴다.
-- broad review는 `TASK_TYPE=broad-review`를 사용한다.
+- broad review는 `TASK_TYPE=broad-review`와 `CONTEXT` 안의 단일 `reviewer_role`를 사용한다.
 - git tail과 memory tail은 dedicated subagent packet 없이 current execution owner가 관련 skill을 inline으로 읽는다.
 
 planning source of truth는 `prd.md`다. packet field name에 legacy plan terminology가 남아 있어도 current workflow에서는 approved PRD를 가리키는 것으로 해석한다.

@@ -61,12 +61,12 @@ receiver-local workflow는 각 `.agent.md`가, caller-side packet contract는 `.
 
 - owner: Commander
 - coding worker: Deep Execution Agent
-- approved scope 안에서 구현과 verification evidence를 만든다.
+- approved scope 안에서 구현, verification evidence, review-ready context를 만든다.
 
 ### Review
 
 - owner: Reviewer
-- correctness, regression risk, security, design consistency, release readiness를 broad gate로 검토한다.
+- Commander가 review strategy와 orchestration을 맡고, Reviewer가 reviewer_role 기반 review와 final `board` gate로 correctness, regression risk, security, design consistency, release readiness를 broad gate로 검토한다.
 
 ### Tail
 
@@ -107,7 +107,7 @@ receiver-local workflow는 각 `.agent.md`가, caller-side packet contract는 `.
 
 ### `/memories/session/execution-plan.md`
 
-- execution phase에서 Commander가 만드는 dependency-aware execution plan이다.
+- execution phase에서 Commander가 만드는 dependency-aware execution plan이자 review strategy의 source of truth다.
 - template은 `.github/docs/artifacts/EXECUTION-PLAN-TEMPLATE.md`를 따른다.
 - session 동안 task 상태의 source of truth로 유지하며, rework 시 갱신한다.
 - execution 전용 artifact이므로 planning phase에서는 만들지 않는다.
@@ -117,6 +117,7 @@ receiver-local workflow는 각 `.agent.md`가, caller-side packet contract는 `.
 - planning 또는 planning validation agent는 먼저 active `prd.md`를 읽는다.
 - downstream definition agent는 `prd.md`를 먼저 읽고 relevant downstream artifact를 그 다음에 읽는다.
 - execution agent는 current execution brief가 있으면 먼저 읽고, current `execution-plan.md`가 있으면 그 다음에 읽는다. 그 뒤 `prd.md`와 relevant downstream artifact를 읽는다.
+- review agent는 current `execution-plan.md`를 먼저 읽고, 그 다음 `prd.md`, current execution brief, relevant downstream artifact(`design.md`, `technical.md`)를 reviewer_role과 changed surface에 맞게 읽는다.
 - artifact 사이에 충돌이 있으면 충돌 사실부터 명시한다.
 
 ## Escalation Summary

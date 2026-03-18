@@ -63,7 +63,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 - implementation pressure 때문에 spec ambiguity를 임의로 메우지 않는다.
 - review나 tail ownership을 가져오지 않는다.
 - verification evidence 없이 completion을 선언하지 않는다.
-- broad review surface가 커질수록 Commander와 review surface를 다시 정렬한다.
+- role-aware review surface가 커질수록 Commander와 review strategy를 다시 정렬한다.
 
 ## Output Contract
 
