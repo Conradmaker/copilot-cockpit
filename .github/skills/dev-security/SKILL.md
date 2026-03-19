@@ -1,6 +1,8 @@
 ---
 name: dev-security
 description: Development security review patterns for application code that handles authentication, user input, secrets, file I/O, network I/O, persistence, or privileged actions. Use this skill when reviewing or implementing app-layer security controls, checking exploitability, or assessing secure coding risks in frontend/backend code. Always consult this skill for developer-facing security review tasks, even if the user only asks for a code review, auth fix, API check, or validation logic. For cloud or infrastructure security use a dedicated infrastructure skill when available. Triggers on: security review, secure coding, auth, authorization, input validation, secrets, XSS, SQL injection, CSRF, path traversal, exploitability, 보안 리뷰, 인증, 인가, 입력 검증, 시크릿, 취약점, 보안.
+disable-model-invocation: false
+user-invocable: false
 ---
 
 # 개발 보안 리뷰 (dev-security)

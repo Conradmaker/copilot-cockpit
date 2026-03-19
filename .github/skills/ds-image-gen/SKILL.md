@@ -1,6 +1,8 @@
 ---
 name: ds-image-gen
 description: "Generate or edit images via OpenAI-compatible providers. Use when Painter or a direct image workflow needs prompt-only image generation, image edits, or multi-image compositing. Defaults to OpenRouter + Gemini 3 Pro Image and supports switching provider base URL and model via CLI options or using the nano-gpt image API preset. Triggers on: image generation, prompt-only image, image edit, visual asset backend, Painter backend, 이미지 생성, 이미지 수정, 비주얼 에셋 생성."
+disable-model-invocation: false
+user-invocable: false
 metadata:
   emoji: 🍌
   requires:

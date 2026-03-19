@@ -1,6 +1,6 @@
 ---
 name: tanstack-query-best-practices
-description: TanStack Query (React Query) best practices for query keys, caching, mutations, optimistic updates, prefetching, SSR hydration, infinite queries, and server state management in React applications. Use this skill whenever building or refactoring data fetching with useQuery, useMutation, or useInfiniteQuery, configuring QueryClient defaults, invalidating cache, handling optimistic UI, or integrating TanStack Query with Next.js or SSR. Always consult this skill for React server-state work, even if the user only asks to fetch API data, cache results, fix stale UI, or wire loading and error states around remote data. Triggers on: TanStack Query, React Query, useQuery, useMutation, useInfiniteQuery, QueryClient, query keys, cache invalidation, optimistic update, hydration, data fetching, 서버 상태, 캐시, 뮤테이션.
+description: "TanStack Query (React Query) best practices for query keys, caching, mutations, optimistic updates, prefetching, SSR hydration, infinite queries, and server state management in React applications. Use this skill whenever building or refactoring data fetching with useQuery, useMutation, or useInfiniteQuery, configuring QueryClient defaults, invalidating cache, handling optimistic UI, or integrating TanStack Query with Next.js or SSR. Always consult this skill for React server-state work, even if the user only asks to fetch API data, cache results, fix stale UI, or wire loading and error states around remote data. Triggers on: TanStack Query, React Query, useQuery, useMutation, useInfiniteQuery, QueryClient, query keys, cache invalidation, optimistic update, hydration, data fetching, 서버 상태, 캐시, 뮤테이션."
 ---
 
 # TanStack Query Best Practices
@@ -18,18 +18,18 @@ Comprehensive guidelines for implementing TanStack Query (React Query) patterns 
 
 ## Rule Categories by Priority
 
-| Priority | Category | Rules | Impact |
-|----------|----------|-------|--------|
-| CRITICAL | Query Keys | 5 rules | Prevents cache bugs and data inconsistencies |
-| CRITICAL | Caching | 5 rules | Optimizes performance and data freshness |
-| HIGH | Mutations | 6 rules | Ensures data integrity and UI consistency |
-| HIGH | Error Handling | 3 rules | Prevents poor user experiences |
-| MEDIUM | Prefetching | 4 rules | Improves perceived performance |
-| MEDIUM | Parallel Queries | 2 rules | Enables dynamic parallel fetching |
-| MEDIUM | Infinite Queries | 3 rules | Prevents pagination bugs |
-| MEDIUM | SSR Integration | 4 rules | Enables proper hydration |
-| LOW | Performance | 4 rules | Reduces unnecessary re-renders |
-| LOW | Offline Support | 2 rules | Enables offline-first patterns |
+| Priority | Category         | Rules   | Impact                                       |
+| -------- | ---------------- | ------- | -------------------------------------------- |
+| CRITICAL | Query Keys       | 5 rules | Prevents cache bugs and data inconsistencies |
+| CRITICAL | Caching          | 5 rules | Optimizes performance and data freshness     |
+| HIGH     | Mutations        | 6 rules | Ensures data integrity and UI consistency    |
+| HIGH     | Error Handling   | 3 rules | Prevents poor user experiences               |
+| MEDIUM   | Prefetching      | 4 rules | Improves perceived performance               |
+| MEDIUM   | Parallel Queries | 2 rules | Enables dynamic parallel fetching            |
+| MEDIUM   | Infinite Queries | 3 rules | Prevents pagination bugs                     |
+| MEDIUM   | SSR Integration  | 4 rules | Enables proper hydration                     |
+| LOW      | Performance      | 4 rules | Reduces unnecessary re-renders               |
+| LOW      | Offline Support  | 2 rules | Enables offline-first patterns               |
 
 ## Quick Reference
 
@@ -104,6 +104,7 @@ Comprehensive guidelines for implementing TanStack Query (React Query) patterns 
 ## How to Use
 
 Each rule file in the `rules/` directory contains:
+
 1. **Explanation** — Why this pattern matters
 2. **Bad Example** — Anti-pattern to avoid
 3. **Good Example** — Recommended implementation

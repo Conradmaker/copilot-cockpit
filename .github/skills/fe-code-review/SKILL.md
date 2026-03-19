@@ -1,6 +1,8 @@
 ---
 name: fe-code-review
-description: "Unified frontend code review guide integrating clean code, React patterns, accessibility, and performance checks. Use this skill when reviewing pull requests, conducting code reviews, auditing frontend code quality, or when the user asks to review their code. Always use this skill when the user asks to check, review, or improve existing code quality. Triggers on: code review, PR review, review my code, audit code, 코드 리뷰, PR 리뷰, 코드 검토, 코드 감사, 코드 봐줘, 이거 괜찮아?, 이 코드 어때?, 뭐가 잘못됐어?, 개선할 점, 코드 피드백, 코드 품질 체크, PR 올리기 전에, 머지해도 될까, pull request."
+description: "Unified frontend review workflow for existing code and pull requests, combining clean code, React patterns, accessibility, and performance checks in one pass. Use this skill when reviewing a PR, diff, changed files, or existing frontend code for bugs, regressions, code smells, accessibility issues, performance risks, merge readiness, or release-readiness, or when the user asks what is wrong, what to fix, or whether the code is safe to merge. Always consult this skill for any frontend review or audit on existing code, even if the user only says 'look over this', 'find issues', 'check before merge', 'is this OK?', or 'what should I improve?'. For writing or refactoring code, use fe-code-conventions, fe-react-patterns, fe-a11y, and fe-react-performance directly. Triggers on: code review, PR review, review this diff, review changed files, audit code, merge readiness, regression check, code smell, frontend review, 코드 리뷰, PR 리뷰, 변경사항 리뷰, diff 리뷰, 코드 검토, 코드 감사, 머지 전 체크, 머지해도 될까, 문제점 찾아줘, 뭐가 잘못됐어?, 개선 포인트, 코드 봐줘, 이 코드 괜찮아?, PR 올리기 전에."
+disable-model-invocation: false
+user-invocable: false
 ---
 
 # 프론트엔드 코드 리뷰 가이드
