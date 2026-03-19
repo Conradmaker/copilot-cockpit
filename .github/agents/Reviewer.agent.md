@@ -2,7 +2,13 @@
 name: Reviewer
 description: Role-aware reviewer for code, security, design, performance, and code-quality validation. Use when Commander needs reviewer_role-based review calls during execution, or when the final board gate must synthesize findings after implementation.
 argument-hint: Describe what changed, which reviewer_role to use, what review surface is being validated, and what evidence or prior findings are already available.
-model: ["GPT-5.3-Codex (copilot)", "GPT-5.4 (copilot)", "GLM-5 (oaicopilot)"]
+model:
+  [
+    "GPT-5.4 mini (copilot)",
+    "GPT-5.3-Codex (copilot)",
+    "GPT-5.4 (copilot)",
+    "GLM-5 (oaicopilot)",
+  ]
 target: vscode
 user-invocable: false
 disable-model-invocation: false

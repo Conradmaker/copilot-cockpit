@@ -2,7 +2,12 @@
 name: Coordinator
 description: Planning council and role-based review council. Loads coord-roles/{role}.md at runtime for role-specific review. Use when PRD-lane validation, quality-lift feedback, or execution-phase review from a specific role perspective (manager, product) is needed.
 argument-hint: Describe the active phase, the current PRD or implementation state, what role perspective is needed, and what verdict or improvement advice is expected.
-model: ["Claude Sonnet 4.6 (copilot)", "GLM-5 (oaicopilot)"]
+model:
+  [
+    "Gemini 3 Flash (Preview) (copilot)",
+    "Claude Sonnet 4.6 (copilot)",
+    "GLM-5 (oaicopilot)",
+  ]
 target: vscode
 user-invocable: false
 disable-model-invocation: false

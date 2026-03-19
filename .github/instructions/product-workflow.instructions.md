@@ -34,7 +34,7 @@ receiver-local workflow는 각 `.agent.md`가, caller-side packet contract는 `.
 ## Global Invariants
 
 - explicit user gate와 passed planning quality gate 없이는 planning을 approved PRD 상태로 닫지 않는다.
-- approved `prd.md`와 필요한 downstream execution-entry artifacts 없이는 implementation을 시작하지 않는다.
+- approved `prd.md` 없이는 implementation을 시작하지 않는다.
 - evidence가 충분하지 않으면 결론을 고정하지 않는다.
 - context gap, evidence gap, reference need가 보이면 retrieval lane을 먼저 연다.
 - user intent gap, preference gap, success criteria gap이 보이면 askQuestions로 alignment 또는 steering을 먼저 회수한다.

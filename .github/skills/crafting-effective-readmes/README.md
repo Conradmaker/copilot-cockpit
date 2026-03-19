@@ -1,6 +1,6 @@
 # Crafting Effective READMEs
 
-A skill for Claude Code that helps you write, update, and improve README files tailored to your specific project type and audience.
+A skill for Copilot that helps you write, update, and improve README files tailored to your specific project type and audience.
 
 ## Purpose
 

@@ -16,5 +16,16 @@
     "editor.unicodeHighlight.invisibleCharacters": false,
     "diffEditor.ignoreTrimWhitespace": false,
     "editor.formatOnSave": false
+  },
+  "chat.autopilot.enabled": true,
+  "chat.tools.terminal.autoApprove": {
+    "/^uv run \\.github\\/skills\\/ds-image-gen\\/scripts\\/generate_image\\.py\\b.* --config \\.github\\/skills\\/ds-image-gen\\/config\\.local\\.json\\b.* --filename public\\/generated\\/[A-Za-z0-9._-]+\\.png$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "/^sips -g hasAlpha public\\/generated\\/[A-Za-z0-9._-]+\\.png$/": {
+      "approve": true,
+      "matchCommandLine": true
+    }
   }
 }

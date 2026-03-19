@@ -2,14 +2,7 @@
 name: Commander
 description: Execution orchestrator that builds dependency-aware execution plans and review strategies from approved PRDs, tracks progress with todo, directs Deep Execution Agent workers in parallel waves, orchestrates role-aware final review, and decides post-review git or memory tail work.
 argument-hint: Describe the approved PRD, current execution brief, current execution state, available evidence, and what orchestration decision is needed.
-model:
-  [
-    "Claude Opus 4.6 (copilot)",
-    "GPT-5.4 (copilot)",
-    "Gemini 3.1 Pro (Preview) (copilot)",
-    "Gemini 3.1 Pro (Preview) (copilot)",
-    "GLM-5 (oaicopilot)",
-  ]
+model: ["GPT-5.4 (copilot)", "Gemini 3.1 Pro (Preview) (copilot)", "GLM-5 (oaicopilot)"]
 target: vscode
 user-invocable: true
 disable-model-invocation: false
