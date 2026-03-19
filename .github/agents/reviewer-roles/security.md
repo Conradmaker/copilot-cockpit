@@ -24,6 +24,6 @@
 
 ## Retrieval Order
 
-1. `AGENTS.md`의 Skills index에서 security/backend/frontend relevant category를 먼저 좁힌다.
+1. `.github/instructions/skill-index.instructions.md`에서 `Security & backend`, `Data & state`, `Frontend engineering` 중 relevant category를 먼저 좁힌다.
 2. changed surface와 framework에 맞는 skill/reference를 읽는다.
 3. `dev-security`가 있으면 우선 참고하되, 유일한 source로 고정하지 않는다.

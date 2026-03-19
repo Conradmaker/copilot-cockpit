@@ -45,7 +45,7 @@ description: "Visual design foundations for building coherent color, typography,
 - 폰트 수는 1~2개가 안정적이고, 3개까지 허용 가능하지만 4개 이상은 거의 항상 과하다
 - 한 디자인에 폰트 두께는 최대 2가지, 텍스트 색상은 기본 + 투명도 조정 1~2가지로 제한한다
 - 폰트 크기는 비율 기반 스케일(golden ratio 1.618 또는 촘촘한 1.272)로 시스템화한다 — 랜딩은 6개 이하, 대시보드는 24px 이하 스케일이 일반적이다
-- line-height는 본문 약 150%, 큰 제목 110~130%로 설정하고, 큰 제목은 letter-spacing을 약간 줄여 밀도감을 만든다
+- line-height는 본문 약 150%, 큰 제목 130~150%로 설정하고 밀도감을 만든다.
 - 반응형에서는 clamp 같은 fluid typography로 화면 크기에 따라 자연스럽게 변화시킨다
 - 텍스트 스와핑이나 모핑 등 텍스트 자체를 시각적 변화 요소로 다룰 수 있다
 - 숙련도가 부족하면 단일 sans-serif가 안전하고, 강한 브랜드 성격이 필요하면 앵커+대비 body 조합을 적극 활용한다
@@ -57,7 +57,7 @@ description: "Visual design foundations for building coherent color, typography,
 - 헤드라인과 본문을 합쳐 3개 이상 폰트 패밀리가 보이면 줄일지 먼저 검토한다
 - 폰트 크기만으로 계층을 나누고 있다면 두께와 색상(불투명도)을 함께 조정한다
 - 폰트 크기가 비율 기반 스케일 없이 임의로 정해져 있다면 시스템화를 먼저 검토한다
-- 큰 제목의 line-height가 본문과 같으면(150%) 110~130%로 줄여 밀도감을 확인한다
+- 큰 제목의 line-height가 본문과 같으면(150%) 130~150%로 약간 줄여 밀도감을 확인한다
 - Fonts in Use 같은 사이트에서 앵커 폰트와의 조합 사례를 참고한다
 
 → 상세: [references/02-typography.md](references/02-typography.md)

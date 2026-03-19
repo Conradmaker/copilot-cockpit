@@ -17,10 +17,10 @@
 
 ## Retrieval Order
 
-1. `AGENTS.md`의 Frontend engineering category를 먼저 좁힌다.
+1. `.github/instructions/skill-index.instructions.md`의 `Frontend engineering` category를 먼저 좁힌다.
 2. current UI surface에 대응하는 `design.md`가 있으면 먼저 읽어 intended interaction과 visual constraint를 맞춘다.
 3. changed surface가 shared UI면 component API 관련 skill/reference를 추가로 읽는다.
-4. UX나 visual ambiguity가 남을 때만 Design & UX category를 보조적으로 읽는다.
+4. UX나 visual ambiguity가 남을 때만 `.github/instructions/skill-index.instructions.md`의 `Design & UX` category를 보조적으로 읽는다.
 
 ## Quality Lift 관점
 

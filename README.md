@@ -133,7 +133,8 @@ flowchart LR
     └── other-harness/
 ```
 
-- [AGENTS.md](AGENTS.md): 전역 불변식, 워크플로우 요약, 통합 인덱스
+- [AGENTS.md](AGENTS.md): 철학, owner map, retrieval 원칙
+- [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md): always-on workspace skill discovery index
 - [.github/agents/](.github/agents/): 각 agent 정의
 - [.github/skills/](.github/skills/): 도메인별 전문 스킬
 - [.github/instructions/](.github/instructions/): 항상 적용되는 규칙과 작성 가이드
@@ -158,7 +159,7 @@ code .
 ```
 
 1. VS Code에서 Copilot Chat의 Agent Mode를 켭니다.
-2. [AGENTS.md](AGENTS.md)와 [.github/instructions/](.github/instructions/)를 읽어 기본 구조를 확인합니다.
+2. [AGENTS.md](AGENTS.md)로 철학과 owner map을 보고, [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md)로 skill discovery surface를 확인합니다.
 3. 원하는 작업을 에이전트에게 바로 요청합니다.
 
 예시 프롬프트:
@@ -200,6 +201,8 @@ code .
 
 작성 규칙은 [.github/instructions/create-skills.instructions.md](.github/instructions/create-skills.instructions.md)를 참고하세요.
 
+skill discovery registry는 [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md)가 owner입니다. 카테고리나 대표 skill surface를 바꿨다면 이 파일도 함께 갱신하세요.
+
 ### workflow 조정
 
 다음 문서가 기준입니다.
@@ -219,7 +222,8 @@ code .
 
 ## 참고 자료
 
-- [AGENTS.md](AGENTS.md): 이 저장소를 읽을 때 가장 먼저 보는 문서
+- [AGENTS.md](AGENTS.md): 철학과 owner map을 보는 시작 문서
+- [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md): 작업별로 어떤 skill을 먼저 읽어야 하는지 고르는 discovery registry
 - [ref/project-concept.md](ref/project-concept.md): 하네스의 설계 철학
 - [ref/rule-guide.md](ref/rule-guide.md): 규칙 작성 원칙
 - [ref/other-harness/](ref/other-harness/): 다른 하네스와의 비교 자료
@@ -242,4 +246,4 @@ code .
 
 ---
 
-필요한 시작점은 결국 [AGENTS.md](AGENTS.md) 하나입니다.
+시작은 [AGENTS.md](AGENTS.md)에서 하고, skill discovery는 [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md)가 맡습니다.

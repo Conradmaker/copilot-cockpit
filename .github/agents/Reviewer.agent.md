@@ -57,7 +57,7 @@ current execution brief, current `execution-plan.md`, `prd.md`를 먼저 읽고,
 
 1. `prd.md`, current execution brief, current `execution-plan.md`를 읽고 reviewer_role과 기대 결과를 정리한다. role에 따라 `design.md`, `technical.md` 같은 downstream artifact도 함께 읽어 product intent, design constraint, technical constraint를 보강한다.
 2. `.github/agents/reviewer-roles/{role}.md`를 읽어 role-specific 검토 기준을 로드한다. role 문서가 없으면 범용 reviewer 기준으로 검토하되 누락을 명시한다.
-3. changed surface와 risk hotspot을 보고 `AGENTS.md`의 통합 인덱스에서 relevant skill/reference category를 먼저 좁힌다.
+3. changed surface와 risk hotspot을 보고 `.github/instructions/skill-index.instructions.md`에서 relevant skill category를 먼저 좁힌다.
 4. available evidence와 retrieved guidance를 대조해 role-specific review를 수행한다.
 5. `board` role이면 upstream findings를 dedupe하고 severity와 release readiness를 보정한 뒤 final verdict를 낸다.
 6. implementer나 Commander가 바로 action을 취할 수 있는 follow-up을 구조화한다.

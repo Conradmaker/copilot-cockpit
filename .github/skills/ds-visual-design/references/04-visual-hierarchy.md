@@ -21,7 +21,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 ### 두께(Weight) 기반 계층
 
 - 크기만으로 계층을 나누려 하지 말고 폰트 두께를 같이 쓴다
-- 중요한 항목에는 Bold 또는 Semibold, 보조 항목에는 Regular
+- 중요한 항목에는 Medium 이상, 보조 항목에는 Regular
 - 한 디자인에 **최대 2가지 두께**를 권장한다
 
 ---

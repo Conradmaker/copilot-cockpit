@@ -19,7 +19,7 @@
 ## Retrieval Order
 
 1. `prd.md`와 `technical.md`가 있으면 먼저 읽어 의도된 구조와 non-goal을 확인한다.
-2. `AGENTS.md`의 changed surface category를 먼저 좁힌다.
+2. `.github/instructions/skill-index.instructions.md`에서 changed surface에 맞는 `Frontend engineering`, `Security & backend`, `Data & state`, `Workflow & tooling` 중 relevant category를 먼저 좁힌다.
 3. clean code, maintainability, domain-specific reference를 순서대로 읽는다.
 4. surface가 frontend나 backend에 치우치면 해당 category skill을 먼저 읽고, 그 위에 code-quality 관점을 덧씌운다.
 

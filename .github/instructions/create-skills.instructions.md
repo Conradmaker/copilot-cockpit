@@ -75,6 +75,7 @@ skill-creator 방법론을 기준으로 아래 순서를 기본 작성 흐름으
 스킬이 다루는 도메인과 다루지 않는 도메인을 나눈다.
 
 - 같은 저장소 안에 이미 비슷한 스킬이 있으면 description과 범위 섹션에서 역할을 분리한다.
+- 워크스페이스 skill surface를 materially 바꾸면 `.github/instructions/skill-index.instructions.md`의 category, trigger, path도 함께 갱신한다.
 - 상세 규칙이 길어질수록 본문에 쌓지 말고 references로 내린다.
 - 로컬 자료가 충분하면 그 자료를 우선 쓰고, 외부 링크는 보조 자료로만 둔다.
 

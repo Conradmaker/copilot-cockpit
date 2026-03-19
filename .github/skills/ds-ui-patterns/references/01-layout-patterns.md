@@ -12,7 +12,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ### 구성
 
-- 중앙 정렬된 큰 텍스트
+- 밀도감 있지만, 답답하지 않은 중앙 정렬된 큰 텍스트
 - 텍스트 아래에 큰 이미지(대시보드 스크린샷 등)
 - 충분한 여백
 

@@ -20,7 +20,7 @@
 1. current `execution-plan.md`의 Review Strategy를 먼저 읽는다.
 2. `prd.md`, current execution brief, relevant downstream artifact(`design.md`, `technical.md`)를 읽어 intended outcome과 constraint를 다시 맞춘다.
 3. upstream findings와 verification evidence를 먼저 읽는다.
-4. 충돌이나 evidence gap이 남아 있을 때만 `AGENTS.md` 인덱스에서 relevant category를 좁혀 추가 skill/reference를 읽는다.
+4. 충돌이나 evidence gap이 남아 있을 때만 `.github/instructions/skill-index.instructions.md`에서 relevant category를 좁혀 추가 skill/reference를 읽는다.
 
 ## Quality Lift 관점
 
