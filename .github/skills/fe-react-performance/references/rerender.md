@@ -15,20 +15,20 @@
 **❌ 잘못된 예:**
 
 ```tsx
-function Header({user, notifications}: Props) {
+function Header({ user, notifications }: Props) {
   const isLoading = useMemo(() => {
-    return user.isLoading || notifications.isLoading;
-  }, [user.isLoading, notifications.isLoading]);
-  if (isLoading) return <Skeleton />;
+    return user.isLoading || notifications.isLoading
+  }, [user.isLoading, notifications.isLoading])
+  if (isLoading) return <Skeleton />
 }
 ```
 
 **✅ 올바른 예:**
 
 ```tsx
-function Header({user, notifications}: Props) {
-  const isLoading = user.isLoading || notifications.isLoading;
-  if (isLoading) return <Skeleton />;
+function Header({ user, notifications }: Props) {
+  const isLoading = user.isLoading || notifications.isLoading
+  if (isLoading) return <Skeleton />
 }
 ```
 
@@ -41,31 +41,31 @@ function Header({user, notifications}: Props) {
 **❌ 잘못된 예 (로딩 중에도 avatar 계산):**
 
 ```tsx
-function Profile({user, loading}: Props) {
+function Profile({ user, loading }: Props) {
   const avatar = useMemo(() => {
-    const id = computeAvatarId(user);
-    return <Avatar id={id} />;
-  }, [user]);
-  if (loading) return <Skeleton />;
-  return <div>{avatar}</div>;
+    const id = computeAvatarId(user)
+    return <Avatar id={id} />
+  }, [user])
+  if (loading) return <Skeleton />
+  return <div>{avatar}</div>
 }
 ```
 
 **✅ 올바른 예 (로딩 시 연산 건너뛰기):**
 
 ```tsx
-const UserAvatar = memo(function UserAvatar({user}: {user: User}) {
-  const id = useMemo(() => computeAvatarId(user), [user]);
-  return <Avatar id={id} />;
-});
+const UserAvatar = memo(function UserAvatar({ user }: { user: User }) {
+  const id = useMemo(() => computeAvatarId(user), [user])
+  return <Avatar id={id} />
+})
 
-function Profile({user, loading}: Props) {
-  if (loading) return <Skeleton />;
+function Profile({ user, loading }: Props) {
+  if (loading) return <Skeleton />
   return (
     <div>
       <UserAvatar user={user} />
     </div>
-  );
+  )
 }
 ```
 
@@ -78,19 +78,19 @@ function Profile({user, loading}: Props) {
 **❌ 잘못된 예 (onClick이 매 리렌더마다 다른 값):**
 
 ```tsx
-const UserAvatar = memo(function UserAvatar({onClick = () => {}}: Props) {
+const UserAvatar = memo(function UserAvatar({ onClick = () => {} }: Props) {
   // ...
-});
+})
 ```
 
 **✅ 올바른 예 (안정적인 기본값):**
 
 ```tsx
-const NOOP = () => {};
+const NOOP = () => {}
 
-const UserAvatar = memo(function UserAvatar({onClick = NOOP}: Props) {
+const UserAvatar = memo(function UserAvatar({ onClick = NOOP }: Props) {
   // ...
-});
+})
 ```
 
 ---
@@ -103,13 +103,13 @@ const UserAvatar = memo(function UserAvatar({onClick = NOOP}: Props) {
 
 ```tsx
 function Form() {
-  const [firstName, setFirstName] = useState("First");
-  const [lastName, setLastName] = useState("Last");
-  const [fullName, setFullName] = useState("");
+  const [firstName, setFirstName] = useState("First")
+  const [lastName, setLastName] = useState("Last")
+  const [fullName, setFullName] = useState("")
 
   useEffect(() => {
-    setFullName(firstName + " " + lastName);
-  }, [firstName, lastName]);
+    setFullName(firstName + " " + lastName)
+  }, [firstName, lastName])
 }
 ```
 
@@ -117,9 +117,9 @@ function Form() {
 
 ```tsx
 function Form() {
-  const [firstName, setFirstName] = useState("First");
-  const [lastName, setLastName] = useState("Last");
-  const fullName = firstName + " " + lastName;
+  const [firstName, setFirstName] = useState("First")
+  const [lastName, setLastName] = useState("Last")
+  const fullName = firstName + " " + lastName
 }
 ```
 
@@ -133,9 +133,9 @@ function Form() {
 
 ```tsx
 function Sidebar() {
-  const width = useWindowWidth(); // 지속적으로 업데이트
-  const isMobile = width < 768;
-  return <nav className={isMobile ? "mobile" : "desktop"} />;
+  const width = useWindowWidth() // 지속적으로 업데이트
+  const isMobile = width < 768
+  return <nav className={isMobile ? "mobile" : "desktop"} />
 }
 ```
 
@@ -143,8 +143,8 @@ function Sidebar() {
 
 ```tsx
 function Sidebar() {
-  const isMobile = useMediaQuery("(max-width: 767px)");
-  return <nav className={isMobile ? "mobile" : "desktop"} />;
+  const isMobile = useMediaQuery("(max-width: 767px)")
+  return <nav className={isMobile ? "mobile" : "desktop"} />
 }
 ```
 
@@ -158,18 +158,18 @@ function Sidebar() {
 
 ```tsx
 function TodoList() {
-  const [items, setItems] = useState(initialItems);
+  const [items, setItems] = useState(initialItems)
 
   const addItems = useCallback(
     (newItems: Item[]) => {
-      setItems([...items, ...newItems]);
+      setItems([...items, ...newItems])
     },
-    [items]
-  ); // items 의존성으로 매번 재생성
+    [items],
+  ) // items 의존성으로 매번 재생성
 
   const removeItem = useCallback((id: string) => {
-    setItems(items.filter((item) => item.id !== id));
-  }, []); // items 누락 → stale closure 버그!
+    setItems(items.filter((item) => item.id !== id))
+  }, []) // items 누락 → stale closure 버그!
 }
 ```
 
@@ -177,15 +177,15 @@ function TodoList() {
 
 ```tsx
 function TodoList() {
-  const [items, setItems] = useState(initialItems);
+  const [items, setItems] = useState(initialItems)
 
   const addItems = useCallback((newItems: Item[]) => {
-    setItems((curr) => [...curr, ...newItems]);
-  }, []); // 의존성 불필요
+    setItems((curr) => [...curr, ...newItems])
+  }, []) // 의존성 불필요
 
   const removeItem = useCallback((id: string) => {
-    setItems((curr) => curr.filter((item) => item.id !== id));
-  }, []); // 안전하고 안정적
+    setItems((curr) => curr.filter((item) => item.id !== id))
+  }, []) // 안전하고 안정적
 }
 ```
 
@@ -202,20 +202,18 @@ function TodoList() {
 **❌ 잘못된 예 (매 렌더마다 실행):**
 
 ```tsx
-const [searchIndex, setSearchIndex] = useState(buildSearchIndex(items));
-const [settings, setSettings] = useState(
-  JSON.parse(localStorage.getItem("settings") || "{}")
-);
+const [searchIndex, setSearchIndex] = useState(buildSearchIndex(items))
+const [settings, setSettings] = useState(JSON.parse(localStorage.getItem("settings") || "{}"))
 ```
 
 **✅ 올바른 예 (초기 렌더 시에만 실행):**
 
 ```tsx
-const [searchIndex, setSearchIndex] = useState(() => buildSearchIndex(items));
+const [searchIndex, setSearchIndex] = useState(() => buildSearchIndex(items))
 const [settings, setSettings] = useState(() => {
-  const stored = localStorage.getItem("settings");
-  return stored ? JSON.parse(stored) : {};
-});
+  const stored = localStorage.getItem("settings")
+  return stored ? JSON.parse(stored) : {}
+})
 ```
 
 **지연 초기화 사용 시기:** localStorage/sessionStorage 읽기, 데이터 구조 빌드(인덱스, 맵), DOM 읽기, 무거운 변환
@@ -230,29 +228,29 @@ const [settings, setSettings] = useState(() => {
 
 ```tsx
 function ScrollTracker() {
-  const [scrollY, setScrollY] = useState(0);
+  const [scrollY, setScrollY] = useState(0)
   useEffect(() => {
-    const handler = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handler, {passive: true});
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
+    const handler = () => setScrollY(window.scrollY)
+    window.addEventListener("scroll", handler, { passive: true })
+    return () => window.removeEventListener("scroll", handler)
+  }, [])
 }
 ```
 
 **✅ 올바른 예 (비차단 업데이트):**
 
 ```tsx
-import {startTransition} from "react";
+import { startTransition } from "react"
 
 function ScrollTracker() {
-  const [scrollY, setScrollY] = useState(0);
+  const [scrollY, setScrollY] = useState(0)
   useEffect(() => {
     const handler = () => {
-      startTransition(() => setScrollY(window.scrollY));
-    };
-    window.addEventListener("scroll", handler, {passive: true});
-    return () => window.removeEventListener("scroll", handler);
-  }, []);
+      startTransition(() => setScrollY(window.scrollY))
+    }
+    window.addEventListener("scroll", handler, { passive: true })
+    return () => window.removeEventListener("scroll", handler)
+  }, [])
 }
 ```
 
@@ -266,16 +264,16 @@ function ScrollTracker() {
 
 ```tsx
 useEffect(() => {
-  console.log(user.id);
-}, [user]);
+  console.log(user.id)
+}, [user])
 ```
 
 **✅ 올바른 예 (id 변경 시에만 재실행):**
 
 ```tsx
 useEffect(() => {
-  console.log(user.id);
-}, [user.id]);
+  console.log(user.id)
+}, [user.id])
 ```
 
 **파생 상태로 의존성 최적화:**
@@ -283,14 +281,14 @@ useEffect(() => {
 ```tsx
 // ❌ width=767, 766, 765... 매번 실행
 useEffect(() => {
-  if (width < 768) enableMobileMode();
-}, [width]);
+  if (width < 768) enableMobileMode()
+}, [width])
 
 // ✅ boolean 전환 시에만 실행
-const isMobile = width < 768;
+const isMobile = width < 768
 useEffect(() => {
-  if (isMobile) enableMobileMode();
-}, [isMobile]);
+  if (isMobile) enableMobileMode()
+}, [isMobile])
 ```
 
 ---
@@ -302,26 +300,26 @@ useEffect(() => {
 **❌ 잘못된 예 (모든 searchParams 변경에 구독):**
 
 ```tsx
-function ShareButton({chatId}: {chatId: string}) {
-  const searchParams = useSearchParams();
+function ShareButton({ chatId }: { chatId: string }) {
+  const searchParams = useSearchParams()
   const handleShare = () => {
-    const ref = searchParams.get("ref");
-    shareChat(chatId, {ref});
-  };
-  return <button onClick={handleShare}>Share</button>;
+    const ref = searchParams.get("ref")
+    shareChat(chatId, { ref })
+  }
+  return <button onClick={handleShare}>Share</button>
 }
 ```
 
 **✅ 올바른 예 (온디맨드 읽기, 구독 없음):**
 
 ```tsx
-function ShareButton({chatId}: {chatId: string}) {
+function ShareButton({ chatId }: { chatId: string }) {
   const handleShare = () => {
-    const params = new URLSearchParams(window.location.search);
-    const ref = params.get("ref");
-    shareChat(chatId, {ref});
-  };
-  return <button onClick={handleShare}>Share</button>;
+    const params = new URLSearchParams(window.location.search)
+    const ref = params.get("ref")
+    shareChat(chatId, { ref })
+  }
+  return <button onClick={handleShare}>Share</button>
 }
 ```
 
@@ -335,15 +333,15 @@ function ShareButton({chatId}: {chatId: string}) {
 
 ```tsx
 function Form() {
-  const [submitted, setSubmitted] = useState(false);
-  const theme = useContext(ThemeContext);
+  const [submitted, setSubmitted] = useState(false)
+  const theme = useContext(ThemeContext)
 
   useEffect(() => {
     if (submitted) {
-      post("/api/register");
-      showToast("Registered", theme);
+      post("/api/register")
+      showToast("Registered", theme)
     }
-  }, [submitted, theme]); // theme 변경에도 재실행!
+  }, [submitted, theme]) // theme 변경에도 재실행!
 }
 ```
 
@@ -351,12 +349,12 @@ function Form() {
 
 ```tsx
 function Form() {
-  const theme = useContext(ThemeContext);
+  const theme = useContext(ThemeContext)
   function handleSubmit() {
-    post("/api/register");
-    showToast("Registered", theme);
+    post("/api/register")
+    showToast("Registered", theme)
   }
-  return <button onClick={handleSubmit}>Submit</button>;
+  return <button onClick={handleSubmit}>Submit</button>
 }
 ```
 
@@ -370,13 +368,13 @@ function Form() {
 
 ```tsx
 function Tracker() {
-  const [lastX, setLastX] = useState(0);
+  const [lastX, setLastX] = useState(0)
   useEffect(() => {
-    const onMove = (e: MouseEvent) => setLastX(e.clientX);
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, []);
-  return <div style={{left: lastX}} />;
+    const onMove = (e: MouseEvent) => setLastX(e.clientX)
+    window.addEventListener("mousemove", onMove)
+    return () => window.removeEventListener("mousemove", onMove)
+  }, [])
+  return <div style={{ left: lastX }} />
 }
 ```
 
@@ -384,20 +382,20 @@ function Tracker() {
 
 ```tsx
 function Tracker() {
-  const lastXRef = useRef(0);
-  const dotRef = useRef<HTMLDivElement>(null);
+  const lastXRef = useRef(0)
+  const dotRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     const onMove = (e: MouseEvent) => {
-      lastXRef.current = e.clientX;
+      lastXRef.current = e.clientX
       if (dotRef.current) {
-        dotRef.current.style.transform = `translateX(${e.clientX}px)`;
+        dotRef.current.style.transform = `translateX(${e.clientX}px)`
       }
-    };
-    window.addEventListener("mousemove", onMove);
-    return () => window.removeEventListener("mousemove", onMove);
-  }, []);
+    }
+    window.addEventListener("mousemove", onMove)
+    return () => window.removeEventListener("mousemove", onMove)
+  }, [])
 
-  return <div ref={dotRef} style={{transform: "translateX(0px)"}} />;
+  return <div ref={dotRef} style={{ transform: "translateX(0px)" }} />
 }
 ```

@@ -13,11 +13,9 @@ Prefetch data when users show intent to navigate (hover, focus) rather than wait
 function PostList({ posts }: { posts: Post[] }) {
   return (
     <ul>
-      {posts.map(post => (
+      {posts.map((post) => (
         <li key={post.id}>
-          <Link to={`/posts/${post.id}`}>
-            {post.title}
-          </Link>
+          <Link to={`/posts/${post.id}`}>{post.title}</Link>
           {/* User clicks, waits for data to load */}
         </li>
       ))}
@@ -29,8 +27,8 @@ function PostList({ posts }: { posts: Post[] }) {
 ## Good Example
 
 ```tsx
-import { useQueryClient } from '@tanstack/react-query'
-import { postQueries } from '@/lib/queries'
+import { useQueryClient } from "@tanstack/react-query"
+import { postQueries } from "@/lib/queries"
 
 function PostList({ posts }: { posts: Post[] }) {
   const queryClient = useQueryClient()
@@ -38,13 +36,13 @@ function PostList({ posts }: { posts: Post[] }) {
   const handlePrefetch = (postId: number) => {
     queryClient.prefetchQuery({
       ...postQueries.detail(postId),
-      staleTime: 60 * 1000,  // Consider fresh for 1 minute
+      staleTime: 60 * 1000, // Consider fresh for 1 minute
     })
   }
 
   return (
     <ul>
-      {posts.map(post => (
+      {posts.map((post) => (
         <li key={post.id}>
           <Link
             to={`/posts/${post.id}`}
@@ -63,18 +61,18 @@ function PostList({ posts }: { posts: Post[] }) {
 ## Good Example: With TanStack Router
 
 ```tsx
-import { Link } from '@tanstack/react-router'
+import { Link } from "@tanstack/react-router"
 
 // TanStack Router has built-in prefetching
 function PostList({ posts }: { posts: Post[] }) {
   return (
     <ul>
-      {posts.map(post => (
+      {posts.map((post) => (
         <li key={post.id}>
           <Link
             to="/posts/$postId"
             params={{ postId: post.id }}
-            preload="intent"  // Prefetch on hover/focus
+            preload="intent" // Prefetch on hover/focus
           >
             {post.title}
           </Link>
@@ -87,8 +85,8 @@ function PostList({ posts }: { posts: Post[] }) {
 // Or set as router default
 const router = createRouter({
   routeTree,
-  defaultPreload: 'intent',
-  defaultPreloadDelay: 100,  // Wait 100ms before prefetching
+  defaultPreload: "intent",
+  defaultPreloadDelay: 100, // Wait 100ms before prefetching
 })
 ```
 
@@ -113,11 +111,7 @@ function PostLink({ post }: { post: Post }) {
   }
 
   return (
-    <Link
-      to={`/posts/${post.id}`}
-      onMouseEnter={handleMouseEnter}
-      onMouseLeave={handleMouseLeave}
-    >
+    <Link to={`/posts/${post.id}`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {post.title}
     </Link>
   )

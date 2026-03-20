@@ -12,33 +12,33 @@ metadata:
 Use `close-with-grace` for proper shutdown handling:
 
 ```typescript
-import Fastify from 'fastify';
-import closeWithGrace from 'close-with-grace';
+import Fastify from "fastify"
+import closeWithGrace from "close-with-grace"
 
-const app = Fastify({ logger: true });
+const app = Fastify({ logger: true })
 
 // Register plugins and routes
-await app.register(import('./plugins/index.js'));
-await app.register(import('./routes/index.js'));
+await app.register(import("./plugins/index.js"))
+await app.register(import("./routes/index.js"))
 
 // Graceful shutdown handler
 closeWithGrace({ delay: 10000 }, async ({ signal, err }) => {
   if (err) {
-    app.log.error({ err }, 'Server closing due to error');
+    app.log.error({ err }, "Server closing due to error")
   } else {
-    app.log.info({ signal }, 'Server closing due to signal');
+    app.log.info({ signal }, "Server closing due to signal")
   }
 
-  await app.close();
-});
+  await app.close()
+})
 
 // Start server
 await app.listen({
-  port: parseInt(process.env.PORT || '3000', 10),
-  host: '0.0.0.0',
-});
+  port: parseInt(process.env.PORT || "3000", 10),
+  host: "0.0.0.0",
+})
 
-app.log.info(`Server listening on ${app.server.address()}`);
+app.log.info(`Server listening on ${app.server.address()}`)
 ```
 
 ## Health Check Endpoints
@@ -46,65 +46,69 @@ app.log.info(`Server listening on ${app.server.address()}`);
 Implement comprehensive health checks:
 
 ```typescript
-app.get('/health', async () => {
-  return { status: 'ok', timestamp: new Date().toISOString() };
-});
+app.get("/health", async () => {
+  return { status: "ok", timestamp: new Date().toISOString() }
+})
 
-app.get('/health/live', async () => {
-  return { status: 'ok' };
-});
+app.get("/health/live", async () => {
+  return { status: "ok" }
+})
 
-app.get('/health/ready', async (request, reply) => {
+app.get("/health/ready", async (request, reply) => {
   const checks = {
     database: false,
     cache: false,
-  };
+  }
 
   try {
-    await app.db`SELECT 1`;
-    checks.database = true;
+    await app.db`SELECT 1`
+    checks.database = true
   } catch {
     // Database not ready
   }
 
   try {
-    await app.cache.ping();
-    checks.cache = true;
+    await app.cache.ping()
+    checks.cache = true
   } catch {
     // Cache not ready
   }
 
-  const allHealthy = Object.values(checks).every(Boolean);
+  const allHealthy = Object.values(checks).every(Boolean)
 
   if (!allHealthy) {
-    reply.code(503);
+    reply.code(503)
   }
 
   return {
-    status: allHealthy ? 'ok' : 'degraded',
+    status: allHealthy ? "ok" : "degraded",
     checks,
     timestamp: new Date().toISOString(),
-  };
-});
+  }
+})
 
 // Detailed health for monitoring
-app.get('/health/details', {
-  preHandler: [app.authenticate, app.requireAdmin],
-}, async () => {
-  const memory = process.memoryUsage();
+app.get(
+  "/health/details",
+  {
+    preHandler: [app.authenticate, app.requireAdmin],
+  },
+  async () => {
+    const memory = process.memoryUsage()
 
-  return {
-    status: 'ok',
-    uptime: process.uptime(),
-    memory: {
-      heapUsed: Math.round(memory.heapUsed / 1024 / 1024),
-      heapTotal: Math.round(memory.heapTotal / 1024 / 1024),
-      rss: Math.round(memory.rss / 1024 / 1024),
-    },
-    version: process.env.APP_VERSION,
-    nodeVersion: process.version,
-  };
-});
+    return {
+      status: "ok",
+      uptime: process.uptime(),
+      memory: {
+        heapUsed: Math.round(memory.heapUsed / 1024 / 1024),
+        heapTotal: Math.round(memory.heapTotal / 1024 / 1024),
+        rss: Math.round(memory.rss / 1024 / 1024),
+      },
+      version: process.env.APP_VERSION,
+      nodeVersion: process.version,
+    }
+  },
+)
 ```
 
 ## Docker Configuration
@@ -259,18 +263,18 @@ spec:
 Configure logging for production:
 
 ```typescript
-import Fastify from 'fastify';
+import Fastify from "fastify"
 
 const app = Fastify({
   logger: {
-    level: process.env.LOG_LEVEL || 'info',
+    level: process.env.LOG_LEVEL || "info",
     // JSON output for log aggregation
     formatters: {
       level: (label) => ({ level: label }),
       bindings: (bindings) => ({
         pid: bindings.pid,
         hostname: bindings.hostname,
-        service: 'fastify-api',
+        service: "fastify-api",
         version: process.env.APP_VERSION,
       }),
     },
@@ -278,16 +282,16 @@ const app = Fastify({
     // Redact sensitive data
     redact: {
       paths: [
-        'req.headers.authorization',
-        'req.headers.cookie',
-        '*.password',
-        '*.token',
-        '*.secret',
+        "req.headers.authorization",
+        "req.headers.cookie",
+        "*.password",
+        "*.token",
+        "*.secret",
       ],
-      censor: '[REDACTED]',
+      censor: "[REDACTED]",
     },
   },
-});
+})
 ```
 
 ## Request Timeouts
@@ -296,18 +300,22 @@ Configure appropriate timeouts:
 
 ```typescript
 const app = Fastify({
-  connectionTimeout: 30000,     // 30s connection timeout
-  keepAliveTimeout: 72000,      // 72s keep-alive (longer than ALB 60s)
-  requestTimeout: 30000,        // 30s request timeout
-  bodyLimit: 1048576,           // 1MB body limit
-});
+  connectionTimeout: 30000, // 30s connection timeout
+  keepAliveTimeout: 72000, // 72s keep-alive (longer than ALB 60s)
+  requestTimeout: 30000, // 30s request timeout
+  bodyLimit: 1048576, // 1MB body limit
+})
 
 // Per-route timeout
-app.get('/long-operation', {
-  config: {
-    timeout: 60000, // 60s for this route
+app.get(
+  "/long-operation",
+  {
+    config: {
+      timeout: 60000, // 60s for this route
+    },
   },
-}, longOperationHandler);
+  longOperationHandler,
+)
 ```
 
 ## Trust Proxy Settings
@@ -320,11 +328,11 @@ const app = Fastify({
   trustProxy: true,
 
   // Or trust specific proxies
-  trustProxy: ['127.0.0.1', '10.0.0.0/8'],
+  trustProxy: ["127.0.0.1", "10.0.0.0/8"],
 
   // Or number of proxies to trust
   trustProxy: 1,
-});
+})
 
 // Now request.ip returns real client IP
 ```
@@ -334,17 +342,17 @@ const app = Fastify({
 Serve static files efficiently. **Always use `import.meta.dirname` as the base path**, never `process.cwd()`:
 
 ```typescript
-import fastifyStatic from '@fastify/static';
-import { join } from 'node:path';
+import fastifyStatic from "@fastify/static"
+import { join } from "node:path"
 
 app.register(fastifyStatic, {
-  root: join(import.meta.dirname, '..', 'public'),
-  prefix: '/static/',
-  maxAge: '1d',
+  root: join(import.meta.dirname, "..", "public"),
+  prefix: "/static/",
+  maxAge: "1d",
   immutable: true,
   etag: true,
   lastModified: true,
-});
+})
 ```
 
 ## Compression
@@ -352,13 +360,13 @@ app.register(fastifyStatic, {
 Enable response compression:
 
 ```typescript
-import fastifyCompress from '@fastify/compress';
+import fastifyCompress from "@fastify/compress"
 
 app.register(fastifyCompress, {
   global: true,
   threshold: 1024, // Only compress > 1KB
-  encodings: ['gzip', 'deflate'],
-});
+  encodings: ["gzip", "deflate"],
+})
 ```
 
 ## Metrics and Monitoring
@@ -366,40 +374,40 @@ app.register(fastifyCompress, {
 Expose Prometheus metrics:
 
 ```typescript
-import { register, collectDefaultMetrics, Counter, Histogram } from 'prom-client';
+import { register, collectDefaultMetrics, Counter, Histogram } from "prom-client"
 
-collectDefaultMetrics();
+collectDefaultMetrics()
 
 const httpRequestDuration = new Histogram({
-  name: 'http_request_duration_seconds',
-  help: 'Duration of HTTP requests in seconds',
-  labelNames: ['method', 'route', 'status'],
+  name: "http_request_duration_seconds",
+  help: "Duration of HTTP requests in seconds",
+  labelNames: ["method", "route", "status"],
   buckets: [0.01, 0.05, 0.1, 0.5, 1, 5],
-});
+})
 
 const httpRequestTotal = new Counter({
-  name: 'http_requests_total',
-  help: 'Total number of HTTP requests',
-  labelNames: ['method', 'route', 'status'],
-});
+  name: "http_requests_total",
+  help: "Total number of HTTP requests",
+  labelNames: ["method", "route", "status"],
+})
 
-app.addHook('onResponse', (request, reply, done) => {
-  const route = request.routeOptions.url || request.url;
+app.addHook("onResponse", (request, reply, done) => {
+  const route = request.routeOptions.url || request.url
   const labels = {
     method: request.method,
     route,
     status: reply.statusCode,
-  };
+  }
 
-  httpRequestDuration.observe(labels, reply.elapsedTime / 1000);
-  httpRequestTotal.inc(labels);
-  done();
-});
+  httpRequestDuration.observe(labels, reply.elapsedTime / 1000)
+  httpRequestTotal.inc(labels)
+  done()
+})
 
-app.get('/metrics', async (request, reply) => {
-  reply.header('Content-Type', register.contentType);
-  return register.metrics();
-});
+app.get("/metrics", async (request, reply) => {
+  reply.header("Content-Type", register.contentType)
+  return register.metrics()
+})
 ```
 
 ## Zero-Downtime Deployments
@@ -407,19 +415,18 @@ app.get('/metrics', async (request, reply) => {
 Support rolling updates:
 
 ```typescript
-import closeWithGrace from 'close-with-grace';
+import closeWithGrace from "close-with-grace"
 
 // Stop accepting new connections gracefully
 closeWithGrace({ delay: 30000 }, async ({ signal }) => {
-  app.log.info({ signal }, 'Received shutdown signal');
+  app.log.info({ signal }, "Received shutdown signal")
 
   // Stop accepting new connections
   // Existing connections continue to be served
 
   // Wait for in-flight requests (handled by close-with-grace delay)
-  await app.close();
+  await app.close()
 
-  app.log.info('Server closed');
-});
+  app.log.info("Server closed")
+})
 ```
-

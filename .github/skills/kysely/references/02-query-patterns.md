@@ -15,7 +15,7 @@ const users = await db
   .selectFrom("users")
   .select(["id", "email", "name"])
   .where("created_at", ">", new Date("2024-01-01"))
-  .execute();
+  .execute()
 
 const inserted = await db
   .insertInto("users")
@@ -25,18 +25,15 @@ const inserted = await db
     updated_at: new Date(),
   })
   .returningAll()
-  .executeTakeFirstOrThrow();
+  .executeTakeFirstOrThrow()
 
 await db
   .updateTable("users")
-  .set({name: "Alice Updated", updated_at: new Date()})
+  .set({ name: "Alice Updated", updated_at: new Date() })
   .where("id", "=", 1)
-  .execute();
+  .execute()
 
-await db
-  .deleteFrom("users")
-  .where("email", "like", "%@spam.com")
-  .execute();
+await db.deleteFrom("users").where("email", "like", "%@spam.com").execute()
 ```
 
 ### 빠른 판단 기준
@@ -54,13 +51,13 @@ const usersWithPosts = await db
   .selectFrom("users")
   .innerJoin("posts", "posts.user_id", "users.id")
   .select(["users.id", "users.name", "posts.title"])
-  .execute();
+  .execute()
 
 const usersWithOptionalPosts = await db
   .selectFrom("users")
   .leftJoin("posts", "posts.user_id", "users.id")
   .select(["users.id", "users.email", "posts.title"])
-  .execute();
+  .execute()
 ```
 
 `LEFT JOIN` 결과는 null 가능성을 그대로 가져간다.
@@ -85,13 +82,13 @@ const stats = await db
   ])
   .groupBy("user_id")
   .having(db.fn.count("id"), ">", 5)
-  .execute();
+  .execute()
 ```
 
 복잡한 aggregate는 `sql`과 조합해도 된다.
 
 ```ts
-import {sql} from "kysely";
+import { sql } from "kysely"
 
 const advanced = await db
   .selectFrom("users")
@@ -102,7 +99,7 @@ const advanced = await db
     sql<Date>`MAX(posts.created_at)`.as("latest_post"),
   ])
   .groupBy("users.id")
-  .execute();
+  .execute()
 ```
 
 ---
@@ -122,7 +119,7 @@ const usersWithPostCount = await db
         .whereRef("posts.user_id", "=", "users.id")
         .as("post_count"),
   ])
-  .execute();
+  .execute()
 ```
 
 `EXISTS`와 `IN`도 동일하게 표현할 수 있다.
@@ -137,10 +134,10 @@ const activeUsers = await db
         .selectFrom("posts")
         .select("id")
         .whereRef("posts.user_id", "=", "users.id")
-        .where("created_at", ">", new Date("2024-01-01"))
-    )
+        .where("created_at", ">", new Date("2024-01-01")),
+    ),
   )
-  .execute();
+  .execute()
 ```
 
 ### 빠른 판단 기준
@@ -156,31 +153,25 @@ const activeUsers = await db
 ```ts
 const result = await db
   .with("popular_posts", (db) =>
-    db
-      .selectFrom("posts")
-      .select(["id", "user_id", "title"])
-      .where("views", ">", 1000)
+    db.selectFrom("posts").select(["id", "user_id", "title"]).where("views", ">", 1000),
   )
   .with("active_users", (db) =>
-    db
-      .selectFrom("users")
-      .select(["id", "email"])
-      .where("last_login", ">", new Date("2024-01-01"))
+    db.selectFrom("users").select(["id", "email"]).where("last_login", ">", new Date("2024-01-01")),
   )
   .selectFrom("popular_posts")
   .innerJoin("active_users", "active_users.id", "popular_posts.user_id")
   .selectAll()
-  .execute();
+  .execute()
 ```
 
 재귀 CTE도 가능하다.
 
 ```ts
 interface OrgNode {
-  id: number;
-  name: string;
-  parent_id: number | null;
-  level: number;
+  id: number
+  name: string
+  parent_id: number | null
+  level: number
 }
 ```
 
@@ -195,8 +186,8 @@ interface OrgNode {
 ## 6. Postgres helper와 중첩 결과
 
 ```ts
-import {jsonArrayFrom, jsonBuildObject} from "kysely/helpers/postgres";
-import {sql} from "kysely";
+import { jsonArrayFrom, jsonBuildObject } from "kysely/helpers/postgres"
+import { sql } from "kysely"
 
 const usersWithPosts = await db
   .selectFrom("users")
@@ -207,10 +198,10 @@ const usersWithPosts = await db
       db
         .selectFrom("posts")
         .select(["posts.id", "posts.title", "posts.content"])
-        .whereRef("posts.user_id", "=", "users.id")
+        .whereRef("posts.user_id", "=", "users.id"),
     ).as("posts"),
   ])
-  .execute();
+  .execute()
 
 const nested = await db
   .selectFrom("users")
@@ -222,7 +213,7 @@ const nested = await db
       postCount: sql<number>`(SELECT COUNT(*) FROM posts WHERE user_id = users.id)`,
     }).as("user_data"),
   ])
-  .execute();
+  .execute()
 ```
 
 ---
@@ -230,14 +221,14 @@ const nested = await db
 ## 7. Pagination helper
 
 ```ts
-import {SelectQueryBuilder} from "kysely";
+import { SelectQueryBuilder } from "kysely"
 
 function paginate<DB, TB extends keyof DB, O>(
   query: SelectQueryBuilder<DB, TB, O>,
   page: number,
-  pageSize: number
+  pageSize: number,
 ) {
-  return query.limit(pageSize).offset((page - 1) * pageSize);
+  return query.limit(pageSize).offset((page - 1) * pageSize)
 }
 ```
 
@@ -253,13 +244,13 @@ function paginate<DB, TB extends keyof DB, O>(
 ## 8. Full-text search 예시
 
 ```ts
-import {sql} from "kysely";
+import { sql } from "kysely"
 
 const searchResults = await db
   .selectFrom("posts")
   .selectAll()
   .where(sql`search_vector`, "@@", sql`to_tsquery('english', ${query})`)
-  .execute();
+  .execute()
 ```
 
 Kysely가 인덱스를 대신 잡아주지 않는다. 성능은 DB schema와 index 설계가 좌우한다.

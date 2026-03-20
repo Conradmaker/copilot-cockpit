@@ -13,8 +13,8 @@
 **❌ 잘못된 예 (count가 0이면 "0" 렌더링):**
 
 ```tsx
-function Badge({count}: {count: number}) {
-  return <div>{count && <span className="badge">{count}</span>}</div>;
+function Badge({ count }: { count: number }) {
+  return <div>{count && <span className="badge">{count}</span>}</div>
 }
 // count = 0 → <div>0</div>
 ```
@@ -22,8 +22,8 @@ function Badge({count}: {count: number}) {
 **✅ 올바른 예 (count가 0이면 아무것도 렌더링하지 않음):**
 
 ```tsx
-function Badge({count}: {count: number}) {
-  return <div>{count > 0 ? <span className="badge">{count}</span> : null}</div>;
+function Badge({ count }: { count: number }) {
+  return <div>{count > 0 ? <span className="badge">{count}</span> : null}</div>
 }
 ```
 
@@ -41,7 +41,7 @@ function Badge({count}: {count: number}) {
 ```
 
 ```tsx
-function MessageList({messages}: {messages: Message[]}) {
+function MessageList({ messages }: { messages: Message[] }) {
   return (
     <div className="overflow-y-auto h-screen">
       {messages.map((msg) => (
@@ -51,7 +51,7 @@ function MessageList({messages}: {messages: Message[]}) {
         </div>
       ))}
     </div>
-  );
+  )
 }
 ```
 
@@ -66,21 +66,21 @@ function MessageList({messages}: {messages: Message[]}) {
 **❌ 잘못된 예 (SSR 실패):**
 
 ```tsx
-function ThemeWrapper({children}: Props) {
-  const theme = localStorage.getItem("theme") || "light"; // 서버에서 에러
-  return <div className={theme}>{children}</div>;
+function ThemeWrapper({ children }: Props) {
+  const theme = localStorage.getItem("theme") || "light" // 서버에서 에러
+  return <div className={theme}>{children}</div>
 }
 ```
 
 **❌ 잘못된 예 (시각적 플리커):**
 
 ```tsx
-function ThemeWrapper({children}: Props) {
-  const [theme, setTheme] = useState("light");
+function ThemeWrapper({ children }: Props) {
+  const [theme, setTheme] = useState("light")
   useEffect(() => {
-    const stored = localStorage.getItem("theme");
-    if (stored) setTheme(stored);
-  }, []);
+    const stored = localStorage.getItem("theme")
+    if (stored) setTheme(stored)
+  }, [])
   // 하이드레이션 후 깜빡임 발생
 }
 ```
@@ -88,7 +88,7 @@ function ThemeWrapper({children}: Props) {
 **✅ 올바른 예 (플리커 없음, 하이드레이션 불일치 없음):**
 
 ```tsx
-function ThemeWrapper({children}: Props) {
+function ThemeWrapper({ children }: Props) {
   return (
     <>
       <div id="theme-wrapper">{children}</div>
@@ -106,7 +106,7 @@ function ThemeWrapper({children}: Props) {
         }}
       />
     </>
-  );
+  )
 }
 ```
 
@@ -122,7 +122,7 @@ function ThemeWrapper({children}: Props) {
 
 ```tsx
 function Timestamp() {
-  return <span>{new Date().toLocaleString()}</span>;
+  return <span>{new Date().toLocaleString()}</span>
 }
 ```
 
@@ -130,7 +130,7 @@ function Timestamp() {
 
 ```tsx
 function Timestamp() {
-  return <span suppressHydrationWarning>{new Date().toLocaleString()}</span>;
+  return <span suppressHydrationWarning>{new Date().toLocaleString()}</span>
 }
 ```
 
@@ -172,7 +172,7 @@ function LoadingSpinner() {
     <svg className="animate-spin" width="24" height="24" viewBox="0 0 24 24">
       <circle cx="12" cy="12" r="10" stroke="currentColor" />
     </svg>
-  );
+  )
 }
 ```
 
@@ -186,7 +186,7 @@ function LoadingSpinner() {
         <circle cx="12" cy="12" r="10" stroke="currentColor" />
       </svg>
     </div>
-  );
+  )
 }
 ```
 
@@ -202,17 +202,17 @@ function LoadingSpinner() {
 
 ```tsx
 function Container() {
-  return <div>{loading && <div className="animate-pulse h-20 bg-gray-200" />}</div>;
+  return <div>{loading && <div className="animate-pulse h-20 bg-gray-200" />}</div>
 }
 ```
 
 **✅ 올바른 예 (동일 요소 재사용):**
 
 ```tsx
-const loadingSkeleton = <div className="animate-pulse h-20 bg-gray-200" />;
+const loadingSkeleton = <div className="animate-pulse h-20 bg-gray-200" />
 
 function Container() {
-  return <div>{loading && loadingSkeleton}</div>;
+  return <div>{loading && loadingSkeleton}</div>
 }
 ```
 
@@ -228,33 +228,33 @@ function Container() {
 
 ```tsx
 function SearchResults() {
-  const [results, setResults] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [results, setResults] = useState([])
+  const [isLoading, setIsLoading] = useState(false)
 
   const handleSearch = async (value: string) => {
-    setIsLoading(true);
-    const data = await fetchResults(value);
-    setResults(data);
-    setIsLoading(false);
-  };
+    setIsLoading(true)
+    const data = await fetchResults(value)
+    setResults(data)
+    setIsLoading(false)
+  }
 }
 ```
 
 **✅ 올바른 예 (useTransition):**
 
 ```tsx
-import {useTransition, useState} from "react";
+import { useTransition, useState } from "react"
 
 function SearchResults() {
-  const [results, setResults] = useState([]);
-  const [isPending, startTransition] = useTransition();
+  const [results, setResults] = useState([])
+  const [isPending, startTransition] = useTransition()
 
   const handleSearch = (value: string) => {
     startTransition(async () => {
-      const data = await fetchResults(value);
-      setResults(data);
-    });
-  };
+      const data = await fetchResults(value)
+      setResults(data)
+    })
+  }
   // isPending으로 로딩 표시
 }
 ```
@@ -268,14 +268,14 @@ function SearchResults() {
 React의 `<Activity>`를 사용하면 비용이 큰 컴포넌트의 상태/DOM을 보존하면서 가시성을 토글할 수 있다.
 
 ```tsx
-import {Activity} from "react";
+import { Activity } from "react"
 
-function Dropdown({isOpen}: Props) {
+function Dropdown({ isOpen }: Props) {
   return (
     <Activity mode={isOpen ? "visible" : "hidden"}>
       <ExpensiveMenu />
     </Activity>
-  );
+  )
 }
 ```
 
@@ -333,9 +333,9 @@ function Dropdown({isOpen}: Props) {
 
 ```tsx
 function resizePanel(panel: HTMLDivElement) {
-  panel.style.width = "320px";
-  const height = panel.offsetHeight;
-  panel.style.height = `${height + 40}px`;
+  panel.style.width = "320px"
+  const height = panel.offsetHeight
+  panel.style.height = `${height + 40}px`
 }
 ```
 
@@ -343,9 +343,9 @@ function resizePanel(panel: HTMLDivElement) {
 
 ```tsx
 function resizePanel(panel: HTMLDivElement) {
-  const nextHeight = panel.offsetHeight + 40;
-  panel.classList.add("panel-expanded");
-  panel.style.height = `${nextHeight}px`;
+  const nextHeight = panel.offsetHeight + 40
+  panel.classList.add("panel-expanded")
+  panel.style.height = `${nextHeight}px`
 }
 ```
 

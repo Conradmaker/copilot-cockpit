@@ -116,36 +116,30 @@
 
 ```tsx
 function SignupForm() {
-  const emailRef = useRef<HTMLInputElement>(null);
-  const [error, setError] = useState<string | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const emailRef = useRef<HTMLInputElement>(null)
+  const [error, setError] = useState<string | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
     if (!emailRef.current?.value) {
-      setError("이메일을 입력해 주세요.");
-      emailRef.current?.focus();
-      return;
+      setError("이메일을 입력해 주세요.")
+      emailRef.current?.focus()
+      return
     }
 
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     try {
-      await submit();
+      await submit()
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   return (
     <form onSubmit={handleSubmit}>
       <label htmlFor="signup-email">이메일</label>
-      <input
-        id="signup-email"
-        ref={emailRef}
-        name="email"
-        type="email"
-        autoComplete="email"
-      />
+      <input id="signup-email" ref={emailRef} name="email" type="email" autoComplete="email" />
       {error ? (
         <p role="status" aria-live="polite">
           {error}
@@ -155,7 +149,7 @@ function SignupForm() {
         {isSubmitting ? "가입 중…" : "가입하기"}
       </button>
     </form>
-  );
+  )
 }
 ```
 
@@ -174,7 +168,7 @@ function SignupForm() {
 
 ```tsx
 // ❌ 가짜 버튼
-<div className="button-style" style={{cursor: "pointer"}} onClick={handleClick}>
+<div className="button-style" style={{ cursor: "pointer" }} onClick={handleClick}>
   문의하기
 </div>
 ```
@@ -205,7 +199,7 @@ function SignupForm() {
   onClick={handleClick}
   onKeyDown={(e) => {
     if (e.key === "Enter" || e.key === " ") {
-      handleClick();
+      handleClick()
     }
   }}
 >
@@ -222,20 +216,20 @@ function SignupForm() {
 [React-Aria](https://react-spectrum.adobe.com/react-aria/index.html)의 `useButton` 훅을 사용하면 접근성 속성을 직접 처리하지 않아도 된다.
 
 ```tsx
-import {useButton} from "react-aria";
+import { useButton } from "react-aria"
 
-const buttonRef = useRef<HTMLDivElement>(null);
-const {buttonProps} = useButton(
+const buttonRef = useRef<HTMLDivElement>(null)
+const { buttonProps } = useButton(
   {
     elementType: "div",
     onPress: handleClick,
   },
-  buttonRef
-);
+  buttonRef,
+)
 
 <div ref={buttonRef} {...buttonProps}>
   <div>내부 block 요소</div>
-</div>;
+</div>
 ```
 
 > `useButton`이 `role`, `tabIndex`, `onKeyDown` 등 필수 접근성 설정을 모두 제공한다.

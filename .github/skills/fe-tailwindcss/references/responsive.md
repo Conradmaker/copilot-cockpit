@@ -9,13 +9,13 @@
 Tailwind는 **모바일 퍼스트**다. 기본 스타일이 모바일이고, prefix로 더 큰 화면을 추가한다.
 
 | Prefix | Min Width | 대표 디바이스        |
-| ------ | --------- | -------------------- |
+| ------ | ------ | ------- |
 | (none) | 0         | 모바일 기본          |
 | `sm:`  | 640px     | 대형 폰 / 소형 태블릿 |
-| `md:`  | 768px     | 태블릿 (iPad 세로)   |
+| `md:`  | 768px     | 태블릿 (iPad 세로)    |
 | `lg:`  | 1024px    | 소형 랩탑 (iPad 가로) |
-| `xl:`  | 1280px    | 데스크톱             |
-| `2xl:` | 1536px    | 대화면               |
+| `xl:`  | 1280px    | 데스크톱              |
+| `2xl:` | 1536px    | 대화면                |
 
 ---
 
@@ -69,16 +69,16 @@ Tailwind는 **모바일 퍼스트**다. 기본 스타일이 모바일이고, pre
 
 ### 텍스트 스케일
 
-| 클래스      | 크기 | 용도                      |
-| ----------- | ---- | ------------------------- |
-| `text-xs`   | 12px | 캡션, 뱃지 라벨           |
-| `text-sm`   | 14px | 보조 텍스트, 모바일 본문  |
-| `text-base` | 16px | 본문                      |
-| `text-lg`   | 18px | 큰 본문, 부제목           |
-| `text-xl`   | 20px | 소제목                    |
-| `text-2xl`  | 24px | 섹션 제목                 |
-| `text-3xl`  | 30px | 페이지 제목               |
-| `text-4xl`  | 36px | 히어로 제목               |
+| 클래스 | 크기 | 용도 |
+| ----- | ----- | ----- |
+| `text-xs`   | 12px | 캡션, 뱃지 라벨          |
+| `text-sm`   | 14px | 보조 텍스트, 모바일 본문 |
+| `text-base` | 16px | 본문                     |
+| `text-lg`   | 18px | 큰 본문, 부제목          |
+| `text-xl`   | 20px | 소제목                   |
+| `text-2xl`  | 24px | 섹션 제목                |
+| `text-3xl`  | 30px | 페이지 제목              |
+| `text-4xl`  | 36px | 히어로 제목              |
 
 ### 패턴
 
@@ -141,9 +141,7 @@ breakpoint 변경은 2~3단계로 충분하다. 5단계 이상은 지양한다.
 hover 효과는 hover를 지원하는 디바이스에서만 적용한다:
 
 ```tsx
-<button className="bg-gray-900 text-white hover:bg-gray-800">
-  Primary
-</button>
+<button className="bg-gray-900 text-white hover:bg-gray-800">Primary</button>
 ```
 
 ### 규칙

@@ -15,24 +15,24 @@ barrel 파일(index.js에서 `export * from './module'`)을 통한 import는 수
 **❌ 잘못된 예 (전체 라이브러리 로드):**
 
 ```tsx
-import {Check, X, Menu} from "lucide-react";
+import { Check, X, Menu } from "lucide-react"
 // 1,583개 모듈 로드, 개발 시 ~2.8s 추가
 // 런타임 비용: 매 콜드 스타트마다 200-800ms
 
-import {Button, TextField} from "@mui/material";
+import { Button, TextField } from "@mui/material"
 // 2,225개 모듈 로드, 개발 시 ~4.2s 추가
 ```
 
 **✅ 올바른 예 (필요한 것만 직접 import):**
 
 ```tsx
-import Check from "lucide-react/dist/esm/icons/check";
-import X from "lucide-react/dist/esm/icons/x";
-import Menu from "lucide-react/dist/esm/icons/menu";
+import Check from "lucide-react/dist/esm/icons/check"
+import X from "lucide-react/dist/esm/icons/x"
+import Menu from "lucide-react/dist/esm/icons/menu"
 // 3개 모듈만 로드 (~2KB vs ~1MB)
 
-import Button from "@mui/material/Button";
-import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button"
+import TextField from "@mui/material/TextField"
 ```
 
 **대안 (Next.js 13.5+):**
@@ -43,7 +43,7 @@ module.exports = {
   experimental: {
     optimizePackageImports: ["lucide-react", "@mui/material"],
   },
-};
+}
 // barrel import를 빌드 시 자동으로 직접 import로 변환
 ```
 
@@ -58,25 +58,24 @@ module.exports = {
 **❌ 잘못된 예 (Monaco가 메인 청크에 포함 ~300KB):**
 
 ```tsx
-import {MonacoEditor} from "./monaco-editor";
+import { MonacoEditor } from "./monaco-editor"
 
-function CodePanel({code}: {code: string}) {
-  return <MonacoEditor value={code} />;
+function CodePanel({ code }: { code: string }) {
+  return <MonacoEditor value={code} />
 }
 ```
 
 **✅ 올바른 예 (Monaco를 필요 시 로드):**
 
 ```tsx
-import dynamic from "next/dynamic";
+import dynamic from "next/dynamic"
 
-const MonacoEditor = dynamic(
-  () => import("./monaco-editor").then((m) => m.MonacoEditor),
-  {ssr: false}
-);
+const MonacoEditor = dynamic(() => import("./monaco-editor").then((m) => m.MonacoEditor), {
+  ssr: false,
+})
 
-function CodePanel({code}: {code: string}) {
-  return <MonacoEditor value={code} />;
+function CodePanel({ code }: { code: string }) {
+  return <MonacoEditor value={code} />
 }
 ```
 
@@ -89,9 +88,9 @@ function CodePanel({code}: {code: string}) {
 **❌ 잘못된 예 (초기 번들에 포함):**
 
 ```tsx
-import {Analytics} from "@vercel/analytics/react";
+import { Analytics } from "@vercel/analytics/react"
 
-export default function RootLayout({children}) {
+export default function RootLayout({ children }) {
   return (
     <html>
       <body>
@@ -99,21 +98,20 @@ export default function RootLayout({children}) {
         <Analytics />
       </body>
     </html>
-  );
+  )
 }
 ```
 
 **✅ 올바른 예 (하이드레이션 후 로드):**
 
 ```tsx
-import dynamic from "next/dynamic";
+import dynamic from "next/dynamic"
 
-const Analytics = dynamic(
-  () => import("@vercel/analytics/react").then((m) => m.Analytics),
-  {ssr: false}
-);
+const Analytics = dynamic(() => import("@vercel/analytics/react").then((m) => m.Analytics), {
+  ssr: false,
+})
 
-export default function RootLayout({children}) {
+export default function RootLayout({ children }) {
   return (
     <html>
       <body>
@@ -121,7 +119,7 @@ export default function RootLayout({children}) {
         <Analytics />
       </body>
     </html>
-  );
+  )
 }
 ```
 
@@ -134,32 +132,32 @@ export default function RootLayout({children}) {
 **hover/focus 시 preload:**
 
 ```tsx
-function EditorButton({onClick}: {onClick: () => void}) {
+function EditorButton({ onClick }: { onClick: () => void }) {
   const preload = () => {
     if (typeof window !== "undefined") {
-      void import("./monaco-editor");
+      void import("./monaco-editor")
     }
-  };
+  }
 
   return (
     <button onMouseEnter={preload} onFocus={preload} onClick={onClick}>
       Open Editor
     </button>
-  );
+  )
 }
 ```
 
 **피처 플래그 활성화 시 preload:**
 
 ```tsx
-function FlagsProvider({children, flags}: Props) {
+function FlagsProvider({ children, flags }: Props) {
   useEffect(() => {
     if (flags.editorEnabled && typeof window !== "undefined") {
-      void import("./monaco-editor").then((mod) => mod.init());
+      void import("./monaco-editor").then((mod) => mod.init())
     }
-  }, [flags.editorEnabled]);
+  }, [flags.editorEnabled])
 
-  return <FlagsContext.Provider value={flags}>{children}</FlagsContext.Provider>;
+  return <FlagsContext.Provider value={flags}>{children}</FlagsContext.Provider>
 }
 ```
 
@@ -174,18 +172,18 @@ function FlagsProvider({children, flags}: Props) {
 **❌/✅ 애니메이션 프레임 지연 로드:**
 
 ```tsx
-function AnimationPlayer({enabled, setEnabled}: Props) {
-  const [frames, setFrames] = useState<Frame[] | null>(null);
+function AnimationPlayer({ enabled, setEnabled }: Props) {
+  const [frames, setFrames] = useState<Frame[] | null>(null)
 
   useEffect(() => {
     if (enabled && !frames && typeof window !== "undefined") {
       import("./animation-frames.js")
         .then((mod) => setFrames(mod.frames))
-        .catch(() => setEnabled(false));
+        .catch(() => setEnabled(false))
     }
-  }, [enabled, frames, setEnabled]);
+  }, [enabled, frames, setEnabled])
 
-  if (!frames) return <Skeleton />;
-  return <Canvas frames={frames} />;
+  if (!frames) return <Skeleton />
+  return <Canvas frames={frames} />
 }
 ```

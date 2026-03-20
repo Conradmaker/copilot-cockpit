@@ -7,20 +7,20 @@ Tailwind CSS 컴포넌트에서 className 병합 순서를 고정하고, `cn()` 
 ## 1. `cn` 유틸리티 정의
 
 ```ts
-import type { ClassValue } from "clsx";
-import type { CSSProperties } from "react";
+import type { ClassValue } from "clsx"
+import type { CSSProperties } from "react"
 
-import { clsx } from "clsx";
-import { twMerge } from "tailwind-merge";
+import { clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
 
-export type ClassName = ClassValue;
-export type ClassNameRecord<Key extends string> = { [K in Key]?: ClassName };
+export type ClassName = ClassValue
+export type ClassNameRecord<Key extends string> = { [K in Key]?: ClassName }
 
-type Style = CSSProperties & { [key: `--${string}`]: string };
-export type StyleRecord<Key extends string> = { [K in Key]?: Style };
+type Style = CSSProperties & { [key: `--${string}`]: string }
+export type StyleRecord<Key extends string> = { [K in Key]?: Style }
 
 export function cn(...classes: ClassName[]): string {
-  return twMerge(clsx(...classes));
+  return twMerge(clsx(...classes))
 }
 ```
 
@@ -56,7 +56,7 @@ function Button({ variant = "primary", className, disabled, ...props }: ButtonPr
       disabled={disabled}
       {...props}
     />
-  );
+  )
 }
 ```
 
@@ -106,25 +106,25 @@ className={cn(
 ### 단일 element 컴포넌트
 
 ```tsx
-import type { ClassName } from "~/lib/cn";
+import type { ClassName } from "~/lib/cn"
 
 type Props = {
-  className?: ClassName;
-};
+  className?: ClassName
+}
 
 function Button({ className }: Props) {
-  return <button className={cn("base", className)} />;
+  return <button className={cn("base", className)} />
 }
 ```
 
 ### 다중 element 컴포넌트
 
 ```tsx
-import type { ClassNameRecord } from "~/lib/cn";
+import type { ClassNameRecord } from "~/lib/cn"
 
 type Props = {
-  className?: ClassNameRecord<"root" | "label" | "input" | "error">;
-};
+  className?: ClassNameRecord<"root" | "label" | "input" | "error">
+}
 
 function TextField({ className }: Props) {
   return (
@@ -133,11 +133,17 @@ function TextField({ className }: Props) {
       <input className={cn("rounded-lg border px-3 py-2", className?.input)} />
       {error && <p className={cn("text-sm text-destructive", className?.error)}>{error}</p>}
     </div>
-  );
+  )
 }
 
 // 사용
-<TextField className={{ root: "w-full", label: "text-muted-foreground", input: "border-destructive" }} />
+;<TextField
+  className={{
+    root: "w-full",
+    label: "text-muted-foreground",
+    input: "border-destructive",
+  }}
+/>
 ```
 
 ---
@@ -147,35 +153,32 @@ function TextField({ className }: Props) {
 variant 조합이 4~5개를 넘어가면 `cva`로 선언형 관리한다.
 
 ```tsx
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva, type VariantProps } from "class-variance-authority"
 
-const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md font-medium",
-  {
-    variants: {
-      variant: {
-        primary: "bg-primary text-primary-foreground hover:bg-primary/90",
-        destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
-        outline: "border border-border bg-background hover:bg-accent hover:text-accent-foreground",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-        link: "text-primary underline-offset-4 hover:underline",
-      },
-      size: {
-        sm: "h-8 px-3 text-sm",
-        md: "h-9 px-4 text-sm",
-        lg: "h-10 px-6 text-base",
-        icon: "size-10",
-      },
+const buttonVariants = cva("inline-flex items-center justify-center rounded-md font-medium", {
+  variants: {
+    variant: {
+      primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+      destructive: "bg-destructive text-destructive-foreground hover:bg-destructive/90",
+      outline: "border border-border bg-background hover:bg-accent hover:text-accent-foreground",
+      secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+      ghost: "hover:bg-accent hover:text-accent-foreground",
+      link: "text-primary underline-offset-4 hover:underline",
     },
-    defaultVariants: {
-      variant: "primary",
-      size: "md",
+    size: {
+      sm: "h-8 px-3 text-sm",
+      md: "h-9 px-4 text-sm",
+      lg: "h-10 px-6 text-base",
+      icon: "size-10",
     },
   },
-);
+  defaultVariants: {
+    variant: "primary",
+    size: "md",
+  },
+})
 
-type ButtonProps = React.ComponentProps<"button"> & VariantProps<typeof buttonVariants>;
+type ButtonProps = React.ComponentProps<"button"> & VariantProps<typeof buttonVariants>
 ```
 
 - `defaultVariants`를 명시하면 호출부 판단 비용이 줄어든다
@@ -192,9 +195,9 @@ type ButtonProps = React.ComponentProps<"button"> & VariantProps<typeof buttonVa
 export const focusRing = cn(
   "focus-visible:outline-none focus-visible:ring-2",
   "focus-visible:ring-ring focus-visible:ring-offset-2",
-);
+)
 
-export const disabledStyles = "disabled:pointer-events-none disabled:opacity-50";
+export const disabledStyles = "disabled:pointer-events-none disabled:opacity-50"
 ```
 
 ```tsx

@@ -11,9 +11,9 @@
 ## 1. Migration provider 설정
 
 ```ts
-import {FileMigrationProvider, Migrator} from "kysely";
-import {promises as fs} from "fs";
-import path from "path";
+import { FileMigrationProvider, Migrator } from "kysely"
+import { promises as fs } from "fs"
+import path from "path"
 
 const migrator = new Migrator({
   db,
@@ -22,28 +22,28 @@ const migrator = new Migrator({
     path,
     migrationFolder: path.join(__dirname, "migrations"),
   }),
-});
+})
 ```
 
 실행 예시:
 
 ```ts
 async function migrateToLatest() {
-  const {error, results} = await migrator.migrateToLatest();
+  const { error, results } = await migrator.migrateToLatest()
 
   results?.forEach((item) => {
     if (item.status === "Success") {
-      console.log(`Migration "${item.migrationName}" executed successfully`);
+      console.log(`Migration "${item.migrationName}" executed successfully`)
     }
 
     if (item.status === "Error") {
-      console.error(`Migration "${item.migrationName}" failed`);
+      console.error(`Migration "${item.migrationName}" failed`)
     }
-  });
+  })
 
   if (error) {
-    console.error("Migration failed", error);
-    process.exit(1);
+    console.error("Migration failed", error)
+    process.exit(1)
   }
 }
 ```
@@ -59,7 +59,7 @@ async function migrateToLatest() {
 ## 2. 기본 migration 파일 패턴
 
 ```ts
-import {Kysely, sql} from "kysely";
+import { Kysely, sql } from "kysely"
 
 export async function up(db: Kysely<any>): Promise<void> {
   await db.schema
@@ -67,20 +67,14 @@ export async function up(db: Kysely<any>): Promise<void> {
     .addColumn("id", "serial", (col) => col.primaryKey())
     .addColumn("email", "varchar(255)", (col) => col.notNull().unique())
     .addColumn("name", "varchar(255)")
-    .addColumn("created_at", "timestamp", (col) =>
-      col.defaultTo(sql`CURRENT_TIMESTAMP`).notNull()
-    )
-    .execute();
+    .addColumn("created_at", "timestamp", (col) => col.defaultTo(sql`CURRENT_TIMESTAMP`).notNull())
+    .execute()
 
-  await db.schema
-    .createIndex("users_email_idx")
-    .on("users")
-    .column("email")
-    .execute();
+  await db.schema.createIndex("users_email_idx").on("users").column("email").execute()
 }
 
 export async function down(db: Kysely<any>): Promise<void> {
-  await db.schema.dropTable("users").execute();
+  await db.schema.dropTable("users").execute()
 }
 ```
 
@@ -102,11 +96,11 @@ export async function up(db: Kysely<any>): Promise<void> {
     .createTable("posts")
     .addColumn("id", "serial", (col) => col.primaryKey())
     .addColumn("user_id", "integer", (col) =>
-      col.references("users.id").onDelete("cascade").notNull()
+      col.references("users.id").onDelete("cascade").notNull(),
     )
     .addColumn("title", "varchar(500)", (col) => col.notNull())
     .addColumn("content", "text")
-    .execute();
+    .execute()
 }
 ```
 
@@ -114,22 +108,22 @@ export async function up(db: Kysely<any>): Promise<void> {
 
 ```ts
 export async function up(db: Kysely<any>): Promise<void> {
-  await db.schema.alterTable("users").addColumn("bio", "text").execute();
+  await db.schema.alterTable("users").addColumn("bio", "text").execute()
 }
 ```
 
 ### PostgreSQL enum 추가
 
 ```ts
-import {sql} from "kysely";
+import { sql } from "kysely"
 
 export async function up(db: Kysely<any>): Promise<void> {
-  await sql`CREATE TYPE user_role AS ENUM ('admin', 'user', 'guest')`.execute(db);
+  await sql`CREATE TYPE user_role AS ENUM ('admin', 'user', 'guest')`.execute(db)
 
   await db.schema
     .alterTable("users")
     .addColumn("role", sql`user_role`, (col) => col.defaultTo("user"))
-    .execute();
+    .execute()
 }
 ```
 
@@ -153,20 +147,17 @@ export async function up(db: Kysely<any>): Promise<void> {
 예시:
 
 ```ts
-import {sql} from "kysely";
+import { sql } from "kysely"
 
 export async function up(db: Kysely<any>): Promise<void> {
-  await db.schema
-    .alterTable("users")
-    .addColumn("full_name", "varchar(255)")
-    .execute();
+  await db.schema.alterTable("users").addColumn("full_name", "varchar(255)").execute()
 
   await db
     .updateTable("users")
     .set({
       full_name: sql`concat(first_name, ' ', last_name)`,
     })
-    .execute();
+    .execute()
 }
 ```
 

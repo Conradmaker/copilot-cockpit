@@ -97,12 +97,12 @@ user-invocable: false
 
 아래 문서는 "더 자세한 참고자료"가 아니라, 실제 적용 전 반드시 확인해야 하는 구현 가이드다. 본문에서 방향을 잡고, 변경을 시작하기 전에 해당 문서를 직접 읽는다.
 
-| 파일                                              | 내용                                                                    |
-| ------------------------------------------------- | ----------------------------------------------------------------------- |
-| [readability.md](references/readability.md)       | 코드를 읽기 쉽고 만들고, 네이밍/조건문/함수 분리하는 가독성 원칙 적용법 |
-| [predictability.md](references/predictability.md) | 함수 이름/반환 타입/숨겨진 로직에 대한 예측 가능성 원칙 적용법          |
-| [cohesion.md](references/cohesion.md)             | 디렉토리 구조, 매직 넘버, 폼 설계시 응집도 원칙 적용법                  |
-| [coupling.md](references/coupling.md)             | Hook 책임 분리, 공통화 여부, Props Drilling에 대한 결합도 원칙 적용법   |
+| 파일 | 내용 |
+| --- | --- |
+| [readability.md](references/readability.md) | 코드를 읽기 쉽고 만들고, 네이밍/조건문/함수 분리하는 가독성 원칙 적용법 |
+| [predictability.md](references/predictability.md) | 함수 이름/반환 타입/숨겨진 로직에 대한 예측 가능성 원칙 적용법 |
+| [cohesion.md](references/cohesion.md) | 디렉토리 구조, 매직 넘버, 폼 설계시 응집도 원칙 적용법 |
+| [coupling.md](references/coupling.md) | Hook 책임 분리, 공통화 여부, Props Drilling에 대한 결합도 원칙 적용법 |
 
 ---
 

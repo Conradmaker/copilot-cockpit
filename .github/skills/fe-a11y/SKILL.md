@@ -135,14 +135,14 @@ user-invocable: false
 
 컴포넌트별 ARIA 패턴이 필요할 때 아래 파일을 읽는다.
 
-| 파일                                                        | 내용                                                                       |
-| ----------------------------------------------------------- | -------------------------------------------------------------------------- |
-| [ui-components.md](./references/ui-components.md)           | 모달, 스위치, 탭, 체크박스, 라디오, 아코디언 패턴과 포커스/오버스크롤 제어 |
-| [forms.md](./references/forms.md)                           | 폼, 입력 속성, 유효성 검사, 가짜 버튼, react-aria 활용                     |
-| [basics.md](./references/basics.md)                         | Role/Label/State 상세 가이드                                               |
-| [semantic-structure.md](./references/semantic-structure.md) | 시맨틱 HTML, 인터랙티브 요소 중첩 금지, focus-visible/focus-within 패턴    |
-| [eslint.md](./references/eslint.md)                         | eslint-plugin-jsx-a11y 을 통해 접근성 규칙 검사 자동화                     |
-| [alt-text.md](./references/alt-text.md)                     | 이미지 대체 텍스트 작성법                                                  |
+| 파일 | 내용 |
+| --- | --- |
+| [ui-components.md](./references/ui-components.md) | 모달, 스위치, 탭, 체크박스, 라디오, 아코디언 패턴과 포커스/오버스크롤 제어 |
+| [forms.md](./references/forms.md) | 폼, 입력 속성, 유효성 검사, 가짜 버튼, react-aria 활용 |
+| [basics.md](./references/basics.md) | Role/Label/State 상세 가이드 |
+| [semantic-structure.md](./references/semantic-structure.md) | 시맨틱 HTML, 인터랙티브 요소 중첩 금지, focus-visible/focus-within 패턴 |
+| [eslint.md](./references/eslint.md) | eslint-plugin-jsx-a11y 을 통해 접근성 규칙 검사 자동화 |
+| [alt-text.md](./references/alt-text.md) | 이미지 대체 텍스트 작성법 |
 
 ---
 

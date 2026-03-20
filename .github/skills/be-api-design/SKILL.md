@@ -115,13 +115,13 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ## 상세 레퍼런스 가이드
 
-| 상세 레퍼런스                                                | 용도                                                               |
-| ------------------------------------------------------------ | ------------------------------------------------------------------ |
-| [references/rest-patterns.md](references/rest-patterns.md)   | resource, URI, method/status, filter/sort, auth/rate limiting 기준 |
-| [references/pagination.md](references/pagination.md)         | pagination 전략과 response contract                                |
-| [references/error-handling.md](references/error-handling.md) | RFC 7807 기반 오류 계약                                            |
-| [references/versioning.md](references/versioning.md)         | versioning, deprecation, migration policy                          |
-| [references/openapi.md](references/openapi.md)               | OpenAPI 3.1 구조와 검증 흐름                                       |
+| 상세 레퍼런스 | 용도 |
+| --- | --- |
+| [references/rest-patterns.md](references/rest-patterns.md) | resource, URI, method/status, filter/sort, auth/rate limiting 기준 |
+| [references/pagination.md](references/pagination.md) | pagination 전략과 response contract |
+| [references/error-handling.md](references/error-handling.md) | RFC 7807 기반 오류 계약 |
+| [references/versioning.md](references/versioning.md) | versioning, deprecation, migration policy |
+| [references/openapi.md](references/openapi.md) | OpenAPI 3.1 구조와 검증 흐름 |
 
 ---
 

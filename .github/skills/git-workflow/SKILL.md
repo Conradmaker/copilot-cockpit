@@ -105,11 +105,11 @@ PR 생성 절차, 템플릿, 병합 후 정리는 [references/pr-workflow.md](re
 
 아래 문서는 "더 자세한 참고자료"가 아니라, 실제 적용 전 반드시 확인해야 하는 구현 가이드다. 본문에서 방향을 잡고, 변경을 시작하기 전에 해당 문서를 직접 읽는다.
 
-| 파일                                  | 내용                                                                                  |
-| ------------------------------------- | ------------------------------------------------------------------------------------- |
-| `references/branch-strategy.md`       | GitHub Flow 브랜치 전략, 브랜치 자동 생성 워크플로우, 결정 트리, 예외 처리            |
-| `references/commit-convention.md`     | 커밋 메시지 형식, 타입별 규칙, 작성 예시, 안티패턴                                    |
-| `references/pr-workflow.md`           | gh CLI 기반 PR 생성 절차, PR 규칙, 병합 후 정리, gh CLI 명령어 요약                   |
+| 파일 | 내용 |
+| --- | --- |
+| `references/branch-strategy.md` | GitHub Flow 브랜치 전략, 브랜치 자동 생성 워크플로우, 결정 트리, 예외 처리 |
+| `references/commit-convention.md` | 커밋 메시지 형식, 타입별 규칙, 작성 예시, 안티패턴 |
+| `references/pr-workflow.md` | gh CLI 기반 PR 생성 절차, PR 규칙, 병합 후 정리, gh CLI 명령어 요약 |
 | `references/pull_request_template.md` | PR 본문 템플릿 (프로젝트에 `.github/pull_request_template.md`가 있으면 프로젝트 우선) |
 
 ---

@@ -82,9 +82,9 @@
 
 ```typescript
 async function onLikeClick() {
-  await postLike(url);
-  await delay(300);
-  await refetchPostLike();
+  await postLike(url)
+  await delay(300)
+  await refetchPostLike()
 }
 ```
 
@@ -93,12 +93,12 @@ async function onLikeClick() {
 ### ✅ After
 
 ```typescript
-const ANIMATION_DELAY_MS = 300;
+const ANIMATION_DELAY_MS = 300
 
 async function onLikeClick() {
-  await postLike(url);
-  await delay(ANIMATION_DELAY_MS);
-  await refetchPostLike();
+  await postLike(url)
+  await delay(ANIMATION_DELAY_MS)
+  await refetchPostLike()
 }
 ```
 
@@ -115,28 +115,27 @@ async function onLikeClick() {
 각 필드가 독립적으로 검증 로직을 가지는 방식이다.
 
 ```tsx
-import {useForm} from "react-hook-form";
+import { useForm } from "react-hook-form"
 
 export function Form() {
   const {
     register,
-    formState: {errors},
+    formState: { errors },
     handleSubmit,
   } = useForm({
-    defaultValues: {name: "", email: ""},
-  });
+    defaultValues: { name: "", email: "" },
+  })
 
   const onSubmit = handleSubmit((formData) => {
-    console.log("Form submitted:", formData);
-  });
+    console.log("Form submitted:", formData)
+  })
 
   return (
     <form onSubmit={onSubmit}>
       <div>
         <input
           {...register("name", {
-            validate: (value) =>
-              isEmptyStringOrNil(value) ? "이름을 입력해주세요." : "",
+            validate: (value) => (isEmptyStringOrNil(value) ? "이름을 입력해주세요." : ""),
           })}
           placeholder="이름"
         />
@@ -147,10 +146,10 @@ export function Form() {
         <input
           {...register("email", {
             validate: (value) => {
-              if (isEmptyStringOrNil(value)) return "이메일을 입력해주세요.";
+              if (isEmptyStringOrNil(value)) return "이메일을 입력해주세요."
               if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(value))
-                return "유효한 이메일 주소를 입력해주세요.";
-              return "";
+                return "유효한 이메일 주소를 입력해주세요."
+              return ""
             },
           })}
           placeholder="이메일"
@@ -160,7 +159,7 @@ export function Form() {
 
       <button type="submit">제출</button>
     </form>
-  );
+  )
 }
 ```
 
@@ -169,31 +168,28 @@ export function Form() {
 모든 필드의 검증 로직이 폼에 종속되는 방식이다.
 
 ```tsx
-import * as z from "zod";
-import {useForm} from "react-hook-form";
-import {zodResolver} from "@hookform/resolvers/zod";
+import * as z from "zod"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
 
 const schema = z.object({
   name: z.string().min(1, "이름을 입력해주세요."),
-  email: z
-    .string()
-    .min(1, "이메일을 입력해주세요.")
-    .email("유효한 이메일 주소를 입력해주세요."),
-});
+  email: z.string().min(1, "이메일을 입력해주세요.").email("유효한 이메일 주소를 입력해주세요."),
+})
 
 export function Form() {
   const {
     register,
-    formState: {errors},
+    formState: { errors },
     handleSubmit,
   } = useForm({
-    defaultValues: {name: "", email: ""},
+    defaultValues: { name: "", email: "" },
     resolver: zodResolver(schema),
-  });
+  })
 
   const onSubmit = handleSubmit((formData) => {
-    console.log("Form submitted:", formData);
-  });
+    console.log("Form submitted:", formData)
+  })
 
   return (
     <form onSubmit={onSubmit}>
@@ -207,7 +203,7 @@ export function Form() {
       </div>
       <button type="submit">제출</button>
     </form>
-  );
+  )
 }
 ```
 

@@ -88,13 +88,13 @@ Kysely는 강력한 query builder지만 ORM은 아니다. relation loading, vali
 
 ## references/ 가이드
 
-| 파일                                                                                                 | 언제 읽는가                                                         |
-| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
-| [references/01-setup-and-schema.md](references/01-setup-and-schema.md)                               | `Database` 타입, column type, codegen, client setup을 잡을 때       |
-| [references/02-query-patterns.md](references/02-query-patterns.md)                                   | CRUD, join, aggregation, subquery, CTE, JSON helper를 작성할 때     |
+| 파일 | 언제 읽는가 |
+| --- | --- |
+| [references/01-setup-and-schema.md](references/01-setup-and-schema.md) | `Database` 타입, column type, codegen, client setup을 잡을 때 |
+| [references/02-query-patterns.md](references/02-query-patterns.md) | CRUD, join, aggregation, subquery, CTE, JSON helper를 작성할 때 |
 | [references/03-migrations-and-schema-lifecycle.md](references/03-migrations-and-schema-lifecycle.md) | migration runner, schema evolution, safe migration 전략이 필요할 때 |
-| [references/04-transactions-and-raw-sql.md](references/04-transactions-and-raw-sql.md)               | transaction, isolation level, raw SQL escape hatch가 필요할 때      |
-| [references/05-comparison-and-pitfalls.md](references/05-comparison-and-pitfalls.md)                 | Kysely 도입 비교, best practice, common pitfalls를 점검할 때        |
+| [references/04-transactions-and-raw-sql.md](references/04-transactions-and-raw-sql.md) | transaction, isolation level, raw SQL escape hatch가 필요할 때 |
+| [references/05-comparison-and-pitfalls.md](references/05-comparison-and-pitfalls.md) | Kysely 도입 비교, best practice, common pitfalls를 점검할 때 |
 
 ---
 

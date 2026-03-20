@@ -20,25 +20,25 @@
 
 ```typescript
 // http.ts
-import {http as httpLibrary} from "@some-library/http";
+import { http as httpLibrary } from "@some-library/http"
 
 export const http = {
   async get(url: string) {
-    const token = await fetchToken();
+    const token = await fetchToken()
 
     return httpLibrary.get(url, {
-      headers: {Authorization: `Bearer ${token}`},
-    });
+      headers: { Authorization: `Bearer ${token}` },
+    })
   },
-};
+}
 ```
 
 ```typescript
 // fetchUser.ts
-import {http} from "./http";
+import { http } from "./http"
 
 export async function fetchUser() {
-  return http.get("...");
+  return http.get("...")
 }
 ```
 
@@ -48,25 +48,25 @@ export async function fetchUser() {
 
 ```typescript
 // httpService.ts
-import {http as httpLibrary} from "@some-library/http";
+import { http as httpLibrary } from "@some-library/http"
 
 export const httpService = {
   async getWithAuth(url: string) {
-    const token = await fetchToken();
+    const token = await fetchToken()
 
     return httpLibrary.get(url, {
-      headers: {Authorization: `Bearer ${token}`},
-    });
+      headers: { Authorization: `Bearer ${token}` },
+    })
   },
-};
+}
 ```
 
 ```typescript
 // fetchUser.ts
-import {httpService} from "./httpService";
+import { httpService } from "./httpService"
 
 export async function fetchUser() {
-  return await httpService.getWithAuth("...");
+  return await httpService.getWithAuth("...")
 }
 ```
 
@@ -88,16 +88,16 @@ function useUser() {
   const query = useQuery({
     queryKey: ["user"],
     queryFn: fetchUser,
-  });
-  return query; // Query 객체 반환
+  })
+  return query // Query 객체 반환
 }
 
 function useServerTime() {
   const query = useQuery({
     queryKey: ["serverTime"],
     queryFn: fetchServerTime,
-  });
-  return query.data; // 데이터만 반환
+  })
+  return query.data // 데이터만 반환
 }
 ```
 
@@ -110,16 +110,16 @@ function useUser() {
   const query = useQuery({
     queryKey: ["user"],
     queryFn: fetchUser,
-  });
-  return query;
+  })
+  return query
 }
 
 function useServerTime() {
   const query = useQuery({
     queryKey: ["serverTime"],
     queryFn: fetchServerTime,
-  });
-  return query; // 일관적으로 Query 객체 반환
+  })
+  return query // 일관적으로 Query 객체 반환
 }
 ```
 
@@ -129,16 +129,16 @@ function useServerTime() {
 
 ```typescript
 function checkIsNameValid(name: string) {
-  const isValid = name.length > 0 && name.length < 20;
-  return isValid; // boolean 반환
+  const isValid = name.length > 0 && name.length < 20
+  return isValid // boolean 반환
 }
 
 function checkIsAgeValid(age: number) {
   if (!Number.isInteger(age)) {
-    return {ok: false, reason: "나이는 정수여야 해요."}; // 객체 반환
+    return { ok: false, reason: "나이는 정수여야 해요." } // 객체 반환
   }
   // ...
-  return {ok: true};
+  return { ok: true }
 }
 ```
 
@@ -155,29 +155,29 @@ if (checkIsAgeValid(age)) { ... }
 #### ✅ After
 
 ```typescript
-type ValidationCheckReturnType = {ok: true} | {ok: false; reason: string};
+type ValidationCheckReturnType = { ok: true } | { ok: false; reason: string }
 
 function checkIsNameValid(name: string): ValidationCheckReturnType {
   if (name.length === 0) {
-    return {ok: false, reason: "이름은 빈 값일 수 없어요."};
+    return { ok: false, reason: "이름은 빈 값일 수 없어요." }
   }
   if (name.length >= 20) {
-    return {ok: false, reason: "이름은 20자 이상 입력할 수 없어요."};
+    return { ok: false, reason: "이름은 20자 이상 입력할 수 없어요." }
   }
-  return {ok: true};
+  return { ok: true }
 }
 
 function checkIsAgeValid(age: number): ValidationCheckReturnType {
   if (!Number.isInteger(age)) {
-    return {ok: false, reason: "나이는 정수여야 해요."};
+    return { ok: false, reason: "나이는 정수여야 해요." }
   }
   if (age < 18) {
-    return {ok: false, reason: "나이는 18세 이상이어야 해요."};
+    return { ok: false, reason: "나이는 18세 이상이어야 해요." }
   }
   if (age > 99) {
-    return {ok: false, reason: "나이는 99세 이하이어야 해요."};
+    return { ok: false, reason: "나이는 99세 이하이어야 해요." }
   }
-  return {ok: true};
+  return { ok: true }
 }
 ```
 
@@ -193,11 +193,11 @@ function checkIsAgeValid(age: number): ValidationCheckReturnType {
 
 ```typescript
 async function fetchBalance(): Promise<number> {
-  const balance = await http.get<number>("...");
+  const balance = await http.get<number>("...")
 
-  logging.log("balance_fetched"); // 숨겨진 로깅 로직
+  logging.log("balance_fetched") // 숨겨진 로깅 로직
 
-  return balance;
+  return balance
 }
 ```
 
@@ -211,8 +211,8 @@ async function fetchBalance(): Promise<number> {
 ```typescript
 // 함수는 이름/파라미터/반환 타입으로 예측 가능한 로직만 포함
 async function fetchBalance(): Promise<number> {
-  const balance = await http.get<number>("...");
-  return balance;
+  const balance = await http.get<number>("...")
+  return balance
 }
 ```
 
@@ -220,9 +220,9 @@ async function fetchBalance(): Promise<number> {
 // 로깅은 호출하는 곳에서 명시적으로 수행
 <Button
   onClick={async () => {
-    const balance = await fetchBalance();
-    logging.log("balance_fetched");
-    await syncBalance(balance);
+    const balance = await fetchBalance()
+    logging.log("balance_fetched")
+    await syncBalance(balance)
   }}
 >
   계좌 잔액 갱신하기

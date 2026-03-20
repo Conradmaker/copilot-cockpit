@@ -57,7 +57,7 @@ function Button(props: ButtonProps) {
       className="bg-[var(--color-primary)] text-[var(--color-primary-foreground)]"
       {...props}
     />
-  );
+  )
 }
 ```
 

@@ -5,7 +5,7 @@ Coordinator가 단일 `coordinator_role`을 받으면 이 디렉토리에서 해
 ## Lane 활성화 기준
 
 | role | 언제 선택하는가 | 관점 |
-|---|---|---|
+| --- | --- | --- |
 | manager | PRD 문서의 품질, completeness, 구조적 readiness, scope, metrics가 중요할 때 | 기획자, PM |
 | product | PRD가 암시하는 product outcome 완성도, 코어 경험 흐름, downstream(UI/Tech) 전개 필요성이 중요할 때 | 프로덕트 오너 |
 | execution | execution plan의 dependency 정합, scope 정확성, 병렬화 안전성, verification quality가 중요할 때 | 실행 오케스트레이터 |

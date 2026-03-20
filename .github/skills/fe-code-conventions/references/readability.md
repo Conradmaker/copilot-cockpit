@@ -22,9 +22,9 @@
 
 ```typescript
 async function onLikeClick() {
-  await postLike(url);
-  await delay(300);
-  await refetchPostLike();
+  await postLike(url)
+  await delay(300)
+  await refetchPostLike()
 }
 ```
 
@@ -37,12 +37,12 @@ async function onLikeClick() {
 ### ✅ After
 
 ```typescript
-const ANIMATION_DELAY_MS = 300;
+const ANIMATION_DELAY_MS = 300
 
 async function onLikeClick() {
-  await postLike(url);
-  await delay(ANIMATION_DELAY_MS);
-  await refetchPostLike();
+  await postLike(url)
+  await delay(ANIMATION_DELAY_MS)
+  await refetchPostLike()
 }
 ```
 
@@ -61,9 +61,9 @@ const result = products.filter((product) =>
   product.categories.some(
     (category) =>
       category.id === targetCategory.id &&
-      product.prices.some((price) => price >= minPrice && price <= maxPrice)
-  )
-);
+      product.prices.some((price) => price >= minPrice && price <= maxPrice),
+  ),
+)
 ```
 
 `filter`, `some`, `&&` 같은 로직이 여러 단계로 중첩되어 정확한 조건을 파악하기 어렵다.
@@ -73,14 +73,12 @@ const result = products.filter((product) =>
 ```typescript
 const matchedProducts = products.filter((product) => {
   return product.categories.some((category) => {
-    const isSameCategory = category.id === targetCategory.id;
-    const isPriceInRange = product.prices.some(
-      (price) => price >= minPrice && price <= maxPrice
-    );
+    const isSameCategory = category.id === targetCategory.id
+    const isPriceInRange = product.prices.some((price) => price >= minPrice && price <= maxPrice)
 
-    return isSameCategory && isPriceInRange;
-  });
-});
+    return isSameCategory && isPriceInRange
+  })
+})
 ```
 
 조건에 명시적인 이름을 붙여서, 한 번에 고려해야 할 맥락을 줄인다.
@@ -107,7 +105,7 @@ const matchedProducts = products.filter((product) => {
 ### ❌ Before
 
 ```typescript
-const status = A조건 && B조건 ? "BOTH" : A조건 || B조건 ? (A조건 ? "A" : "B") : "NONE";
+const status = A조건 && B조건 ? "BOTH" : A조건 || B조건 ? (A조건 ? "A" : "B") : "NONE"
 ```
 
 여러 삼항 연산자가 중첩되어, 어떤 조건으로 값이 계산되는지 한눈에 파악하기 어렵다.
@@ -116,11 +114,11 @@ const status = A조건 && B조건 ? "BOTH" : A조건 || B조건 ? (A조건 ? "A"
 
 ```typescript
 const status = (() => {
-  if (A조건 && B조건) return "BOTH";
-  if (A조건) return "A";
-  if (B조건) return "B";
-  return "NONE";
-})();
+  if (A조건 && B조건) return "BOTH"
+  if (A조건) return "A"
+  if (B조건) return "B"
+  return "NONE"
+})()
 ```
 
 `if` 문으로 풀어서 명확하고 간단하게 조건을 드러낸다.
@@ -163,13 +161,13 @@ function LoginStartPage() {
   useCheckLogin({
     onChecked: (status) => {
       if (status === "LOGGED_IN") {
-        location.href = "/home";
+        location.href = "/home"
       }
     },
-  });
+  })
 
   /* ... 로그인 관련 로직 ... */
-  return <>{/* ... 로그인 관련 컴포넌트 ... */}</>;
+  return <>{/* ... 로그인 관련 컴포넌트 ... */}</>
 }
 ```
 
@@ -183,24 +181,24 @@ function App() {
     <AuthGuard>
       <LoginStartPage />
     </AuthGuard>
-  );
+  )
 }
 
-function AuthGuard({children}) {
-  const status = useCheckLoginStatus();
+function AuthGuard({ children }) {
+  const status = useCheckLoginStatus()
 
   useEffect(() => {
     if (status === "LOGGED_IN") {
-      location.href = "/home";
+      location.href = "/home"
     }
-  }, [status]);
+  }, [status])
 
-  return status !== "LOGGED_IN" ? children : null;
+  return status !== "LOGGED_IN" ? children : null
 }
 
 function LoginStartPage() {
   /* ... 로그인 관련 로직 ... */
-  return <>{/* ... 로그인 관련 컴포넌트 ... */}</>;
+  return <>{/* ... 로그인 관련 컴포넌트 ... */}</>
 }
 ```
 
@@ -216,20 +214,16 @@ function LoginStartPage() {
 
 ```tsx
 function SubmitButton() {
-  const isViewer = useRole() === "viewer";
+  const isViewer = useRole() === "viewer"
 
   useEffect(() => {
     if (isViewer) {
-      return;
+      return
     }
-    showButtonAnimation();
-  }, [isViewer]);
+    showButtonAnimation()
+  }, [isViewer])
 
-  return isViewer ? (
-    <TextButton disabled>Submit</TextButton>
-  ) : (
-    <Button type="submit">Submit</Button>
-  );
+  return isViewer ? <TextButton disabled>Submit</TextButton> : <Button type="submit">Submit</Button>
 }
 ```
 
@@ -239,20 +233,20 @@ function SubmitButton() {
 
 ```tsx
 function SubmitButton() {
-  const isViewer = useRole() === "viewer";
-  return isViewer ? <ViewerSubmitButton /> : <AdminSubmitButton />;
+  const isViewer = useRole() === "viewer"
+  return isViewer ? <ViewerSubmitButton /> : <AdminSubmitButton />
 }
 
 function ViewerSubmitButton() {
-  return <TextButton disabled>Submit</TextButton>;
+  return <TextButton disabled>Submit</TextButton>
 }
 
 function AdminSubmitButton() {
   useEffect(() => {
-    showButtonAnimation();
-  }, []);
+    showButtonAnimation()
+  }, [])
 
-  return <Button type="submit">Submit</Button>;
+  return <Button type="submit">Submit</Button>
 }
 ```
 
@@ -269,29 +263,29 @@ function AdminSubmitButton() {
 
 ```tsx
 function Page() {
-  const user = useUser();
-  const policy = getPolicyByRole(user.role);
+  const user = useUser()
+  const policy = getPolicyByRole(user.role)
 
   return (
     <div>
       <Button disabled={!policy.canInvite}>Invite</Button>
       <Button disabled={!policy.canView}>View</Button>
     </div>
-  );
+  )
 }
 
 function getPolicyByRole(role) {
-  const policy = POLICY_SET[role];
+  const policy = POLICY_SET[role]
   return {
     canInvite: policy.includes("invite"),
     canView: policy.includes("view"),
-  };
+  }
 }
 
 const POLICY_SET = {
   admin: ["invite", "view"],
   viewer: ["view"],
-};
+}
 ```
 
 `policy.canInvite` → `getPolicyByRole()` → `POLICY_SET` 순으로 3번의 시점 이동이 발생한다.
@@ -300,18 +294,18 @@ const POLICY_SET = {
 
 ```tsx
 function Page() {
-  const user = useUser();
+  const user = useUser()
   const policy = {
-    admin: {canInvite: true, canView: true},
-    viewer: {canInvite: false, canView: true},
-  }[user.role];
+    admin: { canInvite: true, canView: true },
+    viewer: { canInvite: false, canView: true },
+  }[user.role]
 
   return (
     <div>
       <Button disabled={!policy.canInvite}>Invite</Button>
       <Button disabled={!policy.canView}>View</Button>
     </div>
-  );
+  )
 }
 ```
 

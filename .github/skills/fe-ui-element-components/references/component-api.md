@@ -12,7 +12,7 @@
 
 ```tsx
 function Stepper() {
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState(0)
 
   return (
     <div>
@@ -20,7 +20,7 @@ function Stepper() {
       <span>{value}</span>
       <button onClick={() => setValue((current) => current + 1)}>+</button>
     </div>
-  );
+  )
 }
 ```
 
@@ -30,34 +30,34 @@ function Stepper() {
 
 ```tsx
 type StepperProps = {
-  value?: number;
-  defaultValue?: number;
-  onValueChange?: (value: number) => void;
-};
+  value?: number
+  defaultValue?: number
+  onValueChange?: (value: number) => void
+}
 
-function Stepper({
-  value: controlledValue,
-  defaultValue = 0,
-  onValueChange,
-}: StepperProps) {
-  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue);
-  const isControlled = controlledValue !== undefined;
-  const value = isControlled ? controlledValue : uncontrolledValue;
+function Stepper({ value: controlledValue, defaultValue = 0, onValueChange }: StepperProps) {
+  const [uncontrolledValue, setUncontrolledValue] = useState(defaultValue)
+  const isControlled = controlledValue !== undefined
+  const value = isControlled ? controlledValue : uncontrolledValue
 
   const setValue = (nextValue: number) => {
     if (!isControlled) {
-      setUncontrolledValue(nextValue);
+      setUncontrolledValue(nextValue)
     }
-    onValueChange?.(nextValue);
-  };
+    onValueChange?.(nextValue)
+  }
 
   return (
     <div>
-      <button type="button" onClick={() => setValue(value - 1)}>-</button>
+      <button type="button" onClick={() => setValue(value - 1)}>
+        -
+      </button>
       <span>{value}</span>
-      <button type="button" onClick={() => setValue(value + 1)}>+</button>
+      <button type="button" onClick={() => setValue(value + 1)}>
+        +
+      </button>
     </div>
-  );
+  )
 }
 ```
 
@@ -75,11 +75,11 @@ wrapper 컴포넌트는 underlying element의 속성을 숨기지 않는 편이 
 
 ```tsx
 type ButtonProps = React.ComponentProps<"button"> & {
-  variant?: "primary" | "secondary";
-};
+  variant?: "primary" | "secondary"
+}
 
 function Button({ variant = "primary", className, ...props }: ButtonProps) {
-  return <button className={cn(buttonVariants({ variant }), className)} {...props} />;
+  return <button className={cn(buttonVariants({ variant }), className)} {...props} />
 }
 ```
 
@@ -91,9 +91,9 @@ function Button({ variant = "primary", className, ...props }: ButtonProps) {
 
 ```tsx
 type ButtonProps = {
-  isDisabled?: boolean;
-  onPress?: () => void;
-};
+  isDisabled?: boolean
+  onPress?: () => void
+}
 ```
 
 이런 API는 이미 브라우저가 제공하는 `disabled`, `onClick`, `type`과 어긋난다.
@@ -106,23 +106,23 @@ type ButtonProps = {
 
 ```tsx
 export type ButtonProps = React.ComponentProps<"button"> & {
-  variant?: "primary" | "secondary";
-};
+  variant?: "primary" | "secondary"
+}
 
 export function Button(props: ButtonProps) {
-  return <button {...props} />;
+  return <button {...props} />
 }
 ```
 
 ```tsx
-import { Button, type ButtonProps } from "@/components/ui/button";
+import { Button, type ButtonProps } from "@/components/ui/button"
 
 type SubmitButtonProps = ButtonProps & {
-  isSaving?: boolean;
-};
+  isSaving?: boolean
+}
 
 function SubmitButton({ isSaving, children, ...props }: SubmitButtonProps) {
-  return <Button {...props}>{isSaving ? "저장 중…" : children}</Button>;
+  return <Button {...props}>{isSaving ? "저장 중…" : children}</Button>
 }
 ```
 
@@ -139,30 +139,27 @@ function SubmitButton({ isSaving, children, ...props }: SubmitButtonProps) {
 
 ```tsx
 type PolymorphicProps<T extends React.ElementType> = {
-  as?: T;
-} & React.ComponentPropsWithoutRef<T>;
+  as?: T
+} & React.ComponentPropsWithoutRef<T>
 
-function Box<T extends React.ElementType = "div">({
-  as,
-  ...props
-}: PolymorphicProps<T>) {
-  const Component = as || "div";
-  return <Component {...props} />;
+function Box<T extends React.ElementType = "div">({ as, ...props }: PolymorphicProps<T>) {
+  const Component = as || "div"
+  return <Component {...props} />
 }
 ```
 
 ### `asChild` 패턴
 
 ```tsx
-import { Slot } from "@radix-ui/react-slot";
+import { Slot } from "@radix-ui/react-slot"
 
 type ButtonProps = React.ComponentProps<"button"> & {
-  asChild?: boolean;
-};
+  asChild?: boolean
+}
 
 function Button({ asChild = false, className, ...props }: ButtonProps) {
-  const Component = asChild ? Slot : "button";
-  return <Component className={cn(buttonVariants(), className)} {...props} />;
+  const Component = asChild ? Slot : "button"
+  return <Component className={cn(buttonVariants(), className)} {...props} />
 }
 ```
 
@@ -189,7 +186,7 @@ function Card({ title, description, footer, ...props }) {
       <p>{description}</p>
       <div>{footer}</div>
     </div>
-  );
+  )
 }
 ```
 

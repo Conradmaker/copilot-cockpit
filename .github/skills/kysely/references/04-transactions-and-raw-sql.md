@@ -19,7 +19,7 @@ await db.transaction().execute(async (trx) => {
       name: "Alice",
       updated_at: new Date(),
     })
-    .execute();
+    .execute()
 
   await trx
     .insertInto("posts")
@@ -28,8 +28,8 @@ await db.transaction().execute(async (trx) => {
       title: "First Post",
       content: "Hello",
     })
-    .execute();
-});
+    .execute()
+})
 ```
 
 에러가 나면 자동 rollback된다.
@@ -54,7 +54,7 @@ const result = await db.transaction().execute(async (trx) => {
       updated_at: new Date(),
     })
     .returningAll()
-    .executeTakeFirstOrThrow();
+    .executeTakeFirstOrThrow()
 
   const post = await trx
     .insertInto("posts")
@@ -64,10 +64,10 @@ const result = await db.transaction().execute(async (trx) => {
       content: "Content",
     })
     .returningAll()
-    .executeTakeFirstOrThrow();
+    .executeTakeFirstOrThrow()
 
-  return {user, post};
-});
+  return { user, post }
+})
 ```
 
 ---
@@ -83,14 +83,14 @@ await db
       .selectFrom("accounts")
       .select("balance")
       .where("id", "=", accountId)
-      .executeTakeFirstOrThrow();
+      .executeTakeFirstOrThrow()
 
     await trx
       .updateTable("accounts")
-      .set({balance: balance.balance - amount})
+      .set({ balance: balance.balance - amount })
       .where("id", "=", accountId)
-      .execute();
-  });
+      .execute()
+  })
 ```
 
 ### 빠른 판단 기준
@@ -106,7 +106,7 @@ await db
 Kysely는 raw SQL escape hatch를 제공한다. builder보다 SQL이 더 읽기 쉬우면 과감하게 `sql`을 쓴다.
 
 ```ts
-import {sql} from "kysely";
+import { sql } from "kysely"
 
 const result = await db
   .selectFrom("users")
@@ -115,7 +115,7 @@ const result = await db
     sql<string>`UPPER(name)`.as("uppercase_name"),
     sql<number>`EXTRACT(YEAR FROM created_at)`.as("year_created"),
   ])
-  .execute();
+  .execute()
 ```
 
 ```ts
@@ -123,7 +123,7 @@ const filtered = await db
   .selectFrom("posts")
   .selectAll()
   .where(sql`LOWER(title)`, "like", "%typescript%")
-  .execute();
+  .execute()
 ```
 
 ### 빠른 판단 기준
@@ -137,7 +137,7 @@ const filtered = await db
 ## 5. 전체 raw query
 
 ```ts
-const topPosts = await sql<{id: number; user_id: number; rank: number}>`
+const topPosts = await sql<{ id: number; user_id: number; rank: number }>`
   WITH ranked_posts AS (
     SELECT
       p.id,
@@ -146,17 +146,17 @@ const topPosts = await sql<{id: number; user_id: number; rank: number}>`
     FROM posts p
   )
   SELECT * FROM ranked_posts WHERE rank <= 3
-`.execute(db);
+`.execute(db)
 ```
 
 ```ts
-const email = "alice@example.com";
+const email = "alice@example.com"
 
-const user = await sql<{id: number; email: string}>`
+const user = await sql<{ id: number; email: string }>`
   SELECT id, email
   FROM users
   WHERE email = ${email}
-`.execute(db);
+`.execute(db)
 ```
 
 ---

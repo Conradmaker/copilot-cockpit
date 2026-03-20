@@ -52,30 +52,30 @@
 ### `execute()`를 빼먹는 경우
 
 ```ts
-const users = db.selectFrom("users").selectAll();
+const users = db.selectFrom("users").selectAll()
 ```
 
 위 코드는 결과가 아니라 query builder다.
 
 ```ts
-const users = await db.selectFrom("users").selectAll().execute();
+const users = await db.selectFrom("users").selectAll().execute()
 ```
 
 ### `Generated`를 빼먹는 경우
 
 ```ts
 interface UserTable {
-  id: number;
+  id: number
 }
 ```
 
 이렇게 두면 `INSERT` 시 `id` 입력을 요구받는다.
 
 ```ts
-import {Generated} from "kysely";
+import { Generated } from "kysely"
 
 interface UserTable {
-  id: Generated<number>;
+  id: Generated<number>
 }
 ```
 
@@ -86,7 +86,7 @@ const result = await db
   .selectFrom("users")
   .leftJoin("posts", "posts.user_id", "users.id")
   .select(["users.name", "posts.title"])
-  .execute();
+  .execute()
 ```
 
 여기서 `posts.title`은 `string | null`일 수 있다.

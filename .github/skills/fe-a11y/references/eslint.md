@@ -15,7 +15,7 @@ yarn add -D eslint-plugin-jsx-a11y
 ### Flat Config (eslint.config.js)
 
 ```js
-import jsxA11y from "eslint-plugin-jsx-a11y";
+import jsxA11y from "eslint-plugin-jsx-a11y"
 
 export default [
   jsxA11y.flatConfigs.recommended,
@@ -24,7 +24,7 @@ export default [
       "jsx-a11y/control-has-associated-label": "error",
     },
   },
-];
+]
 ```
 
 ### Legacy Config (.eslintrc)
@@ -174,7 +174,7 @@ export default [
 
 ```js
 // eslint.config.js (flat config)
-import jsxA11y from "eslint-plugin-jsx-a11y";
+import jsxA11y from "eslint-plugin-jsx-a11y"
 
 export default [
   jsxA11y.flatConfigs.recommended,
@@ -191,7 +191,7 @@ export default [
       },
     },
   },
-];
+]
 ```
 
 ```json

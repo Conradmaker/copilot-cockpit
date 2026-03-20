@@ -140,18 +140,18 @@ user-invocable: false
 
 아래 문서는 “더 자세한 참고자료”가 아니라, 실제 제품 UX 결정을 내리기 전 직접 읽어야 하는 구현 가이드다. 작업 성격에 따라 필요한 reference를 먼저 읽고 판단한다.
 
-| 파일                                                                                 | 읽을 때                                                                                                                |
-| ------------------------------------------------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------- |
-| [references/01-action-patterns.md](references/01-action-patterns.md)                 | CTA, 확인, 삭제, 공유, 선택, 내비게이션, 다크패턴 여부를 판단할 때                                                     |
-| [references/02-ux-writing.md](references/02-ux-writing.md)                           | 버튼 문구, 에러 메시지, 빈 상태, 안내 문구, 톤을 쓸 때                                                                 |
-| [references/03-loading-feedback.md](references/03-loading-feedback.md)               | spinner, skeleton, progress, toast, snackbar, haptic, 실패 안내와 피드백 강도를 결정할 때                              |
-| [references/04-interaction-motion.md](references/04-interaction-motion.md)           | 인터랙션과 모션의 역할, 지연형 툴팁, 단축키 학습, hover reveal, 검색 확장 같은 패턴을 판단할 때                        |
-| [references/05-accessibility-inclusion.md](references/05-accessibility-inclusion.md) | 접근성, 포용성, 색상 대비, 큰 글씨, 제스처 대안, 입력/오류 흐름을 검토할 때                                            |
-| [references/06-foundations-principles.md](references/06-foundations-principles.md)   | 상위 UX 원칙, 신뢰, 연속성, 브랜드 보이스, 핵심 과업 우선순위를 정리할 때                                              |
-| [references/07-docs-index.md](references/07-docs-index.md)                           | retrieval 중심으로 관련 reference를 빠르게 찾을 때                                                                     |
-| [references/08-product-thinking.md](references/08-product-thinking.md)               | 사용자 의도 중심 설계, 모든 상태 디자인, 빈 상태 일러스트 전략, 흐름 구축, 디자인 시스템, 디자인 실무 태도를 판단할 때 |
-| [references/09-native-experience.md](references/09-native-experience.md)             | 네이티브 경험, swipe-to-dismiss, slide-to-confirm, 낙관적 UI, 점진적 공개를 설계할 때                                  |
-| [references/10-common-ux-mistakes.md](references/10-common-ux-mistakes.md)           | 흔한 UI/UX 실수 점검, 불필요한 요소 제거, 피드백 누락 확인할 때                                                        |
+| 파일 | 읽을 때 |
+| --- | --- |
+| [references/01-action-patterns.md](references/01-action-patterns.md) | CTA, 확인, 삭제, 공유, 선택, 내비게이션, 다크패턴 여부를 판단할 때 |
+| [references/02-ux-writing.md](references/02-ux-writing.md) | 버튼 문구, 에러 메시지, 빈 상태, 안내 문구, 톤을 쓸 때 |
+| [references/03-loading-feedback.md](references/03-loading-feedback.md) | spinner, skeleton, progress, toast, snackbar, haptic, 실패 안내와 피드백 강도를 결정할 때 |
+| [references/04-interaction-motion.md](references/04-interaction-motion.md) | 인터랙션과 모션의 역할, 지연형 툴팁, 단축키 학습, hover reveal, 검색 확장 같은 패턴을 판단할 때 |
+| [references/05-accessibility-inclusion.md](references/05-accessibility-inclusion.md) | 접근성, 포용성, 색상 대비, 큰 글씨, 제스처 대안, 입력/오류 흐름을 검토할 때 |
+| [references/06-foundations-principles.md](references/06-foundations-principles.md) | 상위 UX 원칙, 신뢰, 연속성, 브랜드 보이스, 핵심 과업 우선순위를 정리할 때 |
+| [references/07-docs-index.md](references/07-docs-index.md) | retrieval 중심으로 관련 reference를 빠르게 찾을 때 |
+| [references/08-product-thinking.md](references/08-product-thinking.md) | 사용자 의도 중심 설계, 모든 상태 디자인, 빈 상태 일러스트 전략, 흐름 구축, 디자인 시스템, 디자인 실무 태도를 판단할 때 |
+| [references/09-native-experience.md](references/09-native-experience.md) | 네이티브 경험, swipe-to-dismiss, slide-to-confirm, 낙관적 UI, 점진적 공개를 설계할 때 |
+| [references/10-common-ux-mistakes.md](references/10-common-ux-mistakes.md) | 흔한 UI/UX 실수 점검, 불필요한 요소 제거, 피드백 누락 확인할 때 |
 
 ### 추천 로드 순서
 

@@ -35,15 +35,16 @@ HSL is intuitive but poorly represents perceptual brightness. A "50% lightness" 
 OKLCH (or LCH) provides perceptually uniform lightness. Steps from 50→950 actually look even.
 
 **Practical workflow:**
+
 - Generate and adjust palettes in OKLCH
 - Store production values as hex
 - Keep OKLCH logic as source of truth
 
 ```css
 /* OKLCH example */
---primary-500: oklch(0.55 0.2 250);  /* Base */
---primary-600: oklch(0.48 0.2 250);  /* Hover */
---primary-700: oklch(0.41 0.2 250);  /* Active */
+--primary-500: oklch(0.55 0.2 250); /* Base */
+--primary-600: oklch(0.48 0.2 250); /* Hover */
+--primary-700: oklch(0.41 0.2 250); /* Active */
 ```
 
 **For MVP:** You can skip OKLCH. Use curated palettes (Tailwind, Radix, Open Color). But know why they work.
@@ -59,6 +60,7 @@ You need 4 layers, not "30 beautiful colors."
 Neutrals are 70–90% of your UI. This is where you win or lose.
 
 **Requirements:**
+
 - 10-12 steps: 50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950
 - Slight character (warm or cool), not colorful circus
 - Consistent across light and dark themes
@@ -76,12 +78,14 @@ Neutrals are 70–90% of your UI. This is where you win or lose.
 | 950 | Near-black | `#0a0a0a` |
 
 **Hard rules:**
+
 - Never use pure `#000` on white as body text
 - Don't make text gray "for breathing room" — spacing creates breathing room, not faded text
 
 ### 2.2 Primary Accent
 
 One brand color. It should:
+
 - Have good contrast on both white and dark backgrounds
 - Have a full scale (50–950), not just one hex
 - Be used sparingly and purposefully
@@ -98,6 +102,7 @@ One brand color. It should:
 ### 2.3 Semantic Colors
 
 Usually 3-4:
+
 - **Success** — Green (confirmations, completion)
 - **Warning** — Amber/Yellow (attention needed)
 - **Danger** — Red (errors, destructive actions)
@@ -107,10 +112,10 @@ Usually 3-4:
 
 ```css
 /* Each semantic needs: */
---success: #16a34a;           /* Icon, text accent */
---success-bg: #f0fdf4;        /* Background */
---success-border: #86efac;    /* Border */
---on-success: #ffffff;        /* Text on solid success */
+--success: #16a34a; /* Icon, text accent */
+--success-bg: #f0fdf4; /* Background */
+--success-border: #86efac; /* Border */
+--on-success: #ffffff; /* Text on solid success */
 ```
 
 ### 2.4 Effects (Only If Needed)
@@ -142,6 +147,7 @@ If a button has brand gradient + colored border + colored shadow + colored text,
 ### State Changes: Structure, Not Circus
 
 Hover and Active should be:
+
 - Slightly darker/lighter
 - Slightly more contrast
 - Subtle shadow enhancement
@@ -154,7 +160,7 @@ Hover and Active should be:
   background: var(--primary);
 }
 .button:hover {
-  background: var(--primary-hover);  /* Just darker */
+  background: var(--primary-hover); /* Just darker */
 }
 
 /* Bad */
@@ -215,9 +221,9 @@ Result: eye-burning contrast, amateur look.
 
 /* Dark — NOT just inverted */
 [data-theme="dark"] {
-  --bg: #0f0f0f;          /* Not #000 */
+  --bg: #0f0f0f; /* Not #000 */
   --surface: #1a1a1a;
-  --text: #f0f0f0;        /* Not #fff */
+  --text: #f0f0f0; /* Not #fff */
   --text-muted: #a1a1a1;
 }
 ```
@@ -225,13 +231,14 @@ Result: eye-burning contrast, amateur look.
 ### Dark Theme Elevation
 
 In dark UI, surfaces and layers communicate through:
+
 - Slightly lighter backgrounds for elevated elements
 - Subtle borders (1px, low contrast)
 - Very soft shadows or no shadows at all
 
 ```css
 [data-theme="dark"] {
-  --surface-elevated: #242424;  /* Lighter than base */
+  --surface-elevated: #242424; /* Lighter than base */
   --border: rgba(255, 255, 255, 0.1);
 }
 ```
@@ -242,11 +249,11 @@ Browser-level settings that most developers miss:
 
 ```html
 <!-- In <head> — tells browser UI elements to use dark mode -->
-<meta name="color-scheme" content="light dark">
+<meta name="color-scheme" content="light dark" />
 
 <!-- Theme color for browser chrome, PWA, mobile address bar -->
-<meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)">
-<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f0f0f" media="(prefers-color-scheme: dark)" />
+<meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
 ```
 
 ```css
@@ -260,6 +267,7 @@ Browser-level settings that most developers miss:
 ```
 
 **Why this matters:**
+
 - Without `color-scheme: dark`, scrollbars stay light gray on dark backgrounds
 - Form inputs (`<input>`, `<select>`, `<textarea>`) get wrong default colors
 - System dialogs and autofill appear broken
@@ -350,6 +358,7 @@ Decide warm or cool. This affects the entire feel.
 ### Step 2: Choose One Primary
 
 Requirements:
+
 - Works on white background
 - Works on dark background
 - Works in buttons, links, badges
@@ -360,6 +369,7 @@ Requirements:
 ### Step 3: Generate Scale
 
 Use OKLCH or curated palette generators:
+
 - [Tailwind CSS Colors](https://tailwindcss.com/docs/customizing-colors)
 - [Radix Colors](https://www.radix-ui.com/colors)
 - [Open Color](https://yeun.github.io/open-color/)
@@ -379,6 +389,7 @@ Choose semantic colors that don't clash with primary.
 ## 8. Gradients
 
 Gradients are allowed when:
+
 - They support brand identity
 - They don't break readability
 - They're localized (hero, illustration, small highlight)
@@ -399,8 +410,7 @@ Gradients are allowed when:
 
 /* Problematic */
 .card {
-  background: linear-gradient(90deg, 
-    #ff6b6b, #feca57, #48dbfb, #ff9ff3);
+  background: linear-gradient(90deg, #ff6b6b, #feca57, #48dbfb, #ff9ff3);
 }
 ```
 
@@ -417,6 +427,7 @@ Structural problems that reveal unintentional design:
 Every LLM, every AI code generator, every design tool defaults to indigo/violet (`#6366f1`, `#8b5cf6`, or similar). This has become the universal fingerprint of AI-generated design.
 
 **Before using any purple-family color, ask:**
+
 1. Does the brand explicitly require purple?
 2. Did research references use purple (and why)?
 3. Is there a semantic reason (not just "looks modern")?
@@ -425,6 +436,7 @@ Every LLM, every AI code generator, every design tool defaults to indigo/violet 
 **If you can't answer YES to at least one of these—choose a different color.**
 
 Safe alternatives when you need an accent:
+
 - Blue (`#2563eb`) — trust, stability, professional
 - Teal (`#0d9488`) — fresh, modern, distinctive
 - Green (`#16a34a`) — growth, success, natural
@@ -560,4 +572,4 @@ Reference implementation with all tokens:
 
 ---
 
-*Color is restraint. Neutrals are 90% of the work. One accent, used purposefully, beats five competing for attention.*
+_Color is restraint. Neutrals are 90% of the work. One accent, used purposefully, beats five competing for attention._

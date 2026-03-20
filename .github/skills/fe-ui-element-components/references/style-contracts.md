@@ -14,7 +14,7 @@ function Dialog({ open, className, ...props }: DialogProps) {
       className={cn("transition-all", className)}
       {...props}
     />
-  );
+  )
 }
 ```
 
@@ -43,7 +43,7 @@ function Card({ className, ...props }: React.ComponentProps<"div">) {
       )}
       {...props}
     />
-  );
+  )
 }
 ```
 

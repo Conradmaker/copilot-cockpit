@@ -5,7 +5,7 @@ Reviewer가 단일 `reviewer_role`을 받으면 이 디렉토리에서 해당 `{
 ## Role 활성화 기준
 
 | role | 언제 선택하는가 | 관점 |
-|---|---|---|
+| --- | --- | --- |
 | board | 병렬 reviewer 결과를 합성하고 final gate를 닫아야 할 때 | broad quality gate |
 | security | auth, input, secret, persistence, file/network I/O, privileged action이 바뀔 때 | exploitability와 security control |
 | frontend | React/UI implementation, state/render flow, shared UI surface가 바뀔 때 | frontend implementation quality |

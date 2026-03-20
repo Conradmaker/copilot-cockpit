@@ -43,9 +43,7 @@ repo memory는 아래 필드를 모두 채운다.
 {
   "subject": "What the fact is about",
   "fact": "The stable repository fact to remember",
-  "citations": [
-    "Relevant file path or other concrete evidence"
-  ],
+  "citations": ["Relevant file path or other concrete evidence"],
   "reason": "Why this will help future coding or review tasks",
   "category": "architecture|workflow|convention|pattern|tooling|other"
 }

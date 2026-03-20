@@ -30,7 +30,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - React, component split, form, modal, accessibility, Tailwind, render flow, shared UI, frontend review면 `Frontend engineering`을 먼저 본다.
 - auth, validation, API contract, status code, Fastify, secure coding, secret handling이면 `Security & backend`를 먼저 본다.
 - query builder, database setup, Prisma, TanStack Query, hydration, mutation, state adapter면 `Data & state`를 먼저 본다.
-- browser automation, README, git, gh, PDF, SEO, ideation, skill authoring이면 `Workflow & tooling`을 먼저 본다.
+- browser automation, README, git, gh, PDF, SEO, ideation, skill authoring, 자료조사, 레퍼런스 강화, 공식 문서 확인, 근거 기반 답변이면 `Workflow & tooling`를 먼저 본다.
 - image generation, hero image, illustration, compositing, visual asset backend면 `Web visuals`를 먼저 본다.
 - memory tail, repo memory, durable fact, memory pollution 판단이면 `Memory & context`를 먼저 본다.
 
@@ -99,6 +99,7 @@ browser automation, ideation, docs, git, SEO, PDF, skill authoring 같은 작업
 - `.github/skills/agent-browser/SKILL.md`: site navigation, scraping, screenshots, browser verification
 - `.github/skills/brainstorming/SKILL.md`: creative or architectural direction setting before build
 - `.github/skills/crafting-effective-readmes/SKILL.md`: README update, stale section review, audience fit
+- `.github/skills/evidence-first-research/SKILL.md`: reference-first 조사, source ladder, 공식 문서 및 로컬 근거 합성
 - `.github/skills/gh-cli/SKILL.md`: GitHub CLI workflow for repo, PR, issue operations
 - `.github/skills/git-workflow/SKILL.md`: branch, commit, PR workflow
 - `.github/skills/pdf/SKILL.md`: PDF read, split, merge, OCR, fill

@@ -122,14 +122,14 @@ user-invocable: false
 
 아래 문서는 "더 자세한 참고자료"가 아니라, 실제 디자인 시스템 컴포넌트를 설계하거나 배포하기 전 반드시 확인해야 하는 구현 가이드다. 본문에서 방향을 잡고, 작업을 시작하기 전에 해당 문서를 직접 읽는다.
 
-| 파일                               | 내용                                                                                 |
-| ---------------------------------- | ------------------------------------------------------------------------------------ |
-| `references/taxonomy.md`           | primitive, component, block, template 분류 기준과 artifact 수준 판단법               |
-| `references/tokens-and-theming.md` | semantic token, CSS variable, light/dark 및 multi-brand theme 구조 설계법            |
-| `references/style-contracts.md`    | `data-state`, `data-slot`, override-friendly styling contract 설계법                 |
-| `references/component-api.md`      | `as`/`asChild`, prop type export, single element boundary, polymorphic 컴포넌트 설계 |
-| `references/distribution.md`       | npm, registry, marketplace의 차이와 선택 기준                                        |
-| `references/documentation.md`      | demo, installation, API, accessibility, changelog를 포함한 문서 페이지 설계          |
+| 파일 | 내용 |
+| --- | --- |
+| `references/taxonomy.md` | primitive, component, block, template 분류 기준과 artifact 수준 판단법 |
+| `references/tokens-and-theming.md` | semantic token, CSS variable, light/dark 및 multi-brand theme 구조 설계법 |
+| `references/style-contracts.md` | `data-state`, `data-slot`, override-friendly styling contract 설계법 |
+| `references/component-api.md` | `as`/`asChild`, prop type export, single element boundary, polymorphic 컴포넌트 설계 |
+| `references/distribution.md` | npm, registry, marketplace의 차이와 선택 기준 |
+| `references/documentation.md` | demo, installation, API, accessibility, changelog를 포함한 문서 페이지 설계 |
 
 ---
 

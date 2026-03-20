@@ -27,9 +27,7 @@ class 기반 다크 모드를 `@custom-variant dark`로 설정하고, CSS 변수
 - `.light`: 기본 상태 (추가 설정 불필요)
 
 ```tsx
-<button className="bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900">
-  Toggle
-</button>
+<button className="bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900">Toggle</button>
 ```
 
 ---
@@ -62,9 +60,7 @@ class 기반 다크 모드를 `@custom-variant dark`로 설정하고, CSS 변수
 
 ```tsx
 // dark: prefix 없이 자동 전환
-<div className="bg-background text-foreground border-border">
-  Always correct
-</div>
+<div className="bg-background text-foreground border-border">Always correct</div>
 ```
 
 ---
@@ -72,77 +68,77 @@ class 기반 다크 모드를 `@custom-variant dark`로 설정하고, CSS 변수
 ## 3. ThemeProvider 구현
 
 ```tsx
-"use client";
+"use client"
 
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react"
 
-type Theme = "dark" | "light" | "system";
+type Theme = "dark" | "light" | "system"
 
 interface ThemeContextType {
-  theme: Theme;
-  setTheme: (theme: Theme) => void;
-  resolvedTheme: "dark" | "light";
+  theme: Theme
+  setTheme: (theme: Theme) => void
+  resolvedTheme: "dark" | "light"
 }
 
-const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
+const ThemeContext = createContext<ThemeContextType | undefined>(undefined)
 
 export function ThemeProvider({
   children,
   defaultTheme = "system",
   storageKey = "theme",
 }: {
-  children: React.ReactNode;
-  defaultTheme?: Theme;
-  storageKey?: string;
+  children: React.ReactNode
+  defaultTheme?: Theme
+  storageKey?: string
 }) {
-  const [theme, setTheme] = useState<Theme>(defaultTheme);
-  const [resolvedTheme, setResolvedTheme] = useState<"dark" | "light">("light");
+  const [theme, setTheme] = useState<Theme>(defaultTheme)
+  const [resolvedTheme, setResolvedTheme] = useState<"dark" | "light">("light")
 
   useEffect(() => {
-    const stored = localStorage.getItem(storageKey) as Theme | null;
-    if (stored) setTheme(stored);
-  }, [storageKey]);
+    const stored = localStorage.getItem(storageKey) as Theme | null
+    if (stored) setTheme(stored)
+  }, [storageKey])
 
   useEffect(() => {
-    const root = document.documentElement;
-    root.classList.remove("light", "dark", "system");
+    const root = document.documentElement
+    root.classList.remove("light", "dark", "system")
 
     if (theme === "system") {
-      root.classList.add("system");
-      const resolved = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
-      setResolvedTheme(resolved);
+      root.classList.add("system")
+      const resolved = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+      setResolvedTheme(resolved)
     } else {
-      root.classList.add(theme);
-      setResolvedTheme(theme);
+      root.classList.add(theme)
+      setResolvedTheme(theme)
     }
 
     // 모바일 브라우저 상단바 색상 변경
-    const meta = document.querySelector('meta[name="theme-color"]');
+    const meta = document.querySelector('meta[name="theme-color"]')
     if (meta) {
-      meta.setAttribute("content", resolvedTheme === "dark" ? "#09090b" : "#ffffff");
+      meta.setAttribute("content", resolvedTheme === "dark" ? "#09090b" : "#ffffff")
     }
-  }, [theme, resolvedTheme]);
+  }, [theme, resolvedTheme])
 
   return (
     <ThemeContext.Provider
       value={{
         theme,
         setTheme: (newTheme) => {
-          localStorage.setItem(storageKey, newTheme);
-          setTheme(newTheme);
+          localStorage.setItem(storageKey, newTheme)
+          setTheme(newTheme)
         },
         resolvedTheme,
       }}
     >
       {children}
     </ThemeContext.Provider>
-  );
+  )
 }
 
 export function useTheme() {
-  const context = useContext(ThemeContext);
-  if (!context) throw new Error("useTheme must be used within ThemeProvider");
-  return context;
+  const context = useContext(ThemeContext)
+  if (!context) throw new Error("useTheme must be used within ThemeProvider")
+  return context
 }
 ```
 
@@ -151,11 +147,11 @@ export function useTheme() {
 ## 4. ThemeToggle 컴포넌트
 
 ```tsx
-import { Moon, Sun } from "lucide-react";
-import { useTheme } from "@/providers/ThemeProvider";
+import { Moon, Sun } from "lucide-react"
+import { useTheme } from "@/providers/ThemeProvider"
 
 export function ThemeToggle() {
-  const { resolvedTheme, setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme()
 
   return (
     <button
@@ -166,7 +162,7 @@ export function ThemeToggle() {
       <Moon className="absolute size-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
       <span className="sr-only">Toggle theme</span>
     </button>
-  );
+  )
 }
 ```
 
@@ -178,12 +174,15 @@ SSR/SSG 환경에서 첫 로드 시 깜빡임을 방지하려면 `<head>`에 인
 
 ```html
 <script>
-  (function() {
-    var stored = localStorage.getItem('theme');
-    if (stored === 'dark' || (!stored && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-      document.documentElement.classList.add('dark');
+  ;(function () {
+    var stored = localStorage.getItem("theme")
+    if (
+      stored === "dark" ||
+      (!stored && window.matchMedia("(prefers-color-scheme: dark)").matches)
+    ) {
+      document.documentElement.classList.add("dark")
     }
-  })();
+  })()
 </script>
 ```
 

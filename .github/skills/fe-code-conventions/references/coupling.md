@@ -26,7 +26,7 @@ export function usePageState() {
     dateFrom: DateParam,
     dateTo: DateParam,
     statusList: ArrayParam,
-  });
+  })
 
   return useMemo(
     () => ({
@@ -38,16 +38,16 @@ export function usePageState() {
         statusList: query.statusList as StatementStatusType[] | undefined,
       },
       controls: {
-        setCardId: (cardId: number) => setQuery({cardId}, "replaceIn"),
-        setStatementId: (statementId: number) => setQuery({statementId}, "replaceIn"),
-        setDateFrom: (date?: Moment) => setQuery({dateFrom: date?.toDate()}, "replaceIn"),
-        setDateTo: (date?: Moment) => setQuery({dateTo: date?.toDate()}, "replaceIn"),
+        setCardId: (cardId: number) => setQuery({ cardId }, "replaceIn"),
+        setStatementId: (statementId: number) => setQuery({ statementId }, "replaceIn"),
+        setDateFrom: (date?: Moment) => setQuery({ dateFrom: date?.toDate() }, "replaceIn"),
+        setDateTo: (date?: Moment) => setQuery({ dateTo: date?.toDate() }, "replaceIn"),
         setStatusList: (statusList?: StatementStatusType[]) =>
-          setQuery({statusList}, "replaceIn"),
+          setQuery({ statusList }, "replaceIn"),
       },
     }),
-    [query, setQuery]
-  );
+    [query, setQuery],
+  )
 }
 ```
 
@@ -61,13 +61,13 @@ export function usePageState() {
 
 ```typescript
 export function useCardIdQueryParam() {
-  const [cardId, _setCardId] = useQueryParam("cardId", NumberParam);
+  const [cardId, _setCardId] = useQueryParam("cardId", NumberParam)
 
   const setCardId = useCallback((cardId: number) => {
-    _setCardId({cardId}, "replaceIn");
-  }, []);
+    _setCardId({ cardId }, "replaceIn")
+  }, [])
 
-  return [cardId ?? undefined, setCardId] as const;
+  return [cardId ?? undefined, setCardId] as const
 }
 ```
 
@@ -87,18 +87,18 @@ export function useCardIdQueryParam() {
 
 ```typescript
 export const useOpenMaintenanceBottomSheet = () => {
-  const maintenanceBottomSheet = useMaintenanceBottomSheet();
-  const logger = useLogger();
+  const maintenanceBottomSheet = useMaintenanceBottomSheet()
+  const logger = useLogger()
 
   return async (maintainingInfo: TelecomMaintenanceInfo) => {
-    logger.log("점검 바텀시트 열림");
-    const result = await maintenanceBottomSheet.open(maintainingInfo);
+    logger.log("점검 바텀시트 열림")
+    const result = await maintenanceBottomSheet.open(maintainingInfo)
     if (result) {
-      logger.log("점검 바텀시트 알림받기 클릭");
+      logger.log("점검 바텀시트 알림받기 클릭")
     }
-    closeView();
-  };
-};
+    closeView()
+  }
+}
 ```
 
 여러 페이지에서 반복적으로 보이는 로직이기에 공통화했지만, 다양한 변경 가능성이 존재한다:

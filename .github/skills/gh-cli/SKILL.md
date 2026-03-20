@@ -312,10 +312,10 @@ gh repo sync
 
 아래 문서는 각 카테고리별 상세 명령어 레퍼런스다. 필요한 명령어가 있을 때 해당 문서를 직접 읽고 옵션을 확인한다.
 
-| 파일                                 | 내용                                                                                                                                                                                     |
-| ------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `references/core-commands.md`        | Authentication, Browse, Repositories, Configuration, Aliases, API Requests, Global Flags, Output Formatting, Completion, Environment Setup                                               |
-| `references/collaboration.md`        | Issues, Pull Requests, Projects, Labels, Search                                                                                                                                          |
+| 파일 | 내용 |
+| --- | --- |
+| `references/core-commands.md` | Authentication, Browse, Repositories, Configuration, Aliases, API Requests, Global Flags, Output Formatting, Completion, Environment Setup |
+| `references/collaboration.md` | Issues, Pull Requests, Projects, Labels, Search |
 | `references/devops-and-ecosystem.md` | GitHub Actions (Runs, Workflows, Caches, Secrets, Variables), Releases, Gists, Codespaces, Organizations, SSH/GPG Keys, Extensions, Rulesets, Attestations, Status, Preview, Agent Tasks |
 
 ---

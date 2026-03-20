@@ -96,17 +96,17 @@ git branch -d feature/PROJ-123-기능설명
 
 ## PR 관련 gh CLI 요약
 
-| 작업                 | 명령어                                    |
-| -------------------- | ----------------------------------------- |
-| PR 생성              | `gh pr create --draft --base main`        |
-| PR 목록              | `gh pr list`                              |
-| PR 상세              | `gh pr view 123`                          |
-| PR diff              | `gh pr diff 123`                          |
-| PR 수정              | `gh pr edit 123 --title "..." --body "..."` |
-| Ready for review     | `gh pr ready 123`                         |
-| PR 체크 상태         | `gh pr checks 123`                        |
-| PR 리뷰              | `gh pr review 123 --approve`              |
-| PR 병합              | `gh pr merge 123 --squash --delete-branch` |
-| PR 브라우저 열기     | `gh pr view 123 --web`                    |
+| 작업 | 명령어 |
+| ----- | ----- |
+| PR 생성          | `gh pr create --draft --base main`          |
+| PR 목록          | `gh pr list`                                |
+| PR 상세          | `gh pr view 123`                            |
+| PR diff          | `gh pr diff 123`                            |
+| PR 수정          | `gh pr edit 123 --title "..." --body "..."` |
+| Ready for review | `gh pr ready 123`                           |
+| PR 체크 상태     | `gh pr checks 123`                          |
+| PR 리뷰          | `gh pr review 123 --approve`                |
+| PR 병합          | `gh pr merge 123 --squash --delete-branch`  |
+| PR 브라우저 열기 | `gh pr view 123 --web`                      |
 
 상세 옵션은 `gh-cli` 스킬의 [references/collaboration.md](../../gh-cli/references/collaboration.md) Pull Requests 섹션을 참조한다.

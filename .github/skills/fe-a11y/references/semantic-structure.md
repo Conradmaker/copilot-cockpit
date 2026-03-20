@@ -16,13 +16,13 @@ HTML과 접근성 기준에서 인터랙티브 요소(버튼, 링크 등) 안에
 
 ### 인터랙티브 요소 목록
 
-| 요소                                                                                                   | 조건                        |
-| ------------------------------------------------------------------------------------------------------ | --------------------------- |
-| `<a>`, `<button>`, `<details>`, `<embed>`, `<iframe>`, `<keygen>`, `<label>`, `<select>`, `<textarea>` | 항상                        |
-| `<audio>`, `<video>`                                                                                   | `controls` 속성이 있는 경우 |
-| `<img>`, `<object>`                                                                                    | `usemap` 속성이 있는 경우   |
-| `<input>`                                                                                              | `type="hidden"`이 아닌 경우 |
-| `<menu>`                                                                                               | `type="toolbar"`인 경우     |
+| 요소 | 조건 |
+| --- | --- |
+| `<a>`, `<button>`, `<details>`, `<embed>`, `<iframe>`, `<keygen>`, `<label>`, `<select>`, `<textarea>` | 항상 |
+| `<audio>`, `<video>` | `controls` 속성이 있는 경우 |
+| `<img>`, `<object>` | `usemap` 속성이 있는 경우 |
+| `<input>` | `type="hidden"`이 아닌 경우 |
+| `<menu>` | `type="toolbar"`인 경우 |
 
 ### 패턴 1: 링크 안에 버튼
 

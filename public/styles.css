@@ -28,8 +28,7 @@
   --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
   --shadow: 0 4px 16px rgba(15, 23, 42, 0.08), 0 1px 4px rgba(15, 23, 42, 0.04);
   --shadow-lg: 0 8px 32px rgba(15, 23, 42, 0.12), 0 2px 8px rgba(15, 23, 42, 0.06);
-  --font:
-    "Inter", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, -apple-system, sans-serif;
+  --font: "Inter", "Apple SD Gothic Neo", "Malgun Gothic", system-ui, -apple-system, sans-serif;
   --mono: "JetBrains Mono", "Fira Code", "Cascadia Code", ui-monospace, monospace;
 }
 
@@ -220,18 +219,8 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 39px,
-      rgba(255, 255, 255, 0.025) 40px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 39px,
-      rgba(255, 255, 255, 0.025) 40px
-    );
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255, 255, 255, 0.025) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255, 255, 255, 0.025) 40px);
   pointer-events: none;
 }
 #hero::after {
@@ -241,11 +230,7 @@ button:focus-visible {
   left: -200px;
   width: 600px;
   height: 600px;
-  background: radial-gradient(
-    ellipse at center,
-    rgba(79, 70, 229, 0.12) 0%,
-    transparent 65%
-  );
+  background: radial-gradient(ellipse at center, rgba(79, 70, 229, 0.12) 0%, transparent 65%);
   pointer-events: none;
 }
 .hero-inner {
@@ -781,18 +766,8 @@ button:focus-visible {
   position: absolute;
   inset: 0;
   background:
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 39px,
-      rgba(255, 255, 255, 0.02) 40px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 39px,
-      rgba(255, 255, 255, 0.02) 40px
-    );
+    repeating-linear-gradient(0deg, transparent, transparent 39px, rgba(255, 255, 255, 0.02) 40px),
+    repeating-linear-gradient(90deg, transparent, transparent 39px, rgba(255, 255, 255, 0.02) 40px);
   pointer-events: none;
 }
 .start-inner {

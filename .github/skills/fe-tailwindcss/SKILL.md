@@ -87,11 +87,11 @@ className={cn(
 #### `cn` 유틸리티
 
 ```tsx
-import {type ClassValue, clsx} from "clsx";
-import {twMerge} from "tailwind-merge";
+import { type ClassValue, clsx } from "clsx"
+import { twMerge } from "tailwind-merge"
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs));
+  return twMerge(clsx(inputs))
 }
 ```
 
@@ -104,24 +104,21 @@ export function cn(...inputs: ClassValue[]) {
 variant 조합이 4~5개를 넘어가면 `cva`로 선언형 관리한다:
 
 ```tsx
-const buttonVariants = cva(
-  "inline-flex items-center justify-center rounded-md font-medium",
-  {
-    variants: {
-      variant: {
-        primary: "bg-primary text-primary-foreground hover:bg-primary/90",
-        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
-        ghost: "hover:bg-accent hover:text-accent-foreground",
-      },
-      size: {
-        sm: "h-8 px-3 text-sm",
-        md: "h-9 px-4 text-sm",
-        lg: "h-10 px-6 text-base",
-      },
+const buttonVariants = cva("inline-flex items-center justify-center rounded-md font-medium", {
+  variants: {
+    variant: {
+      primary: "bg-primary text-primary-foreground hover:bg-primary/90",
+      secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
+      ghost: "hover:bg-accent hover:text-accent-foreground",
     },
-    defaultVariants: {variant: "primary", size: "md"},
-  }
-);
+    size: {
+      sm: "h-8 px-3 text-sm",
+      md: "h-9 px-4 text-sm",
+      lg: "h-10 px-6 text-base",
+    },
+  },
+  defaultVariants: { variant: "primary", size: "md" },
+})
 ```
 
 #### 반복 패턴 추출
@@ -130,8 +127,8 @@ const buttonVariants = cva(
 
 ```tsx
 export const focusRing =
-  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2";
-export const disabledStyles = "disabled:pointer-events-none disabled:opacity-50";
+  "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+export const disabledStyles = "disabled:pointer-events-none disabled:opacity-50"
 ```
 
 #### 빠른 판단 기준
@@ -273,8 +270,8 @@ element 종류와 무관하게 같은 시각적 패턴을 적용해야 할 때 `
 
 ## Tailwind v3 → v4 주요 변경
 
-| v3 패턴                               | v4 패턴                              |
-| ------------------------------------- | ------------------------------------ |
+| v3 패턴 | v4 패턴 |
+| ------ | ------ |
 | `tailwind.config.ts`                  | CSS `@theme` 블록                    |
 | `@tailwind base/components/utilities` | `@import "tailwindcss"`              |
 | `darkMode: "class"`                   | `@custom-variant dark (...)`         |
@@ -290,15 +287,15 @@ element 종류와 무관하게 같은 시각적 패턴을 적용해야 할 때 `
 
 아래 문서는 "더 자세한 참고자료"가 아니라, 실제 적용 전 반드시 확인해야 하는 구현 가이드다. 본문에서 방향을 잡고, 변경을 시작하기 전에 해당 문서를 직접 읽는다.
 
-| 파일                                   | 내용                                                                                                              |
-| -------------------------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| `references/theme-and-tokens.md`       | `@theme` 설정, OKLCH 색상, semantic token, `@theme inline`/`static`, v3→v4 마이그레이션 체크리스트                |
-| `references/layout.md`                 | v-stack/h-stack/center/spacer `@utility` 정의, gap-first 원칙, responsive stack 패턴                              |
-| `references/classname-and-variants.md` | `cn()` 정의, `ClassName`/`ClassNameRecord` 타입, `cva`/`VariantProps`, 병합 순서, focusRing/disabledStyles 추출   |
-| `references/animations.md`             | built-in 4종, custom `@keyframes` + `--animate-*`, `@starting-style`, reduced motion, UI 애니메이션 패턴, 성능 팁 |
-| `references/dark-mode.md`              | `@custom-variant dark` 정의, `.dark` CSS variable override, ThemeProvider 구현, meta `theme-color`                |
-| `references/responsive.md`             | breakpoints 테이블, responsive text scale, show/hide, spacing/sizing, `pointer-coarse`/`hover` capability         |
-| `references/affordance-classes.md`     | `@utility` 정의 패턴, `:where()` zero specificity, `@variant` state 선언, `ui-` prefix 규칙                       |
+| 파일 | 내용 |
+| --- | --- |
+| `references/theme-and-tokens.md` | `@theme` 설정, OKLCH 색상, semantic token, `@theme inline`/`static`, v3→v4 마이그레이션 체크리스트 |
+| `references/layout.md` | v-stack/h-stack/center/spacer `@utility` 정의, gap-first 원칙, responsive stack 패턴 |
+| `references/classname-and-variants.md` | `cn()` 정의, `ClassName`/`ClassNameRecord` 타입, `cva`/`VariantProps`, 병합 순서, focusRing/disabledStyles 추출 |
+| `references/animations.md` | built-in 4종, custom `@keyframes` + `--animate-*`, `@starting-style`, reduced motion, UI 애니메이션 패턴, 성능 팁 |
+| `references/dark-mode.md` | `@custom-variant dark` 정의, `.dark` CSS variable override, ThemeProvider 구현, meta `theme-color` |
+| `references/responsive.md` | breakpoints 테이블, responsive text scale, show/hide, spacing/sizing, `pointer-coarse`/`hover` capability |
+| `references/affordance-classes.md` | `@utility` 정의 패턴, `:where()` zero specificity, `@variant` state 선언, `ui-` prefix 규칙 |
 
 ---
 

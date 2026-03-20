@@ -154,14 +154,14 @@ description: "Visual design foundations for building coherent color, typography,
 
 아래 문서는 실제 시각 디자인 결정을 내리기 전 직접 읽어야 하는 구현 가이드다. 작업 성격에 따라 필요한 reference를 먼저 읽고 판단한다.
 
-| 파일                                                                   | 읽을 때                                                                                                                                                     |
-| ---------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [references/01-color-system.md](references/01-color-system.md)         | 색상 팔레트, 중립색, 액센트, 시맨틱 컬러, 다크모드 색상, OKLCH, 컬러 램프를 설계할 때                                                                       |
-| [references/02-typography.md](references/02-typography.md)             | 폰트 조합, 앵커 폰트, 커스텀 폰트 리서치, 타이포 아트 디렉션, line-height, fluid typography를 결정할 때                                                     |
-| [references/03-spacing-system.md](references/03-spacing-system.md)     | 스페이싱 스케일, rem 기반 간격, 그룹화/분리, inner/outer, optical correction, relationship strength, exponential scaling, 컨테이너 vs 여백 분기를 설계할 때 |
-| [references/04-visual-hierarchy.md](references/04-visual-hierarchy.md) | 텍스트 불투명도, 버튼 우선순위, 상태 색상, 강조 절제를 판단할 때                                                                                            |
-| [references/05-depth-texture.md](references/05-depth-texture.md)       | 그림자, 오프화이트 캔버스, 노이즈 텍스처, offset backplate, 글래스모피즘을 적용할 때                                                                        |
-| [references/06-design-craft.md](references/06-design-craft.md)         | 아이콘 상태 언어, hand-drawn accent, 마스코트 시스템, 절제와 일관성을 검토할 때                                                                             |
+| 파일 | 읽을 때 |
+| --- | --- |
+| [references/01-color-system.md](references/01-color-system.md) | 색상 팔레트, 중립색, 액센트, 시맨틱 컬러, 다크모드 색상, OKLCH, 컬러 램프를 설계할 때 |
+| [references/02-typography.md](references/02-typography.md) | 폰트 조합, 앵커 폰트, 커스텀 폰트 리서치, 타이포 아트 디렉션, line-height, fluid typography를 결정할 때 |
+| [references/03-spacing-system.md](references/03-spacing-system.md) | 스페이싱 스케일, rem 기반 간격, 그룹화/분리, inner/outer, optical correction, relationship strength, exponential scaling, 컨테이너 vs 여백 분기를 설계할 때 |
+| [references/04-visual-hierarchy.md](references/04-visual-hierarchy.md) | 텍스트 불투명도, 버튼 우선순위, 상태 색상, 강조 절제를 판단할 때 |
+| [references/05-depth-texture.md](references/05-depth-texture.md) | 그림자, 오프화이트 캔버스, 노이즈 텍스처, offset backplate, 글래스모피즘을 적용할 때 |
+| [references/06-design-craft.md](references/06-design-craft.md) | 아이콘 상태 언어, hand-drawn accent, 마스코트 시스템, 절제와 일관성을 검토할 때 |
 
 ### 추천 로드 순서
 

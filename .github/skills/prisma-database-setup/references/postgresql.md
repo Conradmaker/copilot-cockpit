@@ -27,12 +27,12 @@ generator client {
 In `prisma.config.ts`:
 
 ```typescript
-import { defineConfig, env } from 'prisma/config'
+import { defineConfig, env } from "prisma/config"
 
 export default defineConfig({
-  schema: 'prisma/schema.prisma',
+  schema: "prisma/schema.prisma",
   datasource: {
-    url: env('DATABASE_URL'),
+    url: env("DATABASE_URL"),
   },
 })
 ```
@@ -63,15 +63,17 @@ postgresql://USER:PASSWORD@HOST:PORT/DATABASE?schema=SCHEMA
 Prisma ORM 7 uses the query compiler by default, so you must use a driver adapter.
 
 1. Install adapter and driver:
+
    ```bash
    npm install @prisma/adapter-pg pg
    ```
 
 2. Instantiate Prisma Client with the adapter:
+
    ```typescript
-   import 'dotenv/config'
-   import { PrismaClient } from '../generated/client'
-   import { PrismaPg } from '@prisma/adapter-pg'
+   import "dotenv/config"
+   import { PrismaClient } from "../generated/client"
+   import { PrismaPg } from "@prisma/adapter-pg"
 
    const adapter = new PrismaPg({ connectionString: process.env.DATABASE_URL })
    const prisma = new PrismaClient({ adapter })
@@ -80,13 +82,16 @@ Prisma ORM 7 uses the query compiler by default, so you must use a driver adapte
 ## Common Issues
 
 ### "Can't reach database server"
+
 - Check host and port
 - Check firewall settings
 - Ensure database is running
 
 ### "Authentication failed"
+
 - Check user/password
 - Special characters in password must be URL-encoded
 
 ### "Schema does not exist"
+
 - Ensure `?schema=public` (or your schema) is in the URL

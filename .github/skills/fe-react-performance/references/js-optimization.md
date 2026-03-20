@@ -20,7 +20,7 @@ function processOrders(orders: Order[], users: User[]) {
   return orders.map((order) => ({
     ...order,
     user: users.find((u) => u.id === order.userId),
-  }));
+  }))
 }
 ```
 
@@ -28,11 +28,11 @@ function processOrders(orders: Order[], users: User[]) {
 
 ```typescript
 function processOrders(orders: Order[], users: User[]) {
-  const userById = new Map(users.map((u) => [u.id, u]));
+  const userById = new Map(users.map((u) => [u.id, u]))
   return orders.map((order) => ({
     ...order,
     user: userById.get(order.userId),
-  }));
+  }))
 }
 ```
 
@@ -60,14 +60,14 @@ items.filter(item => allowedIds.has(item.id))
 
 ```typescript
 function validateUsers(users: User[]) {
-  let hasError = false;
+  let hasError = false
   for (const user of users) {
     if (!user.email) {
-      hasError = true;
+      hasError = true
     }
     // 에러 후에도 계속...
   }
-  return hasError ? {valid: false} : {valid: true};
+  return hasError ? { valid: false } : { valid: true }
 }
 ```
 
@@ -76,10 +76,10 @@ function validateUsers(users: User[]) {
 ```typescript
 function validateUsers(users: User[]) {
   for (const user of users) {
-    if (!user.email) return {valid: false, error: "Email required"};
-    if (!user.name) return {valid: false, error: "Name required"};
+    if (!user.email) return { valid: false, error: "Email required" }
+    if (!user.name) return { valid: false, error: "Name required" }
   }
-  return {valid: true};
+  return { valid: true }
 }
 ```
 
@@ -107,13 +107,13 @@ function ProjectList({ projects }: Props) {
 **✅ 올바른 예 (고유 이름당 1회만 계산):**
 
 ```typescript
-const slugifyCache = new Map<string, string>();
+const slugifyCache = new Map<string, string>()
 
 function cachedSlugify(text: string): string {
-  if (slugifyCache.has(text)) return slugifyCache.get(text)!;
-  const result = slugify(text);
-  slugifyCache.set(text, result);
-  return result;
+  if (slugifyCache.has(text)) return slugifyCache.get(text)!
+  const result = slugify(text)
+  slugifyCache.set(text, result)
+  return result
 }
 ```
 
@@ -153,9 +153,9 @@ function Highlighter({ text, query }: Props) {
 **⚠️ 글로벌 정규식은 mutable `lastIndex` 상태가 있다:**
 
 ```typescript
-const regex = /foo/g;
-regex.test("foo"); // true, lastIndex = 3
-regex.test("foo"); // false, lastIndex = 0
+const regex = /foo/g
+regex.test("foo") // true, lastIndex = 3
+regex.test("foo") // false, lastIndex = 0
 ```
 
 ---
@@ -168,10 +168,10 @@ regex.test("foo"); // false, lastIndex = 0
 
 ```typescript
 function layoutThrashing(element: HTMLElement) {
-  element.style.width = "100px";
-  const width = element.offsetWidth; // 강제 리플로우
-  element.style.height = "200px";
-  const height = element.offsetHeight; // 또 다른 강제 리플로우
+  element.style.width = "100px"
+  const width = element.offsetWidth // 강제 리플로우
+  element.style.height = "200px"
+  const height = element.offsetHeight // 또 다른 강제 리플로우
 }
 ```
 
@@ -179,10 +179,10 @@ function layoutThrashing(element: HTMLElement) {
 
 ```typescript
 function updateElement(element: HTMLElement) {
-  element.style.width = "100px";
-  element.style.height = "200px";
+  element.style.width = "100px"
+  element.style.height = "200px"
   // 모든 쓰기 후 읽기 (단일 리플로우)
-  const {width, height} = element.getBoundingClientRect();
+  const { width, height } = element.getBoundingClientRect()
 }
 ```
 
@@ -190,8 +190,8 @@ function updateElement(element: HTMLElement) {
 
 ```tsx
 // React에서
-function Box({isHighlighted}: {isHighlighted: boolean}) {
-  return <div className={isHighlighted ? "highlighted-box" : ""}>Content</div>;
+function Box({ isHighlighted }: { isHighlighted: boolean }) {
+  return <div className={isHighlighted ? "highlighted-box" : ""}>Content</div>
 }
 ```
 
@@ -206,22 +206,19 @@ function Box({isHighlighted}: {isHighlighted: boolean}) {
 **❌ 잘못된 예 (원본 배열 변이):**
 
 ```typescript
-const sorted = useMemo(() => users.sort((a, b) => a.name.localeCompare(b.name)), [users]);
+const sorted = useMemo(() => users.sort((a, b) => a.name.localeCompare(b.name)), [users])
 ```
 
 **✅ 올바른 예 (새 배열 생성):**
 
 ```typescript
-const sorted = useMemo(
-  () => users.toSorted((a, b) => a.name.localeCompare(b.name)),
-  [users]
-);
+const sorted = useMemo(() => users.toSorted((a, b) => a.name.localeCompare(b.name)), [users])
 ```
 
 **이전 브라우저 대응:**
 
 ```typescript
-const sorted = [...items].sort((a, b) => a.value - b.value);
+const sorted = [...items].sort((a, b) => a.value - b.value)
 ```
 
 **기타 불변 배열 메서드:** `.toReversed()`, `.toSpliced()`, `.with()`
@@ -239,24 +236,24 @@ const sorted = [...items].sort((a, b) => a.value - b.value);
 ```tsx
 function Comp() {
   useEffect(() => {
-    loadFromStorage();
-    checkAuthToken();
-  }, []);
+    loadFromStorage()
+    checkAuthToken()
+  }, [])
 }
 ```
 
 **✅ 올바른 예 (앱 로드당 1회):**
 
 ```tsx
-let didInit = false;
+let didInit = false
 
 function Comp() {
   useEffect(() => {
-    if (didInit) return;
-    didInit = true;
-    loadFromStorage();
-    checkAuthToken();
-  }, []);
+    if (didInit) return
+    didInit = true
+    loadFromStorage()
+    checkAuthToken()
+  }, [])
 }
 ```
 
@@ -271,9 +268,9 @@ function Comp() {
 ```tsx
 function useWindowEvent(event: string, handler: (e) => void) {
   useEffect(() => {
-    window.addEventListener(event, handler);
-    return () => window.removeEventListener(event, handler);
-  }, [event, handler]);
+    window.addEventListener(event, handler)
+    return () => window.removeEventListener(event, handler)
+  }, [event, handler])
 }
 ```
 
@@ -281,30 +278,30 @@ function useWindowEvent(event: string, handler: (e) => void) {
 
 ```tsx
 function useWindowEvent(event: string, handler: (e) => void) {
-  const handlerRef = useRef(handler);
+  const handlerRef = useRef(handler)
   useEffect(() => {
-    handlerRef.current = handler;
-  }, [handler]);
+    handlerRef.current = handler
+  }, [handler])
 
   useEffect(() => {
-    const listener = (e) => handlerRef.current(e);
-    window.addEventListener(event, listener);
-    return () => window.removeEventListener(event, listener);
-  }, [event]);
+    const listener = (e) => handlerRef.current(e)
+    window.addEventListener(event, listener)
+    return () => window.removeEventListener(event, listener)
+  }, [event])
 }
 ```
 
 **대안: useEffectEvent 사용 (최신 React):**
 
 ```tsx
-import {useEffectEvent} from "react";
+import { useEffectEvent } from "react"
 
 function useWindowEvent(event: string, handler: (e) => void) {
-  const onEvent = useEffectEvent(handler);
+  const onEvent = useEffectEvent(handler)
   useEffect(() => {
-    window.addEventListener(event, onEvent);
-    return () => window.removeEventListener(event, onEvent);
-  }, [event]);
+    window.addEventListener(event, onEvent)
+    return () => window.removeEventListener(event, onEvent)
+  }, [event])
 }
 ```
 
@@ -317,27 +314,27 @@ function useWindowEvent(event: string, handler: (e) => void) {
 **❌ 잘못된 예 (콜백 변경마다 Effect 재실행):**
 
 ```tsx
-function SearchInput({onSearch}: {onSearch: (q: string) => void}) {
-  const [query, setQuery] = useState("");
+function SearchInput({ onSearch }: { onSearch: (q: string) => void }) {
+  const [query, setQuery] = useState("")
   useEffect(() => {
-    const timeout = setTimeout(() => onSearch(query), 300);
-    return () => clearTimeout(timeout);
-  }, [query, onSearch]);
+    const timeout = setTimeout(() => onSearch(query), 300)
+    return () => clearTimeout(timeout)
+  }, [query, onSearch])
 }
 ```
 
 **✅ 올바른 예 (useEffectEvent 사용):**
 
 ```tsx
-import {useEffectEvent} from "react";
+import { useEffectEvent } from "react"
 
-function SearchInput({onSearch}: {onSearch: (q: string) => void}) {
-  const [query, setQuery] = useState("");
-  const onSearchEvent = useEffectEvent(onSearch);
+function SearchInput({ onSearch }: { onSearch: (q: string) => void }) {
+  const [query, setQuery] = useState("")
+  const onSearchEvent = useEffectEvent(onSearch)
 
   useEffect(() => {
-    const timeout = setTimeout(() => onSearchEvent(query), 300);
-    return () => clearTimeout(timeout);
-  }, [query]);
+    const timeout = setTimeout(() => onSearchEvent(query), 300)
+    return () => clearTimeout(timeout)
+  }, [query])
 }
 ```

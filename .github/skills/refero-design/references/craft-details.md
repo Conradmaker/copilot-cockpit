@@ -36,7 +36,9 @@ Focus states are for keyboard navigation. Get them wrong and your app feels brok
 /* ✅ Replace default with custom visible focus */
 .button:focus-visible {
   outline: none;
-  box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--primary);
+  box-shadow:
+    0 0 0 2px var(--bg),
+    0 0 0 4px var(--primary);
 }
 ```
 
@@ -62,15 +64,15 @@ Forms are where users struggle most. These details reduce friction.
 
 ```html
 <!-- ✅ Correct types trigger right keyboard on mobile -->
-<input type="email" inputmode="email" autocomplete="email">
-<input type="tel" inputmode="tel" autocomplete="tel">
-<input type="url" inputmode="url">
-<input type="number" inputmode="numeric">
+<input type="email" inputmode="email" autocomplete="email" />
+<input type="tel" inputmode="tel" autocomplete="tel" />
+<input type="url" inputmode="url" />
+<input type="number" inputmode="numeric" />
 
 <!-- ✅ Meaningful names help password managers -->
-<input name="email" type="email" autocomplete="email">
-<input name="password" type="password" autocomplete="current-password">
-<input name="new-password" type="password" autocomplete="new-password">
+<input name="email" type="email" autocomplete="email" />
+<input name="password" type="password" autocomplete="current-password" />
+<input name="new-password" type="password" autocomplete="new-password" />
 ```
 
 ### Autocomplete Matters
@@ -100,9 +102,9 @@ Forms are where users struggle most. These details reduce friction.
 
 ```html
 <!-- Spellcheck off for: emails, codes, usernames, URLs -->
-<input type="email" spellcheck="false">
-<input name="username" spellcheck="false">
-<input name="verification-code" spellcheck="false">
+<input type="email" spellcheck="false" />
+<input name="username" spellcheck="false" />
+<input name="verification-code" spellcheck="false" />
 ```
 
 ### Labels and Hit Targets
@@ -110,17 +112,17 @@ Forms are where users struggle most. These details reduce friction.
 ```html
 <!-- ✅ Clickable label (explicit) -->
 <label for="email">Email</label>
-<input id="email" type="email">
+<input id="email" type="email" />
 
 <!-- ✅ Clickable label (implicit) -->
 <label>
   Email
-  <input type="email">
+  <input type="email" />
 </label>
 
 <!-- ✅ Checkbox: label + control share single hit target -->
 <label class="checkbox-wrapper">
-  <input type="checkbox">
+  <input type="checkbox" />
   <span>Accept terms</span>
 </label>
 ```
@@ -139,20 +141,17 @@ Forms are where users struggle most. These details reduce friction.
 
 ```html
 <!-- ✅ Placeholders end with … and show format -->
-<input placeholder="name@company.com…">
-<input placeholder="(555) 123-4567…">
-<input placeholder="Search products…">
+<input placeholder="name@company.com…" />
+<input placeholder="(555) 123-4567…" />
+<input placeholder="Search products…" />
 ```
 
 ### Submit Button States
 
 ```jsx
 /* ✅ Button enabled until request starts, then shows spinner */
-<button 
-  type="submit" 
-  disabled={isSubmitting}
->
-  {isSubmitting ? <Spinner /> : 'Save Changes'}
+<button type="submit" disabled={isSubmitting}>
+  {isSubmitting ? <Spinner /> : "Save Changes"}
 </button>
 ```
 
@@ -161,10 +160,10 @@ Forms are where users struggle most. These details reduce friction.
 ```jsx
 /* ✅ Errors inline, focus first error on submit */
 <form onSubmit={handleSubmit}>
-  <input 
+  <input
     ref={emailRef}
-    aria-invalid={errors.email ? 'true' : 'false'}
-    aria-describedby={errors.email ? 'email-error' : undefined}
+    aria-invalid={errors.email ? "true" : "false"}
+    aria-describedby={errors.email ? "email-error" : undefined}
   />
   {errors.email && (
     <span id="email-error" role="alert">
@@ -181,13 +180,13 @@ Forms are where users struggle most. These details reduce friction.
 useEffect(() => {
   const handleBeforeUnload = (e) => {
     if (hasUnsavedChanges) {
-      e.preventDefault();
-      e.returnValue = '';
+      e.preventDefault()
+      e.returnValue = ""
     }
-  };
-  window.addEventListener('beforeunload', handleBeforeUnload);
-  return () => window.removeEventListener('beforeunload', handleBeforeUnload);
-}, [hasUnsavedChanges]);
+  }
+  window.addEventListener("beforeunload", handleBeforeUnload)
+  return () => window.removeEventListener("beforeunload", handleBeforeUnload)
+}, [hasUnsavedChanges])
 ```
 
 ---
@@ -200,20 +199,20 @@ Images are the #1 cause of layout shift (CLS). Fix them.
 
 ```html
 <!-- ❌ Causes layout shift as image loads -->
-<img src="photo.jpg" alt="Product">
+<img src="photo.jpg" alt="Product" />
 
 <!-- ✅ Reserves space, no layout shift -->
-<img src="photo.jpg" alt="Product" width="400" height="300">
+<img src="photo.jpg" alt="Product" width="400" height="300" />
 ```
 
 ### Loading Strategy
 
 ```html
 <!-- Above the fold: load immediately -->
-<img src="hero.jpg" fetchpriority="high" alt="Hero">
+<img src="hero.jpg" fetchpriority="high" alt="Hero" />
 
 <!-- Below the fold: lazy load -->
-<img src="feature.jpg" loading="lazy" alt="Feature">
+<img src="feature.jpg" loading="lazy" alt="Feature" />
 ```
 
 ### In React/Next.js
@@ -245,7 +244,8 @@ Details that make mobile feel native.
 
 ```css
 /* Set intentionally, don't just disable */
-button, a {
+button,
+a {
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0.1);
 }
 ```
@@ -254,7 +254,9 @@ button, a {
 
 ```css
 /* Prevent scroll chaining in modals/drawers */
-.modal, .drawer, .sheet {
+.modal,
+.drawer,
+.sheet {
   overscroll-behavior: contain;
 }
 ```
@@ -282,10 +284,11 @@ Lists with 50+ items should be virtualized:
 
 ```jsx
 // Use virtua, react-window, or similar
-import { VList } from 'virtua';
-
-<VList style={{ height: 400 }}>
-  {items.map(item => <Row key={item.id} data={item} />)}
+import { VList } from "virtua"
+;<VList style={{ height: 400 }}>
+  {items.map((item) => (
+    <Row key={item.id} data={item} />
+  ))}
 </VList>
 ```
 
@@ -303,21 +306,21 @@ import { VList } from 'virtua';
 ```jsx
 /* ❌ Forces synchronous layout recalculation */
 function Component() {
-  const height = elementRef.current.offsetHeight; // BAD
-  return <div style={{ marginTop: height }} />;
+  const height = elementRef.current.offsetHeight // BAD
+  return <div style={{ marginTop: height }} />
 }
 
 /* ✅ Use ResizeObserver or CSS */
 function Component() {
-  const [height, setHeight] = useState(0);
+  const [height, setHeight] = useState(0)
   useLayoutEffect(() => {
     const observer = new ResizeObserver(([entry]) => {
-      setHeight(entry.contentRect.height);
-    });
-    observer.observe(elementRef.current);
-    return () => observer.disconnect();
-  }, []);
-  return <div style={{ marginTop: height }} />;
+      setHeight(entry.contentRect.height)
+    })
+    observer.observe(elementRef.current)
+    return () => observer.disconnect()
+  }, [])
+  return <div style={{ marginTop: height }} />
 }
 ```
 
@@ -342,17 +345,11 @@ const handleSubmit = () => {
 ```html
 <head>
   <!-- Preconnect to asset domains -->
-  <link rel="preconnect" href="https://cdn.example.com">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  
+  <link rel="preconnect" href="https://cdn.example.com" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+
   <!-- Preload critical fonts -->
-  <link 
-    rel="preload" 
-    href="/fonts/inter.woff2" 
-    as="font" 
-    type="font/woff2" 
-    crossorigin
-  >
+  <link rel="preload" href="/fonts/inter.woff2" as="font" type="font/woff2" crossorigin />
 </head>
 ```
 
@@ -366,13 +363,13 @@ High-impact, low-effort accessibility fixes.
 
 ```html
 <!-- ❌ Div with click handler -->
-<div onClick={handleClick}>Click me</div>
+<div onClick="{handleClick}">Click me</div>
 
 <!-- ✅ Proper button -->
-<button onClick={handleClick}>Click me</button>
+<button onClick="{handleClick}">Click me</button>
 
 <!-- ❌ Span styled as link -->
-<span onClick={navigate} className="link">Go here</span>
+<span onClick="{navigate}" className="link">Go here</span>
 
 <!-- ✅ Proper link -->
 <a href="/page">Go here</a>
@@ -383,14 +380,14 @@ High-impact, low-effort accessibility fixes.
 Interactive custom elements need keyboard support:
 
 ```jsx
-<div 
+<div
   role="button"
   tabIndex={0}
   onClick={handleClick}
   onKeyDown={(e) => {
-    if (e.key === 'Enter' || e.key === ' ') {
-      e.preventDefault();
-      handleClick();
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault()
+      handleClick()
     }
   }}
 >
@@ -403,13 +400,14 @@ Interactive custom elements need keyboard support:
 ```html
 <!-- ✅ Proper heading order -->
 <h1>Page Title</h1>
-  <h2>Section</h2>
-    <h3>Subsection</h3>
-  <h2>Another Section</h2>
+<h2>Section</h2>
+<h3>Subsection</h3>
+<h2>Another Section</h2>
 
 <!-- ❌ Skipping levels -->
 <h1>Page Title</h1>
-  <h4>Section</h4> <!-- Wrong: skipped h2, h3 -->
+<h4>Section</h4>
+<!-- Wrong: skipped h2, h3 -->
 ```
 
 ### Scroll Margin for Anchors
@@ -443,8 +441,8 @@ URL should reflect app state. Users expect to bookmark, share, and use back butt
 // /products?category=shoes&sort=price&page=2
 
 /* Use nuqs or similar for easy URL state sync */
-import { useQueryState } from 'nuqs';
-const [category, setCategory] = useQueryState('category');
+import { useQueryState } from "nuqs"
+const [category, setCategory] = useQueryState("category")
 ```
 
 ### Links Support Browser Features
@@ -522,4 +520,4 @@ Flag these during code review:
 
 ---
 
-*Details matter. These patterns are the difference between "works" and "feels right."*
+_Details matter. These patterns are the difference between "works" and "feels right."_

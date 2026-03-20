@@ -11,7 +11,7 @@
 ### ✅ 권장: `<dialog>` 요소 + `showModal()` 사용
 
 ```tsx
-const ref = useRef<HTMLDialogElement>(null);
+const ref = useRef<HTMLDialogElement>(null)
 
 return (
   <>
@@ -23,7 +23,7 @@ return (
       <button onClick={() => ref.current?.close()}>확인</button>
     </dialog>
   </>
-);
+)
 ```
 
 `showModal()`을 사용하면 브라우저가 자동으로 제공하는 기능:
@@ -47,47 +47,47 @@ return (
       <h3 id="modal-title">다음에 다시 시도해 주세요</h3>
       <button onClick={closeModal}>확인</button>
     </div>
-  );
+  )
 }
 ```
 
 #### 1. 포커스 저장과 복원
 
 ```tsx
-const buttonRef = useRef<HTMLButtonElement>(null);
+const buttonRef = useRef<HTMLButtonElement>(null)
 const closeModal = () => {
-  setIsOpen(false);
+  setIsOpen(false)
   requestAnimationFrame(() => {
-    buttonRef.current?.focus();
-  });
-};
+    buttonRef.current?.focus()
+  })
+}
 ```
 
 #### 2. ESC 키로 닫기
 
 ```tsx
 useEffect(() => {
-  if (!isOpen) return;
+  if (!isOpen) return
   const handleEscape = (e: KeyboardEvent) => {
-    if (e.key === "Escape") onClose();
-  };
-  document.addEventListener("keydown", handleEscape);
-  return () => document.removeEventListener("keydown", handleEscape);
-}, [isOpen, onClose]);
+    if (e.key === "Escape") onClose()
+  }
+  document.addEventListener("keydown", handleEscape)
+  return () => document.removeEventListener("keydown", handleEscape)
+}, [isOpen, onClose])
 ```
 
 #### 3. 배경 콘텐츠 숨기기 (inert)
 
 ```tsx
 useEffect(() => {
-  const main = document.querySelector("main");
+  const main = document.querySelector("main")
   if (isOpen) {
-    main?.setAttribute("inert", "true");
+    main?.setAttribute("inert", "true")
   } else {
-    main?.removeAttribute("inert");
+    main?.removeAttribute("inert")
   }
-  return () => main?.removeAttribute("inert");
-}, [isOpen]);
+  return () => main?.removeAttribute("inert")
+}, [isOpen])
 ```
 
 #### 4. 스크롤 체인 끊기
@@ -239,7 +239,7 @@ useEffect(() => {
 ### 커스텀 체크박스
 
 ```tsx
-const [checked, setChecked] = useState(false);
+const [checked, setChecked] = useState(false)
 
 <div
   role="checkbox"
@@ -248,14 +248,14 @@ const [checked, setChecked] = useState(false);
   onClick={() => setChecked(!checked)}
   onKeyDown={(e) => {
     if (e.key === " ") {
-      e.preventDefault();
-      setChecked(!checked);
+      e.preventDefault()
+      setChecked(!checked)
     }
   }}
 >
   <span>커스텀 체크박스</span>
   {checked && <span>✓</span>}
-</div>;
+</div>
 ```
 
 ### 체크박스 체크리스트
@@ -311,8 +311,8 @@ const [checked, setChecked] = useState(false);
   onClick={() => setChecked(!checked)}
   onKeyDown={(e) => {
     if (e.key === " ") {
-      e.preventDefault();
-      setChecked(!checked);
+      e.preventDefault()
+      setChecked(!checked)
     }
   }}
 >
@@ -340,9 +340,7 @@ const [checked, setChecked] = useState(false);
 ```tsx
 <details open={isOpen} onToggle={handleToggle}>
   <summary>토스뱅크의 한도제한계좌는 어떻게 해제할 수 있나요?</summary>
-  <p>
-    금융거래목적을 확인할 수 있는 증빙서류를 제출하여 한도 계좌 해제 신청을 할 수 있어요.
-  </p>
+  <p>금융거래목적을 확인할 수 있는 증빙서류를 제출하여 한도 계좌 해제 신청을 할 수 있어요.</p>
 </details>
 ```
 

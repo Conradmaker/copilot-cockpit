@@ -98,11 +98,11 @@ raw flex 클래스 대신 semantic한 커스텀 유틸리티를 정의해 사용
 ```tsx
 // ❌ 컴포넌트가 자기 간격을 정의
 function Card() {
-  return <div className="mb-4 rounded-lg border p-4" />;
+  return <div className="mb-4 rounded-lg border p-4" />
 }
 
 // ✅ 부모가 간격을 결정
-<div className="v-stack gap-4">
+;<div className="v-stack gap-4">
   <Card />
   <Card />
 </div>
@@ -132,7 +132,9 @@ function Card() {
     <Link to="/about">About</Link>
     <Link to="/contact">Contact</Link>
   </nav>
-  <button className="md:hidden"><MenuIcon /></button>
+  <button className="md:hidden">
+    <MenuIcon />
+  </button>
 </header>
 ```
 

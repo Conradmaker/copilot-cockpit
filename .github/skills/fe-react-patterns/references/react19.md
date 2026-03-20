@@ -17,15 +17,15 @@ React 19에서 `ref`가 일반 prop이 됐다. 더 이상 `forwardRef` 래퍼가
 
 ```tsx
 const ComposerInput = forwardRef<TextInput, Props>((props, ref) => {
-  return <TextInput ref={ref} {...props} />;
-});
+  return <TextInput ref={ref} {...props} />
+})
 ```
 
 ### ✅ After (React 19): ref를 일반 prop으로 전달
 
 ```tsx
-function ComposerInput({ref, ...props}: Props & {ref?: React.Ref<TextInput>}) {
-  return <TextInput ref={ref} {...props} />;
+function ComposerInput({ ref, ...props }: Props & { ref?: React.Ref<TextInput> }) {
+  return <TextInput ref={ref} {...props} />
 }
 ```
 
@@ -47,27 +47,27 @@ function ComposerInput({ref, ...props}: Props & {ref?: React.Ref<TextInput>}) {
 ### ❌ Before (React 18): useContext 사용
 
 ```tsx
-const value = useContext(MyContext);
+const value = useContext(MyContext)
 ```
 
 ### ✅ After (React 19): use 사용
 
 ```tsx
-const value = use(MyContext);
+const value = use(MyContext)
 ```
 
 ### use()의 조건부 호출
 
 ```tsx
-function ComposerInput({variant}: {variant: "simple" | "rich"}) {
+function ComposerInput({ variant }: { variant: "simple" | "rich" }) {
   // 조건부로 Context 사용 가능
   if (variant === "rich") {
-    const {state} = use(RichEditorContext);
-    return <RichTextInput value={state.input} />;
+    const { state } = use(RichEditorContext)
+    return <RichTextInput value={state.input} />
   }
 
-  const {state} = use(ComposerContext);
-  return <TextInput value={state.input} />;
+  const { state } = use(ComposerContext)
+  return <TextInput value={state.input} />
 }
 ```
 
@@ -77,24 +77,24 @@ function ComposerInput({variant}: {variant: "simple" | "rich"}) {
 function ComposerInput() {
   const {
     state,
-    actions: {update},
-    meta: {inputRef},
-  } = use(ComposerContext);
+    actions: { update },
+    meta: { inputRef },
+  } = use(ComposerContext)
 
   return (
     <TextInput
       ref={inputRef}
       value={state.input}
-      onChangeText={(text) => update((s) => ({...s, input: text}))}
+      onChangeText={(text) => update((s) => ({ ...s, input: text }))}
     />
-  );
+  )
 }
 
 function ComposerSubmit() {
   const {
-    actions: {submit},
-  } = use(ComposerContext);
-  return <Button onPress={submit}>Send</Button>;
+    actions: { submit },
+  } = use(ComposerContext)
+  return <Button onPress={submit}>Send</Button>
 }
 ```
 
@@ -118,12 +118,12 @@ React 19에서 Context Provider도 간소화됐다:
 
 ## 3. 마이그레이션 요약
 
-| 항목             | React 18                          | React 19                           |
-| ---------------- | --------------------------------- | ---------------------------------- |
-| ref 전달         | `forwardRef((props, ref) => ...)` | `function Comp({ ref, ...props })` |
-| Context 읽기     | `useContext(MyContext)`           | `use(MyContext)`                   |
-| Context Provider | `<Ctx.Provider value={...}>`      | `<Ctx value={...}>`                |
-| 조건부 Context   | 불가능                            | `use()`로 가능                     |
+| 항목 | React 18 | React 19 |
+| ----- | ----- | ----- |
+| ref 전달 | `forwardRef((props, ref) => ...)` | `function Comp({ ref, ...props })` |
+| Context 읽기 | `useContext(MyContext)`  | `use(MyContext)` |
+| Context Provider | `<Ctx.Provider value={...}>` | `<Ctx value={...}>` |
+| 조건부 Context | 불가능  | `use()`로 가능  |
 
 ### 주의사항
 

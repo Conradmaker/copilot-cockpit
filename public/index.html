@@ -49,20 +49,14 @@
               완료합니다.
             </h1>
             <p class="hero-sub">
-              Copilot Agent Harness는 VS Code Copilot Chat 위에서 동작하는 구조적 AI
-              에이전트 개발 시스템입니다. Retrieval-led reasoning, 체계적 게이트, 역할
-              분업을 통해 긴 대화에서도 품질이 무너지지 않습니다.
+              Copilot Agent Harness는 VS Code Copilot Chat 위에서 동작하는 구조적 AI 에이전트 개발
+              시스템입니다. Retrieval-led reasoning, 체계적 게이트, 역할 분업을 통해 긴 대화에서도
+              품질이 무너지지 않습니다.
             </p>
             <div class="hero-ctas">
               <a href="../README.md#시작하기" class="btn-primary">
                 README 시작하기
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  aria-hidden="true"
-                >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <path
                     d="M3 8H13M13 8L9 4M13 8L9 12"
                     stroke="currentColor"
@@ -108,8 +102,8 @@
             <p class="section-label">Agent System</p>
             <h2 class="section-title" id="agents-title">역할 기반 에이전트 분업</h2>
             <p class="section-body">
-              단일 AI가 모든 것을 처리하지 않습니다. 기획, 설계, 실행, 검토 각 단계를
-              전문화된 에이전트가 맡아 컨텍스트 오염과 품질 저하를 방지합니다.
+              단일 AI가 모든 것을 처리하지 않습니다. 기획, 설계, 실행, 검토 각 단계를 전문화된
+              에이전트가 맡아 컨텍스트 오염과 품질 저하를 방지합니다.
             </p>
           </header>
           <div class="bento-grid">
@@ -119,8 +113,8 @@
               <span class="agent-icon" aria-hidden="true">🧭</span>
               <h3 class="agent-name">Mate</h3>
               <p class="agent-role">
-                사용자 의도를 approved PRD와 downstream seed로 수렴시키는 플래닝 오너.
-                quality gate와 explicit user alignment를 세운다.
+                사용자 의도를 approved PRD와 downstream seed로 수렴시키는 플래닝 오너. quality
+                gate와 explicit user alignment를 세운다.
               </p>
               <div class="agent-artifact" aria-label="생성 아티팩트">
                 <span class="artifact-file">📝 prd.md</span>
@@ -129,16 +123,13 @@
             </article>
 
             <!-- Designer -->
-            <article
-              class="agent-card fade-in"
-              aria-label="Designer 에이전트 — UI·UX 설계 오너"
-            >
+            <article class="agent-card fade-in" aria-label="Designer 에이전트 — UI·UX 설계 오너">
               <span class="agent-phase phase-design">Phase 2 · Design</span>
               <span class="agent-icon" aria-hidden="true">🎨</span>
               <h3 class="agent-name">Designer</h3>
               <p class="agent-role">
-                approved PRD를 기반으로 visual, UX, interaction 결정을 execution 이전
-                문서로 구체화하는 downstream UI/UX 설계 오너.
+                approved PRD를 기반으로 visual, UX, interaction 결정을 execution 이전 문서로
+                구체화하는 downstream UI/UX 설계 오너.
               </p>
               <div class="agent-artifact" aria-label="생성 아티팩트">
                 <span class="artifact-file">🖼 design.md</span>
@@ -146,16 +137,13 @@
             </article>
 
             <!-- Architector -->
-            <article
-              class="agent-card fade-in"
-              aria-label="Architector 에이전트 — 기술 설계 오너"
-            >
+            <article class="agent-card fade-in" aria-label="Architector 에이전트 — 기술 설계 오너">
               <span class="agent-phase phase-design">Phase 2 · Technical</span>
               <span class="agent-icon" aria-hidden="true">🏗</span>
               <h3 class="agent-name">Architector</h3>
               <p class="agent-role">
-                architecture, integration, stack choice, technical constraints, NFR
-                mapping을 technical.md로 구체화하는 downstream 기술 설계 오너.
+                architecture, integration, stack choice, technical constraints, NFR mapping을
+                technical.md로 구체화하는 downstream 기술 설계 오너.
               </p>
               <div class="agent-artifact" aria-label="생성 아티팩트">
                 <span class="artifact-file">⚙️ technical.md</span>
@@ -163,16 +151,13 @@
             </article>
 
             <!-- Reviewer -->
-            <article
-              class="agent-card fade-in"
-              aria-label="Reviewer 에이전트 — 최종 품질 게이트"
-            >
+            <article class="agent-card fade-in" aria-label="Reviewer 에이전트 — 최종 품질 게이트">
               <span class="agent-phase phase-review">Phase 4 · Review</span>
               <span class="agent-icon" aria-hidden="true">🔍</span>
               <h3 class="agent-name">Reviewer</h3>
               <p class="agent-role">
-                security, frontend, design, performance를 reviewer_role 기반으로 독립
-                검토하고 board gate로 최종 verdict를 합성.
+                security, frontend, design, performance를 reviewer_role 기반으로 독립 검토하고 board
+                gate로 최종 verdict를 합성.
               </p>
               <div class="agent-artifact" aria-label="생성 아티팩트">
                 <span class="artifact-file">✅ review verdict</span>
@@ -190,8 +175,8 @@
                   <span class="agent-icon" aria-hidden="true">⚡</span>
                   <h3 class="agent-name">Commander</h3>
                   <p class="agent-role">
-                    dependency-aware execution plan과 review strategy를 수립하고 todo 기반
-                    진행을 추적하는 실행 오케스트레이터.
+                    dependency-aware execution plan과 review strategy를 수립하고 todo 기반 진행을
+                    추적하는 실행 오케스트레이터.
                   </p>
                   <div class="agent-artifact" aria-label="생성 아티팩트">
                     <span class="artifact-file">📋 execution-plan.md</span>
@@ -224,8 +209,8 @@
                   <span class="agent-icon" aria-hidden="true">🔭</span>
                   <h3 class="agent-name">Explore / Librarian</h3>
                   <p class="agent-role">
-                    로컬 코드베이스 탐색(Explore)과 외부 공식 문서 리서치(Librarian)를
-                    분리 담당. 추측 기반 구현을 evidence로 교체.
+                    로컬 코드베이스 탐색(Explore)과 외부 공식 문서 리서치(Librarian)를 분리 담당.
+                    추측 기반 구현을 evidence로 교체.
                   </p>
                   <div class="agent-artifact" aria-label="생성 아티팩트">
                     <span class="artifact-file">📊 evidence</span>
@@ -236,8 +221,8 @@
                   <span class="agent-icon" aria-hidden="true">🤝</span>
                   <h3 class="agent-name">Coordinator</h3>
                   <p class="agent-role">
-                    PRD clarity, scope discipline, requirement quality를 독립적으로
-                    검토하는 coord-roles 기반 planning council.
+                    PRD clarity, scope discipline, requirement quality를 독립적으로 검토하는
+                    coord-roles 기반 planning council.
                   </p>
                   <div class="agent-artifact" aria-label="생성 아티팩트">
                     <span class="artifact-file">📌 council verdict</span>
@@ -256,12 +241,10 @@
         <div class="container">
           <header class="section-header fade-in">
             <p class="section-label">End-to-End Workflow</p>
-            <h2 class="section-title" id="workflow-title">
-              기획에서 리뷰까지, 게이트로 연결
-            </h2>
+            <h2 class="section-title" id="workflow-title">기획에서 리뷰까지, 게이트로 연결</h2>
             <p class="section-body">
-              각 Phase는 명확한 gate를 통과해야만 다음으로 넘어갑니다. Artifact handoff
-              chain이 품질을 보장하고 shadow workflow를 차단합니다.
+              각 Phase는 명확한 gate를 통과해야만 다음으로 넘어갑니다. Artifact handoff chain이
+              품질을 보장하고 shadow workflow를 차단합니다.
             </p>
           </header>
           <div class="pipeline" id="pipeline" role="list" aria-label="워크플로우 5단계">
@@ -330,8 +313,8 @@
             <p class="section-label">Domain Skills</p>
             <h2 class="section-title" id="capabilities-title">전문 스킬 카탈로그</h2>
             <p class="section-body">
-              각 에이전트는 작업 성격에 맞는 스킬을 동적으로 로드합니다. 스킬은 독립
-              모듈로 구성되어 필요한 도메인만 선택적으로 활성화됩니다.
+              각 에이전트는 작업 성격에 맞는 스킬을 동적으로 로드합니다. 스킬은 독립 모듈로 구성되어
+              필요한 도메인만 선택적으로 활성화됩니다.
             </p>
           </header>
           <div role="tablist" aria-label="스킬 카테고리" class="tabs">
@@ -399,32 +382,32 @@
               <div class="skill-card">
                 <h4 class="skill-name">ds-product-ux</h4>
                 <p class="skill-desc">
-                  UX writing, CTA labels, loading, confirmation, gesture UX, haptics,
-                  empty-state strategy, inclusive design.
+                  UX writing, CTA labels, loading, confirmation, gesture UX, haptics, empty-state
+                  strategy, inclusive design.
                 </p>
                 <span class="skill-tag">UX</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">ds-visual-design</h4>
                 <p class="skill-desc">
-                  Color systems, OKLCH palettes, typography, spacing, visual hierarchy,
-                  depth, shadows, icons.
+                  Color systems, OKLCH palettes, typography, spacing, visual hierarchy, depth,
+                  shadows, icons.
                 </p>
                 <span class="skill-tag">Visual</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">ds-ui-patterns</h4>
                 <p class="skill-desc">
-                  Modern layout patterns, section composition, dashboard, landing page
-                  structures, bento grid, interactive sections.
+                  Modern layout patterns, section composition, dashboard, landing page structures,
+                  bento grid, interactive sections.
                 </p>
                 <span class="skill-tag">Layout</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">refero-design</h4>
                 <p class="skill-desc">
-                  Research-first design via Refero MCP — 실제 제품 UI를 리서치하고 패턴을
-                  추출해 설계에 반영.
+                  Research-first design via Refero MCP — 실제 제품 UI를 리서치하고 패턴을 추출해
+                  설계에 반영.
                 </p>
                 <span class="skill-tag">Research</span>
               </div>
@@ -443,16 +426,14 @@
               <div class="skill-card">
                 <h4 class="skill-name">fe-react-patterns</h4>
                 <p class="skill-desc">
-                  Compound components, context patterns, render props, custom hooks
-                  아키텍처 설계.
+                  Compound components, context patterns, render props, custom hooks 아키텍처 설계.
                 </p>
                 <span class="skill-tag">React</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">fe-tailwindcss</h4>
                 <p class="skill-desc">
-                  Tailwind CSS v4, CVA variant 정의, cn() 병합, @theme 토큰, 다크모드,
-                  반응형 설계.
+                  Tailwind CSS v4, CVA variant 정의, cn() 병합, @theme 토큰, 다크모드, 반응형 설계.
                 </p>
                 <span class="skill-tag">CSS</span>
               </div>
@@ -466,24 +447,23 @@
               <div class="skill-card">
                 <h4 class="skill-name">fe-react-performance</h4>
                 <p class="skill-desc">
-                  Bundle size, re-render 최적화, waterfall 제거, Server Components,
-                  Suspense, code-splitting.
+                  Bundle size, re-render 최적화, waterfall 제거, Server Components, Suspense,
+                  code-splitting.
                 </p>
                 <span class="skill-tag">Performance</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">fe-ui-element-components</h4>
                 <p class="skill-desc">
-                  Shared UI 컴포넌트 API 설계, as/asChild 패턴, prop type export, design
-                  system primitives.
+                  Shared UI 컴포넌트 API 설계, as/asChild 패턴, prop type export, design system
+                  primitives.
                 </p>
                 <span class="skill-tag">Design System</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">fe-code-review</h4>
                 <p class="skill-desc">
-                  Clean code, React 패턴, 접근성, 성능을 통합한 프론트엔드 코드 리뷰
-                  unified guide.
+                  Clean code, React 패턴, 접근성, 성능을 통합한 프론트엔드 코드 리뷰 unified guide.
                 </p>
                 <span class="skill-tag">Review</span>
               </div>
@@ -502,32 +482,32 @@
               <div class="skill-card">
                 <h4 class="skill-name">dev-security</h4>
                 <p class="skill-desc">
-                  Auth, input validation, secrets 관리, XSS, SQL injection, CSRF, path
-                  traversal 방어 패턴.
+                  Auth, input validation, secrets 관리, XSS, SQL injection, CSRF, path traversal
+                  방어 패턴.
                 </p>
                 <span class="skill-tag">Security</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">be-api-design</h4>
                 <p class="skill-desc">
-                  REST API 설계, OpenAPI 3.1 명세, 리소스 모델링, 상태코드, 페이지네이션,
-                  버저닝, 에러 계약.
+                  REST API 설계, OpenAPI 3.1 명세, 리소스 모델링, 상태코드, 페이지네이션, 버저닝,
+                  에러 계약.
                 </p>
                 <span class="skill-tag">API</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">fastify-best-practices</h4>
                 <p class="skill-desc">
-                  Fastify Node.js 서버, 플러그인 아키텍처, JSON Schema 검증, Pino 로깅,
-                  TypeScript strip types.
+                  Fastify Node.js 서버, 플러그인 아키텍처, JSON Schema 검증, Pino 로깅, TypeScript
+                  strip types.
                 </p>
                 <span class="skill-tag">Fastify</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">kysely</h4>
                 <p class="skill-desc">
-                  Kysely type-safe SQL query builder — 스키마에서 쿼리까지 엔드투엔드 타입
-                  안전성 보장.
+                  Kysely type-safe SQL query builder — 스키마에서 쿼리까지 엔드투엔드 타입 안전성
+                  보장.
                 </p>
                 <span class="skill-tag">Database</span>
               </div>
@@ -535,35 +515,30 @@
           </div>
 
           <!-- Data & State -->
-          <div
-            id="tab-data"
-            class="tab-panel"
-            role="tabpanel"
-            aria-labelledby="tab-btn-data"
-          >
+          <div id="tab-data" class="tab-panel" role="tabpanel" aria-labelledby="tab-btn-data">
             <h3 class="cap-group-heading">🔄 Data &amp; State</h3>
             <div class="skills-grid">
               <div class="skill-card">
                 <h4 class="skill-name">tanstack-query</h4>
                 <p class="skill-desc">
-                  서버 상태 관리, query keys, cache invalidation, optimistic updates, SSR
-                  hydration, infinite queries.
+                  서버 상태 관리, query keys, cache invalidation, optimistic updates, SSR hydration,
+                  infinite queries.
                 </p>
                 <span class="skill-tag">Server State</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">zustand</h4>
                 <p class="skill-desc">
-                  @json-render/zustand 기반 StateStore 어댑터, StateProvider 연결, nested
-                  state updater 설계.
+                  @json-render/zustand 기반 StateStore 어댑터, StateProvider 연결, nested state
+                  updater 설계.
                 </p>
                 <span class="skill-tag">Client State</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">prisma-database-setup</h4>
                 <p class="skill-desc">
-                  PostgreSQL, MySQL, SQLite, MongoDB 등 다양한 DB Prisma 연결 및
-                  마이그레이션 설정 가이드.
+                  PostgreSQL, MySQL, SQLite, MongoDB 등 다양한 DB Prisma 연결 및 마이그레이션 설정
+                  가이드.
                 </p>
                 <span class="skill-tag">Prisma</span>
               </div>
@@ -582,40 +557,38 @@
               <div class="skill-card">
                 <h4 class="skill-name">git-workflow</h4>
                 <p class="skill-desc">
-                  GitHub Flow 기반 브랜치 전략, 커밋 컨벤션, gh CLI PR 생성, 협업
-                  워크플로우.
+                  GitHub Flow 기반 브랜치 전략, 커밋 컨벤션, gh CLI PR 생성, 협업 워크플로우.
                 </p>
                 <span class="skill-tag">Git</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">memory-synthesizer</h4>
                 <p class="skill-desc">
-                  Durable signal 판별, memory scope 선택, memory pollution 방지, 사용자
-                  선호 저장 전략.
+                  Durable signal 판별, memory scope 선택, memory pollution 방지, 사용자 선호 저장
+                  전략.
                 </p>
                 <span class="skill-tag">Memory</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">agent-browser</h4>
                 <p class="skill-desc">
-                  Browser automation CLI — 웹 탐색, 폼 자동 작성, 스크린샷, 데이터 추출,
-                  웹앱 테스트.
+                  Browser automation CLI — 웹 탐색, 폼 자동 작성, 스크린샷, 데이터 추출, 웹앱
+                  테스트.
                 </p>
                 <span class="skill-tag">Automation</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">seo-audit</h4>
                 <p class="skill-desc">
-                  기술적 SEO, Core Web Vitals, 크롤링 오류, 메타 태그 리뷰, 인덱싱 진단,
-                  랭킹 개선 전략.
+                  기술적 SEO, Core Web Vitals, 크롤링 오류, 메타 태그 리뷰, 인덱싱 진단, 랭킹 개선
+                  전략.
                 </p>
                 <span class="skill-tag">SEO</span>
               </div>
               <div class="skill-card">
                 <h4 class="skill-name">brainstorming</h4>
                 <p class="skill-desc">
-                  창의적·아키텍처 작업 전 호출. 빠른 의사결정 중심의 구조화된 브레인스토밍
-                  프로세스.
+                  창의적·아키텍처 작업 전 호출. 빠른 의사결정 중심의 구조화된 브레인스토밍 프로세스.
                 </p>
                 <span class="skill-tag">Ideation</span>
               </div>
@@ -634,22 +607,12 @@
               <p class="start-label">Get Started</p>
               <h2 class="start-title" id="start-title">지금 바로 시작하세요</h2>
               <p class="start-desc">
-                AGENTS.md를 저장소에 추가하고 하네스의 철학과 에이전트 시스템을 즉시
-                활용할 수 있습니다.
+                AGENTS.md를 저장소에 추가하고 하네스의 철학과 에이전트 시스템을 즉시 활용할 수
+                있습니다.
               </p>
-              <a
-                href="../README.md#시작하기"
-                class="btn-primary"
-                style="display: inline-flex"
-              >
+              <a href="../README.md#시작하기" class="btn-primary" style="display: inline-flex">
                 README 시작하기
-                <svg
-                  width="16"
-                  height="16"
-                  viewBox="0 0 16 16"
-                  fill="none"
-                  aria-hidden="true"
-                >
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <path
                     d="M3 8H13M13 8L9 4M13 8L9 12"
                     stroke="currentColor"
