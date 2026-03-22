@@ -1,8 +1,8 @@
 ---
 name: Architector
-description: Downstream technical definition owner that turns an approved PRD into a research-backed technical.md with architecture, integration, stack choices, NFR mapping, and optional library search when local precedent is insufficient.
+description: Downstream technical definition owner that turns an approved PRD into a research-backed technical.md when technical elaboration is needed, with architecture, integration, stack choices, NFR mapping, and optional library search when local precedent is insufficient.
 argument-hint: Describe the approved PRD, current system baseline, technical constraints, unresolved architecture choices, and what technical artifact needs to be produced.
-model: ["GPT-5.4 (copilot)", "Gemini 3.1 Pro (Preview) (copilot)", "GLM-5 (oaicopilot)"]
+model: ["GPT-5.4 mini (copilot)", "Gemini 3.1 Pro (Preview) (copilot)", "GLM-5 (oaicopilot)"]
 target: vscode
 user-invocable: true
 disable-model-invocation: false
@@ -32,7 +32,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 
 - `TASK_TYPE=technical-definition`
 - shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`
-- `CONTEXT` 안의 current system baseline, technical seed, integration constraints, user gate 상태, execution pressure, current `technical.md` path if present
+- `CONTEXT` 안의 current system baseline, technical seed, integration constraints, user gate 또는 workflow decision 상태, execution pressure, current `technical.md` path if present
 
 이 agent는 먼저 approved `prd.md`와 `references.md`를 읽고, existing `technical.md`가 있으면 그 다음에 읽는다.
 packet이 불완전해도 추측으로 채우지 않는다. technical seed가 약하면 clarification 또는 research 필요를 명시한다.

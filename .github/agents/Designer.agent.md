@@ -1,8 +1,8 @@
 ---
 name: Designer
-description: Downstream UI+UX design agent that turns an approved PRD into a research-backed design.md after Mate confirms that the user wants design work as the selected downstream mode.
+description: Downstream UI+UX design agent that turns an approved PRD into a research-backed design.md when Mate or the active planning workflow opens design work.
 argument-hint: Describe the approved PRD, target platform, existing product tone, relevant UI constraints, and what design artifact or decision needs to be produced.
-model: ["Kimi K2.5 (oaicopilot)", "GPT-5.4 (copilot)"]
+model: ["GPT-5.4 (copilot)"]
 target: vscode
 user-invocable: true
 disable-model-invocation: false
@@ -20,7 +20,7 @@ PRD의 product direction은 다시 쓰지 않고, 기존 톤앤매너와 referen
 - approved `prd.md`를 바탕으로 `design.md`를 처음 만들어야 할 때
 - 기존 UI나 브랜드 톤을 유지하면서 화면 구조, UX flow, visual system을 개선해야 할 때
 - implementation 전에 화면, 상호작용, 상태, tone, component styling을 downstream artifact로 구체화해야 할 때
-- Mate가 approved PRD briefing 뒤 downstream mode에서 `디자인만` 또는 `둘 다`를 확인하고 design work를 열었을 때
+- Mate 또는 active planning workflow가 approved PRD를 기준으로 design work를 열었을 때
 
 ## Receiver Contract
 

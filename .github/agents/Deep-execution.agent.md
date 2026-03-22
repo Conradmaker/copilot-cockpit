@@ -3,7 +3,7 @@ name: Deep Execution Agent
 description: Implementation subagent directed by Commander after explicit handoff approval. Use when coding work needs focused delegated execution against an approved PRD and execution brief.
 argument-hint: Provide the approved PRD, current execution brief, assigned scope, required verification, and the delegated coding work to perform.
 model:
-  ["Kimi K2.5 (oaicopilot)", "Claude Sonnet 4.6 (copilot)", "Qwen3.5 Plus (oaicopilot)"]
+  ["GPT-5.4 (copilot)", "Claude Sonnet 4.6 (copilot)", "Qwen3.5 Plus (oaicopilot)"]
 user-invocable: true
 disable-model-invocation: false
 tools: [vscode/memory, execute, read, agent, edit, search, "refero/*", todo]

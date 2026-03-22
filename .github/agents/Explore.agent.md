@@ -4,9 +4,9 @@ description: Fast read-only codebase exploration subagent. Use when local implem
 argument-hint: Describe WHAT you're looking for, desired thoroughness, and any search strategy or stopping rule.
 model:
   [
+    "GPT-5.4 mini (copilot)",
     "Gemini 3 Flash (Preview) (copilot)",
     "Claude Haiku 4.5 (copilot)",
-    "Qwen3.5 Plus (oaicopilot)",
   ]
 user-invocable: true
 tools:
