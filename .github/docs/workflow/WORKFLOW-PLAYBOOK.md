@@ -1,7 +1,7 @@
 # Workflow Playbook
 
-이 문서는 하네스의 planning-to-tail 흐름을 장문으로 설명하는 on-demand workflow reference다.
-항상 로드되는 규칙은 `.github/instructions/product-workflow.instructions.md`에 두고, caller-side packet contract는 `.github/instructions/subagent-invocation.instructions.md`에 두며, receiver-local workflow는 각 `.agent.md`에 둔다.
+이 문서는 하네스의 planning-to-tail 흐름을 인간용으로 설명하는 on-demand workflow reference다.
+agent runtime behavior는 `.github/instructions/subagent-invocation.instructions.md`, 각 `.agent.md`, 그리고 필요한 `.github/agents/workflows/` 문서가 owner다.
 
 ## Use This Doc When
 
@@ -330,8 +330,8 @@ Commander가 reviewer_role wave를 orchestration하고, Reviewer가 role-aware r
 
 ## Packet Boundary
 
-- non-execution subagent 호출은 `task_packet`을 쓴다.
-- execution handoff는 `implementation_handoff_packet`을 쓴다.
+- subagent 호출은 `task_packet`을 쓴다.
+- implementation dispatch는 `TASK_TYPE=implementation`과 required `SCOPE`, `EXECUTION_PLAN`을 포함한 `task_packet`을 쓴다.
 - broad review는 `TASK_TYPE=broad-review`와 `CONTEXT` 안의 단일 `reviewer_role`를 사용한다.
 - git tail과 memory tail은 dedicated subagent packet 없이 current execution owner가 관련 skill을 inline으로 읽는다.
 

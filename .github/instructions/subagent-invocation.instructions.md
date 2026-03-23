@@ -9,7 +9,8 @@ applyTo: "**"
 메인 에이전트나 orchestrator가 서브에이전트를 고를 때 왜 그 역할이 필요한지, 어떤 packet을 써야 하는지, 어떤 evidence gap에서 호출 가치가 생기는지를 한곳에 정리한다.
 
 이 문서는 phase detail을 모두 설명하는 문서가 아니다.
-always-on workflow guardrail과 loading rule은 [product-workflow.instructions.md](product-workflow.instructions.md)를 따르고, planning, execution, review, git, memory tail의 장문 설명은 [../docs/workflow/WORKFLOW-PLAYBOOK.md](../docs/workflow/WORKFLOW-PLAYBOOK.md)를 필요할 때 읽는다.
+runtime behavior와 phase-local workflow는 각 `.agent.md`와 필요한 `.github/agents/workflows/` 문서가 owner다.
+이 문서는 caller-side packet schema, subagent selection, invocation hygiene만 다룬다.
 
 ## 핵심 원칙
 
@@ -25,10 +26,10 @@ always-on workflow guardrail과 loading rule은 [product-workflow.instructions.m
 모든 서브에이전트 호출은 XML packet으로 구조화한다.
 `CONTEXT:` 같은 자유형 대문자 섹션을 임의로 늘리지 않고, canonical XML tag를 사용한다.
 
-canonical packet family는 두 개만 둔다.
 
-- `task_packet`: Explore, Librarian, Designer, Architector, Coordinator, Reviewer용 공통 packet
-- `implementation_handoff_packet`: Commander, Deep Execution Agent용 execution handoff packet
+- `task_packet`: Explore, Librarian, Designer, Architector, Coordinator, Reviewer, Deep Execution Agent용 공통 packet
+
+
 
 ### task_packet
 
@@ -36,7 +37,7 @@ canonical packet family는 두 개만 둔다.
 
 <task_packet>
 	<PHASE>{planning|execution|review|git|memory}</PHASE>
-	<TASK_TYPE>{explore|research|design-definition|technical-definition|role-review|broad-review}</TASK_TYPE>
+	<TASK_TYPE>{explore|research|design-definition|technical-definition|role-review|broad-review|implementation}</TASK_TYPE>
 	<TASK>{single atomic goal}</TASK>
 	<EXPECTED_OUTCOME>{concrete deliverables and success criteria}</EXPECTED_OUTCOME>
 	<MUST_DO>{non-negotiable requirements}</MUST_DO>
@@ -44,19 +45,29 @@ canonical packet family는 두 개만 둔다.
 	<CONTEXT>{relevant background, patterns, rationale, and constraints}</CONTEXT>
 	<ARTIFACTS>
 		<ACTIVE_PLAN_REF>/memories/session/prd.md</ACTIVE_PLAN_REF>
-		<HANDOFF_REF>/memories/session/handoff.md</HANDOFF_REF>
 		<REFERENCES_REF>/memories/session/references.md</REFERENCES_REF>
+		<SUPPORTING_REF>{optional additional artifact path}</SUPPORTING_REF>
 	</ARTIFACTS>
 	<CURRENT_DATE>{optional freshness anchor for Librarian}</CURRENT_DATE>
 	<SEARCH_STRATEGY>{optional retrieval order, narrowing, and stopping rules for Explore}</SEARCH_STRATEGY>
+	<SCOPE>
+		<INCLUDED>{optional implementation task included scope}</INCLUDED>
+		<EXCLUDED>{optional implementation task excluded scope}</EXCLUDED>
+	</SCOPE>
+	<EXECUTION_PLAN>{optional implementation task strategy, assigned work breakdown, verification contract}</EXECUTION_PLAN>
 </task_packet>
 ```
 
-`ACTIVE_PLAN_REF`라는 field name은 legacy 이름이지만, current planning workflow에서는 planning source of truth인 `prd.md`를 가리키는 것으로 해석한다.
+`ACTIVE_PLAN_REF`라는 field name은 legacy 이름이지만, current workflow에서는 현재 source artifact를 가리키는 공통 앵커로 해석한다. planning에서는 보통 `prd.md`다.
 
-이 packet은 비실행 호출의 공통 언어다.
-`TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`가 shared core이고, `PHASE`와 `TASK_TYPE`은 최소 라우팅 메타다.
-`CURRENT_DATE`와 `SEARCH_STRATEGY`는 모든 호출의 공통 필드는 아니며, 각각 Librarian와 Explore에서만 필요할 때 쓰는 optional hint다.
+이 packet은 모든 subagent 호출의 공통 언어다.
+`TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`, `PHASE`, `TASK_TYPE`이 shared core다.
+`CURRENT_DATE`, `SEARCH_STRATEGY`, `SCOPE`, `EXECUTION_PLAN`은 task-type specific extension이다.
+
+- `CURRENT_DATE`는 Librarian의 freshness-sensitive research에서만 사용한다.
+- `SEARCH_STRATEGY`는 Explore의 retrieval order, narrowing, stopping rule에서만 사용한다.
+- `SCOPE`와 `EXECUTION_PLAN`은 `TASK_TYPE=implementation`일 때만 필수다.
+- `SUPPORTING_REF`는 반복 가능한 optional field다. design, technical, execution-plan, 기타 session artifact를 receiver가 실제로 필요할 때만 넣는다.
 receiver-side field interpretation은 각 `.agent.md`에서 정의한다.
 
 이 구조의 목적은 field fan-out을 줄이면서도 아래 정보를 잃지 않는 것이다.
@@ -67,42 +78,17 @@ receiver-side field interpretation은 각 `.agent.md`에서 정의한다.
 - 지금 반드시 해야 하는 것과 하면 안 되는 것이 무엇인가
 - 어떤 형태의 결과를 기대하는가
 
-### implementation_handoff_packet
-
-downstream execution-planning owner가 Fleet Mode handoff로 execution에 넘길 때 쓴다.
-
-```xml
-<implementation_handoff_packet>
-	<TASK>{execution objective}</TASK>
-	<EXPECTED_OUTCOME>{expected execution summary and success criteria}</EXPECTED_OUTCOME>
-	<MUST_DO>{non-negotiable execution requirements and escalation triggers}</MUST_DO>
-	<MUST_NOT_DO>{forbidden behavior such as scope expansion or skipped verification}</MUST_NOT_DO>
-	<CONTEXT>{why this task exists, user intent, context and rationale}</CONTEXT>
-	<ARTIFACTS>
-		<ACTIVE_PLAN_REF>/memories/session/prd.md</ACTIVE_PLAN_REF>
-		<REFERENCES_REF>/memories/session/references.md</REFERENCES_REF>
-	</ARTIFACTS>
-	<SCOPE>
-		<INCLUDED>{included scope}</INCLUDED>
-		<EXCLUDED>{excluded scope}</EXCLUDED>
-	</SCOPE>
-	<EXECUTION_PLAN>{implementation strategy, work breakdown, verification contract}</EXECUTION_PLAN>
-</implementation_handoff_packet>
-```
-
-이 packet의 목적은 implementer나 orchestrator가 채팅을 다시 읽지 않고도 시작하게 만드는 것이다.
-execution handoff는 shared core 위에 `SCOPE`, `EXECUTION_PLAN`만 추가로 두고, execution safety에 필요한 구조를 유지한다.
-
 ### migration quick map
 
 - old `objective`, `review_goal`, `goal` → `TASK`
 - old `expected_output` or `deliverable` variants → `EXPECTED_OUTCOME`
 - old `task_inputs` fan-out → `TASK`, `CONTEXT`, optional hints such as `CURRENT_DATE` or `SEARCH_STRATEGY`
 - old `constraints` fan-out → `MUST_DO`, `MUST_NOT_DO`, and `CONTEXT`
-- old `active_plan_ref`, `handoff_ref`, `references_ref` → `ARTIFACTS`
+- old `active_plan_ref`, `handoff_ref`, `references_ref`, and other artifact refs → `ARTIFACTS` (`ACTIVE_PLAN_REF`, optional `REFERENCES_REF`, repeatable `SUPPORTING_REF`)
+- old `implementation_handoff_packet` variants → `task_packet` with `TASK_TYPE=implementation`
 - old `execution_mode` → dropped (Fleet Mode path is implicit in the Commander handoff)
-- old `included_scope`, `excluded_scope` → `SCOPE`
-- old `implementation_strategy`, `work_breakdown`, `verification_contract` → `EXECUTION_PLAN`
+- old `included_scope`, `excluded_scope` → `SCOPE` when `TASK_TYPE=implementation`
+- old `implementation_strategy`, `work_breakdown`, `verification_contract` → `EXECUTION_PLAN` when `TASK_TYPE=implementation`
 
 ## Skill-first tail work
 
@@ -191,7 +177,7 @@ packet field의 세부 해석과 local workflow는 각 `.agent.md`가 owner다.
 
 - 역할: Commander-directed implementation worker
 - 왜 필요한가: approved scope 안에서 focused delegated execution과 verification을 안정적으로 수행한다.
-- caller가 강조할 입력: `implementation_handoff_packet`의 shared core, `SCOPE`, `EXECUTION_PLAN`
+- caller가 강조할 입력: `TASK_TYPE=implementation`인 `task_packet`, relevant `ARTIFACTS`, required `SCOPE`, required `EXECUTION_PLAN`
 - 기대 결과: Status, Work summary, Verification, Open items, Next step
 
 ### Reviewer

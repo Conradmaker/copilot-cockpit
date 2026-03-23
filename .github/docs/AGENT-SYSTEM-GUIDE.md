@@ -6,18 +6,18 @@ authoring 세부 규칙을 다시 쓰지 않고, AGENTS / instructions / agents 
 ## Surface Responsibilities
 
 - `AGENTS.md`: always-on passive context. 철학, ownership boundary, 최소 owner map을 둔다.
-- `instructions/`: always-on workflow core, packet schema, skill discovery registry, editing contract 같은 공통 규칙을 둔다.
-- `docs/`: on-demand workflow playbook, artifact template, system guide 같은 장문 reference를 둔다.
-- `agents/`: receiver-local workflow, cautions, output contract, role-local reviewer/coordinator 문서를 둔다.
+- `instructions/`: shared runtime contract, packet schema, skill discovery registry, editing contract 같은 공통 규칙을 둔다.
+- `docs/`: human-facing workflow reference, artifact template, system guide 같은 장문 reference를 둔다.
+- `agents/`: receiver-local contract를 둔다.
+- `agents/workflows/`: agent-local procedure, gate, re-entry처럼 `.agent.md`에 다 담기엔 긴 workflow companion을 둔다.
 - `memories/`: project memory 경로와 durable project facts를 둔다.
 - `skills/`: reusable capability가 skill-owned surface일 때 수정한다.
 
 ## Source Of Truth Map
 
-- always-on workflow core, gate summary, artifact precedence: `.github/instructions/product-workflow.instructions.md`
-- long-form workflow narrative와 phase rationale: `.github/docs/workflow/WORKFLOW-PLAYBOOK.md`
-- workflow artifact template와 style guide: `.github/docs/artifacts/`
-- caller-side packet schema (`TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`, `task_packet`, `implementation_handoff_packet`)와 subagent selection: `.github/instructions/subagent-invocation.instructions.md`
+- shared runtime packet schema (`TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`, `task_packet`)와 subagent selection: `.github/instructions/subagent-invocation.instructions.md`
+- agent-local workflow와 receiver contract: `.github/agents/`, `.github/agents/workflows/`
+- human-facing workflow reference와 artifact template: `.github/docs/`, `.github/docs/artifacts/`
 - workspace skill discovery registry: `.github/instructions/skill-index.instructions.md`
 - `.agent.md` authoring rule: `.github/instructions/create-agent.instructions.md`
 - `SKILL.md` authoring rule: `.github/instructions/create-skills.instructions.md`
@@ -37,7 +37,7 @@ authoring 세부 규칙을 다시 쓰지 않고, AGENTS / instructions / agents 
 - role 이름이나 역할 분담이 바뀌면 `AGENTS.md`, `instructions/subagent-invocation.instructions.md`, 해당 `.agent.md`를 함께 수정한다.
 - skill category나 major skill registry 구성이 바뀌면 `instructions/skill-index.instructions.md`와 dependent agent/reviewer 문서를 함께 수정한다.
 - role index 디렉토리(`coord-roles/`, `reviewer-roles/`)가 추가되거나 role 구성이 바뀌면 해당 index와 owner agent 문서를 함께 수정한다.
-- gate, handoff, artifact lifecycle 표현은 AGENTS, workflow instruction, agent file 사이에서 충돌하면 안 된다.
+- gate, handoff, artifact lifecycle 표현은 `AGENTS.md`, `instructions/subagent-invocation.instructions.md`, `.agent.md`, `agents/workflows/` 사이에서 충돌하면 안 된다.
 - 장문의 workflow narrative나 artifact template를 추가할 때는 `docs/`에 두고, instructions나 agents에 긴 복제본을 남기지 않는다.
 - project memory 경로를 참조하는 문구는 `.github/memories/memories.md`와 맞춘다.
 - 이 문서에서 create-agent/create-skills의 authoring 규칙을 다시 상세화하지 않는다.

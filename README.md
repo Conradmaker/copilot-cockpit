@@ -73,7 +73,7 @@ flowchart LR
     R -.->|spec-level issue| P
 ```
 
-더 자세한 규칙은 [AGENTS.md](AGENTS.md)와 [.github/instructions/product-workflow.instructions.md](.github/instructions/product-workflow.instructions.md)를 보면 됩니다.
+더 자세한 규칙은 [AGENTS.md](AGENTS.md)와 [.github/instructions/subagent-invocation.instructions.md](.github/instructions/subagent-invocation.instructions.md)를 보면 됩니다.
 
 ## 포함된 agent
 
@@ -207,7 +207,6 @@ skill discovery registry는 [.github/instructions/skill-index.instructions.md](.
 
 다음 문서가 기준입니다.
 
-- [.github/instructions/product-workflow.instructions.md](.github/instructions/product-workflow.instructions.md)
 - [.github/instructions/subagent-invocation.instructions.md](.github/instructions/subagent-invocation.instructions.md)
 - [.github/docs/workflow/WORKFLOW-PLAYBOOK.md](.github/docs/workflow/WORKFLOW-PLAYBOOK.md)
 

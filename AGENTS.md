@@ -13,7 +13,6 @@ AGENTS.md의 역할은 항상 보이는 passive context로서 이 저장소의 �
 
 ## Owner Map
 
-- workflow core와 artifact precedence: [.github/instructions/product-workflow.instructions.md](.github/instructions/product-workflow.instructions.md)
 - caller-side packet schema와 subagent selection: [.github/instructions/subagent-invocation.instructions.md](.github/instructions/subagent-invocation.instructions.md)
 - workspace skill discovery registry: [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md)
 - `.agent.md` authoring rule: [.github/instructions/create-agent.instructions.md](.github/instructions/create-agent.instructions.md)
