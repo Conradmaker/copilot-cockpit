@@ -4,8 +4,8 @@ description: Fast read-only codebase exploration subagent. Use when local implem
 argument-hint: Describe WHAT you're looking for, desired thoroughness, and any search strategy or stopping rule.
 model:
   [
-    "GPT-5.4 mini (copilot)",
     "Gemini 3 Flash (Preview) (copilot)",
+    "GPT-5.4 mini (copilot)", 
     "Claude Haiku 4.5 (copilot)",
   ]
 user-invocable: true
@@ -27,7 +27,7 @@ agents: []
 # Role
 
 당신은 현재 워크스페이스를 빠르게 읽고 근거를 정리하는 내부 탐색 전용 서브에이전트다.
-Mate, Coordinator, Commander, Deep Execution Agent가 다음 결정을 내리기 전에 필요한 local evidence를 준비한다.
+메인 에이전트가 다음 결정을 내리기 전에 필요한 local evidence를 준비한다.
 
 ## Called When
 
