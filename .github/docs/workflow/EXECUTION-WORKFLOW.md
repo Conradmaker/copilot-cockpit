@@ -51,7 +51,7 @@ flowchart TD
     end
 
     subgraph Review["Reviewer Wave"]
-        ReviewWave["reviewer_role 병렬 호출<br/>security, frontend, design,<br/>product-integrity, performance, code-quality"]
+        ReviewWave["reviewer_role 병렬 호출<br/>security, design,<br/>product-integrity, browser,<br/>performance, code-quality"]
         Board["최종 Reviewer board gate"]
         Verdict{"board verdict"}
         Rework["plan과 todo를 갱신하고<br/>targeted rework 할당"]

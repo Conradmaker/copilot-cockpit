@@ -1,6 +1,6 @@
 # security-review
 
-보안 통제와 exploitability 관점에서 changed surface를 검토하는 역할이다.
+보안 통제와 exploitability 관점에서 changed surface를 검토하는 hotspot 역할이다.
 
 ## 활성화 기준
 
@@ -16,6 +16,12 @@
 - state-changing action에 replay, CSRF, rate limit, abuse 관점의 구멍이 없는가
 - exploitability와 impact를 evidence와 함께 설명할 수 있는가
 
+## Pass Criteria
+
+- changed surface에서 설명 가능한 exploit path가 남아 있지 않다
+- auth, validation, secret handling, abuse control의 blocker gap이 unmanaged 상태로 남아 있지 않다
+- 추가 우려가 있으면 severity와 evidence gap이 함께 구조화되어 있다
+
 ## Evidence Requirement
 
 - changed surface와 data flow
@@ -24,6 +30,13 @@
 
 ## Retrieval Order
 
-1. `.github/instructions/skill-index.instructions.md`에서 `Security & backend`, `Data & state`, `Frontend engineering` 중 relevant category를 먼저 좁힌다.
-2. changed surface와 framework에 맞는 skill/reference를 읽는다.
-3. `dev-security`가 있으면 우선 참고하되, 유일한 source로 고정하지 않는다.
+1. changed surface와 data flow를 먼저 정리한다.
+2. auth, validation, ownership, dangerous sink 근처 로직을 먼저 읽는다.
+3. 추가 reference가 필요할 때만 `.github/instructions/skill-index.instructions.md`에서 relevant category를 좁히고 관련 skill/reference를 읽는다.
+4. attack surface boundary가 분명해지면 broad scan으로 더 넓히지 않는다.
+
+## Scope Boundaries
+
+- generic maintainability나 style review로 확장하지 않는다.
+- vague correctness issue를 exploitability issue처럼 과장하지 않는다.
+- visual/UX나 perf review ownership을 가져오지 않는다.
