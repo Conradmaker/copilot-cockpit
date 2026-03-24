@@ -183,7 +183,7 @@ packet field의 세부 해석과 local workflow는 각 `.agent.md`가 owner다.
 ### Reviewer
 
 - 역할: role-aware broad quality gate reviewer
-- 왜 필요한가: security, frontend, design, performance, code-quality review를 구현 후 단계에서 독립적으로 수행하고, 마지막 `board` role로 findings를 합성한다.
+- 왜 필요한가: security, frontend, design, product-integrity, performance, code-quality review를 구현 후 단계에서 독립적으로 수행하고, 마지막 `board` role로 findings를 합성한다.
 - caller가 강조할 입력: `TASK_TYPE=broad-review`, shared core, `CONTEXT` 안의 단일 `reviewer_role`, changed surface, validation focus, available evidence
 - 기대 결과: Verdict, Findings, Evidence, Risks, Next step
 

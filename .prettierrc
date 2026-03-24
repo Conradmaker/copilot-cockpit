@@ -6,6 +6,5 @@
   "semi": false,
   "tabWidth": 2,
   "plugins": [],
-  "tailwindFunctions": ["tv", "cn"],
   "proseWrap": "never"
 }

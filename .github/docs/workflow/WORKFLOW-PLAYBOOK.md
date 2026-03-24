@@ -72,6 +72,8 @@ agent runtime behavior는 `.github/instructions/subagent-invocation.instructions
 
 ## Planning Phase
 
+상세 planning 다이어그램과 mode 분기는 [PLANNING-WORKFLOW.md](PLANNING-WORKFLOW.md)로 분리했다.
+
 ### Purpose
 
 Planning의 목적은 user intent를 approved PRD로 바꾸는 것이다.
@@ -237,6 +239,8 @@ Approved execution은 Fleet Mode 경로를 따른다.
 12. review failure면 targeted rework를 하고 relevant reviewer_role call과 `board` gate를 다시 연다.
 13. review pass 뒤 Git Tail 또는 Memory Tail 필요 여부를 판단한다.
 14. orchestration summary와 todo 기반 진행률, 남은 리스크를 합성해 반환한다.
+
+상세 execution 다이어그램은 [EXECUTION-WORKFLOW.md](EXECUTION-WORKFLOW.md)로 분리했다.
 
 ### Guardrails
 

@@ -25,13 +25,13 @@ handoffs:
     agent: "Commander"
     model: inherit
     prompt: |
-      Read /memories/session/prd.md first. Then read /memories/session/design.md and /memories/session/technical.md when they exist. Do not start execution if required downstream artifacts or execution brief are still missing.
+      Approved PRD is ready at /memories/session/prd.md. Also consult other relevant session artifacts in /memories/session/, including references.md, design.md, technical.md, and the current execution brief when they exist. Treat this handoff as Deep execution intent.
     send: true
   - label: Fleet Mode(Fast)
     agent: "Commander"
     model: Qwen3.5 Plus (oaicopilot)
     prompt: |
-      Read /memories/session/prd.md first. Then read /memories/session/design.md and /memories/session/technical.md when they exist. Do not start execution if required downstream artifacts or execution brief are still missing.
+      Approved PRD is ready at /memories/session/prd.md. Also consult other relevant session artifacts in /memories/session/, including references.md, design.md, technical.md, and the current execution brief when they exist. Treat this handoff as Fast execution intent.
     send: true
 ---
 
