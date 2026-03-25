@@ -106,7 +106,7 @@ flowchart LR
 - Design & UX: `ds-product-ux`, `ds-visual-design`, `ds-ui-patterns`, `refero-design`
 - Frontend: `fe-react-patterns`, `fe-tailwindcss`, `fe-a11y`, `fe-code-review`
 - Backend & Security: `be-api-design`, `fastify-best-practices`, `dev-security`
-- Data & State: `tanstack-query-best-practices`, `zustand`, `prisma-database-setup`, `kysely`
+- Data & State: `tanstack-query-best-practices`, `zustand`, `be-prisma`, `kysely`
 - Workflow & Tooling: `git-workflow`, `gh-cli`, `agent-browser`, `memory-synthesizer`, `writing-readme`
 
 전체 목록은 [.github/skills/](.github/skills/)에서 확인할 수 있습니다.

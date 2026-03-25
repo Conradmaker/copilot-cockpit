@@ -1,0 +1,44 @@
+{
+  "skill_name": "be-prisma",
+  "evals": [
+    {
+      "id": 0,
+      "prompt": "Prisma 7으로 PostgreSQL 연결을 새로 잡아야 해. prisma.config.ts, generator output, driver adapter, PrismaClient import 경로까지 포함해서 setup 순서를 정리해줘.",
+      "expected_output": "provider setup 요청이므로 be-prisma가 강하게 트리거되어야 한다. runtime baseline을 먼저 잡고, prisma-client generator, explicit output, prisma.config.ts, adapter wiring, verification commands까지 정리해야 한다.",
+      "expectations": [
+        "Prisma v7 기본선을 먼저 명시한다",
+        "prisma-client generator와 explicit output을 언급한다",
+        "prisma.config.ts에서 datasource URL을 관리한다고 설명한다",
+        "PostgreSQL용 driver adapter와 PrismaClient wiring을 제안한다",
+        "prisma validate 또는 prisma generate 같은 검증 명령을 포함한다"
+      ],
+      "files": []
+    },
+    {
+      "id": 1,
+      "prompt": "schema.prisma에 User, Workspace, Membership 모델을 추가하려고 해. owner/member 역할도 있고, 같은 사용자가 한 워크스페이스에 두 번 가입되면 안 돼. relation이랑 index를 어떻게 잡아야 할지 리뷰해줘.",
+      "expected_output": "schema design과 relation modeling 요청이므로 be-prisma가 트리거되어야 한다. explicit join table, uniqueness, foreign key field, index, relation naming을 중심으로 답해야 한다.",
+      "expectations": [
+        "many-to-many에 explicit Membership join table을 검토한다",
+        "workspaceId와 userId의 composite unique를 제안한다",
+        "foreign key scalar field와 relation references를 명시한다",
+        "역할 enum 또는 constrained role field를 제안한다",
+        "조회 경로에 맞는 index 또는 unique 전략을 설명한다"
+      ],
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Prisma v6 프로젝트를 v7로 올리는 중인데 require ESM 오류도 나고, @prisma/client import도 깨졌고, migrate 후 generate가 안 돌아서 헷갈려. 무엇부터 바꿔야 할지 migration checklist 형태로 정리해줘.",
+      "expected_output": "v6에서 v7 업그레이드 상황이므로 be-prisma가 강하게 트리거되어야 한다. ESM, prisma.config.ts, generator/output, adapter, removed auto behaviors, removed middleware까지 migration checklist를 정리해야 한다.",
+      "expectations": [
+        "ESM-only 전환을 먼저 언급한다",
+        "schema generator를 prisma-client와 explicit output으로 바꾸라고 안내한다",
+        "prisma.config.ts와 manual env loading을 언급한다",
+        "driver adapter 또는 accelerateUrl 경로를 정리한다",
+        "auto-generate, auto-seed, middleware removal 같은 breaking changes를 언급한다"
+      ],
+      "files": []
+    }
+  ]
+}

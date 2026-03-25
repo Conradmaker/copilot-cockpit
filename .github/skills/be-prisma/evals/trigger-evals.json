@@ -1,0 +1,30 @@
+[
+  {
+    "query": "Prisma 7으로 PostgreSQL 연결을 새로 잡아야 해. prisma.config.ts, generator output, driver adapter, PrismaClient import 경로까지 포함해서 setup 순서를 정리해줘.",
+    "should_trigger": true
+  },
+  {
+    "query": "schema.prisma에 User, Workspace, Membership 모델을 추가하려고 해. owner/member 역할도 있고, 같은 사용자가 한 워크스페이스에 두 번 가입되면 안 돼. relation이랑 index를 어떻게 잡아야 할지 리뷰해줘.",
+    "should_trigger": true
+  },
+  {
+    "query": "Prisma v6 프로젝트를 v7로 올리는 중인데 require ESM 오류도 나고, @prisma/client import도 깨졌고, migrate 후 generate가 안 돌아서 헷갈려. 무엇부터 바꿔야 할지 migration checklist 형태로 정리해줘.",
+    "should_trigger": true
+  },
+  {
+    "query": "Prisma에서 쿼리가 느린데 findMany 안에서 relation query를 루프 돌며 다시 부르고 있어. select, include, pagination, query logging 관점에서 어떻게 고칠지 리뷰해줘.",
+    "should_trigger": true
+  },
+  {
+    "query": "Fastify에서 회원가입 라우트를 구현 중인데 상태코드와 에러 응답 shape를 어떻게 정할지 설계해줘.",
+    "should_trigger": false
+  },
+  {
+    "query": "Kysely로 PostgreSQL transaction helper를 만들고 싶은데 타입을 어떻게 잡는 게 좋을까?",
+    "should_trigger": false
+  },
+  {
+    "query": "Mongoose로 MongoDB schema를 짜고 있는데 replica set 없이 트랜잭션을 돌리는 방법이 있을까?",
+    "should_trigger": false
+  }
+]
