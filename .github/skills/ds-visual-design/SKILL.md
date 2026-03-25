@@ -1,6 +1,6 @@
 ---
 name: ds-visual-design
-description: "Visual design foundations for building coherent color, typography, spacing, hierarchy, depth, and icon systems in UI. Use this skill when designing or reviewing palettes, dark mode, font pairing, type scales, spacing systems, emphasis, shadows, or overall visual polish. Always consult this skill for visual decisions that affect perceived structure, readability, emphasis, or brand tone, even if the user only asks to pick a color, tweak spacing, adjust typography, or make a screen feel more refined. For product-level flows and copy use ds-product-ux. For layout and section composition use ds-ui-patterns. For Tailwind tokens and utilities use fe-tailwindcss. Triggers on: color palette, dark mode, OKLCH, typography, font pairing, type scale, spacing system, visual hierarchy, shadows, depth, icon style, design polish, 색상 시스템, 컬러 팔레트, 다크모드, 타이포그래피, 폰트 조합, 폰트 스케일, 스페이싱, 시각적 계층, 그림자, 깊이감, 아이콘, 디자인 퀄리티."
+description: "Visual design foundations for building coherent color, spacing, hierarchy, depth, and icon systems in UI, and for judging typography only as part of a broader visual system. Use this skill when designing or reviewing palettes, dark mode, spacing systems, emphasis, shadows, icon language, or overall visual polish across a screen. Always consult this skill for visual decisions that affect perceived structure, balance, emphasis, or brand tone, even if the user only asks to tune color, spacing, depth, or overall polish. For dedicated font pairing, type scale, line-height, tracking, and responsive typography decisions use ds-typography. For product-level flows and copy use ds-product-ux. For layout and section composition use ds-ui-patterns. For Tailwind tokens and utilities use fe-tailwindcss. Triggers on: color palette, dark mode, OKLCH, spacing system, visual hierarchy, shadows, depth, icon style, design polish, 색상 시스템, 컬러 팔레트, 다크모드, 스페이싱, 시각적 계층, 그림자, 깊이감, 아이콘, 디자인 퀄리티."
 ---
 
 # 시각 디자인 기초 (ds-visual-design)
@@ -35,32 +35,20 @@ description: "Visual design foundations for building coherent color, typography,
 
 → 상세: [references/01-color-system.md](references/01-color-system.md)
 
-### 2. 타이포그래피로 개성과 계층을 만든다
+### 2. 타이포그래피는 전체 visual-system 균형 안에서 본다
 
-폰트 선택은 미적 취향이 아니라, 브랜드 성격을 설정하고 텍스트 간 역할을 구분하는 구조적 결정이다. 타이포그래피 자체가 강력한 아트 디렉션이 될 수 있다.
+이 스킬에서 타이포그래피는 독립 rulebook이 아니라 color, spacing, hierarchy, depth와 함께 읽는 visual layer다.
 
-- 헤드라인(앵커 폰트)를 먼저 정하고, 시각적 대비가 느껴지는 본문 폰트를 조합한다
-- 구글 폰트 등 기본 제공 폰트 외에도 커스텀 폰트 리서치를 습관화하되, 실사용 전 상업용 라이선스를 반드시 확인한다
-- 너무 비슷한 폰트끼리 조합하면 오히려 어색하다 — 대비감이 핵심이다
-- 폰트 수는 1~2개가 안정적이고, 3개까지 허용 가능하지만 4개 이상은 거의 항상 과하다
-- 한 디자인에 폰트 두께는 최대 2가지, 텍스트 색상은 기본 + 투명도 조정 1~2가지로 제한한다
-- 폰트 크기는 비율 기반 스케일(golden ratio 1.618 또는 촘촘한 1.272)로 시스템화한다 — 랜딩은 6개 이하, 대시보드는 24px 이하 스케일이 일반적이다
-- line-height는 본문 약 150%, 큰 제목 130~150%로 설정하고 밀도감을 만든다.
-- 반응형에서는 clamp 같은 fluid typography로 화면 크기에 따라 자연스럽게 변화시킨다
-- 텍스트 스와핑이나 모핑 등 텍스트 자체를 시각적 변화 요소로 다룰 수 있다
-- 숙련도가 부족하면 단일 sans-serif가 안전하고, 강한 브랜드 성격이 필요하면 앵커+대비 body 조합을 적극 활용한다
-- Display Font는 시각 요소로 활용할 수 있지만 페이지당 1~2회로 절제한다
-- 가변 폰트(Variable Fonts)는 굵기, 기울기, 형태를 세밀하게 제어할 수 있어 타이포그래피 표현력을 높인다
+- 색상과 spacing을 조정했을 때 text hierarchy가 같이 무너지지 않는지 본다
+- 앵커 폰트, display font, variable font를 써도 화면 전체에서 무엇이 시각적 주인공인지 먼저 정한다
+- 텍스트 계층은 크기뿐 아니라 두께, 불투명도, 주변 여백과 함께 읽는다
+- typography가 주인공인 surface라도 다른 visual layer와 부딪히지 않는지 먼저 본다
 
 #### 빠른 판단 기준
 
-- 헤드라인과 본문을 합쳐 3개 이상 폰트 패밀리가 보이면 줄일지 먼저 검토한다
-- 폰트 크기만으로 계층을 나누고 있다면 두께와 색상(불투명도)을 함께 조정한다
-- 폰트 크기가 비율 기반 스케일 없이 임의로 정해져 있다면 시스템화를 먼저 검토한다
-- 큰 제목의 line-height가 본문과 같으면(150%) 130~150%로 약간 줄여 밀도감을 확인한다
-- Fonts in Use 같은 사이트에서 앵커 폰트와의 조합 사례를 참고한다
-
-→ 상세: [references/02-typography.md](references/02-typography.md)
+- text가 또렷해졌는데 화면 전체 균형은 오히려 깨졌다면 typography만의 문제가 아니라 visual-system 문제로 본다
+- display treatment가 강해질수록 색상, 여백, depth가 같이 절제되는지 확인한다
+- text hierarchy가 크기만으로 버티고 있다면 weight, opacity, spacing을 함께 재조정한다
 
 ### 3. 스페이싱으로 관계와 구조를 드러낸다
 
@@ -157,7 +145,6 @@ description: "Visual design foundations for building coherent color, typography,
 | 파일 | 읽을 때 |
 | --- | --- |
 | [references/01-color-system.md](references/01-color-system.md) | 색상 팔레트, 중립색, 액센트, 시맨틱 컬러, 다크모드 색상, OKLCH, 컬러 램프를 설계할 때 |
-| [references/02-typography.md](references/02-typography.md) | 폰트 조합, 앵커 폰트, 커스텀 폰트 리서치, 타이포 아트 디렉션, line-height, fluid typography를 결정할 때 |
 | [references/03-spacing-system.md](references/03-spacing-system.md) | 스페이싱 스케일, rem 기반 간격, 그룹화/분리, inner/outer, optical correction, relationship strength, exponential scaling, 컨테이너 vs 여백 분기를 설계할 때 |
 | [references/04-visual-hierarchy.md](references/04-visual-hierarchy.md) | 텍스트 불투명도, 버튼 우선순위, 상태 색상, 강조 절제를 판단할 때 |
 | [references/05-depth-texture.md](references/05-depth-texture.md) | 그림자, 오프화이트 캔버스, 노이즈 텍스처, offset backplate, 글래스모피즘을 적용할 때 |
@@ -174,6 +161,7 @@ description: "Visual design foundations for building coherent color, typography,
 
 ## 범위
 
+- 전용 타이포그래피 시스템 결정, 폰트 조합, scale, tracking, responsive type → `ds-typography`
 - 프로덕트 UX 흐름, CTA, 로딩, 피드백, 확인 → `ds-product-ux`
 - UI 레이아웃 패턴, 대시보드, SaaS 섹션 구성 → `ds-ui-patterns`
 - 모션의 물리감, swipe choreography, high-risk interaction policy → `ds-product-ux` 또는 `ds-ui-patterns`

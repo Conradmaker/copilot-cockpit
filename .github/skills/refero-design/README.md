@@ -102,7 +102,7 @@ git clone https://github.com/bbssppllvv/refero_skill.git .cursor/skills/refero-d
 - Quality gates and validation
 
 **Reference guides:**
-- `typography.md` — Scale, pairing, letter-spacing, line-height
+- Typography detailed rules now live in `.github/skills/ds-typography/`
 - `color.md` — Palettes, tokens, dark mode, contrast
 - `motion.md` — Timing, easing, micro-interactions
 - `icons.md` — Sizing, optical corrections, libraries

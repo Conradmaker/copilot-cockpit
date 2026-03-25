@@ -101,13 +101,13 @@ flowchart LR
 
 ## 스킬 카탈로그
 
-스킬은 에이전트가 특정 도메인에서 더 일관된 결정을 내리도록 돕는 지식 묶음입니다. 현재 저장소에는 28개의 스킬이 들어 있습니다.
+스킬은 에이전트가 특정 도메인에서 더 일관된 결정을 내리도록 돕는 지식 묶음입니다. 아래는 현재 저장소에서 자주 쓰는 핵심 카테고리입니다.
 
 - Design & UX: `ds-product-ux`, `ds-visual-design`, `ds-ui-patterns`, `refero-design`
 - Frontend: `fe-react-patterns`, `fe-tailwindcss`, `fe-a11y`, `fe-code-review`
 - Backend & Security: `be-api-design`, `fastify-best-practices`, `dev-security`
 - Data & State: `tanstack-query-best-practices`, `zustand`, `prisma-database-setup`, `kysely`
-- Workflow & Tooling: `git-workflow`, `gh-cli`, `agent-browser`, `memory-synthesizer`, `crafting-effective-readmes`
+- Workflow & Tooling: `git-workflow`, `gh-cli`, `agent-browser`, `memory-synthesizer`, `writing-readme`
 
 전체 목록은 [.github/skills/](.github/skills/)에서 확인할 수 있습니다.
 

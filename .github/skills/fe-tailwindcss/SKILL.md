@@ -1,6 +1,6 @@
 ---
 name: fe-tailwindcss
-description: "Tailwind CSS v4 styling patterns for utility-class UI implementation, theme tokens, layout helpers, and override-safe class composition. Use this skill when writing or refactoring Tailwind classes, styling components or screens, building responsive stacks or grids, defining variants with cva, merging className with cn()/tailwind-merge, or working on dark mode, animations, @theme, @utility, or CSS-to-Tailwind migration. Always consult this skill for any change to Tailwind classes or Tailwind-authored CSS, even if the user only asks to polish spacing, fix responsiveness, or clean up className conflicts. For visual direction use ds-visual-design or ds-ui-patterns; for shared component APIs use fe-ui-element-components; for accessibility use fe-a11y. Triggers on: Tailwind CSS, utility classes, className, cn(), tailwind-merge, cva, @theme, @utility, responsive styling, dark mode, animation, CSS to Tailwind, 테일윈드, 유틸리티 클래스, 클래스네임 병합, 반응형, 다크모드, 디자인 토큰."
+description: "Tailwind CSS v4 styling patterns for utility-class UI implementation, theme tokens, layout helpers, and override-safe class composition. Use this skill when writing or refactoring Tailwind classes, styling components or screens, building responsive stacks or grids, defining variants with cva, merging className with cn()/tailwind-merge, or working on dark mode, animations, @theme, @utility, or CSS-to-Tailwind migration. Always consult this skill for Tailwind-authored implementation work, even if the user only asks to polish spacing, fix responsiveness, or clean up className conflicts. For typography system decisions use ds-typography before turning them into tokens or utilities. For visual direction use ds-visual-design or ds-ui-patterns; for shared component APIs use fe-ui-element-components; for accessibility use fe-a11y. Triggers on: Tailwind CSS, utility classes, className, cn(), tailwind-merge, cva, @theme, @utility, responsive styling, dark mode, animation, CSS to Tailwind, 테일윈드, 유틸리티 클래스, 클래스네임 병합, 반응형, 다크모드, 디자인 토큰."
 ---
 
 # Tailwind CSS 스타일링 패턴
@@ -289,7 +289,7 @@ element 종류와 무관하게 같은 시각적 패턴을 적용해야 할 때 `
 
 | 파일 | 내용 |
 | --- | --- |
-| `references/theme-and-tokens.md` | `@theme` 설정, OKLCH 색상, semantic token, `@theme inline`/`static`, v3→v4 마이그레이션 체크리스트 |
+| `references/theme-and-tokens.md` | `@theme` 설정, OKLCH 색상, semantic token, `@theme inline`/`static`, v3→v4 마이그레이션 체크리스트, typography decision을 token으로 옮기는 구현 계약 |
 | `references/layout.md` | v-stack/h-stack/center/spacer `@utility` 정의, gap-first 원칙, responsive stack 패턴 |
 | `references/classname-and-variants.md` | `cn()` 정의, `ClassName`/`ClassNameRecord` 타입, `cva`/`VariantProps`, 병합 순서, focusRing/disabledStyles 추출 |
 | `references/animations.md` | built-in 4종, custom `@keyframes` + `--animate-*`, `@starting-style`, reduced motion, UI 애니메이션 패턴, 성능 팁 |
@@ -302,6 +302,7 @@ element 종류와 무관하게 같은 시각적 패턴을 적용해야 할 때 `
 ## 범위
 
 - 이 스킬은 Tailwind CSS 도구와 유틸리티의 사용법을 다룬다
+- font pairing, type scale, line-height, tracking, responsive type decision → `ds-typography`
 - UI element component API 설계 (as/asChild, prop typing, data-state, data-slot) → `fe-ui-element-components`
 - React 컴포넌트 아키텍처 (composition, state management) → `fe-react-patterns`
 - 접근성 (ARIA, 키보드, 시맨틱 HTML) → `fe-a11y`

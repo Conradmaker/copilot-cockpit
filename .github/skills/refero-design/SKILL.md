@@ -451,28 +451,16 @@ You have the structure from research. Now execute like a senior product designer
 
 ### Typography
 
-**Scale:** Use a ratio (1.2 or 1.25). Max 6-8 sizes: Display (48-64px), H1 (36-48px), H2 (24-32px), Body (16-18px), Small (13-14px), Caption (11-12px).
+In Refero mode, typography is something you extract from shipped examples before turning it into a system.
 
-**Leading:** Larger text = tighter (1.0-1.2). Body = looser (1.5-1.6).
-
-**⚠️ LETTER-SPACING — DO NOT SKIP**
-
-| Text Type | Letter-spacing |
-|-----------|----------------|
-| Body (14-18px) | `0` |
-| Small text (11-13px) | `0.01-0.02em` — **required** |
-| UI labels/buttons | `0.02em` — **required** |
-| ALL CAPS | `0.06-0.1em` — **always required** |
-| Large headings (32px+) | `-0.01` to `-0.02em` (tighten) |
-| Display (48px+) | `-0.02` to `-0.03em` (tighten more) |
+- record observed font roles, size steps, weight range, tracking treatment, and line length
+- keep notes factual and source-bound, not impressionistic
+- capture what is actually visible on screen before turning it into a design rule
 
 **Common mistakes:**
-- ❌ ALL CAPS without tracking (looks cramped)
-- ❌ Small text without positive tracking (hard to read)
-
-**Line length:** 50-75 characters (`max-width: 65ch`). **Pairing:** Max 2 fonts.
-
-→ Full guide: [references/typography.md](references/typography.md)
+- ❌ `premium typography` 같은 vague note만 남기기
+- ❌ size, tracking, weight 같은 concrete evidence 없이 느낌만 복사하기
+- ❌ reference의 display treatment를 그대로 가져오면서 맥락 차이를 설명하지 못하기
 
 ### Color
 
@@ -664,7 +652,6 @@ For a complete walkthrough (SaaS churn reduction), see [references/example-workf
 
 | Guide | What's Inside |
 |-------|---------------|
-| [typography.md](references/typography.md) | Scale, pairing, weight, line-height, letter-spacing, responsive type |
 | [color.md](references/color.md) | Palette structure, neutrals, primary/semantic colors, dark theme, tokens |
 | [motion.md](references/motion.md) | Micro-interactions, timing, easing, reduced motion, animation tokens |
 | [icons.md](references/icons.md) | Grid system, optical corrections, accessibility, icon+text pairing |
@@ -672,6 +659,14 @@ For a complete walkthrough (SaaS churn reduction), see [references/example-workf
 | [anti-ai-slop.md](references/anti-ai-slop.md) | What makes designs look generic and how to avoid it |
 | [mcp-tools.md](references/mcp-tools.md) | Detailed Refero tool parameters and usage |
 | [example-workflow.md](references/example-workflow.md) | Full walkthrough example |
+
+---
+
+## Scope
+
+- detailed font choice, type scale, line-height, tracking, responsive type rules → `ds-typography`
+- broader color, spacing, depth system rules → `ds-visual-design`
+- this skill keeps the research workflow and pattern extraction role
 
 ---
 

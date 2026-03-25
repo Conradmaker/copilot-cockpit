@@ -27,6 +27,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 ## 빠른 선택 기준
 
 - onboarding, CTA, error state, loading, visual polish, layout, design research, screen/flow design이면 `Design & UX`를 먼저 본다.
+- font pairing, type scale, line-height, letter-spacing, tracking, responsive typography, variable font 판단이면 `ds-typography`를 먼저 본다.
 - React, component split, form, modal, accessibility, Tailwind, render flow, shared UI, frontend review면 `Frontend engineering`을 먼저 본다.
 - auth, validation, API contract, status code, Fastify, secure coding, secret handling이면 `Security & backend`를 먼저 본다.
 - query builder, database setup, Prisma, TanStack Query, hydration, mutation, state adapter면 `Data & state`를 먼저 본다.
@@ -38,13 +39,14 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ### Design & UX
 
-대표 trigger: onboarding, CTA, empty state, loading, hero, dashboard, visual hierarchy, refero research
+대표 trigger: onboarding, CTA, typography system, font pairing, type scale, empty state, loading, hero, dashboard, visual hierarchy, refero research
 
 화면 구조, UX writing, visual direction, research-first UI 설계가 필요할 때 읽는다.
 
 - `.github/skills/ds-product-ux/SKILL.md`: CTA copy, feedback, loading, confirmation, trust-sensitive UX
 - `.github/skills/ds-ui-patterns/SKILL.md`: layout pattern, hero, dashboard, section composition
-- `.github/skills/ds-visual-design/SKILL.md`: palette, typography, spacing, hierarchy, depth
+- `.github/skills/ds-typography/SKILL.md`: font choice, pairing, scale, line-height, tracking, responsive type
+- `.github/skills/ds-visual-design/SKILL.md`: palette, spacing, hierarchy, depth, overall visual polish
 - `.github/skills/refero-design/SKILL.md`: reference-led screen/flow research와 pattern extraction
 
 ### Web visuals
@@ -98,7 +100,7 @@ browser automation, ideation, docs, git, SEO, PDF, skill authoring 같은 작업
 
 - `.github/skills/agent-browser/SKILL.md`: site navigation, scraping, screenshots, browser verification
 - `.github/skills/brainstorming/SKILL.md`: creative or architectural direction setting before build
-- `.github/skills/crafting-effective-readmes/SKILL.md`: README update, stale section review, audience fit
+- `.github/skills/writing-readme/SKILL.md`: README creation, update, stale section review, audience fit
 - `.github/skills/evidence-first-research/SKILL.md`: reference-first 조사, source ladder, 공식 문서 및 로컬 근거 합성
 - `.github/skills/gh-cli/SKILL.md`: GitHub CLI workflow for repo, PR, issue operations
 - `.github/skills/git-workflow/SKILL.md`: branch, commit, PR workflow

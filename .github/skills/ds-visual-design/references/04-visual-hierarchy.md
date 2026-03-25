@@ -22,7 +22,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 - 크기만으로 계층을 나누려 하지 말고 폰트 두께를 같이 쓴다
 - 중요한 항목에는 Medium 이상, 보조 항목에는 Regular
-- 한 디자인에 **최대 2가지 두께**를 권장한다
+- 한 디자인의 기본 두께 조합은 **보통 3가지 이내**로 정리하고, 600 이상의 weight는 꼭 필요한 강조에서만 예외적으로 검토한다
 
 ---
 
