@@ -110,6 +110,7 @@ barrel 파일의 re-export는 트리 셰이킹을 방해해 사용하지 않는 
   `count && <Badge />` 에서 count가 0이면 `"0"`이 화면에 렌더된다. `count > 0 ? <Badge /> : null`로 명시적으로 처리한다.
 - `content-visibility: auto`로 오프스크린 렌더링 지연
   1000개 메시지 리스트에서 화면 밖 ~990개 항목의 레이아웃/페인트를 건너뛰어 초기 렌더가 10배 빨라질 수 있다. `contain-intrinsic-size`로 예상 크기를 지정한다.
+- 50개 이상 반복 렌더되는 리스트는 virtualization을 먼저 검토한다.
 - 정적 JSX는 컴포넌트 외부로 호이스팅
   매 렌더마다 변하지 않는 큰 정적 JSX(특히 SVG)를 컴포넌트 밖 상수로 추출하면 재생성 비용이 사라진다.
 - 애니메이션은 `transform`과 `opacity` 중심으로 구성하고 `transition: all`은 피한다

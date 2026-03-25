@@ -151,6 +151,6 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 - 전체 visual system의 color, spacing, depth, icon balance → `ds-visual-design`
 - 레이아웃, section rhythm, dashboard/landing composition → `ds-ui-patterns`
-- shipped product references 조사와 pattern extraction → `refero-design`
+- shipped product references 조사와 pattern extraction → `research-design`
 - Tailwind v4 utility mechanics, class composition, `@utility`, `cva` → `fe-tailwindcss`
 - webfont loading, `@font-face`, preload, subsetting, font budget, CSS implementation deep dive → `web-typography`

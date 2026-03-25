@@ -57,6 +57,24 @@ function MessageList({ messages }: { messages: Message[] }) {
 
 1000개 메시지 기준, 브라우저가 ~990개 오프스크린 항목의 레이아웃/페인트를 건너뛴다 (10배 빠른 초기 렌더).
 
+### 대형 리스트는 virtualization을 먼저 검토한다
+
+반복 행이 많은 리스트를 전부 mount하면 paint보다 mount 비용이 먼저 커질 수 있다. visible range만 렌더하는 virtualization을 먼저 검토한다.
+
+```tsx
+import { VList } from "virtua"
+
+<VList style={{ height: 400 }}>
+  {items.map((item) => (
+    <Row key={item.id} data={item} />
+  ))}
+</VList>
+```
+
+- 50개 이상 반복 렌더되는 행이나 카드 리스트는 virtualization 후보로 본다.
+- virtualization이 과할 정도로 단순한 경우에는 `content-visibility: auto` 같은 CSS 전략이 더 단순할 수 있다.
+- 스크롤 컨테이너 높이와 예상 item height를 함께 고려한다.
+
 ---
 
 ## 3. 하이드레이션 불일치 없이 플리커 방지

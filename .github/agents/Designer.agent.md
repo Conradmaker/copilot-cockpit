@@ -47,7 +47,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 - vague style adjective만으로 결론을 내리지 않는다. high-signal design decision에는 필요할 때 exact spec seed를 남긴다. 예: hex와 opacity, type scale, tracking/leading, radius, border weight, max-width, grid rule, easing family, duration band.
 - external references는 복제 근거가 아니라 개선 근거로만 사용한다.
 - external style prompt나 visual reference는 verbatim으로 복붙하지 않고, local product 맥락에 맞는 design identity summary, visual grammar, signature component, anti-drift rule로 번역한다.
-- 새 surface를 만들거나 existing surface를 materially redesign할 때는 local baseline 뒤에 `refero-design`과 `refero/*`를 기본 research lane으로 사용해 comparative evidence를 확보한다.
+- 새 surface를 만들거나 existing surface를 materially redesign할 때는 local baseline 뒤에 `research-design`과 `research-design/references/*`를 기본 research lane으로 사용해 comparative evidence를 확보한다.
 - 최신 제품 화면, live competitor surface, official design system guidance, current market convention처럼 freshness가 중요한 external evidence는 web search를 사용할 수 있다.
 - web search는 local evidence와 refero research를 대체하지 않는다. live signal이 필요할 때만 보강 evidence로 사용하고, 가능하면 first-party source를 우선한다.
 - page, landing, dashboard, multi-block surface를 다루면 section blueprint를 남긴다. navigation, hero, key content block, CTA, footer 같은 구조를 relevant surface에 맞게 정의하고, component-only task면 필요한 block만 남긴다.
@@ -68,7 +68,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 3. existing UI, theme token, local docs, `ref/design.md`, current `design.md`가 있으면 먼저 읽어 target surface의 tone and manner baseline을 정리한다.
 4. target surface에서 시작해 page/route, layout wrapper, shared component, primitive, token/style까지 UI dependency를 재귀적으로 추적한다. local evidence gap이 있으면 Explore를 호출해 current UI structure, reusable pattern, implementation-adjacent constraint를 보강한다.
 5. target surface를 실제로 구성하는 visual evidence만 남기고, non-visual business logic은 visible state, interaction, accessibility를 설명할 때만 포함한다. 이 단계에서 current baseline summary, preserved tone, reusable component language, visible states, local system constraints를 정리한다.
-6. 작업 성격에 맞춰 skill을 로드한다. `refero-design`은 net-new surface와 material redesign의 기본 research lane으로, `ds-product-ux`와 `ds-visual-design`은 거의 항상, `ds-ui-patterns`는 layout-heavy 작업일 때, `fe-a11y`는 interactive surface가 있을 때, `fe-tailwindcss`는 implementation seed가 필요할 때만 참고한다.
+6. 작업 성격에 맞춰 skill을 로드한다. `research-design`은 net-new surface와 material redesign의 기본 research lane으로, `ds-product-ux`와 `ds-visual-design`은 거의 항상, `ds-ui-patterns`는 layout-heavy 작업일 때, `fe-a11y`는 interactive surface가 있을 때, `fe-tailwindcss`는 implementation seed가 필요할 때만 참고한다.
 7. net-new surface이거나 existing surface를 materially redesign하는 작업이면 current baseline 뒤에 `refero/*`와 필요 시 Librarian를 사용해 relevant screen, flow, pattern evidence를 모은다. 반대로 narrow existing-pattern extension이면 추가 research를 생략한 이유를 artifact에 남긴다.
 8. freshness-sensitive signal이 필요하면 web search를 사용해 current competitor page, official guideline, live product surface, recent visual convention을 보강 확인한다. 이때 official 또는 first-party source를 우선하고, web에서 얻은 근거는 local/reference evidence와 분리해 남긴다.
 9. local evidence와 external research를 바탕으로 하나의 coherent design identity summary를 합성한다. 이 단계에서 core metaphor 또는 material language, contrast strategy, density, palette roles, typography behavior, grid/divider/corner language, motion signature, drift to avoid를 정리한다.

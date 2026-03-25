@@ -1,6 +1,6 @@
 ---
 name: ds-product-ux
-description: "Product UX principles for product-level flows, UX writing, action design, feedback, loading, navigation, motion, gesture patterns, and trust-sensitive interactions. Use this skill when designing or reviewing CTA labels, error or empty states, loading behavior, confirmations, destructive actions, share or selection flows, onboarding prompts, tooltip or shortcut discovery, swipe or slide-to-confirm interactions, optimistic UI, or progressive disclosure. Always consult this skill for UX decisions that change what users read, expect, choose, recover from, or trust, even if the request sounds like copy polish or screen-level feedback. For visual foundations use ds-visual-design. For layout and section patterns use ds-ui-patterns. For implementation-level accessibility use fe-a11y. For React architecture use fe-react-patterns. Triggers on: UX writing, CTA copy, error message, empty state, loading UX, confirmation dialog, delete flow, share flow, selection flow, navigation UX, tooltip, swipe gesture, haptic feedback, motion guideline, dark pattern, optimistic UI, progressive disclosure, 제품 UX, UX 라이팅, 버튼 문구, 에러 문구, 빈 상태, 로딩, 확인 모달, 삭제, 공유, 선택, 내비게이션, 인터랙션, 스와이프, 햅틱, 모션, 다크패턴, 낙관적 UI, 점진적 공개."
+description: "Product UX principles for product-level flows, UX writing, action design, feedback, loading, navigation, motion, gesture patterns, trust signals, objection handling, and trust-sensitive interactions. Use this skill when designing or reviewing CTA labels, error or empty states, loading behavior, confirmations, destructive actions, share or selection flows, onboarding prompts, tooltip or shortcut discovery, swipe or slide-to-confirm interactions, optimistic UI, progressive disclosure, trust signal placement, or objection-handling moments in a flow. Always consult this skill for UX decisions that change what users read, expect, choose, recover from, or trust, even if the request sounds like copy polish or screen-level feedback. For visual foundations use ds-visual-design. For layout and section patterns use ds-ui-patterns. For implementation-level accessibility use fe-a11y. For React architecture use fe-react-patterns. Triggers on: UX writing, CTA copy, error message, empty state, loading UX, confirmation dialog, delete flow, share flow, selection flow, navigation UX, tooltip, swipe gesture, haptic feedback, motion guideline, dark pattern, optimistic UI, progressive disclosure, trust signal, objection handling, 제품 UX, UX 라이팅, 버튼 문구, 에러 문구, 빈 상태, 로딩, 확인 모달, 삭제, 공유, 선택, 내비게이션, 인터랙션, 스와이프, 햅틱, 모션, 다크패턴, 낙관적 UI, 점진적 공개, 신뢰 신호, 반론 처리."
 disable-model-invocation: false
 user-invocable: false
 ---
@@ -9,7 +9,7 @@ user-invocable: false
 
 ## 목표
 
-사용자가 화면에서 읽고, 선택하고, 기다리고, 복구하는 모든 순간을 더 명확하고 예측 가능하게 설계한다. 이 스킬은 문구만 다듬는 용도가 아니라, CTA부터 로딩, 확인, 삭제, 공유, 선택, 피드백, 내비게이션, 모션, 툴팁, 제스처, 햅틱, 접근성까지 제품 UX의 판단 기준을 통합해서 다룬다.
+사용자가 화면에서 읽고, 선택하고, 기다리고, 복구하는 모든 순간을 더 명확하고 예측 가능하게 설계한다. 이 스킬은 문구만 다듬는 용도가 아니라, CTA부터 로딩, 확인, 삭제, 공유, 선택, 피드백, 내비게이션, 모션, 툴팁, 제스처, 햅틱, 접근성, trust signal, objection handling까지 제품 UX의 판단 기준을 통합해서 다룬다.
 
 이 문서는 빠른 판단을 위한 요약 가이드다. 실제로 플로우를 설계하거나 문구를 쓰거나 UX를 리뷰할 때는 아래 reference 문서를 직접 읽고 상황에 맞는 기준과 예시를 확인한 뒤 적용한다.
 
@@ -72,12 +72,15 @@ user-invocable: false
 - 확인은 반드시 필요한 순간에만 쓴다
 - 파괴적 행동은 중요도와 복구 가능성에 맞춰 다룬다
 - 제안은 하되 강요하지 않는다
+- 신뢰 신호는 사용자가 실제로 망설이는 지점 가까이에 둔다
+- objection은 숨기지 말고 짧고 구체적으로 해소한다
 
 #### 빠른 판단 기준
 
 - 사용자를 설득하기 위해 손해, 공포, 죄책감을 과장하고 있으면 다시 쓴다
 - 삭제가 돌이킬 수 없는데 객체 이름과 결과 설명이 빠져 있으면 보완한다
 - 사용자가 거절할 수 없는 구조면 문구보다 플로우를 먼저 수정한다
+- trust signal이 결정 지점과 너무 멀리 떨어져 있으면 재배치한다
 
 → 상세: [references/01-action-patterns.md](references/01-action-patterns.md)
 

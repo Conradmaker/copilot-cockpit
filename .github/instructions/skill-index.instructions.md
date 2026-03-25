@@ -47,7 +47,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - `.github/skills/ds-ui-patterns/SKILL.md`: layout pattern, hero, dashboard, section composition
 - `.github/skills/ds-typography/SKILL.md`: font choice, pairing, scale, line-height, tracking, responsive type
 - `.github/skills/ds-visual-design/SKILL.md`: palette, spacing, hierarchy, depth, overall visual polish
-- `.github/skills/refero-design/SKILL.md`: reference-led screen/flow research와 pattern extraction
+- `.github/skills/research-design/SKILL.md`: reference-led screen/flow research, MCP 기반 retrieval, pattern extraction, reference-driven synthesis
 
 ### Web visuals
 

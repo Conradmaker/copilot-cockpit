@@ -1,19 +1,19 @@
 ---
 name: ds-visual-design
-description: "Visual design foundations for building coherent color, spacing, hierarchy, depth, and icon systems in UI, and for judging typography only as part of a broader visual system. Use this skill when designing or reviewing palettes, dark mode, spacing systems, emphasis, shadows, icon language, or overall visual polish across a screen. Always consult this skill for visual decisions that affect perceived structure, balance, emphasis, or brand tone, even if the user only asks to tune color, spacing, depth, or overall polish. For dedicated font pairing, type scale, line-height, tracking, and responsive typography decisions use ds-typography. For product-level flows and copy use ds-product-ux. For layout and section composition use ds-ui-patterns. For Tailwind tokens and utilities use fe-tailwindcss. Triggers on: color palette, dark mode, OKLCH, spacing system, visual hierarchy, shadows, depth, icon style, design polish, 색상 시스템, 컬러 팔레트, 다크모드, 스페이싱, 시각적 계층, 그림자, 깊이감, 아이콘, 디자인 퀄리티."
+description: "Visual design foundations for building coherent color, spacing, hierarchy, depth, icon systems, and Anti-AI-Slop quality gates in UI, and for judging typography only as part of a broader visual system. Use this skill when designing or reviewing palettes, dark mode, spacing systems, emphasis, shadows, icon language, overall visual polish, or when the output feels generic, overly safe, or obviously AI-generated. Always consult this skill for visual decisions that affect perceived structure, balance, emphasis, brand tone, or distinctiveness, even if the user only asks to tune color, spacing, depth, overall polish, or make the UI feel less AI-generated. For dedicated font pairing, type scale, line-height, tracking, and responsive typography decisions use ds-typography. For product-level flows and copy use ds-product-ux. For layout and section composition use ds-ui-patterns. For Tailwind tokens and utilities use fe-tailwindcss. Triggers on: color palette, dark mode, OKLCH, spacing system, visual hierarchy, shadows, depth, icon style, design polish, Anti-AI-Slop, generic design, indigo/violet default, less AI-generated, 색상 시스템, 컬러 팔레트, 다크모드, 스페이싱, 시각적 계층, 그림자, 깊이감, 아이콘, 디자인 퀄리티, 안티 AI 슬롭."
 ---
 
 # 시각 디자인 기초 (ds-visual-design)
 
 ## 목표
 
-색상, 타이포그래피, 스페이싱, 시각적 계층, 깊이감, 아이콘을 체계적으로 다뤄 UI가 구조적이고 일관되며 신뢰감 있게 보이게 만든다. 이 스킬은 단순히 "예쁘게 만드는" 수준이 아니라, 사용자의 시선을 유도하고 정보를 계층화하며 브랜드 정체성을 유지하는 시각적 시스템의 판단 기준을 다룬다.
+색상, 타이포그래피, 스페이싱, 시각적 계층, 깊이감, 아이콘을 체계적으로 다뤄 UI가 구조적이고 일관되며 신뢰감 있게 보이게 만든다. 이 스킬은 단순히 "예쁘게 만드는" 수준이 아니라, 사용자의 시선을 유도하고 정보를 계층화하며 브랜드 정체성을 유지하는 시각적 시스템의 판단 기준을 다룬다. 또한 안전한 평균값처럼 보이는 generic visual output을 걸러내는 Anti-AI-Slop owner이기도 하다.
 
 이 문서는 빠른 판단을 위한 요약 가이드다. 실제로 색상을 고르거나 스페이싱을 설계하거나 시각적 계층을 점검할 때는 아래 reference 문서를 직접 읽고 상황에 맞는 기준과 예시를 확인한 뒤 적용한다.
 
 ---
 
-## 6대 핵심 원칙
+## 7대 핵심 원칙
 
 ### 1. 색상 시스템을 체계적으로 설계한다
 
@@ -136,6 +136,24 @@ description: "Visual design foundations for building coherent color, spacing, hi
 
 → 상세: [references/06-design-craft.md](references/06-design-craft.md)
 
+### 7. Anti-AI-Slop 기준으로 generic한 출력을 걸러낸다
+
+시각적으로 완성도가 낮은 화면은 종종 "틀렸다"기보다 "이유 없이 안전하다"는 느낌으로 나타난다. 이 원칙은 모델이 평균값으로 수렴하면서 생기는 시각적 상투성을 걸러내기 위한 품질 게이트다.
+
+- 근거 없이 고른 indigo, violet 계열 accent를 default처럼 쓰지 않는다
+- brand, reference, surface 맥락 없이 나온 안전한 gradient와 대칭 구성을 의심한다
+- typography, spacing, color가 모두 무난한데 기억점이 없다면 visual decision이 비어 있는 상태로 본다
+- 왜 이 색과 왜 이 톤인지 설명할 수 없는 선택은 polish가 아니라 placeholder일 가능성이 높다
+- layout cliché 자체의 최종 owner는 ds-ui-patterns지만, visual-level generic smell은 여기서 먼저 걸러낸다
+
+#### 빠른 판단 기준
+
+- accent color 선택 이유를 한 문장으로 설명할 수 없으면 다시 고른다
+- 화면을 squint test로 봤을 때 hierarchy보다 template 느낌이 먼저 오면 재검토한다
+- screenshot 한 장만 봐도 기억나는 visual decision이 없으면 generic output 신호로 본다
+
+→ 상세: [references/anti-ai-slop.md](./references/anti-ai-slop.md)
+
 ---
 
 ## references 가이드
@@ -149,13 +167,14 @@ description: "Visual design foundations for building coherent color, spacing, hi
 | [references/04-visual-hierarchy.md](references/04-visual-hierarchy.md) | 텍스트 불투명도, 버튼 우선순위, 상태 색상, 강조 절제를 판단할 때 |
 | [references/05-depth-texture.md](references/05-depth-texture.md) | 그림자, 오프화이트 캔버스, 노이즈 텍스처, offset backplate, 글래스모피즘을 적용할 때 |
 | [references/06-design-craft.md](references/06-design-craft.md) | 아이콘 상태 언어, hand-drawn accent, 마스코트 시스템, 절제와 일관성을 검토할 때 |
+| [references/anti-ai-slop.md](./references/anti-ai-slop.md) | generic visual output, indigo/violet default, screenshot test, visual distinctiveness를 점검할 때 |
 
 ### 추천 로드 순서
 
-- 전체 시각 디자인 리뷰: `01 → 04 → 03 → 02`
+- 전체 시각 디자인 리뷰: `01 → 04 → 03 → 06 → anti-ai-slop`
 - 색상 시스템 설계: `01 → 04 → 05`
 - 타이포그래피와 계층: `02 → 04 → 03`
-- 세부 품질 개선: `05 → 06 → 04`
+- 세부 품질 개선: `05 → 06 → anti-ai-slop → 04`
 
 ---
 
@@ -165,6 +184,7 @@ description: "Visual design foundations for building coherent color, spacing, hi
 - 프로덕트 UX 흐름, CTA, 로딩, 피드백, 확인 → `ds-product-ux`
 - UI 레이아웃 패턴, 대시보드, SaaS 섹션 구성 → `ds-ui-patterns`
 - 모션의 물리감, swipe choreography, high-risk interaction policy → `ds-product-ux` 또는 `ds-ui-patterns`
+- layout cliché, section-order cliché, surface composition cliché → `ds-ui-patterns`
 - Tailwind CSS 토큰, 유틸리티, className 병합 → `fe-tailwindcss`
 - 구현 수준의 접근성, ARIA, 키보드, 시맨틱 HTML → `fe-a11y`
 - 공유 UI 컴포넌트 API, 디자인 시스템 아키텍처 → `fe-ui-element-components`

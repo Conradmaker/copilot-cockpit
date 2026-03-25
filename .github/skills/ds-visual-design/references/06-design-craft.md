@@ -24,6 +24,19 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - 아이콘이 작을수록 디테일은 적어야 한다 — 심플할수록 좋다
 - 잘 알려지지 않은 아이콘에는 라벨이나 툴팁을 추가한다
 - 이모지는 노션 같은 특별한 브랜드 맥락이 아닌 이상 전문 아이콘으로 대체한다
+- 기본 색상은 `currentColor`를 우선해 텍스트 계층과 같이 움직이게 한다
+- 14~16px 본문 옆 아이콘은 16px, 16~18px 텍스트 옆 아이콘은 18~20px을 시작점으로 본다
+
+### 아이콘의 광학 보정
+
+- 기하학적 중심과 시각적 중심은 다르다
+- 재생 아이콘, chevron, arrow처럼 한쪽으로 무게가 쏠리는 도형은 0.5~1px 정도 수동 보정을 검토한다
+- 원형과 사각형, 대각선과 수평선은 같은 수치여도 시각적 무게가 다르다 — 측정값보다 보이는 균형을 우선한다
+
+### 아이콘 관련 owner 경계
+
+- 아이콘의 hit area, aria-label, role 같은 접근성 규칙은 `fe-a11y`가 owner다
+- 여기서는 시각적 통일, optical correction, 텍스트와의 조화 같은 craft만 다룬다
 
 ### 마스코트와 일러스트레이션 시스템
 
@@ -112,6 +125,8 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 - [ ] 아이콘이 하나의 라이브러리에서 통일된 스타일로 사용되는가
 - [ ] Active 상태 아이콘이 Filled vs Outline 규칙 등으로 명확히 대비되는가
+- [ ] currentColor와 text hierarchy가 자연스럽게 맞물리는가
+- [ ] optical correction이 필요한 아이콘을 기계적으로 중앙정렬만 해두지 않았는가
 - [ ] 마스코트나 일러스트가 다양한 상태에 맞춰 시스템화되어 있는가
 - [ ] 불필요한 장식 요소가 남아있지 않은가
 - [ ] 색상, 간격, 곡률에 일관된 변수가 사용되는가

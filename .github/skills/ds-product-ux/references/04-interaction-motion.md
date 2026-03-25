@@ -64,6 +64,27 @@
 - 성공 토스트에 작은 체크나 슬라이드 인을 더할 수 있지만, 모든 성공을 축하 이벤트처럼 다루면 신뢰가 떨어진다.
 - 같은 화면 안의 카드 스택이나 토스트는 서로 다른 캐릭터를 갖더라도 전체 제품의 모션 언어는 일관되어야 한다.
 
+### 실무 기본값
+
+모션 원칙만으로는 구현자가 각자 다른 속도를 쓰기 쉽다. 반복되는 상호작용에는 기본값을 둔다.
+
+| 범주 | 권장 시간 | 예시 |
+| --- | --- | --- |
+| 즉각 반응 | 90~150ms | hover, press, toggle, focus |
+| 작은 상태 변화 | 160~240ms | accordion, tab, panel |
+| 큰 전환 | 240~360ms | modal, drawer, route-level transition |
+
+- 작은 거리일수록 더 짧게 간다
+- 자주 반복되는 상호작용일수록 더 짧게 간다
+- product UI에서 500ms를 넘는 모션은 대부분 느리게 느껴진다
+
+### easing 기본값
+
+- enter는 ease-out 계열을 우선한다
+- exit는 ease-in 계열을 우선한다
+- state change는 ease-in-out 계열을 우선한다
+- spring은 drag, swipe처럼 물리감이 필요한 경우에만 짧게 쓴다
+
 ---
 
 ## 5. 학습과 발견 가능성을 돕는 reveal 패턴
@@ -85,6 +106,12 @@
 - tooltip delay, shortcut hint, hover reveal처럼 반복되는 행동도 패턴 단위로 정의한다
 - 플랫폼이 달라도 같은 개념을 같은 언어로 말할 수 있게 한다
 - 직접 구현이 비싸면 레이어링이나 착시를 활용해 비용을 줄인다
+
+### reduced motion
+
+- `prefers-reduced-motion` 사용자를 기본적으로 고려한다
+- motion이 핵심 정보 전달을 막으면 정적 대안이 항상 있어야 한다
+- hover, auto-play, loop motion은 줄이거나 끌 수 있어야 한다
 
 ### 실무 메모
 

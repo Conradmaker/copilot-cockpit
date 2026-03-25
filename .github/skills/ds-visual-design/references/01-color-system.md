@@ -6,6 +6,23 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ---
 
+## 0. 맥락 먼저 고정한다
+
+같은 색상 시스템이라도 어떤 surface인지에 따라 좋은 기본값이 달라진다. 팔레트를 만지기 전에 아래 질문을 먼저 고정한다.
+
+- product UI인가, marketing surface인가
+- 데이터 밀도가 높은가, 낮은가
+- 이미 정의된 brand color가 있는가, 없는가
+
+### 기본 원칙
+
+- product UI일수록 색을 줄이고 중립색 비중을 높인다
+- data-dense surface일수록 glowing accent보다 muted accent가 안전하다
+- brand가 아직 불분명하면 무리하게 개성을 만들기보다 system coherence를 먼저 만든다
+- 확신이 없을수록 색을 늘리기보다 중립색 레이어를 더 정교하게 나누는 편이 낫다
+
+---
+
 ## 1. 중립 기반 레이어 (Neutral Foundation)
 
 제품 디자인에서는 배경, 카드, 스트로크, 텍스트 등 최소 4개 이상의 배경 레이어와 다수의 텍스트 변형이 필요하다.
@@ -58,6 +75,8 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 - 강조색이 너무 밝아 눈이 아프면 채도를 낮추고 텍스트를 검은색으로 바꿔 가독성을 높인다
 - 모든 요소에 각기 다른 색을 쓰면 시선이 분산되고 혼란을 준다
+- 한 컴포넌트 안에서 기능적으로 중요한 색은 최대 2개를 기본값으로 둔다
+- hover와 active 상태는 새로운 색을 추가하기보다 같은 램프 안에서 한 단계 조정하는 편이 안전하다
 
 ### 유사색과 보완색
 
@@ -127,6 +146,17 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ---
 
+## 8. 대비는 숫자와 실제 화면 둘 다로 본다
+
+색상 시스템은 WCAG 수치만 통과한다고 끝나지 않는다. 실제 모니터와 실제 피로도에서도 읽혀야 한다.
+
+- 본문 텍스트는 4.5:1, 큰 텍스트와 의미 있는 아이콘은 3:1을 기본값으로 본다
+- secondary text가 지나치게 연하면 수치상 통과해도 실제 사용성은 나빠질 수 있다
+- tinted background 위의 text는 항상 실제 화면에서 다시 본다
+- squint test에서 정보가 사라지면 밝기나 채도가 과도한 것이다
+
+---
+
 ## 체크리스트
 
 - [ ] 중립색 레이어가 최소 4단계(배경, 카드, 스트로크, 구분선)로 구분되는가
@@ -135,4 +165,6 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - [ ] 시맨틱 컬러(에러, 성공, 경고, 정보)가 별도로 정의되어 있는가
 - [ ] 다크 모드에서 surface 고도에 따라 밝기가 달라지는가
 - [ ] 버튼과 인터랙티브 요소의 상태별 색상이 구분되는가
+- [ ] 한 컴포넌트 안에서 기능적 색이 과도하게 많지 않은가
+- [ ] secondary text와 tint background가 실제 화면에서도 충분히 읽히는가
 - [ ] 순수 검정(#000)이나 순수 흰색(#FFF)을 불필요하게 쓰고 있지 않은가
