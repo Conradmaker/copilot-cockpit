@@ -179,7 +179,7 @@ LinkedIn 포스트, X 쓰레드, 블로그 포스트, 아티클은 읽히는 방
 
 - 문장 단위 명료화, 군더더기 제거, AI 말투 제거 → `writing-clearly`, `humanizer`, `korean-humanizer` 계열
 - README, changelog, release notes, API reference 같은 제품/기술 문서 → `writing-document`, `writing-readme`, `write-api-reference`, `product-changelog` 계열
-- 사실 검증, 자료 수집, 출처 조사, 최신 사례 확인 → `research-content-source`, `documentation-lookup`, `evidence-first-research` 계열
+- 사실 검증, 자료 수집, 출처 조사, 최신 사례 확인 → `research-content-source`, `documentation-lookup`, `research-foundation` 계열
 - 키워드 전략, 검색 의도 최적화, SERP 중심 구조화 → `seo-content`, `seo-technical` 계열
 
 이 스킬은 콘텐츠를 더 잘 쓰기 위한 구조와 형식의 판단을 담당한다. 문장 교정, 조사, 기술문서화, SEO 최적화까지 한 스킬에 넣지 않는다.
