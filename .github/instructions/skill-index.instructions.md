@@ -33,8 +33,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - onboarding, CTA, error state, loading, layout, typography, design research, screen/flow design, visual polish, visual inspection, responsive check, runtime design validation이면 `Design & UX`를 먼저 본다.
 - content draft, technical documentation, prose polish, AI pattern removal, source gathering, fact check, product research, market research, JTBD, Kano, value proposition, market sizing이면 `Writing & content`를 먼저 본다.
 - React UI, Zustand, TanStack Query, component split, shared UI, form, modal, accessibility, Tailwind, hydration mismatch, rerender, frontend review이면 `Frontend engineering`를 먼저 본다.
-- auth, permission, validation, API contract, status code, Fastify, secure coding, secret handling이면 `Security & backend`를 먼저 본다.
-- Kysely, Prisma, query builder, database setup, schema design, migration, driver adapter, persistence setup, state adapter면 `Data & state`를 먼저 본다.
+- auth, permission, validation, API contract, status code, Fastify, secure coding, secret handling, Kysely, Prisma, query builder, database setup, schema design, migration, driver adapter, persistence setup, state adapter면 `Security & backend`를 먼저 본다.
 - technical SEO, indexing, crawlability, schema validation, Core Web Vitals, AI bot access, title/meta, on-page SEO, featured snippet, GEO면 `SEO`를 먼저 본다.
 - browser automation, README, git/gh workflow, PDF, skill authoring, Vite, Turbopack, bundler migration, research-first workflow, official-doc verification이면 `Workflow & tooling`를 먼저 본다.
 - image generation, image edit, hero image, illustration, compositing, visual asset backend면 `Web visuals`를 먼저 본다.
@@ -93,22 +92,15 @@ UI 구현, component architecture, state ownership, accessibility, styling, revi
 
 ### Security & backend
 
-대표 trigger: auth, permission, API contract, validation, Fastify, secure coding
+대표 trigger: auth, permission, API contract, validation, Fastify, secure coding, Kysely, Prisma, query builder, schema design, migration, persistence setup
 
-보안, API 계약, backend framework, secure server implementation을 다룰 때 읽는다.
+보안, API 계약, backend framework, persistence setup, schema/migration, secure server implementation을 다룰 때 읽는다.
 
 - `.github/skills/dev-security/SKILL.md`: auth, authorization, input validation, exploitability
 - `.github/skills/be-api-design/SKILL.md`: REST contract, resource model, status code, error envelope
 - `.github/skills/fastify-best-practices/SKILL.md`: Fastify route/plugin/error/security patterns
-
-### Data & state
-
-대표 trigger: Kysely, Prisma, schema design, migration, query builder, persistence setup
-
-database access, schema/migration, persistence setup, state adapter를 다룰 때 읽는다.
-
-- `.github/skills/kysely/SKILL.md`: type-safe SQL query builder, transactions, migrations
 - `.github/skills/be-prisma/SKILL.md`: Prisma ORM schema design, migrations, query optimization, provider setup, Prisma v7 upgrade
+- `.github/skills/be-kysely/SKILL.md`: type-safe SQL query builder, transactions, migrations
 
 ### SEO
 

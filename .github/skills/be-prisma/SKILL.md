@@ -1,6 +1,6 @@
 ---
 name: be-prisma
-description: "Prisma ORM 스키마 설계, relation modeling, migrations, query optimization, transactions, driver adapters, provider setup, and Prisma v7 migration을 위한 스킬이다. Use this skill when working on schema.prisma, adding or refactoring Prisma models, choosing relation patterns, wiring PrismaClient, configuring PostgreSQL/MySQL/SQLite/SQL Server/CockroachDB/Prisma Postgres, fixing migration drift, or upgrading from Prisma v6 to v7. Always consult this skill for Prisma-backed persistence work, even if the user only asks to 'add a table', 'connect the database', 'fix a Prisma error', or 'wire the client'. For REST API contract design use be-api-design. For raw SQL-heavy access patterns or query-builder-first codebases use kysely. Triggers on: prisma, schema.prisma, PrismaClient, prisma migrate, prisma generate, driver adapter, prisma.config.ts, relation modeling, query optimization, transaction, Prisma 7, PostgreSQL, MySQL, SQLite, SQL Server, CockroachDB, Prisma Postgres, 프리즈마, 스키마 설계, 마이그레이션, 드라이버 어댑터, DB 연결."
+description: "Prisma ORM 스키마 설계, relation modeling, migrations, query optimization, transactions, driver adapters, provider setup, and Prisma v7 migration을 위한 스킬이다. Use this skill when working on schema.prisma, adding or refactoring Prisma models, choosing relation patterns, wiring PrismaClient, configuring PostgreSQL/MySQL/SQLite/SQL Server/CockroachDB/Prisma Postgres, fixing migration drift, or upgrading from Prisma v6 to v7. Always consult this skill for Prisma-backed persistence work, even if the user only asks to 'add a table', 'connect the database', 'fix a Prisma error', or 'wire the client'. For REST API contract design use be-api-design. For raw SQL-heavy access patterns or query-builder-first codebases use be-kysely. Triggers on: prisma, schema.prisma, PrismaClient, prisma migrate, prisma generate, driver adapter, prisma.config.ts, relation modeling, query optimization, transaction, Prisma 7, PostgreSQL, MySQL, SQLite, SQL Server, CockroachDB, Prisma Postgres, 프리즈마, 스키마 설계, 마이그레이션, 드라이버 어댑터, DB 연결."
 disable-model-invocation: false
 user-invocable: false
 ---
@@ -211,5 +211,5 @@ middleware는 client extensions로 옮기고, auto-generate와 auto-seed는 명�
 - REST API contract, status code, error envelope, OpenAPI 3.1 설계 → `be-api-design`
 - Fastify plugin, route, validation, hook, logging 구현 → `fastify-best-practices`
 - auth, authorization, input validation, exploitability 검토 → `dev-security`
-- raw SQL-first 접근, query builder 중심 코드베이스, Prisma 대체 검토 → `kysely`
+- raw SQL-first 접근, query builder 중심 코드베이스, Prisma 대체 검토 → `be-kysely`
 - DB 서버 운영, 인프라 레벨 connection pooler, replication, backup 정책 → 별도 DB/infra 가이드

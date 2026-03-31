@@ -1,11 +1,11 @@
 ---
-name: kysely
-description: "Type-safe SQL query builder guidance for Kysely in TypeScript backends. Use this skill when building, reviewing, or refactoring Kysely persistence: defining Database/table types, wiring client or dialect setup, writing CRUD queries, joins, subqueries, CTEs, transactions, migrations, or raw SQL with parameter binding. Always use this skill for Kysely work, even if the user only asks to add a query, fix a Kysely type error, review query shape or nullability, generate types from an existing schema, wire PostgreSQL/MySQL/SQLite, or compare Kysely with Prisma or Drizzle. For API contracts use be-api-design; for Fastify server wiring use fastify-best-practices; for auth and input validation use dev-security. Triggers on: Kysely, query builder, Database interface, ColumnType, Generated, Selectable, Insertable, Updateable, selectFrom, insertInto, updateTable, deleteFrom, sql template tag, transaction, migration, kysely-codegen, PostgreSQL, MySQL, SQLite, CTE, raw SQL, 타입 안전 SQL, 쿼리 빌더, Kysely 타입 에러, 마이그레이션."
+name: be-kysely
+description: "Type-safe SQL query builder guidance for Kysely in TypeScript backends. Use this skill when building, reviewing, or refactoring Kysely persistence: defining Database/table types, wiring client or dialect setup, writing CRUD queries, joins, subqueries, CTEs, transactions, migrations, or raw SQL with parameter binding. Always use this skill for Kysely work, even if the user only asks to add a query, fix a Kysely type error, review query shape or nullability, generate types from an existing schema, wire PostgreSQL/MySQL/SQLite, or compare Kysely with Prisma or Drizzle. For API contracts use be-api-design; for Fastify server wiring use fastify-best-practices; for auth and input validation use dev-security. For Prisma-backed persistence use be-prisma. Triggers on: Kysely, query builder, Database interface, ColumnType, Generated, Selectable, Insertable, Updateable, selectFrom, insertInto, updateTable, deleteFrom, sql template tag, transaction, migration, kysely-codegen, PostgreSQL, MySQL, SQLite, CTE, raw SQL, 타입 안전 SQL, 쿼리 빌더, Kysely 타입 에러, 마이그레이션."
 disable-model-invocation: false
 user-invocable: false
 ---
 
-# Kysely
+# Kysely 백엔드 (be-kysely)
 
 ## 목표
 
