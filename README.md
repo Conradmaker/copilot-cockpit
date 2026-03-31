@@ -104,12 +104,21 @@ flowchart LR
 스킬은 에이전트가 특정 도메인에서 더 일관된 결정을 내리도록 돕는 지식 묶음입니다. 아래는 현재 저장소에서 자주 쓰는 핵심 카테고리입니다.
 
 - Design & UX: `ds-product-ux`, `ds-visual-design`, `ds-ui-patterns`, `refero-design`
-- Frontend: `fe-react-patterns`, `fe-tailwindcss`, `fe-a11y`, `fe-code-review`
+- Frontend: `fe-react-patterns`, `fe-tailwindcss`, `fe-a11y`, `fe-code-review`, `fe-zustand`, `fe-tanstack-query`
 - Backend & Security: `be-api-design`, `fastify-best-practices`, `dev-security`
-- Data & State: `tanstack-query-best-practices`, `zustand`, `be-prisma`, `kysely`
-- Workflow & Tooling: `git-workflow`, `gh-cli`, `agent-browser`, `memory-synthesizer`, `writing-readme`
+- Data & State: `be-prisma`, `kysely`
+- Workflow & Tooling: `git-workflow`, `gh-cli`, `agent-browser`, `memory-synthesizer`, `writing-readme`, `research-foundation`
 
 전체 목록은 [.github/skills/](.github/skills/)에서 확인할 수 있습니다.
+
+## Kick Skills (User-Invocable)
+
+kick- 접두사 스킬은 유저가 직접 호출하는 전용 스킬입니다. agent가 자동으로 호출하지 않으며, 유저가 명시적으로 요청해야 실행됩니다.
+
+research-foundation은 자동 호출되는 기반 조사 스킬이고, kick- 계열은 그 위에서 유저가 직접 깊은 조사나 분석을 시작할 때 쓰는 상위 워크플로우입니다.
+
+- `kick-analyze`: 현재 프로덕트를 시장, 경쟁, UX, 전략적 관점에서 깊고 넓게 분석해 경쟁력을 높일 수 있는 아이디어와 방법을 추천하고 보고서를 생성. 여러 research-/ds-/fe- 스킬들을 orchestrate.
+- `kick-research`: 특정 주제를 빡세게 조사해야 할 때 쓰는 intensive research orchestrator. research-foundation, research-product, research-design, research-content-source, agent-browser 같은 조사 스킬을 묶어 evidence quality를 끌어올립니다.
 
 ## 디렉토리 구조
 
@@ -246,3 +255,8 @@ skill discovery registry는 [.github/instructions/skill-index.instructions.md](.
 ---
 
 시작은 [AGENTS.md](AGENTS.md)에서 하고, skill discovery는 [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md)가 맡습니다.
+
+
+
+## 주의 
+chat.subagents.allowInvocationsFromSubagents 설정을 활성화하면 서브에이전트가 다른 서브에이전트를 호출할 수 있습니다. 

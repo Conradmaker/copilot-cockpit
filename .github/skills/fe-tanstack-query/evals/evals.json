@@ -1,0 +1,17 @@
+{
+  "skill_name": "fe-tanstack-query",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "TanStack Query 코드를 refactor해서 query key factory와 queryOptions 기반으로 정리하고, 도메인별 .query.ts 구조로 모듈화해줘.",
+      "expected_output": "query keys, reusable query options, prefetch, hooks가 일관된 도메인 구조로 정리되고 invalidation과 cache 설정 기준이 분명해야 한다.",
+      "files": []
+    },
+    {
+      "id": 2,
+      "prompt": "Next.js App Router에서 TanStack Query SSR hydration과 mutation invalidation 패턴을 설계해줘. HydrationBoundary, per-request QueryClient, optimistic update, rollback까지 포함해줘.",
+      "expected_output": "SSR hydration 경계와 mutation lifecycle이 v5 기준으로 정리되고 stale UI나 request leakage 위험이 드러나지 않아야 한다.",
+      "files": []
+    }
+  ]
+}

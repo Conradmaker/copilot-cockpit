@@ -1,0 +1,59 @@
+{
+  "skill": "fe-zustand",
+  "version": "1.0.0",
+  "testCases": [
+    {
+      "id": "core-slices-store",
+      "query": "React 앱에서 auth, cart, ui 상태를 Zustand로 구조화하고 싶어요. 타입 안전한 slices 패턴으로 설계해 주세요.",
+      "expectedBehavior": [
+        "typed slices와 combined store를 제안한다",
+        "middleware를 slice 내부가 아니라 combined store 레벨에서 다루라고 안내한다",
+        "selector 기반 구독을 기본으로 둔다"
+      ]
+    },
+    {
+      "id": "selector-stability",
+      "query": "Zustand store를 쓰는데 state가 바뀔 때마다 모든 컴포넌트가 리렌더돼요. 여러 값을 같이 읽을 때 어떻게 고쳐야 하나요?",
+      "expectedBehavior": [
+        "full-store destructuring을 anti-pattern으로 지적한다",
+        "useShallow를 이용한 stable selector output을 제안한다",
+        "v5에서 unstable selector output이 문제를 만들 수 있다고 설명한다"
+      ]
+    },
+    {
+      "id": "middleware-composition",
+      "query": "persist, devtools, immer를 같이 쓰는 Zustand store를 만들고 싶어요. 지금 기준으로 어떤 조합이 안전한가요?",
+      "expectedBehavior": [
+        "devtools를 outermost wrapper로 두는 current guidance를 안내한다",
+        "persist의 partialize, version, migrate를 함께 설명한다",
+        "nested update가 많을 때만 immer를 권장한다"
+      ]
+    },
+    {
+      "id": "nextjs-hydration",
+      "query": "Next.js App Router에서 Zustand로 theme와 sidebar state를 관리하는데 hydration mismatch가 떠요. 어떻게 구조를 잡아야 하나요?",
+      "expectedBehavior": [
+        "per-request 또는 provider-scoped store를 권장한다",
+        "RSC에서 store를 직접 읽고 쓰지 말라고 안내한다",
+        "skipHydration 또는 delayed client read 전략을 제안한다"
+      ]
+    },
+    {
+      "id": "tanstack-boundary",
+      "query": "users 목록을 Zustand store에 fetch해서 담고 있는데 stale cache가 자주 나요. TanStack Query로 나누는 게 맞을까요?",
+      "expectedBehavior": [
+        "server state와 client state의 경계를 설명한다",
+        "users entity cache는 TanStack Query가 더 적합하다고 안내한다",
+        "Zustand는 selection이나 view state에 집중하라고 정리한다"
+      ]
+    },
+    {
+      "id": "negative-backend-query",
+      "query": "Node.js 백엔드에서 PostgreSQL connection pool과 retry 로직을 설계해 주세요.",
+      "expectedBehavior": [
+        "fe-zustand를 트리거하지 않는다",
+        "상태관리 대신 백엔드 인프라 패턴을 다룬다"
+      ]
+    }
+  ]
+}
