@@ -1,6 +1,6 @@
 ---
 name: be-api-design
-description: REST API 설계와 계약 중심 명세 작성을 위한 스킬이다. Use this skill when designing or reviewing REST endpoints, resource models, OpenAPI 3.1 specifications, response envelopes, status codes, pagination, filtering, versioning, error contracts, or rate limiting policies. Always consult this skill for backend API contract work, even if the user only asks to add an endpoint, choose a status code, or shape request and response payloads. For framework-specific server implementation use the relevant backend skill. Triggers on: REST API, OpenAPI, endpoint design, resource modeling, status code, pagination, versioning, error handling, API contract, API review, 백엔드 API, 엔드포인트 설계, 명세 작성, 상태 코드, 페이지네이션, 버저닝, 에러 응답.
+description: "REST API 설계와 계약 중심 명세 작성을 위한 스킬이다. Use this skill when designing or reviewing REST endpoints, resource models, OpenAPI 3.1 specifications, response envelopes, status codes, pagination, filtering, versioning, error contracts, or rate limiting policies. Always consult this skill for backend API contract work, even if the user only asks to add an endpoint, choose a status code, or shape request and response payloads. For framework-specific server implementation use the relevant backend skill. Triggers on: REST API, OpenAPI, endpoint design, resource modeling, status code, pagination, versioning, error handling, API contract, API review, 백엔드 API, 엔드포인트 설계, 명세 작성, 상태 코드, 페이지네이션, 버저닝, 에러 응답."
 disable-model-invocation: false
 user-invocable: false
 ---
