@@ -127,6 +127,62 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ---
 
+## 카테고리별 모션 구현 패턴
+
+### Duration 기준
+
+| 카테고리 | Duration | 용도 |
+| --- | --- | --- |
+| micro-feedback | 100ms | 버튼 press, toggle, checkbox |
+| state-change | 200–300ms | 패널 열기/닫기, tab 전환, accordion |
+| emphasis / entrance | 300–500ms | 페이지 entrance, hero 등장, 주의 유도 |
+
+500ms 이상은 의도된 연출(onboarding, storytelling)로 한정한다. Exit 애니메이션은 entrance duration의 ~75%로 줄인다.
+
+### Easing 값
+
+| 이름 | cubic-bezier | 용도 |
+| --- | --- | --- |
+| ease-out-quart | `cubic-bezier(0.25, 1, 0.5, 1)` | entrance, slide-in |
+| ease-out-quint | `cubic-bezier(0.22, 1, 0.36, 1)` | 빠른 초기 가속 후 부드러운 정착 |
+| ease-out-expo | `cubic-bezier(0.16, 1, 0.3, 1)` | overlay, modal 등장 |
+| ease-in-out | `cubic-bezier(0.4, 0, 0.2, 1)` | 위치 이동, 크기 변화 |
+
+### 성능 원칙
+
+- **`transform`과 `opacity`만 애니메이트한다** — layout/paint를 트리거하는 `width`, `height`, `top`, `left`, `margin`을 직접 애니메이트하지 않는다
+- 높이 접기/펼치기 — `grid-template-rows: 0fr → 1fr` 패턴을 사용하면 `height: auto`를 JS 없이 애니메이트할 수 있다
+- 여러 요소의 순차 등장(stagger):
+
+```css
+.item {
+  animation: fade-in 300ms ease-out both;
+  animation-delay: calc(var(--i) * 50ms);
+}
+```
+
+### Reduced Motion
+
+```css
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+필수 상태 전환(예: 토글 on/off)은 duration만 줄이고 완전히 제거하지 않는다.
+
+### 체감 성능 (Perceived Performance)
+
+- 사용자는 80ms 이내의 피드백을 "즉각적"으로 느낀다 — 버튼 press 피드백은 80ms 안에 시작한다
+- 능동적 대기(진행 표시, 타이핑 인디케이터)는 수동적 대기보다 짧게 느껴진다
+- ease-out는 ease-in보다 빠르게 느껴진다 — 사용자 시작 동작에는 ease-out을 기본으로 쓴다
+- 0.5초 이상 걸리는 작업에는 반드시 로딩 피드백(spinner, skeleton, shimmer)을 제공한다
+
+---
+
 ## 체크리스트
 
 - [ ] 모든 애니메이션이 목적(상태 변화, 주의 유도, 피드백)을 갖고 있는가
@@ -135,3 +191,5 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - [ ] 카드 스택, continuity transition, heavy morphing이 모바일에서도 성능을 해치지 않는가
 - [ ] 패럴랙스 효과가 모바일에서도 자연스러운가
 - [ ] 텍스트 애니메이션이 절제되어 있는가 (페이지당 1~2곳)
+- [ ] transform/opacity만 애니메이트하는가 (layout/paint trigger 없는가)
+- [ ] prefers-reduced-motion이 반영되었는가

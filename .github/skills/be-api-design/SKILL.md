@@ -125,22 +125,6 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ---
 
-## 응답 패턴
-
-이 스킬로 API 설계를 제안할 때는 아래 순서를 기본으로 둔다.
-
-1. Resource model: resource, identifier, relationship, ownership, action endpoint 여부
-2. Endpoint contract: method, path, request, response, status code
-3. Naming contract: URI casing, payload/query casing, filter/sort 규칙
-4. Collection behavior: pagination strategy, limits, filtering, search
-5. Error contract: problem type, status mapping, field validation, request_id
-6. Evolution strategy: versioning, deprecation, migration path
-7. OpenAPI seed: YAML skeleton, reusable components, lint/mock command
-
-구현 요청이 섞여 있어도 먼저 계약을 잠그고, 프레임워크별 핸들러 코드는 후순위로 둔다.
-
----
-
 ## 범위
 
 - In scope: REST resource modeling, endpoint design, status codes, response envelope, error contract, pagination, filtering, rate limiting, OpenAPI 3.1, versioning, API contract review

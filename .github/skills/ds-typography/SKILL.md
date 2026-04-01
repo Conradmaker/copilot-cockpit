@@ -121,8 +121,10 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - specimen이 예쁜데 14~16px에서 무너지면 body candidate에서 제외한다
 - Latin에서는 괜찮아 보여도 한글이나 숫자, 특수문자에서 무너지면 다시 본다
 - 폰트가 좋아 보여도 실제 content block이 uneven gray로 보이면 structure가 약한 것이다
+- 웹 폰트를 사용한다면 font-display, fallback metrics, subsetting을 확인한다 — 로딩 전략 없이 커스텀 폰트를 넣으면 FOIT/FOUT이 해결되지 않는다
 
 → 상세: [references/05-evaluation-and-checklist.md](references/05-evaluation-and-checklist.md)
+→ 상세: [references/06-font-loading-and-opentype.md](references/06-font-loading-and-opentype.md) — font-display, preload, fallback metrics, subsetting, OpenType feature를 구현할 때
 
 ---
 
@@ -136,7 +138,8 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 | [references/02-pairing-and-scale.md](references/02-pairing-and-scale.md) | anchor font, one-font rule, pairing, type scale, safe defaults를 결정할 때 |
 | [references/03-hierarchy-and-tracking.md](references/03-hierarchy-and-tracking.md) | weight hierarchy, text color hierarchy, line-height, tracking, line length, vertical rhythm을 조정할 때 |
 | [references/04-responsive-and-tokens.md](references/04-responsive-and-tokens.md) | clamp, responsive type, variable font, Tailwind v4 token bridge를 잡을 때 |
-| [references/05-evaluation-and-checklist.md](references/05-evaluation-and-checklist.md) | typeface evaluation, multilingual checks, shipping checklist, anti-pattern을 점검할 때 |
+| [references/05-evaluation-and-checklist.md](references/05-evaluation-and-checklist.md) | typeface evaluation, multilingual checks, shipping checklist, anti-pattern, 타이포그래피 진단 절차를 점검할 때 |
+| [references/06-font-loading-and-opentype.md](references/06-font-loading-and-opentype.md) | font-display, preload, fallback metric, subsetting, OpenType feature, 접근성 기본값을 구현할 때 |
 
 ### 추천 로드 순서
 
@@ -144,6 +147,8 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - hierarchy polish: `03 → 05`
 - responsive typography: `02 → 04 → 05`
 - multilingual heading 조정: `01 → 03 → 05`
+- 웹 폰트 구현: `06 → 04`
+- 타이포그래피 진단: `05 → 01 → 02 → 03`
 
 ---
 
@@ -153,4 +158,4 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - 레이아웃, section rhythm, dashboard/landing composition → `ds-ui-patterns`
 - shipped product references 조사와 pattern extraction → `research-design`
 - Tailwind v4 utility mechanics, class composition, `@utility`, `cva` → `fe-tailwindcss`
-- webfont loading, `@font-face`, preload, subsetting, font budget, CSS implementation deep dive → `web-typography`
+- webfont loading, `@font-face`, preload, subsetting, font budget, CSS implementation deep dive → `references/06-font-loading-and-opentype.md`로 기본 커버, 고급 성능은 `fe-react-performance`

@@ -76,7 +76,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ## 5. 친근한 카피라이팅 (Fun Copywriting)
 
-웹사이트의 80%는 텍스트다. 텍스트 자체가 흥미로워야 전체 디자인이 살아난다.
+웹사이트의 80%는 텍스트다. 시각적 참여감을 높이는 카피는 사용자의 몰입을 깊게 만든다.
 
 ### 딱딱한 기업형 문구를 피한다
 
@@ -85,8 +85,8 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 ✅ "우리는 디테일에 땀을 흘립니다 (We sweat the details)"
 ```
 
-- 자연스럽고 친근한 언어를 사용한다
-- 소리 내어 읽었을 때 어색하면 다시 쓴다
+- 자연스럽고 친근한 언어는 시각적 디자인의 완성도를 높인다
+- UX 라이팅의 상세한 판단 기준은 `ds-product-ux`가 관장한다
 
 ### 텍스트 마이크로 인터랙션
 

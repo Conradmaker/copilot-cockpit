@@ -6,7 +6,7 @@ model: ["GPT-5.4 (copilot)"]
 target: vscode
 user-invocable: true
 disable-model-invocation: false
-tools: [read, search, web, "refero/*", "vscode/memory", agent]
+tools: [vscode/memory, read, agent, search, web, ms-vscode.vscode-websearchforcopilot/websearch]
 agents: ["Explore", "Librarian", "Coordinator", "Painter"]
 ---
 
@@ -69,7 +69,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 4. target surface에서 시작해 page/route, layout wrapper, shared component, primitive, token/style까지 UI dependency를 재귀적으로 추적한다. local evidence gap이 있으면 Explore를 호출해 current UI structure, reusable pattern, implementation-adjacent constraint를 보강한다.
 5. target surface를 실제로 구성하는 visual evidence만 남기고, non-visual business logic은 visible state, interaction, accessibility를 설명할 때만 포함한다. 이 단계에서 current baseline summary, preserved tone, reusable component language, visible states, local system constraints를 정리한다.
 6. 작업 성격에 맞춰 skill을 로드한다. `research-design`은 net-new surface와 material redesign의 기본 research lane으로, `ds-product-ux`와 `ds-visual-design`은 거의 항상, `ds-ui-patterns`는 layout-heavy 작업일 때, `fe-a11y`는 interactive surface가 있을 때, `fe-tailwindcss`는 implementation seed가 필요할 때만 참고한다.
-7. net-new surface이거나 existing surface를 materially redesign하는 작업이면 current baseline 뒤에 `refero/*`와 필요 시 Librarian를 사용해 relevant screen, flow, pattern evidence를 모은다. 반대로 narrow existing-pattern extension이면 추가 research를 생략한 이유를 artifact에 남긴다.
+7. net-new surface이거나 existing surface를 materially redesign하는 작업이면 current baseline 뒤에 웹검색 및 스크린샷 분석과 필요 시 Librarian를 사용해 relevant screen, flow, pattern evidence를 모은다. 반대로 narrow existing-pattern extension이면 추가 research를 생략한 이유를 artifact에 남긴다.
 8. freshness-sensitive signal이 필요하면 web search를 사용해 current competitor page, official guideline, live product surface, recent visual convention을 보강 확인한다. 이때 official 또는 first-party source를 우선하고, web에서 얻은 근거는 local/reference evidence와 분리해 남긴다.
 9. local evidence와 external research를 바탕으로 하나의 coherent design identity summary를 합성한다. 이 단계에서 core metaphor 또는 material language, contrast strategy, density, palette roles, typography behavior, grid/divider/corner language, motion signature, drift to avoid를 정리한다.
 10. page/flow/surface-level task면 section blueprint를 만든다. navigation, hero, key content block, CTA, footer, dashboard module처럼 실제 surface anatomy를 정의하고, 각 section의 column count, min-height 또는 viewport height %, padding band, alignment anchor를 구체적인 값으로 잠근다. 형용사 크기 묘사만 남기고 geometry가 없는 blueprint는 미완성이다. 이 구조가 PRD와 baseline에 왜 맞는지도 함께 남긴다.

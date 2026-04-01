@@ -32,10 +32,12 @@ user-invocable: false
 - 여러 화면에서 import해 쓰는 low-level UI면 component로 본다
 - 카피, 레이아웃, use case가 강하면 block으로 본다
 - 앱 뼈대와 페이지 집합이면 template로 본다
+- 같은 패턴이 제품 코드에서 3곳 이상 반복되면 추출 후보로 본다 — 추출 여부, 형태, 분류는 extraction-workflow를 확인한다
 
 실제 적용 전에는 [references/taxonomy.md](references/taxonomy.md)를 직접 읽고, primitive/component/block/template 구분 기준을 확인한다.
 
 → 상세: [references/taxonomy.md](references/taxonomy.md)
+→ 상세: [references/extraction-workflow.md](references/extraction-workflow.md) — 기존 코드에서 컴포넌트 추출 판단, 절차, drift 진단
 
 ### 2. 🎨 토큰과 테마를 먼저 설계한다
 
@@ -130,6 +132,7 @@ user-invocable: false
 | `references/component-api.md` | `as`/`asChild`, prop type export, single element boundary, polymorphic 컴포넌트 설계 |
 | `references/distribution.md` | npm, registry, marketplace의 차이와 선택 기준 |
 | `references/documentation.md` | demo, installation, API, accessibility, changelog를 포함한 문서 페이지 설계 |
+| `references/extraction-workflow.md` | 제품 화면에서 컴포넌트 추출 판단, 추출 절차, drift 진단, 분류 연결 |
 
 ---
 

@@ -98,18 +98,6 @@ Kysely는 강력한 query builder지만 ORM은 아니다. relation loading, vali
 
 ---
 
-## 응답 패턴
-
-Kysely 관련 답변이나 구현을 만들 때는 아래 순서를 기본값으로 둔다.
-
-1. 어떤 테이블/결과 shape를 다루는지 먼저 명시한다.
-2. query snippet을 제시한다.
-3. nullability와 반환 타입을 설명한다.
-4. transaction이나 migration 고려사항이 있으면 별도로 분리해 적는다.
-5. dialect-specific 가정이 있으면 숨기지 않고 밝힌다.
-
----
-
 ## 범위
 
 - API 계약과 response shape 설계는 `be-api-design`을 사용한다.

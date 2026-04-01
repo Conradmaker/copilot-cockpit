@@ -366,3 +366,120 @@ const [checked, setChecked] = useState(false)
 - [ ] 패널: `role="region"` + `aria-labelledby`로 버튼 id 참조
 - [ ] `aria-expanded`와 `hidden` 상태 항상 동기화
 - [ ] 아이콘만 있는 헤더에는 `aria-label` 필수
+
+---
+
+## 공통 접근성 패턴
+
+아래 패턴은 특정 컴포넌트에 한정되지 않고, 여러 UI에서 공통으로 적용되는 접근성 기반 패턴이다.
+
+---
+
+## 포커스 링 (Focus Ring)
+
+### `:focus-visible`
+
+키보드 사용자에게만 포커스 링을 보여주고, 마우스 클릭에는 숨긴다.
+
+```css
+/* 기본 outline 초기화 */
+:focus {
+  outline: none;
+}
+
+/* 키보드 포커스에만 링 표시 */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+```
+
+- `outline-offset: 2px`로 요소와 포커스 링 사이에 간격을 둔다
+- `box-shadow` 대신 `outline`을 사용해야 고대비 모드에서도 보인다
+- 포커스 링 색상은 배경과 최소 3:1 대비를 유지한다
+
+---
+
+## 스킵 링크 (Skip Navigation)
+
+페이지 상단에 숨겨진 링크로, 키보드 사용자가 반복적인 내비게이션을 건너뛸 수 있게 한다.
+
+```html
+<a href="#main-content" class="skip-link">
+  본문으로 건너뛰기
+</a>
+<!-- 내비게이션 -->
+<main id="main-content">...</main>
+```
+
+```css
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+
+.skip-link:focus {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+  padding: 1rem;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+```
+
+---
+
+## Roving Tabindex
+
+탭 목록, 라디오 그룹, 도구 모음 같은 위젯 내부에서 화살표 키로 이동하는 패턴이다. 그룹 안의 현재 항목만 `tabIndex={0}`이고 나머지는 `tabIndex={-1}`이다.
+
+```tsx
+function RovingGroup({ items }: { items: string[] }) {
+  const [activeIndex, setActiveIndex] = useState(0)
+  
+  const handleKeyDown = (e: KeyboardEvent, index: number) => {
+    let next = index
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      next = (index + 1) % items.length
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      next = (index - 1 + items.length) % items.length
+    }
+    if (next !== index) {
+      e.preventDefault()
+      setActiveIndex(next)
+    }
+  }
+  
+  return (
+    <div role="toolbar" aria-label="도구 모음">
+      {items.map((item, i) => (
+        <button
+          key={item}
+          tabIndex={i === activeIndex ? 0 : -1}
+          onKeyDown={(e) => handleKeyDown(e, i)}
+          ref={(el) => { if (i === activeIndex) el?.focus() }}
+        >
+          {item}
+        </button>
+      ))}
+    </div>
+  )
+}
+```
+
+- Tab 키로 그룹에 진입하고, 화살표 키로 그룹 내부를 이동한다
+- Tab 키를 다시 누르면 그룹 전체를 빠져나간다
+- 포커스 위치를 기억해서 그룹에 다시 진입해도 마지막 위치에서 시작한다
+
+---
+
+## 제스처 발견성 (Gesture Discoverability)
+
+터치 제스처(스와이프, 핀치, 롱프레스)는 시각적 제스처 힌트와 함께 항상 대체 버튼을 제공해야 한다.
+
+- 스와이프로 삭제할 수 있다면, 명시적 삭제 버튼도 있어야 한다
+- 핀치 줌이 가능하다면, +/- 버튼 대안이 있어야 한다
+- 롱프레스 메뉴가 있다면, 우클릭이나 ⋯ 버튼으로도 접근 가능해야 한다
+- 스와이프 방향 힌트는 미세한 그림자나 peek 애니메이션으로 제공한다

@@ -30,7 +30,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 - trigger가 2개 이상 맞으면 relevant category를 모두 열고, 현재 작업 surface에 더 가까운 category부터 읽는다.
 
-- onboarding, CTA, error state, loading, layout, typography, design research, screen/flow design, visual polish, visual inspection, responsive check, runtime design validation이면 `Design & UX`를 먼저 본다.
+- onboarding, CTA, error state, loading, layout, typography, design research, screen/flow design, visual polish, visual inspection, responsive check, runtime design validation, design context, design critique, design audit, design boost, design improvement이면 `Design & UX`를 먼저 본다.
 - content draft, technical documentation, prose polish, AI pattern removal, source gathering, fact check, product research, market research, JTBD, Kano, value proposition, market sizing이면 `Writing & content`를 먼저 본다.
 - React UI, Zustand, TanStack Query, component split, shared UI, form, modal, accessibility, Tailwind, hydration mismatch, rerender, frontend review이면 `Frontend engineering`를 먼저 본다.
 - auth, permission, validation, API contract, status code, Fastify, secure coding, secret handling, Kysely, Prisma, query builder, database setup, schema design, migration, driver adapter, persistence setup, state adapter면 `Security & backend`를 먼저 본다.

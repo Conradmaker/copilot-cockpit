@@ -124,6 +124,43 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ---
 
+## Semantic z-index Scale
+
+임의의 z-index 값(`z-index: 9999`)은 유지보수를 파괴한다. 의미 기반 scale을 정의하고 모든 overlay에서 일관되게 쓴다.
+
+| 레벨 | 값 | 용도 |
+| --- | --- | --- |
+| dropdown | 100 | 드롭다운 메뉴, 자동완성 |
+| sticky | 200 | sticky header, floating bar |
+| modal-backdrop | 300 | 모달 뒤 딤 레이어 |
+| modal | 400 | 모달 본체 |
+| toast | 500 | 토스트, 스낵바 |
+| tooltip | 600 | 툴팁, popover |
+
+- `popover` attribute를 쓰면 top layer에 배치되므로 z-index 관리에서 빠진다
+- 기존 코드에 임의 z-index가 있다면 위 scale로 점진적으로 정리한다
+
+---
+
+## Elevation Scale (Shadow System)
+
+그림자는 "높이" 개념으로 관리한다. 레벨이 올라갈수록 Y offset, blur, spread가 커진다.
+
+| 레벨 | 용도 | 예시 CSS |
+| --- | --- | --- |
+| sm | 미세한 분리 — 카드, 입력 필드 | `0 1px 2px rgba(0,0,0,0.05)` |
+| md | 떠 있는 느낌 — hover 카드, dropzone | `0 4px 8px rgba(0,0,0,0.08)` |
+| lg | 명확한 부유 — dropdown, popover | `0 8px 24px rgba(0,0,0,0.12)` |
+| xl | 최상위 — 모달, 전체화면 드로어 | `0 16px 48px rgba(0,0,0,0.16)` |
+
+### 원칙
+
+- 그림자가 눈에 명확히 보이면 대부분 너무 강한 것이다
+- 다크모드에서는 그림자 대신 surface 밝기 차이로 고도를 표현한다
+- 한 화면에서 사용하는 elevation 레벨은 2~3개면 충분하다
+
+---
+
 ## 체크리스트
 
 - [ ] 그림자가 피그마 기본값이 아니라 Blur와 Opacity를 조정한 값인가
@@ -131,3 +168,5 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - [ ] 그라데이션이 조잡하지 않고 같은 색 계열 또는 인접색 전환인가
 - [ ] 시각적 라이밍(반복 디테일)이 사이트 전체에 일관되게 적용되는가
 - [ ] 화면에 시각적 주인공(핵심 시각 요소)이 명확하고, 나머지가 이를 방해하지 않는가
+- [ ] z-index가 semantic scale을 따르는가
+- [ ] elevation이 2~3 레벨 안에서 관리되는가

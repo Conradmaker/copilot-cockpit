@@ -152,8 +152,66 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 ## 체크리스트
 
 - [ ] 히어로 섹션에 CTA가 하나만 있는가
+---
+
+## 레이아웃 약점 진단
+
+화면이 평면적이거나 구조가 불분명할 때 원인을 빠르게 파악하는 체크리스트다.
+
+### 5가지 약점
+
+| 약점 | 증상 | 처방 |
+| --- | --- | --- |
+| spacing 일관성 부족 | 비슷한 요소의 간격이 제각각 | spacing scale 정리 (ds-visual-design/03) |
+| hierarchy 부재 | squint test에서 모든 요소가 같은 무게로 보임 | size, weight, color 2~3 차원 동시 조정 |
+| grid 구조 부재 | 요소 정렬이 불규칙하고 baseline이 안 맞음 | named grid areas 또는 auto-fit grid 도입 |
+| rhythm 부재 | 모든 섹션이 같은 밀도로 반복 | 정보 밀도와 여백을 주기적으로 변주 |
+| density 부적합 | 공간이 남는데 빡빡하거나, 좁은데 과도하게 여유 | responsive density 조정 |
+
+### Self-adjusting Grid
+
+브레이크포인트 없이 반응형 그리드를 만드는 패턴. 열이 최소 280px을 유지하고, 공간이 남으면 자동으로 열 수를 늘린다.
+
+```css
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: var(--space-md);
+}
+```
+
+### Container Queries
+
+viewport가 아니라 부모 컨테이너의 크기에 반응하는 컴포넌트 레벨 반응형.
+
+```css
+.card-container {
+  container-type: inline-size;
+}
+
+@container (min-width: 400px) {
+  .card {
+    grid-template-columns: 120px 1fr;
+  }
+}
+```
+
+같은 카드가 좁은 사이드바에서는 compact, 넓은 메인 영역에서는 expanded — viewport 해킹 없이 자동으로.
+
+### Cards Anti-pattern
+
+- **카드 안에 카드를 중첩하지 않는다** — spacing, typography, 미세한 구분선으로 카드 내부 hierarchy를 만든다
+- 카드가 "진짜 독립된 단위"이고 "비교 가능"해야 할 때만 카드를 쓴다
+- 모든 콘텐츠를 카드로 감싸는 것은 AI-slop의 대표 징후다
+
+---
+
+## 체크리스트
+
 - [ ] 5초 스크롤 안에 핵심 아이디어가 전달되는가
 - [ ] 로고 섹션이 사회적 증거를 제공하는가
 - [ ] 내비게이션 드롭다운에 시각적 맥락(이미지)이 있는가
 - [ ] 가격 플랜이 3~4개 이하이고 핵심 비용이 강조되는가
 - [ ] 반복되는 정보가 제거되었는가
+- [ ] 레이아웃 약점 5가지(spacing/hierarchy/grid/rhythm/density)를 확인했는가
+- [ ] 카드 안에 카드를 중첩하지 않았는가

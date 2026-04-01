@@ -6,18 +6,18 @@
 
 ## 목차
 
-1. Layout 검수
-2. Typography 검수
-3. Color & Contrast 검수
-4. Responsive 검수
-5. Interactive Element 검수
-6. Images & Media 검수
-7. Accessibility 검수
-8. Performance-related Visual 검수
+1. Layout 검수 **[P0]**
+2. Typography 검수 **[P1]**
+3. Color & Contrast 검수 **[P2]**
+4. Responsive 검수 **[P1]**
+5. Interactive Element 검수 **[P1]**
+6. Images & Media 검수 **[P2]**
+7. Accessibility 검수 **[P3]**
+8. Performance-related Visual 검수 **[P3]**
 
 ---
 
-## 1. Layout 검수
+## [P0] 1. Layout 검수
 
 ### 구조 무결성
 
@@ -45,7 +45,7 @@
 
 ---
 
-## 2. Typography 검수
+## [P1] 2. Typography 검수
 
 ### Readability
 
@@ -72,7 +72,7 @@
 
 ---
 
-## 3. Color & Contrast 검수
+## [P2] 3. Color & Contrast 검수
 
 ### 접근성 (WCAG Standards)
 
@@ -97,7 +97,7 @@
 
 ---
 
-## 4. Responsive 검수
+## [P1] 4. Responsive 검수
 
 ### Mobile (~640px)
 
@@ -130,7 +130,7 @@
 
 ---
 
-## 5. Interactive Element 검수
+## [P1] 5. Interactive Element 검수
 
 ### Buttons
 
@@ -159,7 +159,7 @@
 
 ---
 
-## 6. Images & Media 검수
+## [P2] 6. Images & Media 검수
 
 ### Images
 
@@ -178,7 +178,7 @@
 
 ---
 
-## 7. Accessibility 검수
+## [P3] 7. Accessibility 검수
 
 ### Keyboard Navigation
 
@@ -201,7 +201,7 @@
 
 ---
 
-## 8. Performance-related Visual 검수
+## [P3] 8. Performance-related Visual 검수
 
 ### Loading
 

@@ -122,7 +122,10 @@ barrel 파일의 re-export는 트리 셰이킹을 방해해 사용하지 않는 
 
 실제 적용 전에는 [references/rendering.md](references/rendering.md)를 직접 읽고, 하이드레이션 불일치 방지·SVG 애니메이션 래퍼·reduced motion·레이아웃 스래싱 방지·이미지 로딩 전략의 코드 예시를 확인한다.
 
+이미지와 웹 폰트는 가장 무거운 다운로드 자원이다 — 포맷 선택(WebP/AVIF), 반응형 이미지(`srcset`/`sizes`), LCP 우선 로딩(`fetchPriority`), 웹 폰트 서브셋팅이 미흡하면 번들 최적화가 무의미해질 수 있다.
+
 → 상세: [references/rendering.md](references/rendering.md)
+→ 상세: [references/assets.md](references/assets.md) — 이미지 포맷, 반응형 이미지, LCP 우선 로딩, 웹 폰트 최적화, 서브셋팅
 
 ### 7순위 — JS 마이크로 최적화
 
@@ -166,6 +169,7 @@ barrel 파일의 re-export는 트리 셰이킹을 방해해 사용하지 않는 
 | `rerender.md`        | 리렌더 최적화 패턴  |
 | `rendering.md`       | 렌더링 성능 패턴, reduced motion, 레이아웃 스래싱 방지, 이미지 로딩 전략 |
 | `js-optimization.md` | JS 마이크로 최적화 패턴 |
+| `assets.md`          | 이미지 포맷·반응형 이미지·LCP 우선 로딩·웹 폰트 최적화·서브셋팅 |
 
 ---
 

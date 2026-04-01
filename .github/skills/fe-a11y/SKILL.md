@@ -118,9 +118,12 @@ user-invocable: false
 
 - **동적 상태**: 펼침/접힘, 선택 여부 등 동적 상태는 `aria-expanded`, `aria-selected`, `aria-checked`로 동기화한다. 주요 aria 상태 속성으로는 `aria-checked`(체크박스·스위치), `aria-selected`(탭·리스트), `aria-expanded`(아코디언·드롭다운), `aria-disabled`(비활성화), `aria-current`(네비게이션·달력), `aria-busy`(로딩), `aria-live`(실시간 업데이트)가 있다.
 - **포커스 관리**: 모달이 열릴 때 포커스를 모달 내부로 이동하고, 닫힐 때 트리거 요소로 복귀시킨다. `<dialog>` + `showModal()`을 사용하면 포커스 이동·포커스 트랩·ESC 닫기·복원이 브라우저 기본 동작으로 제공된다. `<dialog>` 없이 구현할 때는 `inert` 속성으로 배경 콘텐츠를 비활성화하고 포커스 저장/복원을 직접 처리한다.
-- **포커스 표시**: `outline: none` 또는 `outline-none`으로 기본 포커스를 제거했다면 반드시 `:focus-visible` 또는 `:focus-within`으로 대체 표시를 제공한다.
+- **포커스 표시**: `outline: none` 또는 `outline-none`으로 기본 포커스를 제거했다면 반드시 `:focus-visible` 또는 `:focus-within`으로 대체 표시를 제공한다. 포커스 링은 접근성의 필수 요소다 — 커스텀 포커스 링 패턴은 references/ui-components.md를 확인한다.
 - **라이브 리전**: 비동기 알림/에러는 `aria-live="polite"`로 감싸야 스크린 리더가 변경을 자동으로 읽는다.
 - **폼 에러 처리**: 제출 실패 시 첫 번째 오류 필드로 포커스를 이동하고, 에러 메시지는 필드 근처에서 `role="status"` 또는 `aria-live`로 전달한다.
+- **스킵 링크**: 긴 반복 내비게이션을 건너뛸 수 있도록 스킵 링크를 페이지 최상단에 배치한다 — 스크린 리더와 키보드 사용자 모두에게 중요하다.
+- **Roving Tabindex**: 탭, 툴바, 메뉴처럼 관련 요소 그룹에서는 Roving Tabindex로 그룹 내 키보드 탐색을 관리한다 — 그룹 내에서는 화살표 키로 이동하고 Tab으로는 그룹을 날아 는다.
+- **제스처 발견성**: swipe, long press, drag 같은 제스처 기반 상호작용에는 반드시 버튼/라벨/튜토리얼 같은 대체 경로를 함께 제공한다.
 - **스위치 컴포넌트**: `role="switch"` + `aria-checked`를 설정하고, 커스텀 요소일 때는 `tabIndex={0}`으로 키보드 포커스를, Space 키로 상태 변경을 지원한다.
 - **탭 컴포넌트**: 탭 목록에 `role="tablist"`, 각 탭에 `role="tab"` + `aria-selected`, 패널에 `role="tabpanel"` + `aria-labelledby`를 설정한다. 비활성 탭 패널은 반드시 `hidden`으로 숨긴다.
 - **오버스크롤 제어**: 모달·드로어·바텀시트처럼 자체 스크롤 영역이 있는 컴포넌트는 `overscroll-behavior: contain`을 검토한다.

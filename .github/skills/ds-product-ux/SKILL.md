@@ -30,8 +30,10 @@ user-invocable: false
 - 제목과 CTA만 보고도 지금 해야 할 일이 설명되면 유지한다
 - 보조 문구가 없어도 이해되는 문장을 반복해서 두고 있으면 삭제를 먼저 검토한다
 - 사용자가 다음 화면보다 현재 화면의 설명을 더 오래 읽어야 한다면 정보량을 다시 줄인다
+- 사용자가 처음 진입하는 화면이면 온보딩 전략을 먼저 검토한다 — 빈 상태, 가이드 투어, progressive disclosure 중 맥락에 맞는 방식을 정한 뒤 과업 구조를 시작한다
 
 → 상세: [references/06-foundations-principles.md](references/06-foundations-principles.md)
+→ 상세: [references/11-onboarding-patterns.md](references/11-onboarding-patterns.md) — 첫 진입 화면, 빈 상태, 온보딩 플로우를 설계할 때
 
 ### 2. 다음 행동이 예측되게 만든다
 
@@ -155,6 +157,7 @@ user-invocable: false
 | [references/08-product-thinking.md](references/08-product-thinking.md) | 사용자 의도 중심 설계, 모든 상태 디자인, 빈 상태 일러스트 전략, 흐름 구축, 디자인 시스템, 디자인 실무 태도를 판단할 때 |
 | [references/09-native-experience.md](references/09-native-experience.md) | 네이티브 경험, swipe-to-dismiss, slide-to-confirm, 낙관적 UI, 점진적 공개를 설계할 때 |
 | [references/10-common-ux-mistakes.md](references/10-common-ux-mistakes.md) | 흔한 UI/UX 실수 점검, 불필요한 요소 제거, 피드백 누락 확인할 때 |
+| [references/11-onboarding-patterns.md](references/11-onboarding-patterns.md) | 온보딩 플로우, 첫 사용 경험, 빈 상태 전략, 가이드 투어, progressive onboarding을 설계할 때 |
 
 ### 추천 로드 순서
 
@@ -163,49 +166,16 @@ user-invocable: false
 - 로딩/피드백/상태 전환 설계: `03 → 04 → 09 → 05`
 - 민감한 액션(삭제, 결제, 동의, 공유): `01 → 02 → 05`
 - 프로덕트 사고와 전체 설계 방향: `08 → 06 → 09 → 10`
+- 온보딩과 첫 경험 설계: `11 → 08 → 02 → 03`
 - UI/UX 실수 점검과 리뷰: `10 → 01 → 03 → 05`
-
----
-
-## 응답 패턴
-
-이 스킬을 사용할 때는 원칙만 나열하지 말고, 사용자가 바로 설계에 옮길 수 있는 구조와 문구까지 함께 제안한다.
-
-### 1. 플로우 리뷰 요청
-
-아래 순서로 답하는 것을 기본값으로 둔다.
-
-1. 현재 흐름의 문제점
-2. 왜 신뢰나 과업 완료를 해치는지
-3. 더 나은 대체 플로우
-4. 바뀐 CTA, 제목, 본문 같은 권장 카피
-5. 접근성, 다크패턴, 복구 경로 체크포인트
-
-### 2. 민감한 액션 설계 요청
-
-삭제, 해제, 취소, 동의 철회 같은 요청에는 아래 항목을 빠뜨리지 않는다.
-
-- 진입 CTA와 그 이유
-- 확인이 필요한지 여부
-- 다이얼로그 제목, 본문, 버튼 라벨
-- 오조작 비용이 큰 경우 slide-to-confirm 같은 승인 패턴이 필요한지 여부
-- 실행 후 피드백과 undo 또는 대체 경로
-- 연쇄 영향과 접근성 주의점
-
-### 3. 로딩/피드백 설계 요청
-
-시간대별 로딩 요소만 고르지 말고 아래까지 같이 제안한다.
-
-- 각 상황의 시간대 분류
-- 왜 spinner, skeleton, progress 중 하나를 골랐는지
-- 5초 이후 추가 안내 문구나 상태 설명
-- 실패 시 다음 행동
-- 적절한 피드백 채널
 
 ---
 
 ## 범위
 
+- 모션의 구체적인 duration/easing 값 → `ds-ui-patterns` (runtime implementation)
+- 레이아웃 패턴, 대시보드 구조 → `ds-ui-patterns`
+- 색상 시스템, 스페이싱 스케일, 시각적 계층 → `ds-visual-design`
 - 구현 수준의 접근성, ARIA, 키보드, 시맨틱 HTML → `fe-a11y`
 - React 컴포넌트 구조, controlled/uncontrolled, compound components → `fe-react-patterns`
 - 공유 UI 컴포넌트 API, primitive/component/block 구분 → `fe-ui-element-components`

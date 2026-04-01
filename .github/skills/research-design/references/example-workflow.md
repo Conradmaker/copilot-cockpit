@@ -1,6 +1,6 @@
 # Example Workflow: SaaS Churn Reduction
 
-이 예시는 Refero 리서치를 어떻게 discovery → research → analyze → handoff까지 연결하는지 보여준다. 여기서는 설계와 구현을 직접 마무리하지 않고, owner skill로 넘길 수 있는 evidence packet을 만드는 데서 멈춘다.
+이 예시는 디자인 리서치를 어떻게 discovery → research → analyze → handoff까지 연결하는지 보여준다. 여기서는 설계와 구현을 직접 마무리하지 않고, owner skill로 넘길 수 있는 evidence packet을 만드는 데서 멈춘다.
 
 ---
 

@@ -42,6 +42,16 @@ h1 {
 
 responsive type는 device naming보다 reading outcome을 기준으로 조정한다.
 
+### fluid type vs fixed rem 판단
+
+| 영역 | 권장 | 이유 |
+| --- | --- | --- |
+| marketing headings | `clamp()` fluid | viewport에 따라 임팩트 조절이 필요하다 |
+| product UI headings | fixed rem | 예측 가능해야 하고 density control이 중요하다 |
+| body text | 항상 fixed rem | fluid body는 읽기 리듬을 깨뜨린다 |
+
+fluid와 fixed를 혼합하는 것도 유효하다. marketing surface 안에서도 hero headline만 fluid, 본문은 fixed rem이 안전하다.
+
 ---
 
 ## 3. variable font는 의미 있는 control이 있을 때만 쓴다

@@ -11,7 +11,7 @@ VS Code Copilot Chat Agent Mode를
 
 프로젝트에 그대로 복사해 시작해도 되고, 팀 방식에 맞게 일부만 가져가도 됩니다.
 
-> Last reviewed: 2026-03-19
+> Last reviewed: 2026-04-01
 
 ---
 
@@ -103,7 +103,7 @@ flowchart LR
 
 스킬은 에이전트가 특정 도메인에서 더 일관된 결정을 내리도록 돕는 지식 묶음입니다. 아래는 현재 저장소에서 자주 쓰는 핵심 카테고리입니다.
 
-- Design & UX: `ds-product-ux`, `ds-visual-design`, `ds-ui-patterns`, `refero-design`
+- Design & UX: `ds-product-ux`, `ds-visual-design`, `ds-ui-patterns`, `researhch-design`
 - Frontend: `fe-react-patterns`, `fe-tailwindcss`, `fe-a11y`, `fe-code-review`, `fe-zustand`, `fe-tanstack-query`
 - Backend & Security: `be-api-design`, `fastify-best-practices`, `dev-security`, `be-prisma`, `be-kysely`
 - Workflow & Tooling: `git-workflow`, `gh-cli`, `agent-browser`, `memory-synthesizer`, `writing-readme`, `research-foundation`
@@ -116,8 +116,15 @@ kick- 접두사 스킬은 유저가 직접 호출하는 전용 스킬입니다. 
 
 research-foundation은 자동 호출되는 기반 조사 스킬이고, kick- 계열은 그 위에서 유저가 직접 깊은 조사나 분석을 시작할 때 쓰는 상위 워크플로우입니다.
 
+### 분석·조사
+
 - `kick-analyze`: 현재 프로덕트를 시장, 경쟁, UX, 전략적 관점에서 깊고 넓게 분석해 경쟁력을 높일 수 있는 아이디어와 방법을 추천하고 보고서를 생성. 여러 research-/ds-/fe- 스킬들을 orchestrate.
-- `kick-research`: 특정 주제를 빡세게 조사해야 할 때 쓰는 intensive research orchestrator. research-foundation, research-product, research-design, research-content-source, agent-browser 같은 조사 스킬을 묶어 evidence quality를 끌어올립니다.
+- `kick-research`: 특정 주제를 빡세게 조사해야 할 때 쓰는 intensive research orchestrator. research-foundation, research-product, research-design, research-content-source, agent-browser 같은 조사 스킬을 묶어 evidence quality 를 끌어올립니다.
+
+### 디자인·개선
+
+- `kick-init`: 디자인 초기 컨텍스트 수집. 프로젝트의 디자인 컨텍스트 (`.design-context.md`) 가 없을 때 실행. 기존 톤앤매너, 레퍼런스, 디자인 결정 사항을 인터뷰하고 문서화.
+- `kick-design-booster`: 체계적인 디자인 진단·개선 워크플로우. 10 차원 디자인 품질 평가 (AI Slop 탐지 포함) 와 5 차원 기술 품질 감사를 실행한 후, 발견된 문제에 맞는 개선 워크플로우 (distill, harden, overdrive, delight, polish, intensity, arrange, typeset, colorize, animate, clarify) 를 조합 실행. "이 디자인을 개선해줘", "AI-generated 같다", "출시 전 점검해줘" 같은 요청에 사용.
 
 ## 디렉토리 구조
 

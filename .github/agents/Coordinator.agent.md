@@ -11,7 +11,7 @@ model:
 target: vscode
 user-invocable: false
 disable-model-invocation: false
-tools: [vscode/memory, read, agent, search, "refero/*"]
+tools: [vscode/memory, read, agent, search, web]
 agents: ["Explore", "Librarian"]
 ---
 

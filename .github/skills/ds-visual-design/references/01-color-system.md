@@ -157,6 +157,78 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 ---
 
+## 무채색 UI 색상화 절차
+
+무채색이나 회색 톤 위주의 UI에 색을 입힐 때 순서를 지키면 시행착오를 줄일 수 있다.
+
+### Step 1: 중립색에 hue 입히기
+
+- 기존 순수 gray를 brand hue가 미세하게 감도는 tinted gray로 교체한다
+- chroma는 0.005~0.015 범위로 낮게 유지한다
+
+### Step 2: semantic color 정의
+
+- 에러(red), 성공(green), 경고(yellow), 정보(blue)를 먼저 고정한다
+- brand color와 역할이 겹치면 semantic이 우선한다
+
+### Step 3: accent 배치
+
+- primary accent를 CTA, 핵심 행동에만 적용한다
+- 배경 tint는 가장 마지막에 필요한 곳에만 넣는다
+
+### 진단 질문
+
+- "색을 빼면 hierarchy가 무너지는가?" → 색 의존도가 너무 높다
+- "색을 더하면 시선이 분산되는가?" → accent 영역이 이미 충분하다
+- "중립색만으로 구조가 보이는가?" → 보이면 색 추가는 최소한으로
+
+---
+
+## 위험한 색상 조합
+
+아래 조합은 대비 실패나 가독성 문제를 자주 일으킨다.
+
+| 조합 | 문제 |
+| --- | --- |
+| 연한 회색 텍스트 on 흰색 | 접근성 실패 1위 — WCAG 4.5:1 미달 |
+| 회색 텍스트 on 색상 배경 | 회색은 색상 위에서 바래 보인다. 배경색의 어두운 shade나 transparency를 쓴다 |
+| 빨강 on 초록 (또는 반대) | 남성 8%가 구분 불가 (색각 이상) |
+| 파랑 on 빨강 | 시각적으로 진동한다 (chromatic vibration) |
+| 노랑 on 흰색 | 거의 항상 대비 실패 |
+| 얇고 밝은 텍스트 on 이미지 | 예측할 수 없는 대비 — overlay나 text-shadow 필요 |
+
+---
+
+## 투명도 남용 진단
+
+`rgba()`, `hsla()`, 또는 과도한 `opacity` 사용은 팔레트가 불완전하다는 신호다.
+
+- alpha는 예측할 수 없는 대비를 만들고 성능 오버헤드가 있다
+- 배경이 바뀌면 같은 alpha 값이 전혀 다른 색으로 보인다
+- **해법**: 각 맥락에 맞는 명시적 overlay 색상을 정의한다
+- **예외**: focus ring, hover highlight 같은 인터랙티브 상태에서는 see-through가 필요할 수 있다
+
+---
+
+## 밝기 극단의 chroma 감소
+
+OKLCH에서 밝기(Lightness)가 극단으로 갈수록 chroma(채도)를 줄여야 한다.
+
+- 밝은 색 (L 85%+): chroma를 base의 50~60% 수준으로 낮춘다
+- 어두운 색 (L 25% 이하): chroma를 base의 70~80% 수준으로 낮춘다
+- 높은 chroma + 극단 밝기 = garish하게 보인다
+
+```css
+/* base */
+--blue-500: oklch(60% 0.15 250);
+/* light - chroma 줄임 */
+--blue-100: oklch(85% 0.08 250);
+/* dark - chroma 줄임 */
+--blue-900: oklch(25% 0.10 250);
+```
+
+---
+
 ## 체크리스트
 
 - [ ] 중립색 레이어가 최소 4단계(배경, 카드, 스트로크, 구분선)로 구분되는가

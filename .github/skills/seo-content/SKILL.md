@@ -164,35 +164,6 @@ SEO 콘텐츠는 발행으로 끝나지 않는다. pre-publish check, CTR diagno
 
 ---
 
-## 응답 패턴
-
-### 1. 새 SEO 콘텐츠 요청
-
-1. intent and page type
-2. keyword and SERP summary
-3. title/meta options
-4. outline or draft
-5. GEO/EEAT notes
-6. final checklist
-
-### 2. on-page audit 요청
-
-1. overall score or summary
-2. score breakdown
-3. priority issues
-4. recommended fixes by area
-5. quick wins
-
-### 3. meta/CTR 개선 요청
-
-1. current problem framing
-2. title options
-3. meta description options
-4. OG/Twitter block
-5. A/B test hypothesis
-
----
-
 ## 범위
 
 - crawlability, indexation, rendering, schema validation, Core Web Vitals, HTTPS, hreflang, bot access, platform indexing → seo-technical

@@ -2,6 +2,7 @@
 name: kick-analyze
 description: "User-initiated comprehensive product analysis workflow that orchestrates multiple research and design skills to analyze your current product from market, competitive, UX, and strategic perspectives. Generates actionable recommendations and structured report. Invoke this skill when you want to deeply analyze your product's competitive positioning, identify improvement opportunities, or understand market fit. This skill coordinates research-product, research-design, research-content-source, research-foundation, ds-product-ux, ds-ui-patterns, ds-visual-design, fe-* and other domain skills. Triggers on: kick-analyze, analyze product, product analysis, competitive analysis, market fit, product review, kick, analyze, 제품 분석, 경쟁력 분석, 마켓핏, 제품 리뷰, kick 분석."
 user-invocable: true
+disable-model-invocation: true
 ---
 # Kick-Analyze: Comprehensive Product Analysis
 

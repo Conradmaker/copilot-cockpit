@@ -93,7 +93,47 @@ multilingual product에서는 font choice가 미학보다 coverage와 rhythm 문
 
 ---
 
-## 7. boundary note
+## 7. 타이포그래피 진단 절차
+
+현재 타이포그래피가 어디서 약한지 체계적으로 파악하는 워크플로우다.
+
+### Step 1: 현상 파악
+
+화면을 스크린샷 찍고 아래 질문을 던진다.
+
+| 질문 | 약점 분류 |
+| --- | --- |
+| "모든 텍스트가 비슷한 크기로 보이는가?" | scale 부족 |
+| "어떤 텍스트가 가장 중요한지 3초 안에 파악되는가?" | hierarchy 부족 |
+| "weight가 전부 같은가?" | weight contrast 부족 |
+| "font family가 generic하게 느껴지는가 (특성이 없는가)?" | font selection 문제 |
+| "small text(12~13px)가 거칠거나 읽기 힘든가?" | size/tracking 문제 |
+| "heading과 body가 같은 문서처럼 보이는가?" | role distinction 부족 |
+
+### Step 2: 약점 분류
+
+발견된 문제를 아래 영역으로 나눈다.
+
+1. **Scale**: heading과 body의 비율이 충분하지 않다 → 02-pairing-and-scale.md 참조
+2. **Weight contrast**: 400만 쓰거나, 800/900을 무분별하게 쓴다 → 03-hierarchy-and-tracking.md 참조
+3. **Font character**: 맥락에 맞지 않는 font이거나, tone이 비어 있다 → 01-reading-and-selection.md 참조
+4. **Small text treatment**: tracking/leading이 빠져 작은 텍스트가 답답하다 → 03-hierarchy-and-tracking.md 참조
+5. **Responsive**: 모바일과 데스크톱에서 같은 크기를 쓴다 → 04-responsive-and-tokens.md 참조
+
+### Step 3: 개선 계획
+
+약점별로 하나씩 개선 방향을 잡는다. 한 번에 전부 고치지 않고 가장 큰 약점부터 순서대로.
+
+### Step 4: 검증
+
+- Squint test (눈을 가늘게 뜨고 hierarchy가 보이는지)
+- Real content test (lorem ipsum 금지)
+- Small text test (11~13px에서 거칠지 않은지)
+- Korean mixed test (한영 혼합 headline에서 리듬이 어색하지 않은지)
+
+---
+
+## 8. boundary note
 
 성능과 로딩이 문제라면 typography quality review만으로는 끝나지 않는다. 아래 증상이 중심이면 implementation/performance companion으로 전환한다.
 

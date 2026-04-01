@@ -6,7 +6,7 @@ model:
   ["GPT-5.4 (copilot)", "Claude Sonnet 4.6 (copilot)", "Qwen3.5 Plus (oaicopilot)"]
 user-invocable: true
 disable-model-invocation: false
-tools: [vscode/memory, execute, read, agent, edit, search, "refero/*", todo]
+tools: [vscode/memory, execute, read, agent, edit, search, todo]
 agents: ["Explore", "Librarian", "Reviewer", "Painter"]
 ---
 

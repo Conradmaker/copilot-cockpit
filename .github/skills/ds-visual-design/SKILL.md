@@ -32,12 +32,14 @@ description: "Visual design foundations for color systems, spacing, hierarchy, d
 - 중립색 배경에 브랜드 톤을 살짝 섞으면 세련된 느낌이 난다
 - 차트 색상이 구분 안 되면 OKLCH 팔레트를 검토한다
 - 다크모드에서 순수 화이트 텍스트는 밝은 회색으로 바꿔 눈의 피로를 줄인다
+- 빨강+초록, 순색 바탕에 흰 텍스트 같은 위험한 조합이 있으면 color-system의 위험한 색상 조합 표를 먼저 확인한다
+- 투명도가 3단계 이상 중첩되면 opacity stack을 진단한다
 
 → 상세: [references/01-color-system.md](references/01-color-system.md)
 
 ### 2. 타이포그래피는 전체 visual-system 균형 안에서 본다
 
-이 스킬에서 타이포그래피는 독립 rulebook이 아니라 color, spacing, hierarchy, depth와 함께 읽는 visual layer다.
+이 스킬에서 타이포그래피는 독립 rulebook이 아니라 color, spacing, hierarchy, depth와 함께 읽는 visual layer다. 전용 타이포그래피 시스템 결정은 `ds-typography`가 관장한다.
 
 - 색상과 spacing을 조정했을 때 text hierarchy가 같이 무너지지 않는지 본다
 - 앵커 폰트, display font, variable font를 써도 화면 전체에서 무엇이 시각적 주인공인지 먼저 정한다
@@ -110,6 +112,8 @@ description: "Visual design foundations for color systems, spacing, hierarchy, d
 - 그림자가 피그마 기본값 그대로라면 불투명도를 낮추고 블러를 높여 자연스럽게 만든다
 - 그라데이션이 조잡해 보이면 같은 색상의 명도 차이만으로 바꾸거나 제거한다
 - 깊이감 요소가 시각적 주인공(Star of the Show)을 가리고 있으면 제거를 먼저 검토한다
+- z-index가 임의 값(9999 등)이면 semantic z-index scale을 먼저 도입한다
+- 그림자 elevation이 2~3 레벨을 넘으면 정리한다
 
 → 상세: [references/05-depth-texture.md](references/05-depth-texture.md)
 
@@ -173,7 +177,7 @@ description: "Visual design foundations for color systems, spacing, hierarchy, d
 
 - 전체 시각 디자인 리뷰: `01 → 04 → 03 → 06 → anti-ai-slop`
 - 색상 시스템 설계: `01 → 04 → 05`
-- 타이포그래피와 계층: `02 → 04 → 03`
+- 타이포그래피와 계층: `ds-typography → 04 → 03`
 - 세부 품질 개선: `05 → 06 → anti-ai-slop → 04`
 
 ---
@@ -183,7 +187,8 @@ description: "Visual design foundations for color systems, spacing, hierarchy, d
 - 전용 타이포그래피 시스템 결정, 폰트 조합, scale, tracking, responsive type → `ds-typography`
 - 프로덕트 UX 흐름, CTA, 로딩, 피드백, 확인 → `ds-product-ux`
 - UI 레이아웃 패턴, 대시보드, SaaS 섹션 구성 → `ds-ui-patterns`
-- 모션의 물리감, swipe choreography, high-risk interaction policy → `ds-product-ux` 또는 `ds-ui-patterns`
+- 모션의 UX 판단, 제어권, high-risk interaction policy → `ds-product-ux`
+- 모션의 duration, easing, CSS 구현 패턴 → `ds-ui-patterns`
 - layout cliché, section-order cliché, surface composition cliché → `ds-ui-patterns`
 - Tailwind CSS 토큰, 유틸리티, className 병합 → `fe-tailwindcss`
 - 구현 수준의 접근성, ARIA, 키보드, 시맨틱 HTML → `fe-a11y`
