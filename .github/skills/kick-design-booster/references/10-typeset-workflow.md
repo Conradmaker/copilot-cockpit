@@ -54,8 +54,8 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 ### Step 4: 가독성 보정
 
 **line-height:**
-- 헤딩: 1.1-1.25 (타이트)
-- 본문: 1.5-1.7 (여유)
+- 헤딩: 살짝 타이트
+- 본문: 살짝 여유있게
 - 다크모드: 약간 더 느슨하게
 
 **자폭 (line length):**

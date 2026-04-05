@@ -60,16 +60,12 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 | --- | --- | --- |
 | Body text | 1.5 – 1.7 | 긴 읽기의 기본값 |
 | Short paragraph / compact UI copy | 1.4 – 1.5 | 짧은 폭에서는 약간 타이트 가능 |
-| Headline | 1.15 – 1.3 | body보다 타이트하지만 script와 line count를 본다 |
-| Large display | 1.05 – 1.25 | dense only when still readable |
+| Headline | 1.15 – 1.3 | body보다 조금 더 타이트하지만 script와 line count를 본다 |
 | Small text | 1.45 – 1.6 | 읽기 안정성이 더 중요 |
 
 ### 기억할 것
 
-- 긴 line은 leading이 더 필요하다
-- 짧은 line은 약간 타이트해도 된다
-- Korean과 multiline heading은 Latin single-line heading보다 여유를 더 준다
-- Sans serif와 non-Latin scripts는 tight display text보다 약간 더 열린 leading이 필요할 때가 많다
+- line-height는 글자 크기와 비례해서 작아지는 편이지만, line-height ratio는 text type과 script에 따라 달라진다.
 
 ---
 
@@ -102,12 +98,12 @@ Minimum step = 12px
 
 | Text type | Size | Value |
 | --- | --- | --- |
-| Body text | 14–18px | `0` |
-| Small text | 11–13px | `0.01em` – `0.02em` |
+| Body text | 12–18px | `0` |
+| Small text | 10–14px | `0.01em` – `0.02em` |
 | UI labels / buttons | any | `0.01em` – `0.03em` |
 | ALL CAPS | any | `0.06em` – `0.1em` |
-| Large headings | 32px+ | `0` to `-0.02em` |
-| Display text | 48px+ | `-0.02em` to `-0.03em` |
+| Large headings | 24px+ | `0em` to `0.02em` |
+| Display text | 32px+ | `0` to `-0.02em` |
 
 ### 규칙
 

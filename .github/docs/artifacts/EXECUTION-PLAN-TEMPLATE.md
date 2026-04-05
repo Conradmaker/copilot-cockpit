@@ -63,14 +63,14 @@ Scope decision: {single plan / split into N plans — 근거}
 
 ## 3. Review Setup
 
-- review target surface: {어떤 변경 surface를 어떤 reviewer_role이 볼지 요약}
+- review target surface: {어떤 변경 surface를 어떤 review role이 볼지 요약}
 - mandatory final reviewer: `board`
 
 ### 3.1 Reviewer Role Activation
 
 Reviewer role activation logic의 source of truth는 `.github/agents/reviewer-roles/_index.md`다.
-이 section에는 이번 execution plan에서 활성화할 reviewer role을 기록한다.
-`board`는 병렬 reviewer role이 아니라 Final Board Gate에서 다룬다.
+이 section에는 이번 execution plan에서 활성화할 review role을 기록한다.
+`board`는 병렬 review role이 아니라 Final Board Gate에서 다룬다.
 
 | role | Why activated for this plan | Scope | Mapped review task |
 |------|------------------------------|-------|--------------------|
@@ -133,7 +133,7 @@ Reviewer role activation logic의 source of truth는 `.github/agents/reviewer-ro
 
 ### Phase 3: Review & Validation
 
-**Goal**: {implementation output을 reviewer_role별로 검증하고 final board gate를 통과시킨다}
+**Goal**: {implementation output을 review role별로 검증하고 final board gate를 통과시킨다}
 **Demo/Validation**: {review findings와 final board verdict가 기록된다}
 
 #### R1: {Reviewer role} review

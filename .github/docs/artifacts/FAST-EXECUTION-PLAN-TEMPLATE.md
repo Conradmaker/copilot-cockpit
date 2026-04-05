@@ -84,7 +84,7 @@ Bundle strategy:
 
 ### 3.1 Reviewer Role Activation
 
-Fast mode의 기본값은 reviewer_role 생략이다.
+Fast mode의 기본값은 review role 생략이다.
 이 section은 design, code-quality, security, performance, product-integrity, browser hotspot이 명확할 때만 채운다.
 specialist reviewer가 여러 개 필요해지면 기본 execution plan으로 전환하는 것을 우선 검토한다.
 

@@ -1,7 +1,7 @@
 # Workflow Playbook
 
 이 문서는 하네스의 planning-to-tail 흐름을 인간용으로 설명하는 on-demand workflow reference다.
-agent runtime behavior는 `.github/instructions/subagent-invocation.instructions.md`, 각 `.agent.md`, 그리고 필요한 `.github/agents/workflows/` 문서가 owner다.
+agent runtime behavior는 `.github/instructions/subagent-invocation.instructions.md`, 각 `.agent.md`, 그리고 필요한 `.github/agents/workflows/` 문서가 owner다. exact `task_packet` schema와 shared evidence contract의 owner도 `.github/instructions/subagent-invocation.instructions.md`다.
 
 ## Use This Doc When
 
@@ -67,7 +67,7 @@ agent runtime behavior는 `.github/instructions/subagent-invocation.instructions
 - planning 또는 planning validation agent는 먼저 active `prd.md`를 읽는다.
 - downstream definition agent는 `prd.md`를 먼저 읽고 relevant downstream artifact를 그 다음에 읽는다.
 - execution agent는 current execution brief가 있으면 먼저 읽고, current `execution-plan.md`가 있으면 그 다음에 읽는다. 그 뒤 `prd.md`와 relevant downstream artifact를 읽는다.
-- review agent는 current `execution-plan.md`를 먼저 읽고, 그 다음 `prd.md`, current execution brief, relevant downstream artifact(`design.md`, `technical.md`)를 reviewer_role과 changed surface에 맞게 읽는다.
+- review agent는 current `execution-plan.md`를 먼저 읽고, 그 다음 `prd.md`, current execution brief, relevant downstream artifact(`design.md`, `technical.md`)를 review role과 changed surface에 맞게 읽는다.
 - PRD, downstream artifact, execution brief 사이에 충돌이 있으면 충돌 사실부터 명시한다.
 
 ## Planning Phase
@@ -202,6 +202,7 @@ common path 중 하나는 Mate가 approved PRD briefing 뒤 askQuestions로 down
 ### Parallel Research Rule
 
 - 서로 독립적인 evidence need일 때만 병렬화한다.
+- Explore나 Librarian에 같은 질문을 위임한 뒤 caller가 동일 탐색을 직접 반복하지 않는다. delegated result가 필요하면 non-overlapping work만 하거나 결과 대기로 전환한다.
 - 결과는 raw transcript가 아니라 synthesis로 합친다.
 - current revision을 sharpen하는 데 실질 가치가 있을 때만 research lane을 유지한다.
 
@@ -235,8 +236,8 @@ Approved execution은 Fleet Mode 경로를 따른다.
 8. dependency wave 기반으로 Deep Execution Agent에게 coding work를 배분한다. todo를 `in-progress`로 전환한다.
 9. worker 결과를 합성하고 todo와 execution-plan.md를 갱신한다.
 10. 구현 방향에 대한 확신이 흔들리거나 drift가 의심되면 Coordinator에 role-based review를 요청할 수 있다.
-11. implementation 완료 후 review strategy에 따라 필요한 Reviewer `reviewer_role` call을 병렬로 열고, 마지막에 Reviewer `board` role로 final broad review를 닫는다.
-12. review failure면 targeted rework를 하고 relevant reviewer_role call과 `board` gate를 다시 연다.
+11. implementation 완료 후 review strategy에 따라 필요한 Reviewer review role call을 병렬로 열고, 마지막에 Reviewer `board` role로 final broad review를 닫는다.
+12. review failure면 targeted rework를 하고 relevant review role call과 `board` gate를 다시 연다.
 13. review pass 뒤 Git Tail 또는 Memory Tail 필요 여부를 판단한다.
 14. orchestration summary와 todo 기반 진행률, 남은 리스크를 합성해 반환한다.
 
@@ -267,7 +268,7 @@ Approved execution은 Fleet Mode 경로를 따른다.
 ### Purpose
 
 Review는 implementation 뒤의 broad quality gate다.
-Commander가 reviewer_role wave를 orchestration하고, Reviewer가 role-aware review와 final `board` gate를 수행한다.
+Commander가 review role wave를 orchestration하고, Reviewer가 role-aware review와 final `board` gate를 수행한다.
 스타일보다 correctness, regression risk, security, design consistency, product impact, release readiness를 먼저 본다.
 
 ### Owner
@@ -282,12 +283,12 @@ Commander가 reviewer_role wave를 orchestration하고, Reviewer가 role-aware r
 - current `execution-plan.md`
 - `design.md` when present
 - `technical.md` when present
-- `reviewer_role`
+- `review role`
 - relevant downstream artifacts when present
 - changed surface
 - available evidence
 - validation focus
-- lane findings when `reviewer_role=board`
+- lane findings when `ROLE=board`
 
 ### Outputs
 
@@ -335,8 +336,8 @@ Commander가 reviewer_role wave를 orchestration하고, Reviewer가 role-aware r
 ## Packet Boundary
 
 - subagent 호출은 `task_packet`을 쓴다.
-- implementation dispatch는 `TASK_TYPE=implementation`과 required `SCOPE`, `EXECUTION_PLAN`을 포함한 `task_packet`을 쓴다.
-- broad review는 `TASK_TYPE=broad-review`와 `CONTEXT` 안의 단일 `reviewer_role`를 사용한다.
+- implementation dispatch는 Deep Execution Agent용 `task_packet`과 required `SCOPE`, `EXECUTION_PLAN`을 포함한다.
+- role-based review는 Reviewer용 `task_packet`과 단일 `ROLE`, changed surface, validation focus를 포함한다.
 - git tail과 memory tail은 dedicated subagent packet 없이 current execution owner가 관련 skill을 inline으로 읽는다.
 
 planning source of truth는 `prd.md`다. packet field name에 legacy plan terminology가 남아 있어도 current workflow에서는 approved PRD를 가리키는 것으로 해석한다.

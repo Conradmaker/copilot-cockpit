@@ -24,11 +24,35 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - 선택한 skill의 `SKILL.md`를 읽은 뒤, body 안의 `references/` 포인터를 바로 찾는다.
 - `SKILL.md`가 specific reference file이나 `references/ 가이드`를 주면 현재 subproblem에 맞는 reference 추가로 읽고 적용한다.
 
+## Surface-trigger 재평가
+
+초기 user phrasing만으로 끝내지 않는다. 작업 도중 current file, changed surface, selected symbol, current phase, active artifact, path, subagent synthesis처럼 현재 문제 해석을 바꾸는 evidence가 나타나면 relevant skill candidate를 다시 평가하고  surface에 맞춰 active skill set을 확장하거나 갱신하는 것이다.
+
+### 신호
+
+- 현재 보고 있는 artifact의 역할이 바뀌었는가.
+- selected symbol, changed function/class, failing output, lint/test error가 새 문제 축을 드러내는가.
+- subagent나 추가 탐색 결과가 기존 가정보다 더 강한 evidence를 가져왔는가.
+- 기존 skill set만으로는 현재 subproblem을 설명하기 약해졌는가.
+- 작업의 흐름이 바뀌었는가.
+- current file이나 changed surface가 특정 lane을 강하게 시사하는가. path/파일 신호는 대표 예시일 뿐이고, 재탐색의 핵심은 변화한 문제 해석이다.
+
+### 적용 규칙
+
+- weak signal 하나만으로 즉시 전환하지는 않는다. 다만 새 evidence가 현재 subproblem을 materially 바꾸면 candidate 단계에서 멈추지 말고 relevant skill을 바로 읽는다.
+- 이미 읽은 skill은 surface가 materially change되지 않으면 다시 읽지 않는다. 하지만 `already loaded`는 새 category 진입을 막는 이유가 아니다.
+- 복합 작업에서는 active skill set이 고정되지 않는다. frontend, design, backend, verification skill이 순차적으로 계속해서 추가될 수 있다.
+- category thrash를 피한다. 새 evidence가 기존 판단보다 강할 때면 전환하거나 확장한다.
+- initial discovery 이후, clarification 이후, major file-surface change 이후, subagent 결과 수신 직후, error/test/lint output이 새 축을 드러낸 직후에는 이 루프를 다시 돈다.
+- 변화가 없더라도 같은 skill set으로 여러 탐색/수정이 이어지는데 진전이 없으면 safety check로 한 번 더 재평가한다.
+- subagent도 packet, current file, 새 evidence를 읽은 직후 이 루프를 다시 돈다. main agent가 relevant skill을 초반에 다 읽었다고 가정하지 않는다.
+
 ## 빠른 선택 기준
 
 이 섹션은 카테고리 선택용이다. 여기서는 특정 스킬 이름으로 바로 점프하지 말고, 먼저 어떤 카테고리를 열어야 하는지 판단한다. 세부 스킬 선택은 아래 카테고리 블록에서 한다.
 
 - trigger가 2개 이상 맞으면 relevant category를 모두 열고, 현재 작업 surface에 더 가까운 category부터 읽는다.
+- current artifact가 `prd.md`, `design.md`, `technical.md`, `execution-plan.md`이면 현재 phase owner와 support lane skill을 다시 평가한다.
 
 - onboarding, CTA, error state, loading, layout, typography, design research, screen/flow design, visual polish, visual inspection, responsive check, runtime design validation, design context, design critique, design audit, design boost, design improvement이면 `Design & UX`를 먼저 본다.
 - content draft, technical documentation, prose polish, AI pattern removal, source gathering, fact check, product research, market research, JTBD, Kano, value proposition, market sizing이면 `Writing & content`를 먼저 본다.

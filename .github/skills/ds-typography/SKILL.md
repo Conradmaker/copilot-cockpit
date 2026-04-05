@@ -76,7 +76,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 텍스트가 편하게 읽히는지, 정제되어 보이는지는 폰트 이름보다 leading, measure, tracking에 더 크게 좌우된다.
 
 - body text는 보통 1.5~1.7 leading과 50~75자 measure를 기본으로 본다
-- headline은 body보다 타이트할 수 있지만 script와 line count를 같이 봐야 한다
+- 글자 크기가 커질수록 약간 더 타이트할 수 있지만 script와 line count를 같이 봐야 한다
 - small text와 ALL CAPS는 positive tracking이 사실상 필수다
 - 큰 Latin heading은 약한 negative tracking이 유효할 수 있다
 - Korean과 non-Latin heading은 기본 tracking을 유지하고 미세 조정만 한다

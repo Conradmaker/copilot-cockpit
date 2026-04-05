@@ -46,7 +46,6 @@ tools:
 이 agent는 `task_packet`을 읽는다.
 full packet schema는 `.github/instructions/subagent-invocation.instructions.md`가 owner다.
 
-- `TASK_TYPE=research`
 - shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`
 - optional hint: `CURRENT_DATE`
 
@@ -76,6 +75,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 - source evidence가 있으면 요약 블로그보다 source를 우선한다.
 - 버전이 불명확한데도 확정적으로 말하지 않는다.
 - evidence tier를 섞어서 신뢰도를 흐리지 않는다.
+- repo 내부 구현 탐색을 external research 문제처럼 넓혀서 cost를 키우지 않는다.
 
 ## Output Contract
 

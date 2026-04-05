@@ -1,6 +1,6 @@
 # Coordinator Role Index
 
-Coordinator가 단일 `coordinator_role`을 받으면 이 디렉토리에서 해당 `{role}.md`를 로드한다.
+Coordinator가 단일 `ROLE`을 받으면 이 디렉토리에서 해당 `{role}.md`를 로드한다.
 
 ## Lane 활성화 기준
 

@@ -1,7 +1,7 @@
 ---
 name: Explore
-description: Fast read-only codebase exploration subagent. Use when local implementation evidence, reusable patterns, symbol flow, or project-specific constraints are needed before planning or execution.
-argument-hint: Describe WHAT you're looking for, desired thoroughness, and any search strategy or stopping rule.
+description: Fast read-only internal codebase exploration subagent. Use when local implementation evidence, reusable patterns, symbol flow, or project-specific constraints inside the current workspace are needed before planning or execution.
+argument-hint: Describe the local codebase question, desired thoroughness, and any search strategy or stopping rule.
 model:
   [
     "Gemini 3 Flash (Preview) (copilot)",
@@ -45,7 +45,6 @@ agents: []
 이 agent는 `task_packet`을 읽는다.
 full packet schema는 `.github/instructions/subagent-invocation.instructions.md`가 owner다.
 
-- `TASK_TYPE=explore`
 - shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`
 - optional hint: `SEARCH_STRATEGY`
 
@@ -73,6 +72,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 - 탐색이 목적이지 구현이 목적이 아니다.
 - thoroughness를 이유로 무차별 파일 읽기를 하지 않는다.
 - 이미 충분한 evidence가 있는데 동일한 검색을 반복하지 않는다.
+- 공식 문서, 외부 라이브러리 동작, OSS reference가 핵심이면 caller는 Librarian를 먼저 검토한다.
 - scope가 애매해도 과잉 해석보다 가장 좁은 합리적 해석을 먼저 택한다.
 
 ## Output Contract

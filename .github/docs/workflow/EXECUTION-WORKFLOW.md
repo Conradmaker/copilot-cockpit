@@ -34,7 +34,9 @@ flowchart TD
         Gotchas["gotcha와 risk 식별<br/>필요하면 plan 갱신"]
         Blocker{"critical blocker,<br/>scope expansion,<br/>user choice 필요 여부"}
         Ready{"dispatch 가능한 task가 있는가"}
+        Brief["implementation-ready brief 합성<br/>files/scope/done-definition/verification 잠금"]
         Dispatch["dependency wave 단위 dispatch<br/>implementation task_packet 전달"]
+        Evidence["검증 evidence 회수<br/>commands/results/paths 정리"]
         Sync["worker 결과 합성<br/>todo와 execution-plan.md 갱신"]
         Drift{"drift 또는 확신 저하가 있는가"}
         CoordMid["선택적 Coordinator<br/>role-based review"]
@@ -51,7 +53,7 @@ flowchart TD
     end
 
     subgraph Review["Reviewer Wave"]
-        ReviewWave["reviewer_role 병렬 호출<br/>security, design,<br/>product-integrity, browser,<br/>performance, code-quality"]
+        ReviewWave["review role 병렬 호출<br/>security, design,<br/>product-integrity, browser,<br/>performance, code-quality"]
         Board["최종 Reviewer board gate"]
         Verdict{"board verdict"}
         Rework["plan과 todo를 갱신하고<br/>targeted rework 할당"]
@@ -69,7 +71,7 @@ flowchart TD
     Gotchas --> Blocker
     Blocker -- "예" --> Escalate
     Blocker -- "아니오" --> Ready
-    Ready -- "예" --> Dispatch --> Implement --> Sync --> Drift
+    Ready -- "예" --> Brief --> Dispatch --> Implement --> Evidence --> Sync --> Drift
     Drift -- "예" --> CoordMid --> More
     Drift -- "아니오" --> More
     More -- "예" --> Ready
@@ -87,7 +89,11 @@ flowchart TD
 
 - entry gate가 실패하면 execution에 들어가지 않고 artifact 보강, user gate 확보, planning 또는 downstream fix로 되돌아간다.
 - Commander는 execution brief, approved PRD, downstream artifact를 읽고 execution-plan과 todo를 동기화한다.
+- exact evidence field definition과 completeness 기준은 `.github/instructions/subagent-invocation.instructions.md`의 shared evidence contract가 owner고, 이 문서는 흐름만 요약한다.
+- dispatch 전에는 latest findings를 implementation-ready brief로 합성하고, raw worker findings를 그대로 다음 worker에게 넘기지 않는다.
 - 구현은 dependency wave 기준으로 Deep Execution Agent에 배분한다.
+- worker 결과는 pass/fail 한 줄이 아니라 changed files, commands, observed results, skipped checks를 포함한 evidence로 회수한다.
 - 구현 중 drift가 감지되면 Coordinator review를 중간에 다시 열 수 있다.
-- 구현이 끝나면 reviewer_role 병렬 검토 뒤 board gate로 최종 verdict를 닫는다.
+- wrong-approach retry는 fresh worker가 기본이고, local error-context correction은 continue가 기본이다.
+- 구현이 끝나면 review role 병렬 검토 뒤 board gate로 최종 verdict를 닫는다.
 - board verdict가 승인 가능 수준일 때만 Git Tail과 Memory Tail 판단으로 넘어간다.

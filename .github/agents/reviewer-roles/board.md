@@ -4,7 +4,7 @@
 
 ## 활성화 기준
 
-- 병렬 reviewer_role call이 끝나 final verdict가 필요할 때
+- 병렬 review role call이 끝나 final verdict가 필요할 때
 - scope가 좁아서 Commander가 최소 reviewer set만 열고 최종 gate를 바로 닫아도 될 때
 
 ## Must-check
@@ -39,6 +39,6 @@
 ## Quality Lift 관점
 
 - review wave를 줄이거나 늘려야 하는지에 대한 orchestration feedback
-- reviewer_role 추가 또는 제거가 필요한지에 대한 제안
+- review role 추가 또는 제거가 필요한지에 대한 제안
 - runtime evidence owner와 domain owner를 분리해 정리해야 하는 영역 식별
 - cleanup, removal candidate, follow-up ticket가 필요한 영역

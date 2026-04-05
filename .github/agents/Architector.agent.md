@@ -29,7 +29,6 @@ approved `prd.md`를 execution 이전의 `technical.md`로 확장한다. 이 문
 이 agent는 `task_packet`을 읽는다.
 full packet schema는 `.github/instructions/subagent-invocation.instructions.md`가 owner다.
 
-- `TASK_TYPE=technical-definition`
 - shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`
 - `CONTEXT` 안의 current system baseline, technical seed, integration constraints, execution pressure, current `design.md` path if present, current `technical.md` path if present
 

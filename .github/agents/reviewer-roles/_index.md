@@ -1,6 +1,6 @@
 # Reviewer Role Index
 
-Reviewer가 단일 `reviewer_role`을 받으면 이 디렉토리에서 해당 `{role}.md`를 읽어 role-specific 검토 기준을 로드한다.
+Reviewer가 단일 `ROLE`을 받으면 이 디렉토리에서 해당 `{role}.md`를 읽어 role-specific 검토 기준을 로드한다.
 
 ## Role 활성화 기준
 
