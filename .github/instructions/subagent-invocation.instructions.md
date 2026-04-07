@@ -10,26 +10,22 @@ applyTo: "**"
 
 이 문서는 phase detail을 모두 설명하는 문서가 아니다.
 runtime behavior와 phase-local workflow는 각 `.agent.md`와 필요한 `.github/agents/workflows/` 문서가 owner다.
-이 문서는 caller-side packet schema, subagent selection, invocation hygiene만 다룬다.
+이 문서는 caller-side packet schema와 selection rule만 다룬다.
 
 ## 핵심 원칙
 
 - 한 번의 호출에는 한 가지 목표만 준다.
 - caller는 raw transcript가 아니라 reuse 가능한 synthesis를 기대해야 한다.
+- Explore나 Librarian에 같은 질문을 위임했으면 caller는 동일 탐색을 다시 직접 반복하지 않는다. delegated result가 필요하면 non-overlapping work만 하거나 결과 대기로 전환한다.
 - context gap, evidence gap, reference need, reusable pattern value, skill/reference value가 보이면 조사 lane을 여는 쪽을 먼저 검토한다.
-- 근거가 부족하면 더 센 주장보다 더 좋은 조회를 우선한다.
+- delegation은 verification을 대체하지 않는다. completion claim은 evidence로 닫는다.
 - conflict나 version ambiguity는 숨기지 않고 packet과 결과에 남긴다.
 - caller는 결과를 그대로 복붙하지 말고 현재 phase 맥락에 맞게 합성한다.
 
-## caller-side packet 표준
+## Canonical task_packet
 
 모든 서브에이전트 호출은 XML packet으로 구조화한다.
 `CONTEXT:` 같은 자유형 대문자 섹션을 임의로 늘리지 않고, canonical XML tag를 사용한다.
-
-
-- `task_packet`: Explore, Librarian, Designer, Architector, Coordinator, Reviewer, Deep Execution Agent용 공통 packet
-
-
 
 ### task_packet
 
@@ -37,17 +33,17 @@ runtime behavior와 phase-local workflow는 각 `.agent.md`와 필요한 `.githu
 
 <task_packet>
 	<PHASE>{planning|execution|review|git|memory}</PHASE>
-	<TASK_TYPE>{explore|research|design-definition|technical-definition|role-review|broad-review|implementation}</TASK_TYPE>
 	<TASK>{single atomic goal}</TASK>
 	<EXPECTED_OUTCOME>{concrete deliverables and success criteria}</EXPECTED_OUTCOME>
 	<MUST_DO>{non-negotiable requirements}</MUST_DO>
 	<MUST_NOT_DO>{forbidden actions and safety rails}</MUST_NOT_DO>
 	<CONTEXT>{relevant background, patterns, rationale, and constraints}</CONTEXT>
 	<ARTIFACTS>
-		<ACTIVE_PLAN_REF>/memories/session/prd.md</ACTIVE_PLAN_REF>
-		<REFERENCES_REF>/memories/session/references.md</REFERENCES_REF>
-		<SUPPORTING_REF>{optional additional artifact path}</SUPPORTING_REF>
+		<REF_1>/memories/session/prd.md</REF_1>
+		<REF_2>/memories/session/**.md</REF_2>
+		<REF_3>{optional additional artifact path}</REF_3>
 	</ARTIFACTS>
+	<ROLE>{optional role anchor for role-aware agents}</ROLE>
 	<CURRENT_DATE>{optional freshness anchor for Librarian}</CURRENT_DATE>
 	<SEARCH_STRATEGY>{optional retrieval order, narrowing, and stopping rules for Explore}</SEARCH_STRATEGY>
 	<SCOPE>
@@ -58,152 +54,129 @@ runtime behavior와 phase-local workflow는 각 `.agent.md`와 필요한 `.githu
 </task_packet>
 ```
 
-`ACTIVE_PLAN_REF`라는 field name은 legacy 이름이지만, current workflow에서는 현재 source artifact를 가리키는 공통 앵커로 해석한다. planning에서는 보통 `prd.md`다.
-
 이 packet은 모든 subagent 호출의 공통 언어다.
-`TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`, `PHASE`, `TASK_TYPE`이 shared core다.
-`CURRENT_DATE`, `SEARCH_STRATEGY`, `SCOPE`, `EXECUTION_PLAN`은 task-type specific extension이다.
+호출 대상 agent는 caller가 먼저 선택하고, optional field는 그 agent의 해석을 sharpen하는 데만 사용한다.
 
-- `CURRENT_DATE`는 Librarian의 freshness-sensitive research에서만 사용한다.
-- `SEARCH_STRATEGY`는 Explore의 retrieval order, narrowing, stopping rule에서만 사용한다.
-- `SCOPE`와 `EXECUTION_PLAN`은 `TASK_TYPE=implementation`일 때만 필수다.
-- `SUPPORTING_REF`는 반복 가능한 optional field다. design, technical, execution-plan, 기타 session artifact를 receiver가 실제로 필요할 때만 넣는다.
-receiver-side field interpretation은 각 `.agent.md`에서 정의한다.
+### Shared core
+
+- `PHASE`: 현재 호출이 어느 phase 판단 위에 있는지 잠근다.
+- `TASK`: 한 번에 끝내야 할 단일 목표를 적는다.
+- `EXPECTED_OUTCOME`: deliverable, success criteria, done-definition을 적는다.
+- `MUST_DO`: 누락되면 안 되는 요구사항, verification expectation, safety-critical rule을 적는다.
+- `MUST_NOT_DO`: scope expansion, shortcut, forbidden action을 적는다.
+- `CONTEXT`: 배경, 파일/심볼 anchor, 관련 패턴, rationale, non-obvious constraint를 적는다.
+- `ARTIFACTS`: caller가 현재 phase에서 receiver에게 의도적으로 열어 준 artifact/evidence ref bundle을 적는다.
+
+### Optional fields
+
+- `ROLE`: Coordinator나 Reviewer처럼 role-aware agent가 추가 관점을 해석할 때만 사용한다.
+- `CURRENT_DATE`: Librarian의 freshness-sensitive research에서만 사용한다.
+- `SEARCH_STRATEGY`: Explore의 retrieval order, narrowing, stopping rule에서만 사용한다.
+- `SCOPE`: implementation task의 included/excluded scope를 잠근다.
+- `EXECUTION_PLAN`: implementation task의 slice, dependency, verification expectation을 잠근다.
+
+### Packet field semantics
+
+- `REF_{N}`는 caller가 선택한 ordinal slot이다. field name 자체에 semantic meaning을 싣지 않고, receiver는 순서보다 현재 packet 안에 잠긴 artifact set 자체를 읽는다.
+- `ARTIFACTS`에는 `/memories/session/**.md`나 review evidence처럼 현재 packet에 정말 필요한 ref만 넣는다. broad artifact bundle을 기본값으로 다시 열지 않는다.
+- `ROLE`은 role-aware agent에서만 의미가 있다. current workflow에서는 Coordinator와 Reviewer가 사실상 필수 field로 해석하고, 그 외 agent는 기본적으로 무시한다.
+
+receiver-side field interpretation은 각 `*.agent.md`에서 정의한다.
 
 이 구조의 목적은 field fan-out을 줄이면서도 아래 정보를 잃지 않는 것이다.
 
 - 지금 어떤 phase에 있는가
 - 왜 이 호출이 필요한가
-- 어떤 artifact를 먼저 읽어야 하는가
+- caller가 어떤 artifact를 열어 두었는가
 - 지금 반드시 해야 하는 것과 하면 안 되는 것이 무엇인가
 - 어떤 형태의 결과를 기대하는가
 
-### migration quick map
-
-- old `objective`, `review_goal`, `goal` → `TASK`
-- old `expected_output` or `deliverable` variants → `EXPECTED_OUTCOME`
-- old `task_inputs` fan-out → `TASK`, `CONTEXT`, optional hints such as `CURRENT_DATE` or `SEARCH_STRATEGY`
-- old `constraints` fan-out → `MUST_DO`, `MUST_NOT_DO`, and `CONTEXT`
-- old `active_plan_ref`, `handoff_ref`, `references_ref`, and other artifact refs → `ARTIFACTS` (`ACTIVE_PLAN_REF`, optional `REFERENCES_REF`, repeatable `SUPPORTING_REF`)
-- old `implementation_handoff_packet` variants → `task_packet` with `TASK_TYPE=implementation`
-- old `execution_mode` → dropped (Fleet Mode path is implicit in the Commander handoff)
-- old `included_scope`, `excluded_scope` → `SCOPE` when `TASK_TYPE=implementation`
-- old `implementation_strategy`, `work_breakdown`, `verification_contract` → `EXECUTION_PLAN` when `TASK_TYPE=implementation`
-
-## Skill-first tail work
-
-현재 harness에서 Git Tail과 Memory Tail은 dedicated subagent surface가 아니다.
-
-- Git Tail: current execution owner가 `.github/skills/git-workflow`와 `.github/skills/gh-cli`를 inline으로 읽고 수행한다.
-- Memory Tail: current execution owner가 `.github/skills/memory-synthesizer/SKILL.md`를 inline으로 읽고 수행한다.
-
-subagent를 새로 만들기보다, 현재 owner가 이미 가진 tool ceiling과 기존 skill surface를 우선 사용한다.
-
-## 조사 lane 사용 원칙
-
-### Explore
-
-- local evidence, reusable pattern, symbol flow, project rule을 확보할 때 쓴다.
-- 추측 기반 구현이나 과도한 수동 탐색을 줄이는 데 가치가 크고, planning loop 초반에 plan/spec을 sharpen하는 데도 편하게 쓸 수 있다.
-- `TASK`에는 찾고 싶은 atomic question을, `EXPECTED_OUTCOME`에는 필요한 evidence shape를 적는다.
-- `MUST_DO`와 `MUST_NOT_DO`에는 반드시 확인할 것과 하지 말아야 할 것을 적는다.
-- `CONTEXT`에는 scope, desired thoroughness, 관련 배경을 적는다.
-- `SEARCH_STRATEGY`가 필요하면 retrieval order, narrowing sequence, stopping rule을 적는다.
-
-### Librarian
-
-- external contract, official doc, source-level reference를 확보할 때 쓴다.
-- outdated memory보다 현재 버전의 근거를 우선하게 만든다.
-- `TASK`에는 research goal을, `EXPECTED_OUTCOME`에는 원하는 deliverable과 success criteria를 적는다.
-- `MUST_DO`에는 `official > source > web` 같은 evidence policy와 freshness-sensitive requirement를 적는다.
-- `CONTEXT`에는 target, version, relevant background를 적는다.
-- 최신성 판단이 중요하면 `CURRENT_DATE`를 명시해 recency anchor를 제공한다.
-
-### 병렬 조사
-
-- independent evidence need일 때만 병렬화한다.
-- 같은 파일과 같은 질문을 중복 조사하지 않는다.
-- planning checkpoint에서는 작업 성격에 맞는 coordinator lane, Explore, Librarian를 같은 wave로 묶을 수 있다. 단, review와 evidence need가 독립적이고 current revision을 sharpen할 가치가 있을 때만 그렇다.
-- coordinator lane과 research lane은 현재 revision을 sharpen할 때만 같은 wave로 묶는다.
-
-## 에이전트 선택 인덱스
-
-이 인덱스는 caller-side invocation 기준만 다룬다.
-packet field의 세부 해석과 local workflow는 각 `.agent.md`가 owner다.
-
-### Explore
-
-- 역할: local codebase exploration과 evidence gathering
-- 왜 필요한가: 구현 위치, 재사용 패턴, symbol flow를 빠르게 찾아 planning과 execution의 추측 비용을 줄인다.
-- caller가 강조할 입력: `TASK_TYPE=explore`, shared core, 필요 시 `SEARCH_STRATEGY`
-- 기대 결과: Outcome, Evidence, Implication, Open items, Next step
-
-### Librarian
-
-- 역할: official-first external research
-- 왜 필요한가: 외부 계약과 버전 의존 동작을 현재 시점 근거로 검증해 잘못된 가정을 줄인다.
-- caller가 강조할 입력: `TASK_TYPE=research`, shared core, 필요 시 `CURRENT_DATE`
-- 기대 결과: Outcome, Evidence, Implication, Open items, Next step
-
-### Coordinator
-
-- 역할: planning council 겸 롤 기반 리뷰 카운슬
-- 왜 필요한가: PRD clarity, scope discipline, requirement quality, downstream ambiguity를 독립적으로 점검해 planning drift를 줄인다. execution에서는 구현 방향에 대한 확신이 흔들리거나 drift가 의심될 때 롤 관점의 리뷰를 제공한다. coord-roles/{role}.md를 동적 로드해 role-specific 검토를 수행한다.
-- caller가 강조할 입력: `TASK_TYPE=role-review`, shared core, `CONTEXT` 안의 단일 `coordinator_role`, current PRD or implementation state, decision focus, known risks, unresolved items
-- 기대 결과: Verdict, Findings, Evidence, Risks, Next step
-
-#### Coordinator 롤 선택 기준
-
-- role 의미와 선택 기준의 상세는 `.github/agents/coord-roles/_index.md`가 owner다.
-- planning에서는 Mate가 작업 성격에 맞는 role을 최소 2개 동적으로 선택하고, 각 role마다 별도 Coordinator 호출을 연다.
-- 다른 phase에서는 현재 uncertainty나 drift에 직접 관련된 role만 좁게 선택한다. (병렬 호출 가능)
-
-### Designer
-
-- 역할: approved PRD를 `design.md`로 확장하는 downstream UI+UX design owner
-- 왜 필요한가: PRD를 다시 쓰지 않고, 기존 톤앤매너와 레퍼런스를 바탕으로 visual, UX, interaction 결정을 execution 이전 문서로 구체화한다.
-- caller가 강조할 입력: `TASK_TYPE=design-definition`, shared core, `CONTEXT` 안의 platform, existing tone evidence, current UI surface, current `design.md` path if present, desired depth, reference direction, user gate 상태
-- 기대 결과: Status, Work summary, Evidence, Open items
-
-### Architector
-
-- 역할: approved PRD를 `technical.md`로 확장하는 downstream technical design owner
-- 왜 필요한가: PRD를 다시 쓰지 않고, architecture, integration, stack choice, library search, technical constraints, NFR mapping을 execution 이전 문서로 구체화한다.
-- caller가 강조할 입력: `TASK_TYPE=technical-definition`, shared core, `CONTEXT` 안의 current system baseline, technical seed, integration constraints, execution pressure, user gate 상태
-- caller는 local precedent가 충분한지 먼저 적고, 부족하면 stack/library comparison과 evidence tier 사용을 명시한다.
-- 기대 결과: Status, Work summary, Evidence, Open items
-
-### Deep Execution Agent
-
-- 역할: Commander-directed implementation worker
-- 왜 필요한가: approved scope 안에서 focused delegated execution과 verification을 안정적으로 수행한다.
-- caller가 강조할 입력: `TASK_TYPE=implementation`인 `task_packet`, relevant `ARTIFACTS`, required `SCOPE`, required `EXECUTION_PLAN`
-- 기대 결과: Status, Work summary, Verification, Open items, Next step
-
-### Reviewer
-
-- 역할: role-aware broad quality gate reviewer
-- 왜 필요한가: security, design, product-integrity, browser, performance, code-quality review를 구현 후 단계에서 독립적으로 수행하고, 마지막 `board` role로 findings를 합성한다.
-- caller가 강조할 입력: `TASK_TYPE=broad-review`, shared core, `CONTEXT` 안의 단일 `reviewer_role`, changed surface, validation focus, available evidence
-- 기대 결과: Verdict, Findings, Evidence, Risks, Next step
+`task_packet`은 caller가 receiver에게 작업을 전달하는 공통 입력 계약이다.
 
 ## 병렬 위임 규칙
 
-- 2~3개의 독립적인 호출만 병렬화한다.
+- 2개이상의 독립적인 호출은 병렬화한다.
 - 동일한 결과를 놓고 경쟁하는 병렬 호출은 만들지 않는다.
 - sequential dependency가 강하면 병렬보다 순차가 낫다.
 - caller는 병렬 호출 수를 줄이는 대신 packet 품질을 높인다.
+- independent evidence need일 때도 병렬화한다.
+- 같은 파일과 같은 질문을 중복 조사하지 않는다.
+- planning checkpoint에서는 작업 성격에 맞는 reviewer lane, coordinator lane, Explore, Librarian를 같은 wave로 묶을 수 있다.
 
 ## 결과 합성 규칙
 
 - local research는 현재 상태, 핵심 evidence, 바로 다음 액션 순으로 합성한다.
 - external research는 핵심 결론, 근거 계층, 현재 작업 영향 순으로 합성한다.
 - planning council은 verdict, required changes, quality lift, user gate 필요 여부 순으로 합성한다.
-- execution과 review 결과는 verification, residual risk, next checkpoint를 숨기지 않고 남긴다.
+- execution과 review 결과는 검증 근거, 남은 리스크, next checkpoint를 숨기지 않고 남긴다.
 - path, URL, version, uncertainty는 필요한 범위에서 함께 보존한다.
-
 ## 중단 조건
 
 - 추가 호출이 결론을 바꾸지 않을 정도로 evidence가 충분하면 멈춘다.
 - 반복되는 정보만 늘어나면 멈춘다.
 - caller가 현재 phase의 다음 결정을 내릴 수 있으면 직접 마무리한다.
+- delegated exploration 결과가 필요하지만 non-overlapping work가 더 이상 없으면, 추측으로 밀어붙이지 말고 결과 대기 상태로 전환한다.
+
+## 에이전트 선택 인덱스
+
+이 인덱스는 caller-side routing 기준만 다룬다.
+호출 대상 agent가 receiver choice를 결정하고, optional field는 그 agent의 interpretation을 보강하는 데만 사용한다.
+packet field의 세부 해석과 local workflow는 각 `*.agent.md`가 owner다.
+
+### Explore
+
+- 역할: 현재 워크스페이스 내부에서 local codebase evidence, reusable pattern, symbol flow, project-specific rule을 모으는 internal grep lane이다.
+- 이럴 때 쓴다: 구현 위치를 찾아야 할 때, 기존 패턴을 재사용해야 할 때, 프로젝트 내부 규칙과 진입점을 검증해야 할 때.
+- packet에서 강조할 것: `TASK`에는 atomic local question을, `EXPECTED_OUTCOME`에는 필요한 evidence shape를, `CONTEXT`에는 scope와 desired thoroughness를 적는다. `SEARCH_STRATEGY`는 narrowing order가 필요할 때만 붙인다. caller가 이미 본 path, symbol, failed assumption이 있으면 같이 잠가 redundant 탐색을 줄인다.
+- critical guardrail: internal boundary를 벗어나지 않는다. 같은 질문을 Explore에 위임한 뒤 caller가 동일 탐색을 다시 직접 반복하지 않는다. 막연한 broad theme보다 local question을 잠가 보낸다.
+- 기대 결과: `Outcome`, `Evidence`, `Implication`, `Open items`.
+
+### Librarian
+
+- 역할: 현재 워크스페이스 밖의 official docs, 외부 코드베이스,  source-level reference, OSS example, current public guidance를 모으는 external reference grep lane이다.
+- 이럴 때 쓴다: 외부 라이브러리나 프레임워크 동작을 확인해야 할 때, official API나 migration note가 중요할 때, OSS reference나 public issue/PR/discussion이 필요할 때. 최신 외부 근거에 의해 바뀔 수 있을수록 가치가 커진다.
+- packet에서 강조할 것: `TASK`에는 research goal을, `EXPECTED_OUTCOME`에는 deliverable과 success criteria를, `CONTEXT`에는 target과 version을 적는다. 최신성이 중요하면 `CURRENT_DATE`를 붙이고, `MUST_DO`에는 `official > source > web` 같은 evidence policy를 잠근다. caller가 이미 확인한 version, unresolved ambiguity, 원하는 evidence tier를 같이 잠가야 한다.
+- critical guardrail: 블로그 요약이 공식 문서를 대체하지 않게 한다. external evidence tier를 섞어 신뢰도를 흐리지 않는다. vague web summary 대신 source-backed question으로 보낸다.
+- 기대 결과: `Outcome`, `Evidence`, `Implication`, `Open items`.
+
+### Coordinator
+
+- 역할: planning과 execution에서 role-aware second opinion을 제공하는 council lane이다.
+- 이럴 때 쓴다: PRD clarity, scope discipline, metric quality, execution drift, decision quality를 특정 관점에서 점검해야 할 때.
+- packet에서 강조할 것: 이 agent에서는 `ROLE`이 사실상 필수다. `ROLE`에는 단일 role만 넣고, `CONTEXT`에는 current artifact state, decision focus, known risks, unresolved items를 적는다. caller는 어떤 verdict가 필요한지와 아직 잠기지 않은 tradeoff를 같이 잠가야 한다.
+- critical guardrail: 한 호출에 role 하나만 준다. 역할 혼합이 필요하면 분리 호출한다. role 상세 기준은 `.github/agents/coord-roles/_index.md`가 owner다. 막연한 `한번 봐줘`보다 decision focus를 명시한다.
+- 기대 결과: `Verdict`, `Findings`, `Evidence`, `Risks`, `Next step`.
+
+### Designer
+
+- 역할: approved PRD를 downstream `design.md`로 확장하는 UI+UX design-definition lane이다.
+- 이럴 때 쓴다: 화면 구조, UX flow, visual system, interaction specification을 execution 전에 잠가야 할 때.
+- packet에서 강조할 것: `CONTEXT`에는 platform, existing tone evidence, current UI surface, desired depth, reference direction을 적는다. 관련 design artifact는 `ARTIFACTS`로 보낸다. caller는 fixed constraint와 아직 열어 둔 UX question을 같이 넘겨야 한다.
+- critical guardrail: PRD의 product direction을 다시 쓰지 않는다. technical architecture나 code implementation ownership을 가져오지 않는다. design decision 없이 code shape만 대신 정해 달라고 보내지 않는다.
+- 기대 결과: `Status`, `Work summary`, `Evidence`, `Open items`.
+
+### Architector
+
+- 역할: approved PRD를 downstream `technical.md`로 확장하는 technical-definition lane이다.
+- 이럴 때 쓴다: architecture pattern, integration boundary, data contract, stack choice, NFR mapping을 execution 전에 정리해야 할 때.
+- packet에서 강조할 것: `CONTEXT`에는 current system baseline, technical seed, integration constraint, execution pressure를 적는다. local precedent가 약하면 그 사실을 명시한다. caller는 integration hotspot과 non-negotiable constraint를 같이 잠가야 한다.
+- critical guardrail: PRD를 다시 쓰지 않는다. execution ownership과 task breakdown ownership을 가져오지 않는다. 막연한 tech review보다 잠가야 할 decision을 명시한다.
+- 기대 결과: `Status`, `Work summary`, `Evidence`, `Open items`.
+
+### Deep Execution Agent
+
+- 역할: scoped implementation work를 실제 코드 변경과 self-verification evidence로 끝내는 implementation lane이다.
+- 이럴 때 쓴다: implementation-ready brief가 있고, approved scope 안에서 actual code change를 끝내야 할 때.
+- packet에서 강조할 것: `TASK`에는 atomic goal, `CONTEXT`에는 exact file/symbol anchor, `EXPECTED_OUTCOME`에는 done-definition, `MUST_DO`에는 verification expectation을 잠근다. `SCOPE`와 `EXECUTION_PLAN`은 이 agent에서는 사실상 필수다. caller는 missing scope나 spec ambiguity를 worker에게 떠넘기지 않는다.
+- critical guardrail: smallest correct diff를 우선하고, explicit dispatch 없이 구현하지 않는다. verification evidence 없이 completion을 선언하지 않는다. brief가 self-contained하지 않으면 아직 dispatch-ready가 아니다.
+- 기대 결과: `Status`, `Work summary`, `Verification`, `Open items`, `Next step`.
+
+### Reviewer
+
+- 역할: role-aware broad review와 final board gate를 담당하는 review lane이다.
+- 이럴 때 쓴다: security, code-quality, design, performance, product-integrity, browser, board gate 관점의 independent review가 필요할 때.
+- packet에서 강조할 것: 이 agent에서는 `ROLE`이 사실상 필수다. `ROLE`에는 단일 review role을 넣고, `CONTEXT`에는 changed surface, validation focus, available evidence를 적는다. caller는 available evidence와 risk hotspot을 같이 잠가 generic review 요청을 줄인다.
+- critical guardrail: role 하나당 한 호출을 유지한다. evidence gap이 있으면 승인 대신 gap을 findings나 risks에 남긴다. `board`는 final synthesis gate로만 쓴다. evidence 없이 broad approval을 기대하지 않는다.
+- 기대 결과: `Verdict`, `Findings`, `Evidence`, `Risks`, `Next step`.
+
+

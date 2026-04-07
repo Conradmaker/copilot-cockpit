@@ -15,7 +15,8 @@ authoring 세부 규칙을 다시 쓰지 않고, AGENTS / instructions / agents 
 
 ## Source Of Truth Map
 
-- shared runtime packet schema (`TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`, `task_packet`), shared evidence contract, subagent selection: `.github/instructions/subagent-invocation.instructions.md`
+- shared runtime packet schema (`TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`, `task_packet`), subagent selection: `.github/instructions/subagent-invocation.instructions.md`
+- execution worker dispatch hygiene, dispatch-ready brief shaping, worker reuse/retry policy: `.github/agents/Commander.agent.md`
 - agent-local workflow와 receiver contract: `.github/agents/`, `.github/agents/workflows/`
 - human-facing workflow reference와 artifact template: `.github/docs/`, `.github/docs/artifacts/`
 - workspace skill discovery registry: `.github/instructions/skill-index.instructions.md`

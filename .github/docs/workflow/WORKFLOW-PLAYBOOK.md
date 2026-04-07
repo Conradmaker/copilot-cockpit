@@ -1,7 +1,7 @@
 # Workflow Playbook
 
 이 문서는 하네스의 planning-to-tail 흐름을 인간용으로 설명하는 on-demand workflow reference다.
-agent runtime behavior는 `.github/instructions/subagent-invocation.instructions.md`, 각 `.agent.md`, 그리고 필요한 `.github/agents/workflows/` 문서가 owner다. exact `task_packet` schema와 shared evidence contract의 owner도 `.github/instructions/subagent-invocation.instructions.md`다.
+agent runtime behavior는 `.github/instructions/subagent-invocation.instructions.md`, 각 `.agent.md`, 그리고 필요한 `.github/agents/workflows/` 문서가 owner다. exact `task_packet` schema는 `.github/instructions/subagent-invocation.instructions.md`가 owner고, execution/review output contract는 각 receiver-side `.agent.md`가 owner다.
 
 ## Use This Doc When
 

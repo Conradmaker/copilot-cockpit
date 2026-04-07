@@ -13,25 +13,78 @@
 
 ## 2. Plan Checklist & Cautions
 
-- [ ] approved `prd.md`와 `references.md`, `design.md`, `technical.md` 와 같은 relevant downstream artifact를 기준으로 작성했다.
-- [ ] PRD를 다시 쓰지 않고 approved scope를 atomic task 단위 구조로 변환했다.
-- [ ] data contract가 필요한 경우 type, schema, query contract가 먼저 고정되었다.
-- [ ] full-stack feature라면 backend contract와 frontend integration boundary가 먼저 합의되었다.
-- [ ] 모든 task에 `depends_on`과 `validation`이 있다.
-- [ ] 병렬 task끼리 file overlap이 낮고 cross-task interface가 명확하다.
-- [ ] 각 task의 validation이 독립적이고, 한 task의 실패가 무관한 work를 불필요하게 막지 않는다.
-- [ ] page-context-heavy UI를 과도하게 잘게 쪼개지 않았고, design-system or isolated widget work는 독립 unit으로 분리했다.
-- [ ] 병렬화 이득보다 coordination cost가 큰 구간은 한 context로 유지했다.
-- [ ] review lane과 board gate가 같은 dependency model 안에 들어가 있다.
-- [ ] risks, rollback, testing과 selected reviewer roles가 빠지지 않았다.
-- [ ] 코딩 세부 구현까지 내려가지 않았고, plan이 spec 수준으로 비대하지 않다.
+- [ ] approved `prd.md` 와 `references.md`, `design.md`, `technical.md` 와 같은 relevant downstream artifact 를 기준으로 작성했다.
+- [ ] PRD 를 다시 쓰지 않고 approved scope 를 atomic task 단위 구조로 변환했다.
+- [ ] data contract 가 필요한 경우 type, schema, query contract 가 먼저 고정되었다.
+- [ ] full-stack feature 라면 backend contract 와 frontend integration boundary 가 먼저 합의되었다.
+- [ ] 모든 task 에 `depends_on`과 appropriate validation field 가 있다. implementation task 는 `verification_expectation`, review/asset task 는 `validation`을 사용한다.
+- [ ] 병렬 task 끼리 file overlap 이 낮고 cross-task interface 가 명확하다.
+- [ ] 각 task 의 validation 이 독립적이고, 한 task 의 실패가 무관한 work 를 불필요하게 막지 않는다.
+- [ ] page-context-heavy UI 를 과도하게 잘게 쪼개지 않았고, design-system or isolated widget work 는 독립 unit 으로 분리했다.
+- [ ] 병렬화 이득보다 coordination cost 가 큰 구간은 한 context 로 유지했다.
+- [ ] review lane 과 board gate 가 같은 dependency model 안에 들어가 있다.
+- [ ] risks, rollback, testing 과 selected reviewer roles 가 빠지지 않았다.
+- [ ] implementation task 의 `artifacts` 는 `string[]` 로 직접 기술했고, packet 본문만으로 충분하면 `[]` 로 유지해 context isolation 을 지켰다.
+- [ ] review task 의 `artifacts` 는 `string[]` 로 직접 기술했고, 각 review 에 최소 1개 이상의 relevant `/memories/session/**.md` 또는 evidence ref 를 넣었다.
+- [ ] implementation task 는 self-contained 하다 — task-local field 만으로 구현 scope 와 done-definition 이 명확하다.
+- [ ] 코딩 세부 구현까지 내려가지 않았고, plan 이 spec 수준으로 비대하지 않다.
 
-## 3. Plan Template
+## 3. Packet Type Definitions
+
+### ImplementationTaskPacket
+
+각 구현 task 가 사용하는 패킷 타입이다. 모든 필드를 직접 기술한다.
+
+| Field | Type | Required | Meaning |
+|------|------|----------|---------|
+| `depends_on` | `TaskId[]` | Yes | 선행 dependency |
+| `owned_outcome` | `string` | Yes | 이 task 가 닫아야 하는 단일 결과 |
+| `worker_brief` | `string` | Yes | 구현 worker 가 따라야 하는 순서와 관점 |
+| `exact_file_scope` | `FilePath[]` | Yes | 수정 가능한 file paths |
+| `exact_symbol_scope` | `string[] \| 'N/A'` | Yes | 핵심 함수, 컴포넌트, 타입, route, schema |
+| `included_scope` | `string` | Yes | 허용된 수정 범위 |
+| `excluded_scope` | `string` | Yes | 이번 task 에서 건드리지 않을 범위 |
+| `verification_expectation` | `string` | Yes | 필수 검증과 evidence expectation |
+| `artifacts` | `string[]` | Yes | task-essential artifact refs, 기본값은 `[]` 이며 packet 본문만으로 충분하면 비운다. 정말 필요시 `/memories/session/**.md` 양식으로 나열한다. |
+| `functional_digest` | `string \| 'N/A'` | No | 기능 요구 핵심 |
+| `design_digest` | `string \| 'N/A'` | No | design/UX 요구 |
+| `technical_digest` | `string \| 'N/A'` | No | technical constraint |
+| `invariants` | `string` | No | 깨지면 안 되는 규칙 |
+| `forbidden_edits` | `string` | No | 금지하는 수정 |
+| `known_risks` | `string \| 'N/A'` | No | regression risk, gotcha, edge case |
+| `escalation_triggers` | `string` | No | Commander packet refresh 조건 |
+| `quality_bar` | `string` | No | 기본 마감 기준 |
+| `local_overrides` | `string \| 'none'` | No | shared default 를 이 task 에서만 바꿀 때 |
+| `status` | `'not-started' \| 'in-progress' \| 'completed' \| 'blocked'` | Yes | runtime tracking |
+| `log` | `string` | No | 실행 후 기록 |
+
+### ReviewTaskPacket
+
+각 review task 가 사용하는 패킷 타입이다. 모든 필드를 직접 기술한다.
+
+| Field | Type | Required | Meaning |
+|------|------|----------|---------|
+| `depends_on` | `TaskId[]` | Yes | 선행 dependency |
+| `review_role` | `string \| 'board' \| 'self-check'` | Yes | reviewer role |
+| `review_surface` | `string` | Yes | changed files, hotspot surface, findings summary |
+| `validation` | `string` | Yes | findings 기록과 verdict 판단 방법 |
+| `artifacts` | `string[]` | Yes | review-essential artifact or evidence refs, 최소 1개 이상 넣는다. `/memories/session/**.md` 양식으로 나열한다. |
+| `review_goal` | `string \| 'N/A'` | No | 검토 목적 |
+| `evidence_inputs` | `string \| 'N/A'` | No | change summary, validation output, prior findings |
+| `review_constraints` | `string` | No | review 가 넓히지 말아야 하는 scope boundary |
+| `known_risks` | `string \| 'N/A'` | No | risk hotspot |
+| `escalation_triggers` | `string` | No | review 중 Commander packet refresh 조건 |
+| `verdict_bar` | `string` | No | approve/approve-with-risks/rework-required 판단 기준 |
+| `local_overrides` | `string \| 'none'` | No | shared default 를 이 task 에서만 바꿀 때 |
+| `status` | `'not-started' \| 'in-progress' \| 'completed' \| 'blocked'` | Yes | runtime tracking |
+| `log` | `string` | No | 실행 후 기록 |
+
+## 4. Plan Template
 
 ```markdown
 ## Execution Plan: {Title (2-10 words)}
 
-{TL;DR - 무엇을 구현하는지, 어떤 전략으로 접근하는지 1-2문장.}
+{TL;DR - 무엇을 구현하는지, 어떤 전략으로 접근하는지 1-2 문장.}
 
 **Generated**: {Date}
 **Estimated Complexity**: {Low / Medium / High}
@@ -43,12 +96,11 @@
 - Design ref: {path or N/A}
 - Technical ref: {path or N/A}
 - Additional refs: {path or N/A, ...}
-- Architecture overview: {접근 전략 1-2문장}
+- Architecture overview: {접근 전략 1-2 문장}
 
 ## 1. File Structure Map
 
 {영향받는 파일과 각 파일의 책임을 task 정의 전에 정리한다.}
-이 map이 task의 file scope, overlap, interface boundary 판단의 기초가 된다.
 
 | File | Responsibility | Action |
 |------|---------------|--------|
@@ -56,39 +108,40 @@
 
 ## 2. Scope Check
 
-- {독립적인 서브시스템이 여러 개면 별도 plan으로 분리하는 것을 권장한다.}
-- {단일 plan으로 진행하는 경우 그 판단 근거를 적는다.}
-
-Scope decision: {single plan / split into N plans — 근거}
+- {독립적인 서브시스템이 여러 개면 별도 plan 으로 분리하는 것을 권장한다.}
+- {단일 plan 으로 진행하는 경우 그 판단 근거를 적는다.}
 
 ## 3. Review Setup
 
-- review target surface: {어떤 변경 surface를 어떤 review role이 볼지 요약}
+- review target surface: {어떤 변경 surface 를 어떤 review role 이 볼지 요약}
 - mandatory final reviewer: `board`
 
 ### 3.1 Reviewer Role Activation
 
-Reviewer role activation logic의 source of truth는 `.github/agents/reviewer-roles/_index.md`다.
-이 section에는 이번 execution plan에서 활성화할 review role을 기록한다.
-`board`는 병렬 review role이 아니라 Final Board Gate에서 다룬다.
+Reviewer role activation logic 의 source of truth 는 `.github/agents/reviewer-roles/_index.md` 다.
+이 section 에는 이번 execution plan 에서 활성화할 review role 을 기록한다.
+`board`는 병렬 review role 이 아니라 Final Board Gate 에서 다룬다.
 
 | role | Why activated for this plan | Scope | Mapped review task |
 |------|------------------------------|-------|--------------------|
-| {role} | {왜 이 role을 켜는가} | {리뷰 범위} | {R1 / R2 / R3} |
-| {role} | {왜 이 role을 켜는가} | {리뷰 범위} | {R1 / R2 / R3} |
+| {role} | {왜 이 role 을 켜는가} | {리뷰 범위} | {R1 / R2 / R3} |
+| {role} | {왜 이 role 을 켜는가} | {리뷰 범위} | {R1 / R2 / R3} |
+
+필요한 만큼 행을 추가한다.
 
 ### 3.2 Final Board Gate
 
 - inputs: {lane findings, verification evidence, residual risks}
-- success criteria: {어떤 상태면 approve / approve-with-risks / rework-required인지}
+- success criteria: {어떤 상태면 approve / approve-with-risks / rework-required 인지}
 
 ## 4. Phases & Tasks
-{**아래 Phase와 Task는 예시일 뿐이다. 필요에 따라 Phase를 추가하거나 빼고, Task를 추가하거나 빼거나 병렬화한다.**}
 
-### Phase 1: Asset Generation
+{**아래 Phase 와 Task 는 예시일 뿐이다. 필요에 따라 Phase 를 추가하거나 빼고, Task 를 추가하거나 빼거나 병렬화한다.**}
 
-**Goal**: {design.md의 image requirement list에 있는 asset item들을 Painter로 생성한다}
-**Demo/Validation**: {각 output_path가 생성되고 asset_id별 결과가 확인된다}
+### Phase 1: Asset Generation (Optional)
+
+**Goal**: {design.md 의 image requirement list 에 있는 asset item 들을 Painter 로 생성한다}
+**Demo/Validation**: {각 output_path 가 생성되고 asset_id 별 결과가 확인된다}
 
 #### T-IMG1: Generate {asset_id}
 - **depends_on**: [{design-ready task id or []}]
@@ -100,87 +153,76 @@ Reviewer role activation logic의 source of truth는 `.github/agents/reviewer-ro
 
 ### Phase 2: {Name}
 
-**Goal**: {이 phase가 달성하는 것}
+**Goal**: {이 phase 가 달성하는 것}
 **Demo/Validation**: {이 phase 완료 시 검증 방법}
 
 #### T1: {Task name}
 - **depends_on**: []
-- **location**: {file paths}
-- **description**: {무엇을 하는가}
-- **validation**: {어떻게 검증하는가}
+- {ImplementationTaskPacket 의 required field 를 모두 기술한다. `artifacts` 는 특별한 필요가 없으면 `[]` 로 둔다}
 - **status**: not-started
 - **log**: {실행 후 기록}
 
 #### T2: {Task name}
 - **depends_on**: []
-- **location**: {file paths}
-- **description**: {무엇을 하는가}
-- **validation**: {어떻게 검증하는가}
+- {ImplementationTaskPacket 의 required field 를 모두 기술한다. `artifacts` 는 특별한 필요가 없으면 `[]` 로 둔다}
 - **status**: not-started
 - **log**: {실행 후 기록}
 
 #### T3: {Task name}
 - **depends_on**: [T1]
-- **location**: {file paths}
-- **description**: {무엇을 하는가}
-- **validation**: {어떻게 검증하는가}
+- {ImplementationTaskPacket 의 required field 를 모두 기술한다. `artifacts` 는 특별한 필요가 없으면 `[]` 로 둔다}
 - **status**: not-started
 - **log**: {실행 후 기록}
 
 #### T4: {Task name}
 - **depends_on**: [T2, T3]
-- ...
+- {ImplementationTaskPacket 의 required field 를 모두 기술한다. `artifacts` 는 특별한 필요가 없으면 `[]` 로 둔다}
+- **status**: not-started
+- **log**: {실행 후 기록}
 
 ### Phase 3: Review & Validation
 
-**Goal**: {implementation output을 review role별로 검증하고 final board gate를 통과시킨다}
-**Demo/Validation**: {review findings와 final board verdict가 기록된다}
+**Goal**: {implementation output 을 review role 별로 검증하고 final board gate 를 통과시킨다}
+**Demo/Validation**: {review findings 와 final board verdict 가 기록된다}
 
 #### R1: {Reviewer role} review
 - **depends_on**: [{relevant implementation task ids}]
-- **location**: {changed files or review surface}
-- **description**: {Review the assigned surface from one reviewer role perspective}
-- **validation**: {findings are recorded and blocking issue 여부가 명확하다}
+- {ReviewTaskPacket 의 required field 를 모두 기술한다. `artifacts` 는 최소 1개 이상의 relevant ref 를 넣는다}
 - **status**: not-started
 - **log**: {실행 후 기록}
 
 #### R2: {Reviewer role} review
 - **depends_on**: [{relevant implementation task ids}]
-- **location**: {changed files or review surface}
-- **description**: {Review the assigned surface from one reviewer role perspective}
-- **validation**: {findings are recorded and blocking issue 여부가 명확하다}
+- {ReviewTaskPacket 의 required field 를 모두 기술한다. `artifacts` 는 최소 1개 이상의 relevant ref 를 넣는다}
 - **status**: not-started
 - **log**: {실행 후 기록}
 
 #### R3: {Reviewer role} review
 - **depends_on**: [{relevant implementation task ids}]
-- **location**: {changed files or review surface}
-- **description**: {Review the assigned surface from one reviewer role perspective}
-- **validation**: {findings are recorded and blocking issue 여부가 명확하다}
+- {ReviewTaskPacket 의 required field 를 모두 기술한다. `artifacts` 는 최소 1개 이상의 relevant ref 를 넣는다}
 - **status**: not-started
 - **log**: {실행 후 기록}
 
 #### B1: Final board gate
 - **depends_on**: [R1, R2, R3]
-- **location**: {review findings summary or changed surface}
-- **description**: {Synthesize lane findings and decide the final board verdict}
-- **validation**: {final verdict is recorded as approve, approve-with-risks, or rework-required}
+- **review_role**: `board`
+- {ReviewTaskPacket 의 required field 를 모두 기술한다. `artifacts` 는 최소 1개 이상의 relevant ref 를 넣는다}
 - **status**: not-started
 - **log**: {실행 후 기록}
 
-{필요한 만큼 Phase와 Task를 확장한다.}
+{필요한 만큼 Phase 와 Task 를 확장한다.}
 
 ## 5. Dependency Graph
 
-{ASCII 또는 텍스트로 task 간 의존 관계를 시각화한다. asset generation이 optional이면 required한 task에만 branch를 연결한다.}
+{ASCII 또는 텍스트로 task 간 의존 관계를 시각화한다. asset generation 이 optional 이면 required 한 task 에만 branch 를 연결한다.}
 
-
+\`\`\`
 T-IMG1 ──┐
          ├── T1 ──┬── T3 ──┐
          │        │        ├── R1 ──┐
          └── T2 ──┴── T4 ──┼── R2 ──┼── B1
                            └── R3 ──┘
-
+\`\`\`
 
 ## 6. Parallel Execution & Review Waves
 
@@ -191,7 +233,6 @@ T-IMG1 ──┐
 | 3 | T3, T4 | Wave 2 complete |
 | 4 | R1, R2, R3 | Relevant implementation tasks complete |
 | 5 | B1 | R1, R2, R3 complete |
-| ... | ... | ... |
 
 ## 7. Risks & Gotchas
 
@@ -201,11 +242,10 @@ T-IMG1 ──┐
 ## 8. Rollback Plan
 
 - {실패 시 복구 방법}
-- {어떤 단계에서 stop할지}
+- {어떤 단계에서 stop 할지}
 
 ## 9. Testing Strategy
 
 - {전체 검증 전략}
-- {Phase별 검증 포인트}
+- {Phase 별 검증 포인트}
 ```
-

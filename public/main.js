@@ -92,3 +92,32 @@ tabBtns.forEach((btn, idx) => {
     }
   })
 })
+
+// Getting Started: clipboard copy
+document.querySelectorAll(".gs-copy-btn").forEach((btn) => {
+  const defaultLabel = btn.textContent
+  const snippetEl = btn.closest(".gs-snippet")?.querySelector(".gs-code")
+  const confirmEl = btn.closest(".gs-step-content")?.querySelector(".gs-copy-confirm")
+  let resetTimer = null
+
+  btn.addEventListener("click", async () => {
+    if (!navigator.clipboard || !snippetEl) return
+
+    try {
+      await navigator.clipboard.writeText(snippetEl.textContent.trim())
+      if (resetTimer) window.clearTimeout(resetTimer)
+
+      btn.textContent = "복사됐습니다!"
+      btn.classList.add("copied")
+      if (confirmEl) confirmEl.textContent = "클립보드에 복사됐습니다."
+
+      resetTimer = window.setTimeout(() => {
+        btn.textContent = defaultLabel
+        btn.classList.remove("copied")
+        if (confirmEl) confirmEl.textContent = ""
+      }, 2000)
+    } catch {
+      // Silent fail when clipboard access is unavailable or denied.
+    }
+  })
+})

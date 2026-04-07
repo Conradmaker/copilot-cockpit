@@ -6,7 +6,7 @@
     <title>Copilot Agent Harness — AI 에이전트 개발 시스템</title>
     <meta
       name="description"
-      content="기획부터 리뷰까지 구조적으로 실행 가능한 AI 에이전트 개발 하네스. VS Code Copilot Chat 기반 전문 워크플로우."
+      content="AI 코딩의 품질 저하와 context 오염 문제를 구조적으로 해결하는 에이전트 시스템. VS Code Copilot Chat에서 바로 사용 가능한 오픈소스 boilerplate."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -30,7 +30,7 @@
           <a href="#agents" class="nav-link">에이전트</a>
           <a href="#workflow" class="nav-link">워크플로우</a>
           <a href="#capabilities" class="nav-link">스킬</a>
-          <a href="../README.md#시작하기" class="btn-nav">시작하기 →</a>
+          <a href="#getting-started" class="btn-nav">시작하기 →</a>
         </div>
       </nav>
     </header>
@@ -49,13 +49,13 @@
               완료합니다.
             </h1>
             <p class="hero-sub">
-              Copilot Agent Harness는 VS Code Copilot Chat 위에서 동작하는 구조적 AI 에이전트 개발
-              시스템입니다. Retrieval-led reasoning, 체계적 게이트, 역할 분업을 통해 긴 대화에서도
-              품질이 무너지지 않습니다.
+              대화가 길어질수록 AI 코딩의 품질이 무너지는 경험, 있으신가요? Copilot Agent Harness는
+              역할이 분리된 전문 에이전트들이 기획부터 리뷰까지 각 단계를 독립적으로 처리합니다. VS
+              Code Copilot Chat 위에서 바로 동작하며, 복사 한 번으로 내 프로젝트에 적용됩니다.
             </p>
             <div class="hero-ctas">
-              <a href="../README.md#시작하기" class="btn-primary">
-                README 시작하기
+              <a href="#getting-started" class="btn-primary">
+                내 프로젝트에 적용하기
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <path
                     d="M3 8H13M13 8L9 4M13 8L9 12"
@@ -94,6 +94,73 @@
       </section>
 
       <!-- ============================================================
+         PAIN POINTS
+    ============================================================ -->
+      <section id="pain-points" class="section" aria-labelledby="pain-points-title">
+        <div class="container">
+          <header class="section-header fade-in">
+            <p class="section-label">Why Agent Harness</p>
+            <h2 class="section-title" id="pain-points-title">
+              AI 코딩, 혼자 쓰면 왜 한계가 있을까요?
+            </h2>
+            <p class="section-body">
+              단일 AI에 기획, 구현, 리뷰를 전부 맡기면 생기는 구조적 문제들이 있습니다. 하네스는 이
+              문제를 역할 분리와 artifact handoff로 해결합니다.
+            </p>
+          </header>
+          <div class="pain-grid">
+            <article class="pain-card fade-in" aria-label="Pain Point: Context 오염">
+              <span class="pain-icon" aria-hidden="true">⛔️</span>
+              <h3 class="pain-title">대화가 길어질수록 품질이 떨어진다</h3>
+              <p class="pain-desc">
+                하나의 대화가 이어지면 AI는 이전 문맥에 오염됩니다. 결정이 덮이고, 앞서 정한 방향이
+                조용히 무시되기 시작합니다.
+              </p>
+              <span class="pain-solution"
+                >→ Role-scoped 에이전트가 독립 컨텍스트로 각 단계를 처리합니다</span
+              >
+            </article>
+
+            <article class="pain-card fade-in" aria-label="Pain Point: 역할 혼재">
+              <span class="pain-icon" aria-hidden="true">🔀</span>
+              <h3 class="pain-title">기획, 설계, 구현, 리뷰를 모두 혼자 맡는다</h3>
+              <p class="pain-desc">
+                단일 AI가 모든 역할을 처리하면 각 단계의 전문성이 희석됩니다. 역할 경계 없이 진행된
+                결과물은 일관성을 잃기 쉽습니다.
+              </p>
+              <span class="pain-solution"
+                >→ 기획·설계·실행·리뷰 각 단계를 전문 에이전트가 독립 담당합니다</span
+              >
+            </article>
+
+            <article class="pain-card fade-in" aria-label="Pain Point: 추측 기반 구현">
+              <span class="pain-icon" aria-hidden="true">🎲</span>
+              <h3 class="pain-title">확인 없이 코드를 만들어낸다</h3>
+              <p class="pain-desc">
+                로컬 코드베이스나 공식 문서를 확인하지 않고 답변을 생성합니다. 그럴듯하지만 실제와
+                맞지 않는 코드가 나오는 이유입니다.
+              </p>
+              <span class="pain-solution"
+                >→ Explore와 Librarian이 증거를 먼저 수집하고 구현에 전달합니다</span
+              >
+            </article>
+
+            <article class="pain-card fade-in" aria-label="Pain Point: 휘발성 결과">
+              <span class="pain-icon" aria-hidden="true">💨</span>
+              <h3 class="pain-title">중요한 결정이 채팅 로그에 묻힌다</h3>
+              <p class="pain-desc">
+                핵심 맥락과 결정이 대화 기록으로만 남습니다. 다음 작업이 시작될 때 맥락을 다시
+                설명해야 합니다.
+              </p>
+              <span class="pain-solution"
+                >→ 모든 단계가 prd.md, design.md, execution-plan.md로 남습니다</span
+              >
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
          AGENT SYSTEM OVERVIEW
     ============================================================ -->
       <section id="agents" class="section" aria-labelledby="agents-title">
@@ -102,8 +169,8 @@
             <p class="section-label">Agent System</p>
             <h2 class="section-title" id="agents-title">역할 기반 에이전트 분업</h2>
             <p class="section-body">
-              단일 AI가 모든 것을 처리하지 않습니다. 기획, 설계, 실행, 검토 각 단계를 전문화된
-              에이전트가 맡아 컨텍스트 오염과 품질 저하를 방지합니다.
+              단일 AI가 모든 것을 처리하지 않습니다. 각 단계를 전담하는 에이전트가 역할을 맡아, 맥락
+              오염 없이 기획부터 리뷰까지 처리합니다.
             </p>
           </header>
           <div class="bento-grid">
@@ -113,8 +180,8 @@
               <span class="agent-icon" aria-hidden="true">🧭</span>
               <h3 class="agent-name">Mate</h3>
               <p class="agent-role">
-                사용자 의도를 approved PRD와 downstream seed로 수렴시키는 플래닝 오너. quality
-                gate와 explicit user alignment를 세운다.
+                아이디어를 가져오면 PRD와 레퍼런스로 정리해 줍니다. 무엇을 만들지 명확히 결정되지
+                않았을 때 가장 먼저 부르세요.
               </p>
               <div class="agent-artifact" aria-label="생성 아티팩트">
                 <span class="artifact-file">📝 prd.md</span>
@@ -128,8 +195,8 @@
               <span class="agent-icon" aria-hidden="true">🎨</span>
               <h3 class="agent-name">Designer</h3>
               <p class="agent-role">
-                approved PRD를 기반으로 visual, UX, interaction 결정을 execution 이전 문서로
-                구체화하는 downstream UI/UX 설계 오너.
+                PRD를 화면 설계 문서(design.md)로 변환해 줍니다. 구현 전에 레이아웃, UX, 시각 방향을
+                문서로 잠가 줍니다.
               </p>
               <div class="agent-artifact" aria-label="생성 아티팩트">
                 <span class="artifact-file">🖼 design.md</span>
@@ -142,8 +209,8 @@
               <span class="agent-icon" aria-hidden="true">🏗</span>
               <h3 class="agent-name">Architector</h3>
               <p class="agent-role">
-                architecture, integration, stack choice, technical constraints, NFR mapping을
-                technical.md로 구체화하는 downstream 기술 설계 오너.
+                PRD를 기술 명세(technical.md)로 변환해 줍니다. 아키텍처, 데이터 계약, 스택 결정을
+                구현 전에 정리해 줍니다.
               </p>
               <div class="agent-artifact" aria-label="생성 아티팩트">
                 <span class="artifact-file">⚙️ technical.md</span>
@@ -156,8 +223,8 @@
               <span class="agent-icon" aria-hidden="true">🔍</span>
               <h3 class="agent-name">Reviewer</h3>
               <p class="agent-role">
-                security, frontend, design, performance를 reviewer_role 기반으로 독립 검토하고 board
-                gate로 최종 verdict를 합성.
+                보안, 코드 품질, 성능, 접근성을 독립적으로 점검합니다. 병합 전 최종 verdict를 역할
+                기반으로 내려 줍니다.
               </p>
               <div class="agent-artifact" aria-label="생성 아티팩트">
                 <span class="artifact-file">✅ review verdict</span>
@@ -175,8 +242,8 @@
                   <span class="agent-icon" aria-hidden="true">⚡</span>
                   <h3 class="agent-name">Commander</h3>
                   <p class="agent-role">
-                    dependency-aware execution plan과 review strategy를 수립하고 todo 기반 진행을
-                    추적하는 실행 오케스트레이터.
+                    실행 플랜을 세우고 진행 상황을 todo 기반으로 추적합니다. 설계가 끝나면 여기서
+                    구현이 시작됩니다.
                   </p>
                   <div class="agent-artifact" aria-label="생성 아티팩트">
                     <span class="artifact-file">📋 execution-plan.md</span>
@@ -187,8 +254,8 @@
                   <span class="agent-icon" aria-hidden="true">🤖</span>
                   <h3 class="agent-name">Deep Execution Agent</h3>
                   <p class="agent-role">
-                    Commander가 위임한 approved scope 안에서 실제 코드 구현과 verification
-                    evidence를 생성하는 delegated coding worker.
+                    Commander가 위임한 scope 안에서 실제 코드를 작성하고 검증 증거를 생성합니다.
+                    구현 작업을 단계별로 처리합니다.
                   </p>
                   <div class="agent-artifact" aria-label="생성 아티팩트">
                     <span class="artifact-file">💻 implementation</span>
@@ -209,8 +276,8 @@
                   <span class="agent-icon" aria-hidden="true">🔭</span>
                   <h3 class="agent-name">Explore / Librarian</h3>
                   <p class="agent-role">
-                    로컬 코드베이스 탐색(Explore)과 외부 공식 문서 리서치(Librarian)를 분리 담당.
-                    추측 기반 구현을 evidence로 교체.
+                    로컬 코드베이스와 외부 공식 문서를 탐색해 근거를 모읍니다. 추측 없이 evidence로
+                    구현을 뒷받침합니다.
                   </p>
                   <div class="agent-artifact" aria-label="생성 아티팩트">
                     <span class="artifact-file">📊 evidence</span>
@@ -221,8 +288,8 @@
                   <span class="agent-icon" aria-hidden="true">🤝</span>
                   <h3 class="agent-name">Coordinator</h3>
                   <p class="agent-role">
-                    PRD clarity, scope discipline, requirement quality를 독립적으로 검토하는
-                    coord-roles 기반 planning council.
+                    PRD의 명확성과 범위 규율을 독립적으로 검토합니다. 기획 단계의 품질 지킴이 역할을
+                    합니다.
                   </p>
                   <div class="agent-artifact" aria-label="생성 아티팩트">
                     <span class="artifact-file">📌 council verdict</span>
@@ -589,6 +656,132 @@
       </section>
 
       <!-- ============================================================
+         USE CASES
+    ============================================================ -->
+      <section id="use-cases" class="section" aria-labelledby="use-cases-title">
+        <div class="container">
+          <header class="section-header fade-in">
+            <p class="section-label">Use Cases</p>
+            <h2 class="section-title" id="use-cases-title">어떤 작업에 쓸 수 있나요?</h2>
+            <p class="section-body">
+              기능 기획부터 버그 수정, 코드 리뷰, 리팩토링까지. 실제 개발 흐름에서 바로 꺼낼 수 있는
+              시나리오입니다.
+            </p>
+          </header>
+          <div class="usecases-grid">
+            <article class="usecase-card fade-in" aria-label="사용 사례: 새 기능 기획">
+              <span class="usecase-icon" aria-hidden="true">💡</span>
+              <h3 class="usecase-title">새 기능 기획</h3>
+              <p class="usecase-scenario">"아이디어가 있는데 PRD가 없다"</p>
+              <p class="usecase-how">
+                Mate에게 아이디어를 말하면, 사용자 관점 정리부터 scope 정의까지 PRD 초안을 바로
+                만들어 줍니다.
+              </p>
+            </article>
+
+            <article class="usecase-card fade-in" aria-label="사용 사례: 버그 수정">
+              <span class="usecase-icon" aria-hidden="true">🐛</span>
+              <h3 class="usecase-title">버그 수정</h3>
+              <p class="usecase-scenario">"재현은 되는데 원인을 모른다"</p>
+              <p class="usecase-how">
+                문제를 설명하면 Explore가 코드베이스를 탐색하고, Deep Execution Agent가 원인을 찾아
+                수정합니다.
+              </p>
+            </article>
+
+            <article class="usecase-card fade-in" aria-label="사용 사례: 코드 리뷰">
+              <span class="usecase-icon" aria-hidden="true">🔍</span>
+              <h3 class="usecase-title">코드 리뷰</h3>
+              <p class="usecase-scenario">"PR을 올렸는데 리뷰가 아쉽다"</p>
+              <p class="usecase-how">
+                PR diff를 넣으면 Reviewer가 보안, 성능, 접근성, 코드 품질 관점에서 독립적으로
+                리뷰합니다.
+              </p>
+            </article>
+
+            <article class="usecase-card fade-in" aria-label="사용 사례: 리팩토링">
+              <span class="usecase-icon" aria-hidden="true">🔧</span>
+              <h3 class="usecase-title">리팩토링</h3>
+              <p class="usecase-scenario">"코드가 복잡해져서 손대기 어렵다"</p>
+              <p class="usecase-how">
+                Explore가 기존 코드를 분석하고, Commander 및 Architector와 함께 구조 개선 방향을
+                제안합니다.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+         GETTING STARTED
+    ============================================================ -->
+      <section id="getting-started" class="section" aria-labelledby="gs-title">
+        <div class="container">
+          <header class="section-header fade-in">
+            <p class="section-label">Getting Started</p>
+            <h2 class="section-title" id="gs-title">4단계로 시작할 수 있습니다</h2>
+            <p class="section-body">
+              Fork 또는 Clone 한 번으로 에이전트 시스템을 내 프로젝트에 추가할 수 있습니다.
+            </p>
+          </header>
+          <ol class="gs-steps" role="list" aria-label="시작하기 4단계">
+            <li class="gs-step fade-in">
+              <span class="gs-step-num" aria-hidden="true">01</span>
+              <div class="gs-step-content">
+                <h3 class="gs-step-title">저장소를 복사합니다</h3>
+                <p class="gs-step-desc">GitHub에서 Fork하거나 직접 Clone합니다.</p>
+                <div
+                  class="gs-snippet"
+                  role="group"
+                  aria-label="git clone 명령어 — 클립보드 복사 가능"
+                >
+                  <code class="gs-code"
+                    >git clone https://github.com/your-username/copilot-agent-harness</code
+                  >
+                  <button class="gs-copy-btn" type="button" aria-label="명령어를 클립보드에 복사">
+                    복사
+                  </button>
+                </div>
+                <div class="gs-copy-confirm" aria-live="polite" aria-atomic="true"></div>
+              </div>
+            </li>
+
+            <li class="gs-step fade-in">
+              <span class="gs-step-num" aria-hidden="true">02</span>
+              <div class="gs-step-content">
+                <h3 class="gs-step-title">핵심 파일을 내 프로젝트에 추가합니다</h3>
+                <p class="gs-step-desc">
+                  AGENTS.md와 .github/ 폴더 전체를 프로젝트 루트에 복사합니다. 에이전트 시스템의
+                  핵심 설정 파일입니다.
+                </p>
+              </div>
+            </li>
+
+            <li class="gs-step fade-in">
+              <span class="gs-step-num" aria-hidden="true">03</span>
+              <div class="gs-step-content">
+                <h3 class="gs-step-title">VS Code Copilot Chat에서 대화를 시작합니다</h3>
+                <p class="gs-step-desc">
+                  Copilot Chat 패널을 열고 Agent 모드에서 Mate를 선택해 대화를 시작합니다.
+                </p>
+              </div>
+            </li>
+
+            <li class="gs-step fade-in">
+              <span class="gs-step-num" aria-hidden="true">04</span>
+              <div class="gs-step-content">
+                <h3 class="gs-step-title">기획부터 리뷰까지 에이전트가 역할을 맡습니다</h3>
+                <p class="gs-step-desc">
+                  Mate가 플래닝을 시작하고, Designer, Architector, Commander, Reviewer가 각 단계를
+                  이어받아 처리합니다.
+                </p>
+              </div>
+            </li>
+          </ol>
+        </div>
+      </section>
+
+      <!-- ============================================================
          START (CTA)
     ============================================================ -->
       <section id="start" aria-labelledby="start-title">
@@ -596,13 +789,18 @@
           <div class="start-box fade-in">
             <div class="start-inner">
               <p class="start-label">Get Started</p>
-              <h2 class="start-title" id="start-title">지금 바로 시작하세요</h2>
+              <h2 class="start-title" id="start-title">지금 바로 내 프로젝트에 적용하세요</h2>
               <p class="start-desc">
-                AGENTS.md를 저장소에 추가하고 하네스의 철학과 에이전트 시스템을 즉시 활용할 수
-                있습니다.
+                AGENTS.md 파일 하나로 에이전트 시스템을 시작할 수 있습니다. Fork 한 번으로 전체
+                설정이 내 저장소에 들어옵니다.
               </p>
-              <a href="../README.md#시작하기" class="btn-primary" style="display: inline-flex">
-                README 시작하기
+              <a
+                href="https://github.com/your-username/copilot-agent-harness"
+                class="btn-primary"
+                style="display: inline-flex"
+                aria-label="GitHub에서 copilot-agent-harness 저장소 Fork하기"
+              >
+                GitHub에서 Fork하기
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
                   <path
                     d="M3 8H13M13 8L9 4M13 8L9 12"
@@ -628,7 +826,8 @@
           <span class="footer-brand">copilot-agent-harness / droid-boiler-plate</span>
           <nav class="footer-links" aria-label="푸터 링크">
             <a href="../README.md" class="footer-link">README</a>
-            <a href="../README.md#시작하기" class="footer-link">시작하기</a>
+            <a href="#use-cases" class="footer-link">사용 사례</a>
+            <a href="#getting-started" class="footer-link">시작하기</a>
             <a href="../AGENTS.md" class="footer-link">AGENTS.md</a>
             <a href="../README.md#라이선스" class="footer-link">License</a>
           </nav>

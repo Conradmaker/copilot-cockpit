@@ -89,7 +89,7 @@ flowchart TD
 
 - entry gate가 실패하면 execution에 들어가지 않고 artifact 보강, user gate 확보, planning 또는 downstream fix로 되돌아간다.
 - Commander는 execution brief, approved PRD, downstream artifact를 읽고 execution-plan과 todo를 동기화한다.
-- exact evidence field definition과 completeness 기준은 `.github/instructions/subagent-invocation.instructions.md`의 shared evidence contract가 owner고, 이 문서는 흐름만 요약한다.
+- exact evidence field definition과 completeness 기준은 Deep Execution Agent의 `Verification`, Reviewer의 `Evidence`와 `Risks`가 owner고, 이 문서는 흐름만 요약한다.
 - dispatch 전에는 latest findings를 implementation-ready brief로 합성하고, raw worker findings를 그대로 다음 worker에게 넘기지 않는다.
 - 구현은 dependency wave 기준으로 Deep Execution Agent에 배분한다.
 - worker 결과는 pass/fail 한 줄이 아니라 changed files, commands, observed results, skipped checks를 포함한 evidence로 회수한다.
