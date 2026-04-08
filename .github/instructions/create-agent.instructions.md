@@ -229,7 +229,7 @@ agent-local procedure가 특정 케이스로 갈라지면 `.github/agents/workfl
 ## template와 style guide 분리 원칙
 
 - 긴 workflow narrative는 `.github/docs/workflow/` 아래 long-form 문서로 분리한다.
-- plan template, report rubric, style guide처럼 구조화된 산출물 양식은 `.github/docs/artifacts/` 아래 별도 파일로 둘 수 있다.
+- plan template, report rubric, style guide처럼 agent가 읽는 구조화된 산출물 양식은 `.github/agents/artifacts/` 아래 별도 파일로 둘 수 있다.
 - agent file에는 언제 그 문서를 읽는지, 어떤 heading이나 rule이 mandatory인지, local exception이 무엇인지 정도만 남긴다.
 - 짧고 거의 변하지 않는 agent 고유 규칙은 굳이 분리하지 않는다.
 

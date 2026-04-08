@@ -227,12 +227,14 @@ skill discovery registry는 [.github/instructions/skill-index.instructions.md](.
 
 ### template 수정
 
-산출물 템플릿은 [.github/docs/artifacts/](.github/docs/artifacts/) 아래에 있습니다.
+산출물 템플릿은 [.github/agents/artifacts/](.github/agents/artifacts/) 아래에 있습니다.
 
-- [PRD-TEMPLATE.md](.github/docs/artifacts/PRD-TEMPLATE.md)
-- [DESIGN-TEMPLATE.md](.github/docs/artifacts/DESIGN-TEMPLATE.md)
-- [TECHNICAL-TEMPLATE.md](.github/docs/artifacts/TECHNICAL-TEMPLATE.md)
-- [EXECUTION-PLAN-TEMPLATE.md](.github/docs/artifacts/EXECUTION-PLAN-TEMPLATE.md)
+- [PRD-TEMPLATE.md](.github/agents/artifacts/PRD-TEMPLATE.md)
+- [DESIGN-TEMPLATE.md](.github/agents/artifacts/DESIGN-TEMPLATE.md)
+- [TECHNICAL-TEMPLATE.md](.github/agents/artifacts/TECHNICAL-TEMPLATE.md)
+- [EXECUTION-PLAN-TEMPLATE.md](.github/agents/artifacts/EXECUTION-PLAN-TEMPLATE.md)
+- [FAST-EXECUTION-PLAN-TEMPLATE.md](.github/agents/artifacts/FAST-EXECUTION-PLAN-TEMPLATE.md)
+- [WEB_IMAGE_PROMPT_TEMPLATE.md](.github/agents/artifacts/WEB_IMAGE_PROMPT_TEMPLATE.md)
 
 ## 참고 자료
 

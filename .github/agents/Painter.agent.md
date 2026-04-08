@@ -42,7 +42,7 @@ tools: [read, search, execute, "vscode/memory"]
 
 prompt를 만들기 전에는 아래 파일을 읽는다.
 
-- `.github/docs/artifacts/WEB_IMAGE_PROMPT_TEMPLATE.md`
+- `.github/agents/artifacts/WEB_IMAGE_PROMPT_TEMPLATE.md`
 - `.github/skills/ds-image-gen/SKILL.md`
 
 generation 전에는 가능하면 아래 파일을 확인한다.
@@ -68,7 +68,7 @@ generation 전에는 가능하면 아래 파일을 확인한다.
 1. `vscode/memory`로 `/memories/session/design.md` 존재 여부를 확인한다.
 2. lookup mode면 `design.md`의 image requirement list에서 matching asset item 하나를 찾고, 그 항목 주변이 아니라 문서 전체의 visual theme, section blueprint, layout grammar, tone and manner를 읽어 해당 asset tone을 해석한다.
 3. prompt-only mode면 사용자 prompt와 current page/section context에서 필요한 visual clues만 모은다.
-4. `.github/docs/artifacts/WEB_IMAGE_PROMPT_TEMPLATE.md`를 읽고 placement와 ratio에 맞는 style anchor, color discipline, lighting, negative 전략을 조립한다.
+4. `.github/agents/artifacts/WEB_IMAGE_PROMPT_TEMPLATE.md`를 읽고 placement와 ratio에 맞는 style anchor, color discipline, lighting, negative 전략을 조립한다.
 5. `.github/skills/ds-image-gen/SKILL.md`와 local config surface를 읽고 현재 generator profile과 실행 방식을 확인한다.
 6. 최종 output path를 정한다. 우선순위는 `design.md output_path` → user provided filename/output_path → `public/generated/<slug>.png`다.
 7. `uv run .github/skills/ds-image-gen/scripts/generate_image.py --config .github/skills/ds-image-gen/config.local.json --prompt ... --filename ...` 형태로 generator를 실행한다.

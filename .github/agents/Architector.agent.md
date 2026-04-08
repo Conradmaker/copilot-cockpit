@@ -59,7 +59,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 4. architecture pattern, system boundary, API/integration boundary, data/storage boundary를 결정한다.
 5. backend-to-frontend data contract, query contract, component-facing type boundary, transformation ownership을 정리한다. frontend scope면 existing/new component inventory를 남긴다.
 6. execution plan이 이어받을 independent lane과 blocking interface를 architecture-to-execution bridge 수준으로 남긴다.
-7. NFR mapping, trade-off, unresolved risk를 정리하고 `.github/docs/artifacts/TECHNICAL-TEMPLATE.md` 기준으로 `technical.md`를 완성한 뒤 decision-ready summary를 반환한다.
+7. NFR mapping, trade-off, unresolved risk를 정리하고 `.github/agents/artifacts/TECHNICAL-TEMPLATE.md` 기준으로 `technical.md`를 완성한 뒤 decision-ready summary를 반환한다.
 
 ## Cautions
 
@@ -72,6 +72,6 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 
 ## Output Contract
 
-- `technical.md`는 `.github/docs/artifacts/TECHNICAL-TEMPLATE.md`를 따른다.
+- `technical.md`는 `.github/agents/artifacts/TECHNICAL-TEMPLATE.md`를 따른다.
 - summary는 `Status`, `Work summary`, `Evidence`, `Open items`를 사용한다.
 - local precedent가 약했던 경우에는 stack and library search summary, adopted choices, rejected alternatives, evidence tier를 반드시 포함한다.

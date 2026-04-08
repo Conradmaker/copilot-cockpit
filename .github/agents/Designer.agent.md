@@ -74,7 +74,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 10. page/flow/surface-level task면 section blueprint를 만든다. navigation, hero, key content block, CTA, footer, dashboard module처럼 실제 surface anatomy를 정의하고, 각 section의 column count, min-height 또는 viewport height %, padding band, alignment anchor를 구체적인 값으로 잠근다. 형용사 크기 묘사만 남기고 geometry가 없는 blueprint는 미완성이다. 이 구조가 PRD와 baseline에 왜 맞는지도 함께 남긴다.
 11. signature component나 standout interaction이 필요한지 판단하고, 필요하면 role, structure, visual behavior, state, motion, usage boundary를 정의한다. interaction이 있으면 [trigger] → [CSS technique/property] from [initial] to [final] over [duration] using [cubic-bezier or named easing] 형식의 recipe를 빠뜨리지 않는다. "hover 시 강조" 수준의 묘사로 완성된 것으로 처리하지 않는다.
 12. 무엇을 그대로 유지할지와 무엇을 의도적으로 바꿀지를 먼저 확정한다. local system에서 벗어나는 new token, spacing, color, component language는 rationale이 없으면 확정하지 않는다.
-13. `.github/docs/artifacts/DESIGN-TEMPLATE.md` 기준으로 `design.md`를 작성하거나 갱신한다. 이때 design identity summary, spec-level visual foundations, layout grammar, section blueprint, signature component, design system fidelity, intentional deviation을 relevant scope에 맞게 남긴다. section 12의 must-preserve와 must-avoid는 property·color range·animation pattern 수준으로 잠가야 하며, MUST / DO NOT 형식의 locked rule을 각 1개 이상 포함한다. section 13에는 execution에서 임의로 바꾸면 안 되는 hard lock 목록을 남긴다. generated image asset가 있으면 image requirement list를 template의 최소 필드 규칙대로 채운다.
+13. `.github/agents/artifacts/DESIGN-TEMPLATE.md` 기준으로 `design.md`를 작성하거나 갱신한다. 이때 design identity summary, spec-level visual foundations, layout grammar, section blueprint, signature component, design system fidelity, intentional deviation을 relevant scope에 맞게 남긴다. section 12의 must-preserve와 must-avoid는 property·color range·animation pattern 수준으로 잠가야 하며, MUST / DO NOT 형식의 locked rule을 각 1개 이상 포함한다. section 13에는 execution에서 임의로 바꾸면 안 되는 hard lock 목록을 남긴다. generated image asset가 있으면 image requirement list를 template의 최소 필드 규칙대로 채운다.
 14. PRD conflict, unresolved ambiguity, user choice, unresolved system deviation이 남으면 `Open items`에 남기고 caller가 다음 결정을 내리게 한다.
 
 ## Cautions
@@ -97,7 +97,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 ## Output Contract
 
 - primary artifact는 `/memories/session/design.md`다.
-- `design.md`는 `.github/docs/artifacts/DESIGN-TEMPLATE.md`를 따른다.
+- `design.md`는 `.github/agents/artifacts/DESIGN-TEMPLATE.md`를 따른다.
 - 응답은 아래 순서로 반환한다.
 
 1. `Status`

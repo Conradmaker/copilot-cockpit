@@ -1,74 +1,77 @@
-# Planning Workflow
+# Planning 워크플로
 
-이 문서는 planning phase의 공통 루프와 Mate의 mode 분기를 다이어그램 중심으로 설명한다.
+이 문서는 Planning 단계의 공통 반복 흐름과 Mate의 mode 분기를 다이어그램 중심으로 설명한다.
 
-상위 개념과 phase 전체 규칙은 [WORKFLOW-PLAYBOOK.md](WORKFLOW-PLAYBOOK.md)를 본다.
+상위 개념과 phase 전체 규칙은 [WORKFLOW-PLAYBOOK.md](WORKFLOW-PLAYBOOK.md)에서 본다.
 
-## 이 문서를 볼 때
+## 이 문서가 필요한 때
 
-- planning entry, discovery, council, approval 흐름을 한 번에 파악하고 싶을 때
-- Mate, Explore, Librarian, Coordinator의 역할 분담을 시각적으로 확인하고 싶을 때
-- default와 heavy mode가 어디서 갈라지고 무엇이 다른지 확인하고 싶을 때
+- Planning 진입, Discovery, Council, Approval 흐름을 한눈에 보고 싶을 때
+- Mate, Explore, Librarian, Coordinator가 어디서 어떻게 역할을 나누는지 시각적으로 확인하고 싶을 때
+- default mode와 heavy mode가 어디서 갈라지고 무엇이 달라지는지 확인하고 싶을 때
+
+이 문서의 다이어그램은 strict linear script가 아니라 checkpoint map이다.
+Alignment, Discovery, Draft Sync는 현재 draft와 evidence 상태에 따라 필요할 때마다 다시 왕복할 수 있다.
 
 ## Planning 흐름
 
 ```mermaid
 flowchart TD
-    Start(["planning 진입 요청"])
-    Entry["user request와 current session artifact 확인"]
-    Mode{"mode가 명시되었는가"}
+    Start(["Planning 시작 요청"])
+    Entry["사용자 요청과 현재 session 산출물 확인"]
+    Mode{"mode가 명시돼 있는가"}
     ExplicitMode{"명시된 mode는 무엇인가"}
     SelectMode["askQuestions로 default 또는 heavy 선택"]
     SelectedMode{"선택된 mode는 무엇인가"}
-    DefaultMode["default mode 활성화"]
-    HeavyMode["heavy mode 활성화"]
-    ActiveMode{"활성 planning mode"}
+    DefaultMode["default mode 시작"]
+    HeavyMode["heavy mode 시작"]
+    ActiveMode{"현재 Planning mode"}
 
-    subgraph Shared["공통 Planning 루프"]
-        Discover["가까운 skill, reference,<br/>reusable pattern, project rule 확인"]
-        Clarify{"문제, 사용자, scope,<br/>metric, non-goal이 흐린가"}
-        Ask["askQuestions로 alignment 또는 steering 수행"]
-        Evidence{"context gap, evidence gap,<br/>reference need가 있는가"}
-        ExploreLane["Explore로 local evidence 수집"]
-        LibrarianLane["Librarian로 external evidence 수집"]
-        ReferenceSync["decision-ready evidence를<br/>references.md에 반영"]
-        Ears["EARS 다차원 커버리지 점검<br/>functional, visual-design, UX, technical, content"]
+    subgraph Shared["공통 Planning 반복 흐름"]
+        Discover["가까운 skill, reference,<br/>재사용 패턴, 프로젝트 규칙 확인"]
+        Clarify{"문제 정의, 사용자, 범위,<br/>metric, non-goal이 흐린가"}
+        Ask["askQuestions로 정렬 질문 수행"]
+        Evidence{"맥락 공백, 근거 공백,<br/>reference 필요가 있는가"}
+        ExploreLane["Explore로 로컬 근거 수집"]
+        LibrarianLane["Librarian로 외부 근거 수집"]
+        ReferenceSync["결정 가능한 근거를<br/>references.md에 반영"]
+        Ears["EARS 다차원 점검<br/>functional, visual-design, UX, technical, content"]
         Draft["PRD-TEMPLATE 기준으로 prd.md 작성"]
-        Council["Coordinator lane 최소 2개 오픈<br/>role별 council review 수행"]
+        Council["Coordinator 관점 최소 2개 열기<br/>role별 검토 수행"]
         Verdict{"Coordinator verdict"}
-        Refine["prd.md와 references.md를 수정하고<br/>invalidated lane만 다시 연다"]
-        Gate["planning quality gate 평가"]
-        Pass{"quality gate 통과 여부"}
-        Brief["approved PRD briefing 제시"]
+        Refine["prd.md와 references.md를 고치고<br/>필요한 관점만 다시 연다"]
+        Gate["Planning 품질 관문 평가"]
+        Pass{"품질 관문 통과 여부"}
+        Brief["승인된 PRD 요약 안내"]
     end
 
     subgraph Default["Default Mode 분기"]
-        DefaultDecision["user에게 추가 refinement 여부와<br/>downstream mode를 askQuestions로 회수"]
+        DefaultDecision["Mate가 downstream mode를 결정"]
         DefaultModePick{"downstream mode"}
-        DefaultDesign["Designer 진입"]
+        DefaultDesign["Designer 호출"]
         DefaultTechPrep{"technical seed가 충분한가"}
-        DefaultResearch["clarification 또는 research lane 재오픈"]
-        DefaultTech["Architector 진입"]
-        DefaultBoth["Designer와 Architector 진입"]
-        DefaultSync["latest approved artifact 동기화 후 종료"]
+        DefaultResearch["추가 조사 또는 확인 질문 재개"]
+        DefaultTech["Architector 호출"]
+        DefaultBoth["Designer와 Architector 호출"]
+        DefaultSync["최신 승인 산출물 동기화 후 종료"]
     end
 
     subgraph Heavy["Heavy Mode 분기"]
-        HeavyDecision["Mate가 downstream mode를 스스로 결정"]
+        HeavyDecision["Mate가 downstream mode를 직접 결정"]
         HeavyModePick{"결정된 mode"}
-        HeavyDesign["Designer 먼저 진입"]
-        PostDesign["generated design.md를<br/>PRD, references, coordinator finding 기준으로 재검토"]
-        HeavyDesignOk{"design lane이 유효한가"}
-        HeavyTechNeed{"technical lane이 정말 필요한가"}
+        HeavyDesign["Designer를 먼저 호출"]
+        PostDesign["생성된 design.md를<br/>PRD, references, Coordinator findings 기준으로 재검토"]
+        HeavyDesignOk{"design 흐름이 유효한가"}
+        HeavyTechNeed{"technical 흐름이 정말 필요한가"}
         HeavyTechPrep{"technical seed가 충분한가"}
-        HeavyResearch["targeted digging 또는 clarification 재오픈"]
-        HeavyTech["Architector 진입"]
-        PostTech["generated technical.md를<br/>PRD, references, approved design 기준으로 재검토"]
-        HeavyTechOk{"technical lane이 유효한가"}
-        HeavySync["latest approved artifact 동기화 후 종료"]
+        HeavyResearch["추가 조사 또는 확인 질문 재개"]
+        HeavyTech["Architector 호출"]
+        PostTech["생성된 technical.md를<br/>PRD, references, 승인된 design 기준으로 재검토"]
+        HeavyTechOk{"technical 흐름이 유효한가"}
+        HeavySync["최신 승인 산출물 동기화 후 종료"]
     end
 
-    End(["planning 종료 또는 downstream handoff 준비"])
+    End(["Planning 종료 또는 downstream 인계 준비"])
 
     Start --> Entry --> Mode
     Mode -- "예" --> ExplicitMode
@@ -84,7 +87,7 @@ flowchart TD
     Clarify -- "예" --> Ask --> Evidence
     Clarify -- "아니오" --> Evidence
     Evidence -- "예" --> ExploreLane --> ReferenceSync
-    Evidence -- "병렬 external 필요" --> LibrarianLane --> ReferenceSync
+    Evidence -- "외부 근거 병렬 필요" --> LibrarianLane --> ReferenceSync
     Evidence -- "아니오" --> Ears
     ReferenceSync --> Ears --> Draft --> Council --> Verdict
     Verdict -- "green" --> Gate
@@ -123,25 +126,26 @@ flowchart TD
 
 | 항목 | default | heavy |
 | --- | --- | --- |
-| mode 결정 | user 명시 또는 askQuestions | user 명시 또는 askQuestions |
-| 조사 강도 | 필요한 범위의 discovery | evidence closure 중심의 깊은 digging |
-| coordinator 기준 | 최소 2개 lane, gate 통과 중심 | 최소 2개 lane, 열린 lane 전부 green 필요 |
-| planning quality gate | total 88 이상, critical blocker 없음, explicit user alignment 필요 | total 95 이상, opened lane all green, evidence gap bounded 필요 |
-| downstream mode 결정 | user가 askQuestions로 선택 | Mate가 스스로 결정 |
-| downstream 순서 | 디자인과 기술설계를 바로 열 수 있음 | design-first, post-design review 뒤 technical entry 재판단 |
+| mode 결정 | 사용자가 명시하거나 askQuestions로 선택 | 사용자가 명시하거나 askQuestions로 선택 |
+| 조사 강도 | 필요한 범위까지만 탐색 | 근거를 닫기 위한 깊은 조사 |
+| Coordinator 기준 | Coordinator 관점 최소 2개, 관문 통과 중심 | Coordinator 관점 최소 2개, 열린 관점 모두 green 필요 |
+| Planning 품질 관문 | total 88 이상, 치명적 차단 요소 없음, 명시적 사용자 합의 필요 | total 95 이상, 열린 관점 모두 green, evidence gap이 관리 가능한 범위여야 함 |
+| downstream mode 결정 | Mate가 current PRD와 coordinator signal을 바탕으로 자동 결정 | Mate가 current PRD와 coordinator signal을 바탕으로 자동 결정 |
+| downstream 순서 | auto-decision 뒤 relevant lane을 바로 연다 | design-first review 뒤 technical 진입 필요 여부를 다시 판단할 수 있다 |
 
 ## 읽는 법
 
-- planning은 항상 Mate가 primary owner이며, Explore, Librarian, Coordinator는 support lane으로 붙는다.
-- 공통 루프는 discovery, 질문, evidence 수집, EARS 점검, PRD drafting, council review, refinement, quality gate 순서로 돈다.
-- default는 user alignment와 downstream mode 회수가 planning 종료 직전의 중요한 게이트다.
-- heavy는 digging과 council 기준이 더 강하고, downstream lane도 design-first 순서로 다시 검토한다.
-- 두 mode 모두 approved PRD가 준비되기 전에는 execution으로 넘어가지 않는다.
+- Planning은 항상 Mate가 주 담당이고, Explore, Librarian, Coordinator는 보조 역할로 붙는다.
+- 공통 반복은 질문, Discovery, Draft Sync, Council 검토, 다듬기, 품질 관문을 checkpoint 중심으로 돈다.
+- default mode에서는 사용자 합의와 Mate의 downstream auto-decision이 Planning 종료 직전의 중요한 관문이다.
+- spec confidence가 특히 중요하면 downstream entry 전에 optional high-accuracy spec review를 열 수 있다.
+- heavy mode에서는 조사 강도와 Council 기준이 더 강하고, downstream 흐름도 먼저 디자인을 거치는 순서로 다시 검토한다.
+- 두 mode 모두 승인된 PRD가 준비되기 전에는 Execution으로 넘어가지 않는다.
 
 ## 산출물
 
-- prd.md
-- references.md
-- optional notepad.md
-- approved PRD briefing
-- 필요 시 design.md 또는 technical.md로 이어지는 guided handoff
+- `prd.md`
+- `references.md`
+- 승인된 PRD 요약 안내
+- 인계가 열리면 생성된 planning 산출물 묶음과 함께 이어지는 안내형 인계
+- 필요하면 `design.md` 또는 `technical.md`로 이어지는 안내형 인계

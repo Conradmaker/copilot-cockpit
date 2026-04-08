@@ -14,6 +14,7 @@ agents: ["Explore", "Librarian"]
 
 당신은 Coding worker로서 approved scope 안에서 root cause를 해결하고, 필요한 self-verification evidence를 만든다.
 review verdict나 orchestration ownership은 갖지 않는다.
+주어진 정보를 기반으로 필요한 Skill을 적극적으로 읽고, 패킷의 정보만을 기본 source of truth로 좁게 읽으며, implementation에 집중한다.
 
 ## Called When
 
@@ -24,7 +25,7 @@ review verdict나 orchestration ownership은 갖지 않는다.
 ## Receiver Contract
 
 - 이 agent는 `task_packet`을 읽는다.
--full packet schema는 `.github/instructions/subagent-invocation.instructions.md`가 owner다.
+- full packet schema는 `.github/instructions/subagent-invocation.instructions.md`가 owner다.
 - implementation work의 기본 source of truth는 packet 본문이다.
 
 ## Rules

@@ -1,16 +1,16 @@
-# Workflow Playbook
+# 워크플로 플레이북
 
-이 문서는 하네스의 planning-to-tail 흐름을 인간용으로 설명하는 on-demand workflow reference다.
-agent runtime behavior는 `.github/instructions/subagent-invocation.instructions.md`, 각 `.agent.md`, 그리고 필요한 `.github/agents/workflows/` 문서가 owner다. exact `task_packet` schema는 `.github/instructions/subagent-invocation.instructions.md`가 owner고, execution/review output contract는 각 receiver-side `.agent.md`가 owner다.
+이 문서는 하네스에서 Planning부터 Tail 단계까지 이어지는 흐름을 사람이 읽기 쉽게 정리한 참조 문서다.
+에이전트의 실제 동작 규칙은 `.github/instructions/subagent-invocation.instructions.md`, 각 `.agent.md`, 필요한 `.github/agents/workflows/` 문서가 맡는다. `task_packet` schema의 정확한 정의는 `.github/instructions/subagent-invocation.instructions.md`가, execution/review output contract의 최종 기준은 각 `.agent.md`가 담당한다.
 
-## Use This Doc When
+## 이 문서가 필요한 때
 
-- cross-phase state transition이나 gate 해석이 필요할 때
-- artifact lifecycle이나 handoff timing을 길게 확인해야 할 때
-- workflow 자체를 수정하거나 ownership 경계를 재설계할 때
-- local agent workflow만으로는 충분하지 않은 planning, execution, review, tail 질문이 생겼을 때
+- phase 사이 전이 규칙이나 관문 해석이 필요할 때
+- 산출물 수명 주기나 인계 시점을 길게 확인해야 할 때
+- workflow 자체를 수정하거나 책임 경계를 다시 설계할 때
+- 개별 agent workflow만으로는 답이 닫히지 않는 Planning, Execution, Review, Tail 질문이 생겼을 때
 
-## State Model
+## 상태 모델
 
 하네스의 기본 상태는 아래 여섯 단계다.
 
@@ -21,276 +21,283 @@ agent runtime behavior는 `.github/instructions/subagent-invocation.instructions
 5. Git Tail
 6. Memory Tail
 
-기본 재진입 루프는 아래 네 가지다.
+기본 재진입 반복은 아래 네 가지다.
 
-- Planning 안의 refinement loop
-- Downstream Definition 안의 refinement loop
-- Execution 또는 Review 안의 rework loop
-- implementation 또는 review가 product/spec failure를 드러냈을 때의 back-to-planning loop
+- Planning 안의 refinement 반복
+- Downstream Definition 안의 refinement 반복
+- Execution 또는 Review 안의 rework 반복
+- implementation 또는 review가 product/spec failure를 드러냈을 때 Planning으로 돌아가는 반복
 
 상태 전환 원칙은 아래와 같다.
 
-- Planning → Downstream Definition: approved `prd.md`, coordinator-reviewed quality gate pass, explicit user alignment가 모두 있어야 한다.
-- Downstream Definition → Execution: approved `prd.md`, relevant downstream artifacts, current execution brief, explicit user gate가 모두 있어야 한다.
+- Planning → Downstream Definition: 승인된 `prd.md`, Coordinator 검토를 통과한 품질 관문, 명시적 사용자 합의가 모두 있어야 한다.
+- Downstream Definition → Execution: 승인된 `prd.md`, 최신 planning 산출물 묶음, 필요한 downstream 문서, 명시적 사용자 승인이 모두 있어야 한다. execution brief는 downstream 흐름이 실제로 만든 경우에만 진입 맥락에 포함한다.
 - Execution → Review: implementation 결과와 verification evidence가 준비되어야 한다.
 - Review → Git Tail: review verdict가 승인 가능한 수준이어야 한다.
-- Review → Memory Tail: validated work 또는 durable signal이 있을 때만 이동한다.
-- Review → Planning: local fix로 덮으면 안 되는 product/spec failure가 드러날 때 되돌아간다.
+- Review → Memory Tail: 검증된 작업이나 durable signal이 있을 때만 이동한다.
+- Review → Planning: 국소 수정으로 덮으면 안 되는 product/spec failure가 드러날 때 되돌아간다.
 
-## Shared Artifacts
+## 공통 산출물
 
 ### `/memories/session/prd.md`
 
-- planning phase의 source of truth다.
-- findings, coordinator verdict, PRD structure가 materially change될 때마다 갱신한다.
-- downstream consumer가 채팅을 다시 읽지 않고도 시작할 수 있을 정도로 self-contained 해야 한다.
+- Planning 단계의 기준 문서다.
+- findings, Coordinator verdict, PRD 구조가 크게 바뀔 때마다 갱신한다.
+- downstream에서 채팅을 다시 읽지 않아도 시작할 수 있을 정도로 문서 자체만으로 이해 가능해야 한다.
 
 ### `/memories/session/references.md`
 
-- PRD에서 참조하는 evidence의 상세 보관소다.
-- Explore, Librarian, Mate 자체 조사 결과를 정리한다.
+- PRD가 기대는 근거를 자세히 보관하는 문서다.
+- Explore, Librarian, Mate가 모은 조사 결과를 정리한다.
 
-### `/memories/session/notepad.md`
+### 선택적 downstream 문서
 
-- planning scratchpad다.
-- 계획 초안, revision fragment, open issue를 임시로 적을 때만 쓴다.
-- 공식 planning source로 취급하지 않는다.
+- `/memories/session/design.md`: 승인된 PRD를 바탕으로 시각, UX, 상호작용 결정을 확장한 문서다. 보통 Mate가 승인된 PRD 요약을 보여준 뒤 사용자 승인을 확인하고 Designer가 만든다.
+- `/memories/session/technical.md`: 승인된 PRD를 바탕으로 architecture, integration, technical constraint를 확장한 문서다. 보통 Mate가 승인된 PRD 요약 뒤 downstream mode를 확인하고, 사용자 승인이 있으면 Architector가 만든다.
+- `/memories/session/handoff.md` 또는 같은 역할의 execution brief: Downstream Definition 단계가 Execution 진입을 위해 만든 문서다.
 
-### Optional downstream artifacts
+### 산출물 공유 원칙
 
-- `/memories/session/design.md`: approved PRD를 바탕으로 visual, UX, interaction 결정을 확장한 문서다. 보통 Mate가 approved PRD briefing 뒤 user gate를 확인한 다음 Designer가 만든다.
-- `/memories/session/technical.md`: approved PRD를 바탕으로 architecture, integration, technical constraint를 확장한 문서다. 보통 Mate가 approved PRD briefing 뒤 downstream mode를 확인하고, user gate가 있으면 Architector가 만든다.
-- `/memories/session/handoff.md` 또는 equivalent execution brief: downstream definition phase가 execution entry를 위해 만든 문서다.
+- Planning 인계를 열면 생성된 planning 산출물 묶음을 함께 공유한다. 기본 대상은 `prd.md`, `references.md`, `design.md`, `technical.md`이며, 실제로 존재하는 파일만 포함한다.
+- Commander는 Execution 진입에서 이 넓은 묶음을 읽어 실행 맥락을 확보할 수 있지만, implementation/review 작업을 넘길 때는 그대로 worker에게 전달하지 않는다.
+- implementation task packet은 execution plan의 task-local `artifacts`만 `ARTIFACTS`로 직렬화한다. packet 본문만으로 충분하면 기본값은 `[]`다.
+- review task packet은 관련 artifact나 evidence ref를 최소 1개 이상 `ARTIFACTS`에 넣는다. 넓은 planning 산출물 묶음은 review의 기본 입력이 아니다.
 
-### Common Reading Order
+### 공통 읽기 순서
 
-- planning 또는 planning validation agent는 먼저 active `prd.md`를 읽는다.
-- downstream definition agent는 `prd.md`를 먼저 읽고 relevant downstream artifact를 그 다음에 읽는다.
-- execution agent는 current execution brief가 있으면 먼저 읽고, current `execution-plan.md`가 있으면 그 다음에 읽는다. 그 뒤 `prd.md`와 relevant downstream artifact를 읽는다.
-- review agent는 current `execution-plan.md`를 먼저 읽고, 그 다음 `prd.md`, current execution brief, relevant downstream artifact(`design.md`, `technical.md`)를 review role과 changed surface에 맞게 읽는다.
-- PRD, downstream artifact, execution brief 사이에 충돌이 있으면 충돌 사실부터 명시한다.
+- Planning 또는 Planning 검증 agent는 먼저 현재 `prd.md`를 읽는다.
+- Downstream Definition agent는 `prd.md`를 먼저 읽고 필요한 downstream 문서를 다음에 읽는다.
+- Execution 담당은 execution brief가 있으면 먼저 읽고, 없으면 생성된 planning 산출물 묶음을 진입 맥락으로 사용한다. current `execution-plan.md`가 있으면 그다음에 읽는다. 이후 `prd.md`와 필요한 downstream 문서를 Execution 계획에 필요한 만큼 읽는다.
+- implementation worker는 current `execution-plan.md`의 task-local `artifacts`가 비어 있으면 넓은 산출물 묶음을 다시 열지 않고 packet 본문과 코드 근거만 사용한다.
+- review agent는 current `execution-plan.md`를 먼저 읽고, 그다음 review task packet이 잠근 `ARTIFACTS`와 evidence ref를 role과 changed surface에 맞게 읽는다. 넓은 planning 산출물 묶음은 packet에 다시 잠긴 경우에만 읽는다.
+- PRD, downstream 문서, execution brief, task-local artifact ref 사이에 충돌이 있으면 충돌 사실부터 먼저 적는다.
 
-## Planning Phase
+## Planning 단계
 
-상세 planning 다이어그램과 mode 분기는 [PLANNING-WORKFLOW.md](PLANNING-WORKFLOW.md)로 분리했다.
+상세 Planning 다이어그램과 mode 분기는 [PLANNING-WORKFLOW.md](PLANNING-WORKFLOW.md)로 분리했다.
 
-### Purpose
+### 목적
 
-Planning의 목적은 user intent를 approved PRD로 바꾸는 것이다.
-구현이 아니라 problem framing, target user, scope, success metric, non-goal, risks, downstream seed를 고정하는 단계다. 이 단계는 디자인 상세, technical 상세, detailed execution planning까지 직접 내려가지 않는다.
+Planning의 목적은 사용자 의도를 승인 가능한 PRD로 정리하는 것이다.
+이 단계는 구현이 아니라 문제 정의, 대상 사용자, 범위, 성공 지표, 제외 범위, 위험, 후속 단계의 출발점을 고정하는 데 집중한다. 디자인 상세, 기술 상세, 세부 실행 계획까지 직접 내려가지 않는다.
+Planning은 strict linear flow가 아니라 checkpoint-driven iteration이다. Alignment, Discovery, Draft Sync는 필요할 때마다 다시 왕복할 수 있다.
 
-### Owner
+### 담당 주체
 
-- primary owner: Mate
-- support lanes: Explore, Librarian, Coordinator
+- 주 담당: Mate
+- 보조 역할: Explore, Librarian, Coordinator
 
-### Entry Conditions
+### 진입 조건
 
-- user request가 들어왔을 때
-- 기존 plan이 invalidated 되었을 때
-- execution 또는 review 결과로 back-to-planning이 필요할 때
+- 사용자 요청이 들어왔을 때
+- 기존 계획이 무효화됐을 때
+- Execution 또는 Review 결과로 Planning으로 돌아와야 할 때
 
-### Detailed Loop
+### 상세 흐름
 
 1. Discovery
-   - local pattern, reusable template, project rule, 가까운 skill/reference를 먼저 찾는다.
-   - scope, non-goal, success criteria, user intent가 흐리면 early askQuestions를 사용한다.
-   - context gap, evidence gap, reference need가 보이면 Explore 또는 Librarian를 연다.
-2. Clarification & Steering Questions
-   - early alignment가 필요하면 askQuestions로 먼저 빈칸을 메운다.
-   - drafting 중간에도 framing, tone, priority, scope, tradeoff를 더 잘 맞출 수 있으면 steering question을 쓴다.
-   - steering question은 entry나 checkpoint에 묶이지 않고 planning 중 언제든 사용할 수 있다.
-3. EARS 다차원 커버리지 체크
-   - functional, visual-design, UX, technical, content 중 해당 차원을 식별한다.
-   - 해당하는데 빠진 차원이 있으면 askQuestions로 회수한다.
-4. PRD Drafting
-   - approved planning output은 execution-ready plan이 아니라 PRD다.
-   - Executive Summary, Problem & Evidence, Users, Strategic Context, Solution Overview, Experience Goals, Metrics, Requirements, Scope, Risks, Open Questions, Downstream Seeds를 채운다.
-   - requirement section에서는 EARS를 필요한 만큼 사용하되 PRD 전체를 execution spec처럼 쓰지 않는다.
-5. Council Checkpoint
-   - Mate는 작업 성격에 맞는 coordinator lane을 최소 2개 동적으로 선택하고, 각 role을 분리된 Coordinator 호출로 연다.
-   - Coordinator는 role-specific 기준으로 PRD clarity, scope discipline, metric quality, requirement quality, downstream ambiguity를 검토한다.
-   - 필요한 경우 Explore, Librarian를 같은 wave에 붙일 수 있다.
-6. Coordinator 개선 루프
-   - green이면 pass한다.
-   - yellow면 해당 항목을 고치고 재검토 여부를 판단한다.
-   - red면 수정 후 재검토가 필수다.
-7. Refinement
-   - user feedback, new evidence, coordinator verdict를 반영해 PRD를 다듬는다.
-   - 새로운 증거가 특정 lane만 invalidation하면 필요한 lane만 다시 연다.
-8. Quality Gate & PRD Approval
-   - quality gate를 통과해야 한다.
-   - pass 기준은 latest revision이 coordinator-reviewed 상태이고 total 88 이상이며 critical blocker가 없는 것이다.
-   - pass 후 approved PRD briefing을 user에게 보여주고 추가 refinement 필요 여부와 downstream mode를 askQuestions로 회수한다.
-   - downstream mode 선택지는 `디자인만`, `기술설계만`, `둘 다`다.
-   - coordinator-reviewed PRD가 준비된 시점부터 relevant guided handoff는 다음 단계로 사용할 수 있다.
-   - refinement가 끝나면 `prd.md`와 `references.md`를 latest approved version으로 동기화한다.
+   - 로컬 패턴, 재사용 가능한 template, 프로젝트 규칙, 가까운 skill/reference를 먼저 찾는다.
+   - 범위, non-goal, 성공 기준, 사용자 의도가 흐리면 초기에 askQuestions를 사용한다.
+   - 맥락 공백, 근거 공백, reference 필요가 보이면 Explore 또는 Librarian를 연다.
+2. 확인 질문과 조정 질문
+   - 초기에 합의가 필요하면 askQuestions로 빈칸을 먼저 메운다.
+   - 초안 작성 중에도 문제 정의, tone, priority, 범위, tradeoff를 더 잘 맞출 수 있으면 steering question을 사용한다.
+   - steering question은 진입 지점이나 checkpoint에 묶이지 않고 Planning 중 언제든 사용할 수 있다.
+3. EARS 다차원 점검
+   - functional, visual-design, UX, technical, content 중 어떤 차원이 필요한지 식별한다.
+   - 필요한데 빠진 차원이 있으면 askQuestions로 회수한다.
+4. PRD 작성
+   - Planning의 승인 산출물은 execution-ready plan이 아니라 PRD다.
+   - `Executive Summary`, `Problem & Evidence`, `Users`, `Strategic Context`, `Solution Overview`, `Experience Goals`, `Metrics`, `Requirements`, `Scope`, `Risks`, `Open Questions`, `Downstream Seeds`를 채운다.
+   - requirement section에서는 EARS를 필요한 만큼 사용하되 PRD 전체를 execution spec처럼 만들지 않는다.
+5. Council 검토 지점
+   - Mate는 작업 성격에 맞는 Coordinator 관점을 최소 2개 고른 뒤, 각 role을 분리된 Coordinator 호출로 연다.
+   - Coordinator는 role별 기준으로 PRD 명확성, 범위 통제, metric 품질, requirement 품질, downstream 모호성을 검토한다.
+   - 필요하면 Explore, Librarian를 같은 wave에 붙일 수 있다.
+6. Coordinator 개선 반복
+   - green이면 통과한다.
+   - yellow면 해당 항목을 고친 뒤 재검토가 필요한지 판단한다.
+   - red면 수정 뒤 재검토가 필수다.
+7. 다듬기
+   - 사용자 feedback, 새로운 근거, Coordinator verdict를 반영해 PRD를 다듬는다.
+   - 새로운 근거가 특정 축만 무효화하면 필요한 축만 다시 연다.
+8. 품질 관문과 PRD 승인
+   - 품질 관문을 통과해야 한다.
+   - 통과 기준은 최신 revision이 Coordinator 검토 상태이고 total 88 이상이며 치명적 차단 요소가 없는 것이다.
+   - 통과 뒤에는 승인된 PRD 요약을 사용자에게 보여주고, 추가 refinement 필요 여부를 확인한다.
+   - downstream mode는 Mate가 `디자인만`, `기술설계만`, `둘 다` 중 하나로 auto-decision 한다.
+   - spec confidence가 특히 중요하면 Reviewer `product-integrity` role을 optional high-accuracy spec review로 연다.
+   - Coordinator 검토를 마친 PRD가 준비되면 관련 안내형 인계를 다음 단계에 사용할 수 있다. 인계를 열면 생성된 planning 산출물 묶음도 함께 공유된다.
+   - 다듬기가 끝나면 `prd.md`와 `references.md`를 최신 승인본으로 맞춘다.
 
-### Outputs
+### 출력
 
-- updated `prd.md`
-- updated `references.md`
-- optional `notepad.md`
-- approved PRD briefing shown to user
+- 갱신된 `prd.md`
+- 갱신된 `references.md`
+- 사용자에게 보여주는 승인된 PRD 요약
+- 인계를 열었을 때 함께 전달되는 planning 산출물 묶음
 
-### Guardrails
+### 제한 규칙
 
-- implementation file edit를 시작하지 않는다.
-- raw coordinator output을 그대로 user에게 전달하지 않는다.
-- 질문이 필요한데도 마지막 gate까지 미루지 않는다.
-- 질문이 더 좋은 draft로 이어질 수 있는데도 과질문으로 흐리지 않는다.
+- implementation 파일 편집을 시작하지 않는다.
+- raw Coordinator output을 그대로 사용자에게 전달하지 않는다.
+- 질문이 필요한데도 마지막 관문까지 미루지 않는다.
+- 더 나은 초안으로 이어질 질문을 놓치면서도, 반대로 과도한 질문으로 흐름을 흐리지 않는다.
 - PRD를 design spec, technical design, task plan으로 비대하게 만들지 않는다.
 
-### Escalation Signals
+### 상위 판단이 필요한 신호
 
-- unresolved user choice가 quality gate를 막는다.
-- external contract나 version evidence가 충돌한다.
-- PRD가 current scope와 downstream seed를 충분히 덮지 못한다.
+- unresolved user choice가 품질 관문을 막는다.
+- 외부 contract나 version evidence가 서로 충돌한다.
+- PRD가 현재 범위와 downstream seed를 충분히 덮지 못한다.
 
-### Drift Signals
+### 이탈 신호
 
-- PRD가 latest user intent와 어긋난다.
-- EARS 다차원 커버리지에서 해당 차원이 빠져 있다.
-- success metric, scope boundary, non-goal, risks 중 핵심 축이 다시 흐려진다.
+- PRD가 최신 사용자 의도와 어긋난다.
+- EARS 다차원 점검에서 필요한 차원이 빠져 있다.
+- success metric, 범위 경계, non-goal, 위험 중 핵심 축이 다시 흐려진다.
 
-## Downstream Definition Phase
+## Downstream Definition 단계
 
-### Purpose
+### 목적
 
-Downstream Definition의 목적은 approved PRD를 기반으로 execution entry에 필요한 문서를 분리해 만드는 것이다.
-대표적으로 `design.md`, `technical.md`, `handoff.md` 또는 equivalent execution brief가 여기에 속한다.
+Downstream Definition의 목적은 승인된 PRD를 바탕으로 Execution 진입에 필요한 문서를 분리해 만드는 것이다.
+대표적으로 `design.md`, `technical.md`, `handoff.md` 또는 같은 역할의 execution brief가 여기에 속한다. execution brief는 선택 사항이며, 넓은 planning 산출물 묶음을 대체하는 필수 문서는 아니다.
 
-### Owner
+### 담당 주체
 
-- dedicated downstream owner가 각 문서에서 정의한다.
+- 각 문서에서 정의한 전담 downstream 담당이 맡는다.
 
-### Entry Conditions
+### 진입 조건
 
-- approved `prd.md`가 있다.
-- user가 downstream elaboration을 원하거나 execution entry를 준비해야 한다.
-- planning lane이 invalidated 상태가 아니다.
+- 승인된 `prd.md`가 있다.
+- 사용자가 downstream 상세화를 원하거나 Execution 진입을 준비해야 한다.
+- Planning 흐름이 무효화된 상태가 아니다.
 
-common path 중 하나는 Mate가 approved PRD briefing 뒤 askQuestions로 downstream design 필요 여부를 확인하고, user gate가 있으면 Designer를 호출해 `design.md`를 만드는 것이다.
-다른 common path는 Mate가 approved PRD briefing 뒤 askQuestions로 downstream mode를 `디자인만`, `기술설계만`, `둘 다` 중 하나로 회수하고, user gate에 따라 Designer, Architector, 또는 둘 다를 다음 단계로 여는 것이다.
-`기술설계만` 또는 `둘 다`가 선택되었는데 technical seed가 약하거나 architecture ambiguity가 남아 있으면 Mate가 clarification 또는 research lane을 먼저 다시 열고, 그 뒤 Architector를 호출한다.
+자주 쓰는 경로 중 하나는 Mate가 승인된 PRD 요약과 coordinator signal을 바탕으로 design elaboration 필요성을 auto-decision 하고 Designer를 호출해 `design.md`를 만드는 것이다.
+또 다른 자주 쓰는 경로는 Mate가 승인된 PRD 요약 뒤 downstream mode를 `디자인만`, `기술설계만`, `둘 다` 중 하나로 auto-decision 하고, 그 판단에 따라 Designer, Architector, 또는 둘 다를 여는 것이다.
+`기술설계만` 또는 `둘 다`가 결정됐는데 technical seed가 약하거나 architecture ambiguity가 남아 있으면, Mate가 clarification 또는 research 흐름을 먼저 다시 열고 그 뒤 Architector를 호출한다.
 
-### Outputs
+### 출력
 
-- relevant downstream definition documents
-- execution brief when needed
+- 필요한 downstream definition 문서
+- 필요한 경우의 execution brief
+- 생성된 planning 산출물 묶음과 충돌하지 않는 Execution 진입 맥락
 
-### Guardrails
+### 제한 규칙
 
-- approved PRD의 product direction을 임의로 다시 쓰지 않는다.
-- downstream definition 문서를 PRD와 충돌하게 만들지 않는다.
-- unresolved conflict가 생기면 planning으로 되돌리거나 escalation한다.
+- 승인된 PRD의 product direction을 임의로 다시 쓰지 않는다.
+- Downstream Definition 문서를 PRD와 충돌하게 만들지 않는다.
+- unresolved conflict가 생기면 Planning으로 되돌리거나 상위 판단으로 넘긴다.
 
-## Research Lanes
+## 조사 역할
 
 ### Explore
 
-- local evidence, symbol flow, reusable pattern, project-specific constraint를 모을 때 쓴다.
+- 로컬 근거, symbol flow, 재사용 패턴, 프로젝트 고유 제약을 모을 때 쓴다.
 - read-only를 유지한다.
-- evidence gain이 낮아지면 멈춘다.
+- 얻는 근거가 더 이상 크지 않으면 멈춘다.
 
 ### Librarian
 
-- official docs, source code, public issue/PR/discussion, 일반 웹 자료 순으로 외부 evidence를 모을 때 쓴다.
+- official docs, source code, public issue/PR/discussion, 일반 웹 자료 순으로 외부 근거를 모을 때 쓴다.
 - 우선순위는 `official > source > web`이다.
 - 버전이 중요하면 ambiguity를 숨기지 않는다.
 
-### Parallel Research Rule
+### 병렬 조사 원칙
 
-- 서로 독립적인 evidence need일 때만 병렬화한다.
-- Explore나 Librarian에 같은 질문을 위임한 뒤 caller가 동일 탐색을 직접 반복하지 않는다. delegated result가 필요하면 non-overlapping work만 하거나 결과 대기로 전환한다.
+- 서로 독립적인 근거 필요가 있을 때만 병렬화한다.
+- Explore나 Librarian에 같은 질문을 맡긴 뒤 caller가 같은 탐색을 직접 반복하지 않는다. 맡긴 결과가 필요하면 겹치지 않는 작업만 하거나 결과를 기다린다.
 - 결과는 raw transcript가 아니라 synthesis로 합친다.
-- current revision을 sharpen하는 데 실질 가치가 있을 때만 research lane을 유지한다.
+- 현재 revision을 더 정확하게 만드는 데 실질 가치가 있을 때만 조사 흐름을 유지한다.
 
-## Execution Phase
+## Execution 단계
 
-### Entry Conditions
+### 진입 조건
 
-- approved `prd.md`가 있다.
-- relevant downstream artifacts가 있다.
-- user gate가 성립했다.
-- current execution brief가 있다.
-- required planning lanes가 invalidated 상태가 아니다.
+- 승인된 `prd.md`가 있다.
+- 생성된 planning 산출물 묶음이 있다.
+- 필요한 downstream 문서가 준비돼 있다.
+- 사용자 승인이 성립했다.
+- execution brief가 있으면 Execution 진입 맥락으로 사용한다.
+- 필요한 Planning 흐름이 무효화되지 않았다.
 
-### Path
+### 진행 경로
 
-Approved execution은 Fleet Mode 경로를 따른다.
+승인된 execution은 Fleet Mode handoff intent를 바탕으로 Commander가 조율한다.
 
-- owner: Commander
-- coding worker: Deep Execution Agent
-- final review orchestration: Commander
+- `Fleet Mode(Deep)`: `.github/agents/artifacts/EXECUTION-PLAN-TEMPLATE.md`를 사용한다. 여러 implementation lane, specialist review, 넓은 dependency orchestration이 필요한 경로다.
+- `Fleet Mode(Fast)`: `.github/agents/artifacts/FAST-EXECUTION-PLAN-TEMPLATE.md`를 사용한다. 연결된 surface를 한 worker가 끝까지 밀고 가야 할 때 쓰는 경로다. context continuity와 single-worker ownership을 우선하고, review 기본값은 `self-check` 뒤 final `board`다.
+- 담당: Commander
+- 구현 담당 worker: Deep Execution Agent
+- 선택적 asset worker: Painter
+- 최종 review 오케스트레이션: Commander
 
-### Workflow
+### 진행 순서
 
-1. Commander가 current execution brief를 읽고, 그 다음 approved PRD와 relevant downstream artifacts를 읽어 execution context를 확보한다.
-2. 독립적인 서브시스템이 여러 개면 별도 plan으로 분리할지 scope check를 한다.
-3. 필요하면 Explore 또는 Librarian로 context augmentation을 한다.
+1. Commander는 handoff나 user prompt에서 execution mode와 Fast signal을 확인한다. execution brief가 있으면 먼저 읽고, 없으면 생성된 planning 산출물 묶음을 읽는다. 그다음 승인된 PRD와 필요한 downstream 문서를 읽어 실행 맥락을 확보한다.
+2. 독립적인 하위 시스템이 여러 개면 separate plan으로 나눌지 범위를 점검한다.
+3. 필요하면 Explore 또는 Librarian로 맥락을 보강한다.
 4. 영향받는 파일과 책임을 file structure map으로 정리한다.
-5. `.github/docs/artifacts/EXECUTION-PLAN-TEMPLATE.md`를 따라 dependency-aware execution plan을 수립하고 `/memories/session/execution-plan.md`에 저장한다. plan에는 implementation task 구조와 review strategy를 함께 남긴다. plan의 각 task를 todo 항목으로 생성한다.
-6. user에게 plan verification 방식을 물어본다 (Coordinator execution role review / 자체 검증 / 건너뛰기).
-7. gotcha/risk를 식별하고 필요하면 plan을 갱신한다.
-8. dependency wave 기반으로 Deep Execution Agent에게 coding work를 배분한다. todo를 `in-progress`로 전환한다.
-9. worker 결과를 합성하고 todo와 execution-plan.md를 갱신한다.
+5. Fast signal이 있으면 `.github/agents/artifacts/FAST-EXECUTION-PLAN-TEMPLATE.md`, 그렇지 않으면 `.github/agents/artifacts/EXECUTION-PLAN-TEMPLATE.md`에 맞춰 실행 계획을 만들고 `/memories/session/execution-plan.md`에 저장한다. plan에는 implementation task 구조, 검토 전략, task-local `artifacts`를 함께 남긴다. implementation task의 기본값은 `[]`고, review task는 관련 문서나 근거 참조를 최소 1개 이상 가진다. plan의 각 task는 todo 항목으로 만든다.
+6. `design.md`나 execution brief에 generated image asset list가 있으면 dedicated asset generation phase를 plan에 추가한다.
+7. plan을 만든 뒤 gotcha와 risk를 표면화하고, Coordinator에 `execution` role review를 위임한다. review 결과를 반영해 plan과 todo를 함께 갱신한다.
+8. dependency wave를 기준으로 task를 배분한다. code task는 Deep Execution Agent에, asset task는 Painter에 넘긴다. implementation task에서 `artifacts=[]`면 worker는 packet 본문과 코드 근거만 사용한다. Fast 경로는 연결된 surface를 큰 bundle로 유지하고, Deep 경로는 필요하면 여러 lane으로 나눈다. 독립 task는 같은 wave 안에서 병렬로 돌릴 수 있다.
+9. worker 결과를 합성하고 todo와 `execution-plan.md`를 갱신한다.
 10. 구현 방향에 대한 확신이 흔들리거나 drift가 의심되면 Coordinator에 role-based review를 요청할 수 있다.
-11. implementation 완료 후 review strategy에 따라 필요한 Reviewer review role call을 병렬로 열고, 마지막에 Reviewer `board` role로 final broad review를 닫는다.
-12. review failure면 targeted rework를 하고 relevant review role call과 `board` gate를 다시 연다.
-13. review pass 뒤 Git Tail 또는 Memory Tail 필요 여부를 판단한다.
-14. orchestration summary와 todo 기반 진행률, 남은 리스크를 합성해 반환한다.
+11. implementation과 asset task가 정리되면 검토 전략을 갱신한다. `Fleet Mode(Fast)`는 `self-check` 뒤 final `board`를 기본 경로로 사용하고, specialist review는 hotspot이 뚜렷할 때만 추가한다. `Fleet Mode(Deep)`는 필요한 Reviewer role 호출을 병렬로 연다.
+12. role review 결과가 모이면 Commander가 lane findings, verification evidence, residual risk를 종합해 `board` packet을 준비하고 마지막에 Reviewer `board` role로 닫는다.
+13. review 실패가 나오면 무효화된 task나 wave만 다시 열어 rework하고, 관련 Reviewer role 호출과 `board` 관문을 다시 연다.
+14. review를 통과하면 Git Tail 또는 Memory Tail이 필요한지 판단한다.
+15. orchestration summary와 todo 기준 진행률, 남은 위험을 합성해 반환한다.
 
-상세 execution 다이어그램은 [EXECUTION-WORKFLOW.md](EXECUTION-WORKFLOW.md)로 분리했다.
+상세 Execution 다이어그램은 [EXECUTION-WORKFLOW.md](EXECUTION-WORKFLOW.md)로 분리했다.
 
-### Guardrails
+### 제한 규칙
 
-- approved scope를 임의로 넓히지 않는다.
-- verification evidence 없는 completion claim을 하지 않는다.
-- final broad review를 건너뛰지 않는다.
+- 승인된 범위를 임의로 넓히지 않는다.
+- verification evidence 없이 완료를 주장하지 않는다.
+- 마지막 전반 검토를 건너뛰지 않는다.
 
-### Escalation Signals
+### 상위 판단이 필요한 신호
 
 - scope expansion이 필요하다.
-- local evidence만으로 blocker를 풀 수 없다.
-- user choice가 필요하다.
-- Coordinator 리뷰가 severe drift를 드러낸다.
+- 로컬 근거만으로 blocker를 풀 수 없다.
+- 사용자 선택이 필요하다.
+- Coordinator review가 심한 drift를 드러낸다.
 
-### Drift Signals
+### 이탈 신호
 
-- implementation이 execution brief나 approved PRD와 달라진다.
-- milestone completion claim에 verification이 없다.
-- execution plan의 task 상태와 실제 구현 결과가 일치하지 않는다.
+- implementation이 execution brief나 승인된 PRD와 달라진다.
+- milestone 완료 주장에 verification이 없다.
+- 실행 계획의 task 상태와 실제 구현 결과가 일치하지 않는다.
 - split strategy가 context fragmentation을 만든다.
 
-## Review Phase
+## Review 단계
 
-### Purpose
+### 목적
 
-Review는 implementation 뒤의 broad quality gate다.
-Commander가 review role wave를 orchestration하고, Reviewer가 role-aware review와 final `board` gate를 수행한다.
+Review는 implementation 뒤에 두는 넓은 품질 관문이다.
+Commander가 review role wave를 orchestration하고, Reviewer가 role-aware review와 최종 `board` 관문을 수행한다.
 스타일보다 correctness, regression risk, security, design consistency, product impact, release readiness를 먼저 본다.
 
-### Owner
+### 담당 주체
 
-- Reviewer
-- orchestration owner는 Commander
+- Review 담당: Reviewer
+- 오케스트레이션 담당: Commander
 
-### Inputs
+### 입력
 
-- `prd.md`
-- current execution brief when present
 - current `execution-plan.md`
-- `design.md` when present
-- `technical.md` when present
+- review task packet이 잠근 `ARTIFACTS`와 evidence ref
+- `prd.md`, `design.md`, `technical.md`, 그리고 execution brief가 있고 packet에 실제로 포함된 경우
 - `review role`
-- relevant downstream artifacts when present
 - changed surface
 - available evidence
 - validation focus
-- lane findings when `ROLE=board`
+- `ROLE=board`일 때의 lane findings
 
-### Outputs
+### 출력
 
 - verdict
 - findings
@@ -298,70 +305,71 @@ Commander가 review role wave를 orchestration하고, Reviewer가 role-aware rev
 - risks
 - next step
 
-### Outcomes
+### 결과 판정
 
 - `approve`
 - `approve-with-risks`
 - `rework-required`
 
-### Guardrails
+### 제한 규칙
 
 - review 안에서 직접 구현하지 않는다.
-- validation focus 밖으로 scope를 불필요하게 넓히지 않는다.
-- evidence가 부족하면 부족한 evidence를 명시한다.
-- `board`는 parallel lane가 아니라 final synthesis and gate 역할이다.
+- validation focus 밖으로 범위를 불필요하게 넓히지 않는다.
+- evidence가 부족하면 부족하다는 사실을 명시한다.
+- `board`는 병렬 검토 축이 아니라 최종 종합과 관문 역할이다.
 
-### Re-entry Rule
+### 재진입 규칙
 
 - `rework-required`면 implementer rework로 되돌린다.
-- spec failure면 planning으로 되돌린다.
+- spec failure면 Planning으로 되돌린다.
 - `approve-with-risks`면 residual risk를 숨기지 않는다.
 
-## Tail Phases
+## Tail 단계
 
 ### Git Tail
 
-- entry conditions: implementation과 review가 충분히 validated 되었을 때
-- owner: decision owner는 Commander, actual git action owner는 Deep Execution Agent
-- workflow: git state 확인, relevant skill 로드, action 실행, 결과 검증
-- guardrails: `main`에 직접 커밋하지 않는다. diff와 workflow safety를 확인한다.
+- 진입 조건: implementation과 review가 충분히 검증됐을 때
+- 담당: 판단은 Commander, 실제 git 작업은 Deep Execution Agent
+- 흐름: git 상태 확인, relevant skill 로드, action 실행, 결과 검증
+- 제한 규칙: `main`에 직접 commit하지 않는다. diff와 workflow 안전성을 확인한다.
 
 ### Memory Tail
 
-- entry conditions: durable signal 또는 reusable project fact가 확인되었을 때
-- owner: Commander
-- workflow: memory skill을 읽고, signal을 분류하고, duplication을 피한 뒤 저장 여부를 결정한다.
-- guardrails: secret, credential, 민감정보, temporary task state는 저장하지 않는다.
+- 진입 조건: durable signal 또는 재사용 가능한 project fact가 확인됐을 때
+- 담당: Commander
+- 흐름: memory skill을 읽고, signal을 분류하고, 중복을 피한 뒤 저장 여부를 결정한다.
+- 제한 규칙: secret, credential, 민감 정보, temporary task state는 저장하지 않는다.
 
-## Packet Boundary
+## Packet 경계
 
 - subagent 호출은 `task_packet`을 쓴다.
-- implementation dispatch는 Deep Execution Agent용 `task_packet`과 required `SCOPE`, `EXECUTION_PLAN`을 포함한다.
-- role-based review는 Reviewer용 `task_packet`과 단일 `ROLE`, changed surface, validation focus를 포함한다.
-- git tail과 memory tail은 dedicated subagent packet 없이 current execution owner가 관련 skill을 inline으로 읽는다.
+- `ARTIFACTS`는 의미를 담은 field name 대신 `REF_{N}` slot으로 직렬화한다. 정확한 field 의미와 phase별 정책의 기준 문서는 `.github/instructions/subagent-invocation.instructions.md`다.
+- planning packet은 생성된 planning 산출물 묶음을 `ARTIFACTS`에 함께 넣는다.
+- implementation dispatch는 Deep Execution Agent용 `task_packet`과 필요한 `SCOPE`, `EXECUTION_PLAN`을 포함한다. implementation task의 `ARTIFACTS` 기본값은 빈 집합이다.
+- role-based review는 Reviewer용 `task_packet`, 단일 `ROLE`, changed surface, validation focus를 포함한다. review task의 `ARTIFACTS`에는 관련 문서나 근거 참조가 최소 1개 이상 들어간다.
+- Git Tail과 Memory Tail은 별도 subagent packet 없이 현재 Execution 담당이 관련 skill을 바로 읽는다.
 
-planning source of truth는 `prd.md`다. packet field name에 legacy plan terminology가 남아 있어도 current workflow에서는 approved PRD를 가리키는 것으로 해석한다.
+전체 packet schema와 표준 field definition의 기준 문서는 `.github/instructions/subagent-invocation.instructions.md`다.
 
-full packet schema와 canonical field definition은 `.github/instructions/subagent-invocation.instructions.md`가 owner다.
-
-## Quality Gates
+## 품질 관문
 
 ### Planning
 
 - total 88 이상
-- no critical blocker
-- latest revision coordinator-reviewed
-- explicit user alignment가 뒤따라야 한다.
+- 치명적 차단 요소 없음
+- 최신 revision이 Coordinator 검토 상태여야 함
+- 그 뒤 명시적 사용자 합의가 따라와야 함
 
 ### Downstream Definition
 
-- relevant downstream artifacts가 approved PRD와 충돌하지 않아야 한다.
-- execution entry가 필요하면 current execution brief가 준비되어야 한다.
+- 필요한 downstream 문서가 승인된 PRD와 충돌하지 않아야 한다.
+- Execution 진입이 필요하면 생성된 planning 산출물 묶음이 최신 상태로 맞춰져 있어야 한다.
+- execution brief가 필요한 경로라면 준비돼 있어야 한다.
 
 ### Execution
 
-- Coordinator verdict가 있으면 반영되어야 한다.
-- verification completeness가 completion claim을 뒷받침해야 한다.
+- Coordinator `execution` review verdict가 반영돼야 한다.
+- verification completeness가 완료 주장을 뒷받침해야 한다.
 
 ### Review
 
@@ -369,42 +377,42 @@ full packet schema와 canonical field definition은 `.github/instructions/subage
 
 ### Tail
 
-- Git Tail은 workflow safety와 rule compliance가 확보되어야 한다.
-- Memory Tail은 durable signal과 duplication avoidance가 확보되어야 한다.
+- Git Tail은 workflow 안전성과 규칙 준수가 확보돼야 한다.
+- Memory Tail은 durable signal과 중복 회피가 확보돼야 한다.
 
-## Common Failure Patterns
+## 자주 생기는 실패 패턴
 
 ### premature execution
 
-- planning quality gate나 user gate 전 implementation을 시작하는 경우다.
-- planning으로 되돌리고 gate를 다시 세운다.
+- Planning 품질 관문이나 사용자 승인 전에 implementation을 시작하는 경우다.
+- Planning으로 되돌리고 관문을 다시 세운다.
 
 ### raw review forwarding
 
-- coordinator나 subagent 결과를 합성 없이 그대로 user에게 보여주는 경우다.
-- current phase 문맥에 맞는 synthesis로 다시 정리한다.
+- Coordinator나 subagent 결과를 합성 없이 그대로 사용자에게 전달하는 경우다.
+- 현재 phase 문맥에 맞는 synthesis로 다시 정리한다.
 
 ### scope drift by convenience
 
-- 근거보다 편의 때문에 scope를 넓히는 경우다.
-- approved scope로 돌아가거나 escalation한다.
+- 근거보다 편의 때문에 범위를 넓히는 경우다.
+- 승인된 범위로 돌아가거나 상위 판단으로 넘긴다.
 
 ### skipped review
 
-- 구현이 끝나 보인다는 이유로 broad review를 건너뛰는 경우다.
-- review phase를 다시 연다.
+- 구현이 끝나 보인다는 이유로 전반 review를 건너뛰는 경우다.
+- Review 단계를 다시 연다.
 
 ### premature git tail
 
-- validation이 불충분한데 branch, commit, PR 작업부터 시작하는 경우다.
-- review 또는 execution verification으로 되돌린다.
+- 검증이 충분하지 않은데 branch, commit, PR 작업부터 시작하는 경우다.
+- Review 또는 Execution verification으로 되돌린다.
 
 ### memory pollution
 
-- session-only note를 durable memory로 저장하는 경우다.
-- skip를 선택하고 durability 기준을 다시 확인한다.
+- session에만 필요한 메모를 durable memory로 저장하는 경우다.
+- 저장하지 않고 durability 기준을 다시 확인한다.
 
 ### fragmented evidence
 
-- 병렬 subagent를 너무 많이 열어 synthesis cost가 커진 경우다.
-- 독립적인 조사만 병렬화하고 핵심 evidence만 합친다.
+- 병렬 subagent를 너무 많이 열어 synthesis 비용이 커진 경우다.
+- 서로 독립적인 조사만 병렬화하고 핵심 근거만 합친다.

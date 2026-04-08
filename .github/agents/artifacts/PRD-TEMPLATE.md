@@ -118,7 +118,7 @@ Dimensions: {해당 차원 — functional / visual-design / UX / technical / con
 - Key findings: {핵심 발견}
 - Resource index:
   - {path/url} — {무엇을 다루는지}
-- Detail: /memories/session/references.md
+- Detail: /memories/session/references.md (decision-ready evidence only)
 
 **Quality Gate**
 
@@ -130,6 +130,14 @@ Dimensions: {해당 차원 — functional / visual-design / UX / technical / con
 - Total: {0-100}
 ```
 
+## Quality Gate Anchors
+
+- Problem clarity: 0 추측 위주 / 5 문제명만 있음 / 10 문제와 영향은 보이나 근거 약함 / 15 문제, 사용자, 영향이 대부분 연결됨 / 20 문제, 근거, 왜 지금 중요한지가 모두 명시됨
+- User & JTBD clarity: 0 사용자 불명확 / 5 사용자명만 있음 / 10 primary user와 JTBD 일부만 보임 / 15 primary user, JTBD, pain point가 대부분 연결됨 / 20 target user, JTBD, pain point가 구체적이고 충돌이 없음
+- Success metrics & scope discipline: 0 측정 불가 / 5 vague metric 또는 scope only / 10 metric이나 scope 중 하나가 약함 / 15 metric, included, out of scope가 대부분 선명함 / 20 measurable metric, guardrail, scope boundary, non-goal이 모두 분명함
+- Requirements quality: 0 requirement 없음 / 5 generic bullet 위주 / 10 핵심 requirement는 있으나 testability 약함 / 15 대부분의 requirement가 조건과 반응을 설명함 / 20 relevant dimension이 빠지지 않고, requirement가 testable하며 ambiguity가 잘 bounded됨
+- Risks, open questions, downstream readiness: 0 risk와 open issue 불명확 / 5 risk list만 존재 / 10 risk 또는 downstream seed가 약함 / 15 major risk, open question, downstream seed가 대부분 usable함 / 20 bounded risk, decision status, downstream seed가 모두 self-contained하게 정리됨
+
 ## Review Checklist
 
 - 문제와 근거가 분명한가
@@ -138,4 +146,5 @@ Dimensions: {해당 차원 — functional / visual-design / UX / technical / con
 - scope, out of scope, non-goals가 서로 구분되는가
 - requirements와 constraints, assumptions가 뒤섞이지 않았는가
 - PRD가 design spec이나 task plan으로 과도하게 내려가지 않았는가
+- references가 scratchpad가 아니라 decision-ready evidence만 담고 있는가
 - downstream Design 및 Technical work가 시작할 seed가 충분한가

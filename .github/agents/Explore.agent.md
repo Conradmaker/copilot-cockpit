@@ -3,7 +3,8 @@ name: Explore
 description: Fast read-only internal codebase exploration subagent. Use when local implementation evidence, reusable patterns, symbol flow, or project-specific constraints inside the current workspace are needed before planning or execution.
 argument-hint: Describe the local codebase question, desired thoroughness, and any search strategy or stopping rule.
 model:
-  [
+  [ 
+    "Qwen3.5 Plus (oaicopilot)",
     "Gemini 3 Flash (Preview) (copilot)",
     "GPT-5.4 mini (copilot)", 
     "Claude Haiku 4.5 (copilot)",

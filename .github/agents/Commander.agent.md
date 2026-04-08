@@ -60,7 +60,7 @@ Commander는 planning artifact와 coding worker, reviewer worker 사이의 trans
 
 ## Workflow
 
-1. handoff나 user prompt에서 execution mode를 결정하고 Fast signal이 있으면 `.github/docs/artifacts/FAST-EXECUTION-PLAN-TEMPLATE.md`을, 그렇지 않으면 `.github/docs/artifacts/EXECUTION-PLAN-TEMPLATE.md`의 방법과 approved `prd.md`, task-relevant downstream artifact를 이용하여 `execution-plan.md`를 만든다. 이때 evidence gap이나 reference need가 있으면 Explore 또는 Librarian로 먼저 보강한다.
+1. handoff나 user prompt에서 execution mode를 결정하고 Fast signal이 있으면 `.github/agents/artifacts/FAST-EXECUTION-PLAN-TEMPLATE.md`을, 그렇지 않으면 `.github/agents/artifacts/EXECUTION-PLAN-TEMPLATE.md`의 방법과 approved `prd.md`, task-relevant downstream artifact를 이용하여 `execution-plan.md`를 만든다. 이때 evidence gap이나 reference need가 있으면 Explore 또는 Librarian로 먼저 보강한다.
 2. plan을 만든 뒤 gotcha, edge case, pitfall을 표면화하고, Coordinator에 `execution` role로 plan review을 위임하고, 결과에 따라 수정을 진행하고 plan의 execution unit을 todo와 함께 동기화한다.
 3. `depends_on`이 충족된 task부터 wave 단위로 dispatch한다. code task와 review task는 task-local  `task_packet`으로, asset task는 Painter로 배분하고, 결과는 raw transcript가 아니라 change summary, evidence, remaining risk 형태로 합성한뒤 todo와 `execution-plan.md`에 다시 반영한다. drift나 확신 저하가 보이면 Coordinator review를 다시 연다.
 4. implementation 결과와 verification evidence를 기준으로 review strategy를 갱신한다.
