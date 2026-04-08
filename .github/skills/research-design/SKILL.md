@@ -115,6 +115,7 @@ reference를 모으는 것만으로는 설계가 되지 않는다. 하지만 이
 | color, depth, icon language, visual polish, Anti-AI-Slop | ds-visual-design |
 | font choice, type scale, leading, tracking | ds-typography |
 | trust signal, CTA, objection handling, loading, interaction meaning | ds-product-ux |
+| prompt language, Designer-ready brief, reference-to-prompt translation | writing-design-prompt |
 | implementation, accessibility, Tailwind, component API | fe-* |
 
 ---
@@ -168,4 +169,5 @@ reference를 모으는 것만으로는 설계가 되지 않는다. 하지만 이
 - final color, icon, polish, Anti-AI-Slop rule은 ds-visual-design이 owner다.
 - final typography rule은 ds-typography가 owner다.
 - trust, copy, objection handling, loading, interaction meaning은 ds-product-ux가 owner다.
+- evidence를 Designer-ready prompt language나 brief로 압축하는 것은 writing-design-prompt가 owner다.
 - code, accessibility, Tailwind, component API 같은 implementation deep dive는 fe-*가 owner다.

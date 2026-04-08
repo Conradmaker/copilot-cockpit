@@ -54,7 +54,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - trigger가 2개 이상 맞으면 relevant category를 모두 열고, 현재 작업 surface에 더 가까운 category부터 읽는다.
 - current artifact가 `prd.md`, `design.md`, `technical.md`, `execution-plan.md`이면 현재 phase owner와 support lane skill을 다시 평가한다.
 
-- onboarding, CTA, error state, loading, layout, typography, design research, screen/flow design, visual polish, visual inspection, responsive check, runtime design validation, design context, design critique, design audit, design boost, design improvement이면 `Design & UX`를 먼저 본다.
+- onboarding, CTA, error state, loading, layout, typography, design research, screen/flow design, visual polish, visual inspection, responsive check, runtime design validation, design context, design critique, design audit, design boost, design improvement, design prompt, prompt refinement, Designer handoff이면 `Design & UX`를 먼저 본다.
 - content draft, technical documentation, prose polish, AI pattern removal, source gathering, fact check, product research, market research, JTBD, Kano, value proposition, market sizing이면 `Writing & content`를 먼저 본다.
 - React UI, Zustand, TanStack Query, component split, shared UI, form, modal, accessibility, Tailwind, hydration mismatch, rerender, frontend review이면 `Frontend engineering`를 먼저 본다.
 - auth, permission, validation, API contract, status code, Fastify, secure coding, secret handling, Kysely, Prisma, query builder, database setup, schema design, migration, driver adapter, persistence setup, state adapter면 `Security & backend`를 먼저 본다.
@@ -81,7 +81,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 대표 trigger: layout, UX writing, typography, design research, visual review
 
-화면 구조, copy/feedback, visual direction, reference-led UI 설계, runtime visual inspection이 필요할 때 읽는다.
+화면 구조, copy/feedback, visual direction, reference-led UI 설계, design prompt authoring, runtime visual inspection이 필요할 때 읽는다.
 
 - `.github/skills/ds-product-ux/SKILL.md`: CTA copy, feedback, loading, confirmation, trust-sensitive UX
 - `.github/skills/ds-ui-patterns/SKILL.md`: layout pattern, hero, dashboard, section composition
@@ -89,6 +89,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - `.github/skills/ds-visual-design/SKILL.md`: palette, spacing, hierarchy, depth, overall visual polish
 - `.github/skills/ds-visual-review/SKILL.md`: runtime visual inspection, browser-based UI review, responsive testing, layout/overflow fix workflow (agent-browser complementary)
 - `.github/skills/research-design/SKILL.md`: reference-led screen/flow research, MCP 기반 retrieval, pattern extraction, reference-driven synthesis
+- `.github/skills/writing-design-prompt/SKILL.md`: design prompt authoring/refinement, Designer handoff wording, reference-to-prompt translation, preserve-without-drift framing
 
 ### Web visuals
 
