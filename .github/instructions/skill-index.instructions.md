@@ -56,7 +56,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 
 - onboarding, CTA, error state, loading, layout, typography, design research, screen/flow design, visual polish, visual inspection, responsive check, runtime design validation, design context, design critique, design audit, design boost, design improvement, design prompt, prompt refinement, Designer handoff이면 `Design & UX`를 먼저 본다.
 - content draft, technical documentation, prose polish, AI pattern removal, source gathering, fact check, product research, market research, JTBD, Kano, value proposition, market sizing이면 `Writing & content`를 먼저 본다.
-- React UI, Zustand, TanStack Query, component split, shared UI, form, modal, accessibility, Tailwind, hydration mismatch, rerender, frontend review, shadcn, shadcn-ui, components.json, FieldGroup, data-icon, preset, registry, UI library migration이면 `Frontend engineering`를 먼저 본다.
+- React UI, Zustand, TanStack Query, component split, shared UI, form, modal, accessibility, Tailwind, hydration mismatch, rerender, frontend review, shadcn, shadcn-ui, components.json, FieldGroup, data-icon, preset, registry, UI library migration, ai-elements, AI chat, chatbot, AI assistant UI, AI SDK, useChat, Conversation, Message, PromptInput, AI streaming, tool invocation UI이면 `Frontend engineering`를 먼저 본다.
 - auth, permission, validation, API contract, status code, Fastify, secure coding, secret handling, Kysely, Prisma, query builder, database setup, schema design, migration, driver adapter, persistence setup, state adapter면 `Security & backend`를 먼저 본다.
 - technical SEO, indexing, crawlability, schema validation, Core Web Vitals, AI bot access, title/meta, on-page SEO, featured snippet, GEO면 `SEO`를 먼저 본다.
 - browser automation, README, git/gh workflow, PDF, skill authoring, Vite, Turbopack, bundler migration, research-first workflow, official-doc verification이면 `Workflow & tooling`를 먼저 본다.
@@ -115,6 +115,7 @@ UI 구현, component architecture, state ownership, accessibility, styling, revi
 - `.github/skills/fe-shadcn-ui/SKILL.md`: shadcn/ui component integration, composition rules, FieldGroup/Field forms, base-vs-radix, CLI/MCP tools, presets, component styling, UI library migration
 - `.github/skills/fe-ui-element-components/SKILL.md`: shared UI primitive, design-system API
 - `.github/skills/fe-zustand/SKILL.md`: Zustand v5 client state, selectors, slices, persistence, Next.js hydration boundaries
+- `.github/skills/fe-ai-elements/SKILL.md`: AI Elements 컴포넌트, AI chat interface, Conversation/Message/Tool/PromptInput, Vercel AI SDK useChat integration, streaming UI, multi-modal input, tool invocation display
 
 ### Security & backend
 
