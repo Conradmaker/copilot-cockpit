@@ -54,10 +54,10 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - trigger가 2개 이상 맞으면 relevant category를 모두 열고, 현재 작업 surface에 더 가까운 category부터 읽는다.
 - current artifact가 `prd.md`, `design.md`, `technical.md`, `execution-plan.md`이면 현재 phase owner와 support lane skill을 다시 평가한다.
 
-- onboarding, CTA, error state, loading, layout, typography, design research, screen/flow design, visual polish, visual inspection, responsive check, runtime design validation, design context, design critique, design audit, design boost, design improvement, design prompt, prompt refinement, Designer handoff이면 `Design & UX`를 먼저 본다.
+- onboarding, CTA, error state, loading, layout, typography, design research, screen/flow design, visual polish, visual inspection, responsive check, runtime design validation, design context, design critique, design audit, design boost, design improvement, design prompt, prompt refinement, Designer handoff, anti-ai-slop, AI slop, generic UI, template UI, AI-generated look, AI가 만든 것 같은이면 `Design & UX`를 먼저 본다.
 - content draft, technical documentation, prose polish, AI pattern removal, source gathering, fact check, product research, market research, JTBD, Kano, value proposition, market sizing이면 `Writing & content`를 먼저 본다.
 - React UI, Zustand, TanStack Query, component split, shared UI, form, modal, accessibility, Tailwind, hydration mismatch, rerender, frontend review, shadcn, shadcn-ui, components.json, FieldGroup, data-icon, preset, registry, UI library migration, ai-elements, AI chat, chatbot, AI assistant UI, AI SDK, useChat, Conversation, Message, PromptInput, AI streaming, tool invocation UI이면 `Frontend engineering`를 먼저 본다.
-- auth, permission, validation, API contract, status code, Fastify, secure coding, secret handling, Kysely, Prisma, query builder, database setup, schema design, migration, driver adapter, persistence setup, state adapter면 `Security & backend`를 먼저 본다.
+- auth, permission, validation, API contract, status code, Fastify, secure coding, secret handling, Kysely, Prisma, Drizzle, query builder, database setup, schema design, migration, driver adapter, persistence setup, state adapter면 `Security & backend`를 먼저 본다.
 - technical SEO, indexing, crawlability, schema validation, Core Web Vitals, AI bot access, title/meta, on-page SEO, featured snippet, GEO면 `SEO`를 먼저 본다.
 - browser automation, README, git/gh workflow, PDF, skill authoring, Vite, Turbopack, bundler migration, research-first workflow, official-doc verification이면 `Workflow & tooling`를 먼저 본다.
 - image generation, image edit, hero image, illustration, compositing, visual asset backend면 `Web visuals`를 먼저 본다.
@@ -87,6 +87,7 @@ Prefer retrieval-led reasoning over pre-training-led reasoning.
 - `.github/skills/ds-ui-patterns/SKILL.md`: layout pattern, hero, dashboard, section composition
 - `.github/skills/ds-typography/SKILL.md`: font choice, pairing, scale, line-height, tracking, responsive type
 - `.github/skills/ds-visual-design/SKILL.md`: palette, spacing, hierarchy, depth, overall visual polish
+- `.github/skills/ds-anti-ai-slop/SKILL.md`: AI-generated UI anti-pattern catalog (38 rules), AI slop detection, generic UI audit, visual tell identification, template feel removal
 - `.github/skills/ds-visual-review/SKILL.md`: runtime visual inspection, browser-based UI review, responsive testing, layout/overflow fix workflow (agent-browser complementary)
 - `.github/skills/research-design/SKILL.md`: reference-led screen/flow research, MCP 기반 retrieval, pattern extraction, reference-driven synthesis
 - `.github/skills/writing-design-prompt/SKILL.md`: design prompt authoring/refinement, Designer handoff wording, reference-to-prompt translation, preserve-without-drift framing
@@ -119,7 +120,7 @@ UI 구현, component architecture, state ownership, accessibility, styling, revi
 
 ### Security & backend
 
-대표 trigger: auth, permission, API contract, validation, Fastify, secure coding, Kysely, Prisma, query builder, schema design, migration, persistence setup
+대표 trigger: auth, permission, API contract, validation, Fastify, secure coding, Kysely, Prisma, Drizzle, query builder, schema design, migration, persistence setup
 
 보안, API 계약, backend framework, persistence setup, schema/migration, secure server implementation을 다룰 때 읽는다.
 
@@ -127,6 +128,7 @@ UI 구현, component architecture, state ownership, accessibility, styling, revi
 - `.github/skills/be-api-design/SKILL.md`: REST contract, resource model, status code, error envelope
 - `.github/skills/fastify-best-practices/SKILL.md`: Fastify route/plugin/error/security patterns
 - `.github/skills/be-prisma/SKILL.md`: Prisma ORM schema design, migrations, query optimization, provider setup, Prisma v7 upgrade
+- `.github/skills/be-drizzle/SKILL.md`: Drizzle ORM type-safe SQL, schema design, migrations, query patterns, connection management, multi-dialect support (PostgreSQL, MySQL, SQLite)
 - `.github/skills/be-kysely/SKILL.md`: type-safe SQL query builder, transactions, migrations
 
 ### SEO

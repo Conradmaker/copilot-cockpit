@@ -116,7 +116,14 @@ reference를 모으는 것만으로는 설계가 되지 않는다. 하지만 이
 | font choice, type scale, leading, tracking | ds-typography |
 | trust signal, CTA, objection handling, loading, interaction meaning | ds-product-ux |
 | prompt language, Designer-ready brief, reference-to-prompt translation | writing-design-prompt |
+| DESIGN.md 작성, project-wide visual system documentation | writing-design-prompt → [design-md.md](../writing-design-prompt/references/design-md.md) |
 | implementation, accessibility, Tailwind, component API | fe-* |
+
+### Visual System Reference Assets
+
+`assets/` 폴더에 18개의 실서비스 DESIGN.md 예시가 있다. Refero MCP가 screen/flow의 layout과 interaction을 조사하는 반면, 이 assets는 project-wide visual system style guide의 tone과 구조를 참고할 때 사용한다.
+
+예시 목록, industry별 선택 가이드, 역할 구분 상세는 [references/design-md-examples.md](references/design-md-examples.md)를 읽는다.
 
 ---
 
@@ -161,6 +168,8 @@ reference를 모으는 것만으로는 설계가 되지 않는다. 하지만 이
 | --- | --- |
 | [references/mcp-tools.md](references/mcp-tools.md) | search_screens, search_flows, get_screen, get_flow, get_design_guidance의 parameter와 사용법을 확인할 때 |
 | [references/example-workflow.md](./references/example-workflow.md) | discovery → research → analyze → handoff 흐름을 end-to-end 예시로 보고 싶을 때 |
+| [references/design-md-examples.md](references/design-md-examples.md) | assets/ DESIGN.md 예시 18개의 목록, 특징, industry별 선택 가이드를 볼 때 |
+| [design-md.md](../writing-design-prompt/references/design-md.md) | DESIGN.md 작성 규칙, section 가이드, DESIGN.md vs design.md 구분이 필요할 때 |
 
 ## 범위
 

@@ -7,7 +7,7 @@ description: "Visual design foundations for color systems, spacing, hierarchy, d
 
 ## 목표
 
-색상, 타이포그래피, 스페이싱, 시각적 계층, 깊이감, 아이콘을 체계적으로 다뤄 UI가 구조적이고 일관되며 신뢰감 있게 보이게 만든다. 이 스킬은 단순히 "예쁘게 만드는" 수준이 아니라, 사용자의 시선을 유도하고 정보를 계층화하며 브랜드 정체성을 유지하는 시각적 시스템의 판단 기준을 다룬다. 또한 안전한 평균값처럼 보이는 generic visual output을 걸러내는 Anti-AI-Slop owner이기도 하다.
+색상, 타이포그래피, 스페이싱, 시각적 계층, 깊이감, 아이콘을 체계적으로 다뤄 UI가 구조적이고 일관되며 신뢰감 있게 보이게 만든다. 이 스킬은 단순히 "예쁘게 만드는" 수준이 아니라, 사용자의 시선을 유도하고 정보를 계층화하며 브랜드 정체성을 유지하는 시각적 시스템의 판단 기준을 다룬다. 또한 안전한 평균값처럼 보이는 generic visual output을 걸러내는 Anti-AI-Slop subowner이기도 하다. 전체 anti-pattern 카탈로그(38개 규칙)는 `ds-anti-ai-slop`이 primary owner로서 관리한다.
 
 이 문서는 빠른 판단을 위한 요약 가이드다. 실제로 색상을 고르거나 스페이싱을 설계하거나 시각적 계층을 점검할 때는 아래 reference 문서를 직접 읽고 상황에 맞는 기준과 예시를 확인한 뒤 적용한다.
 
@@ -142,13 +142,13 @@ description: "Visual design foundations for color systems, spacing, hierarchy, d
 
 ### 7. Anti-AI-Slop 기준으로 generic한 출력을 걸러낸다
 
-시각적으로 완성도가 낮은 화면은 종종 "틀렸다"기보다 "이유 없이 안전하다"는 느낌으로 나타난다. 이 원칙은 모델이 평균값으로 수렴하면서 생기는 시각적 상투성을 걸러내기 위한 품질 게이트다.
+시각적으로 완성도가 낮은 화면은 종종 "틀렸다"기보다 "이유 없이 안전하다"는 느낌으로 나타난다. 이 원칙은 모델이 평균값으로 수렴하면서 생기는 시각적 상투성을 걸러내기 위한 품질 게이트다. 전체 38개 anti-pattern 카탈로그는 `ds-anti-ai-slop`이 primary owner로서 관리하며, 이 스킬은 visual-level generic smell의 빠른 판단을 담당하는 subowner다.
 
 - 근거 없이 고른 indigo, violet 계열 accent를 default처럼 쓰지 않는다
 - brand, reference, surface 맥락 없이 나온 안전한 gradient와 대칭 구성을 의심한다
 - typography, spacing, color가 모두 무난한데 기억점이 없다면 visual decision이 비어 있는 상태로 본다
 - 왜 이 색과 왜 이 톤인지 설명할 수 없는 선택은 polish가 아니라 placeholder일 가능성이 높다
-- layout cliché 자체의 최종 owner는 ds-ui-patterns지만, visual-level generic smell은 여기서 먼저 걸러낸다
+- layout cliché 자체의 최종 owner는 ds-ui-patterns지만, visual-level generic smell은 여기서도 걸러낸다
 
 #### 빠른 판단 기준
 
