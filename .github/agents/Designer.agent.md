@@ -2,7 +2,7 @@
 name: Designer
 description: Downstream UI+UX design agent that turns an approved PRD into a research-backed design.md when Mate or the active planning workflow opens design work.
 argument-hint: Describe the approved PRD, target platform, existing product tone, relevant UI constraints, and what design artifact or decision needs to be produced.
-model: ["Claude Sonnet 4.6 (copilot)"]
+model: ["Claude Opus 4.7 (copilot)", "Claude Opus 4.6 (copilot)", "GPT-5.4 (copilot)"]
 target: vscode
 user-invocable: true
 disable-model-invocation: false

@@ -5,8 +5,7 @@ argument-hint: Describe the active phase, the current PRD or implementation stat
 model:
   [
     "Gemini 3 Flash (Preview) (copilot)",
-    "Claude Sonnet 4.6 (copilot)",
-    "GLM-5 (oaicopilot)",
+    "Claude Sonnet 4.6 (copilot)"
   ]
 target: vscode
 user-invocable: false

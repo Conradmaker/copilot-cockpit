@@ -54,7 +54,7 @@ VS Code Copilot Chat Agent Mode를
 |:---|:---|:---|:---|
 | Planning | Mate | `prd.md`, `artifacts.md` | PRD 승인, 품질 검토, 사용자 정렬 |
 | Downstream Definition | Designer / Architector | `design.md`, `technical.md` | 산출물 준비, 사용자 게이트 통과 |
-| Execution | Commander → Deep Execution Agent | 구현 코드, `execution-plan.md`, 검증 결과 | 구현 및 verification evidence 확보 |
+| Execution | Fleet Mode: Commander → Deep Execution Agent / Rush Mode: Mate → built-in Agent | 구현 코드, `execution-plan.md` 또는 direct implementation result, 검증 결과 | 구현 및 verification evidence 확보 |
 | Review | Reviewer | 역할별 findings, board verdict | 승인 가능한 수준의 review verdict |
 | Tail | 현재 owner | git 작업, memory 정리 | review 이후에만 진입 |
 
@@ -84,9 +84,11 @@ flowchart LR
 | Mate | 요구사항을 정리하고 `prd.md`와 `artifacts.md`를 만든다 |
 | Designer | 승인된 PRD를 바탕으로 `design.md`를 만든다 |
 | Architector | 승인된 PRD를 기술 설계 문서로 확장한다 |
-| Commander | 실행 계획을 세우고 구현 작업을 오케스트레이션한다 |
-| Deep Execution Agent | 구현과 검증을 실제로 수행한다 |
+| Commander | Fleet Mode에서 실행 계획을 세우고 구현 작업을 오케스트레이션한다 |
+| Deep Execution Agent | Fleet Mode에서 구현과 검증을 실제로 수행한다 |
 | Reviewer | 코드, 보안, 성능, 디자인 관점에서 결과를 검토한다 |
+
+Rush Mode는 workspace custom agent가 아니라 VS Code built-in `Agent`로 직접 handoff된다.
 
 ### Support
 
@@ -233,7 +235,6 @@ skill discovery registry는 [.github/instructions/skill-index.instructions.md](.
 - [DESIGN-TEMPLATE.md](.github/agents/artifacts/DESIGN-TEMPLATE.md)
 - [TECHNICAL-TEMPLATE.md](.github/agents/artifacts/TECHNICAL-TEMPLATE.md)
 - [EXECUTION-PLAN-TEMPLATE.md](.github/agents/artifacts/EXECUTION-PLAN-TEMPLATE.md)
-- [FAST-EXECUTION-PLAN-TEMPLATE.md](.github/agents/artifacts/FAST-EXECUTION-PLAN-TEMPLATE.md)
 - [WEB_IMAGE_PROMPT_TEMPLATE.md](.github/agents/artifacts/WEB_IMAGE_PROMPT_TEMPLATE.md)
 
 ## 참고 자료

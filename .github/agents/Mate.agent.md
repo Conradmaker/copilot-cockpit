@@ -21,17 +21,17 @@ tools:
   ]
 agents: ["Explore", "Coordinator", "Librarian", "Designer", "Architector", "Reviewer"]
 handoffs:
-  - label: Fleet Mode(Deep)
+  - label: Fleet Mode
     agent: "Commander"
     model: inherit
     prompt: |
-      Session artifact index is ready at /memories/session/artifacts.md. Start there, open only the listed documents that actually exist, and treat the first listed entry as the planning source of truth. Treat this handoff as Deep execution intent.
+      Session artifact index is ready at /memories/session/artifacts.md. Start there, open only the listed documents that actually exist, treat the relevant listed artifacts together as the execution surface for this task, and use Commander to plan, dispatch, and verify until the documented requirements are satisfied or a real blocker remains.
     send: true
-  - label: Fleet Mode(Fast)
-    agent: "Commander"
-    model: Qwen3.5 Plus (oaicopilot)
+  - label: Rush Mode
+    agent: "agent"
+    model: "Claude Opus 4.7 (copilot)"
     prompt: |
-      Session artifact index is ready at /memories/session/artifacts.md. Start there, open only the listed documents that actually exist, and treat the first listed entry as the planning source of truth. Treat this handoff as Fast execution intent.
+      Session artifact index is ready at /memories/session/artifacts.md. Start there. Open only the listed documents that actually exist, treat the relevant listed artifacts together as the requirement surface for this task, and surface conflicts instead of guessing. Carry the work through implementation, validation, and necessary follow-up until the documented requirements are satisfied or a real blocker remains.
     send: true
 ---
 

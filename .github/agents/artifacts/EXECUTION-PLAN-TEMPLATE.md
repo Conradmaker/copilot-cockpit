@@ -2,7 +2,7 @@
 
 ## 1. How to Create This Plan
 
-- `/memories/session/artifacts.md`를 먼저 읽고, 첫 번째 entry인 approved `prd.md`와 listed된 relevant downstream artifact만 연다.
+- `/memories/session/artifacts.md`를 먼저 읽고, listed된 task-relevant existing 문서만 연다. approved `prd.md`가 있으면 planning anchor로 먼저 확인하되, execution requirement input은 relevant listed artifacts를 함께 본다.
 - data contract가 필요하면 type, schema, query contract부터 먼저 고정한다.
 - full-stack feature는 backend contract를 먼저 고정하고, backend implementation과 frontend mock integration을 가능한 범위에서 병렬화한다.
 - 영향을 받는 파일과 scope split 여부를 먼저 정리한다.
@@ -13,11 +13,11 @@
 
 ## 2. Plan Checklist & Cautions
 
-- [ ] `/memories/session/artifacts.md`를 먼저 읽고, listed된 approved `prd.md`와 relevant downstream artifact를 기준으로 작성했다.
+- [ ] `/memories/session/artifacts.md`를 먼저 읽고, approved `prd.md`가 있으면 planning anchor로 확인했으며, task-relevant listed artifacts를 함께 기준으로 작성했다.
 - [ ] PRD 를 다시 쓰지 않고 approved scope 를 atomic task 단위 구조로 변환했다.
 - [ ] data contract 가 필요한 경우 type, schema, query contract 가 먼저 고정되었다.
 - [ ] full-stack feature 라면 backend contract 와 frontend integration boundary 가 먼저 합의되었다.
-- [ ] 모든 task 에 `depends_on`과 appropriate validation field 가 있다. implementation task 는 `verification_expectation`, review/asset task 는 `validation`을 사용한다.
+- [ ] 모든 task 에 `depends_on`과 appropriate validation field 가 있다. implementation task 는 optional `verification_expectation`(task-specific 추가 검증 필요시), review/asset task 는 `validation`을 사용한다. Deep Execution Agent의 default verification은 codebase-level essential check(typecheck, lint on modified files, syntax check)이다.
 - [ ] 병렬 task 끼리 file overlap 이 낮고 cross-task interface 가 명확하다.
 - [ ] 각 task 의 validation 이 독립적이고, 한 task 의 실패가 무관한 work 를 불필요하게 막지 않는다.
 - [ ] page-context-heavy UI 를 과도하게 잘게 쪼개지 않았고, design-system or isolated widget work 는 독립 unit 으로 분리했다.
@@ -44,7 +44,7 @@
 | `exact_symbol_scope` | `string[] \| 'N/A'` | Yes | 핵심 함수, 컴포넌트, 타입, route, schema |
 | `included_scope` | `string` | Yes | 허용된 수정 범위 |
 | `excluded_scope` | `string` | Yes | 이번 task 에서 건드리지 않을 범위 |
-| `verification_expectation` | `string` | Yes | 필수 검증과 evidence expectation |
+| `verification_expectation` | `string \| 'N/A'` | No | Deep Execution Agent는 default로 codebase-level essential verification(typecheck, modified files lint, syntax check)을 수행한다. full build/test는 Phase 3 build-verification role이 담당한다. task-specific 추가 검증이 필요하면 기술한다. |
 | `functional_digest` | `string \| 'N/A'` | No | 기능 요구 핵심 |
 | `design_digest` | `string \| 'N/A'` | No | design/UX 요구 |
 | `technical_digest` | `string \| 'N/A'` | No | technical constraint |
