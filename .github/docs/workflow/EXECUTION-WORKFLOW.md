@@ -21,7 +21,7 @@ flowchart TD
     Summary(["오케스트레이션 요약 반환<br/>진행률과 남은 리스크 정리"])
 
     subgraph Commander["Commander 오케스트레이션"]
-        Load["execution brief가 있으면 먼저 읽고,<br/>없으면 planning 산출물 묶음, 승인된 PRD,<br/>downstream 문서를 읽음"]
+        Load["먼저 artifacts.md를 읽고,<br/>listed된 execution brief 또는 승인된 PRD,<br/>downstream 문서를 읽음"]
         Mode["execution intent와 Fast signal 확인"]
         Scope["범위 점검 수행<br/>single plan 또는 split plans 판단"]
         Research{"추가 근거가 필요한가"}
@@ -37,7 +37,7 @@ flowchart TD
         Gotchas["gotcha와 risk 식별<br/>필요하면 plan 갱신"]
         Blocker{"치명적 차단 요소,<br/>범위 확장,<br/>사용자 선택 필요 여부"}
         Ready{"dispatch 가능한 task가 있는가"}
-        Brief["구현/asset brief 합성<br/>files, scope, done-definition, verification 잠금<br/>task-local artifacts 직렬화"]
+        Brief["구현/asset brief 합성<br/>files, scope, done-definition, verification 잠금<br/>packet-only digest로 압축"]
         Dispatch["dependency wave 단위로 dispatch<br/>code task는 Deep Execution Agent,<br/>asset task는 Painter에 전달"]
         Evidence["검증 근거 회수<br/>commands, results, paths 정리"]
         Sync["worker 결과 합성<br/>todo와 execution-plan.md 갱신"]
@@ -65,7 +65,7 @@ flowchart TD
     subgraph Review["Reviewer 검토 흐름"]
         FastReview["Fast 기본 self-check 수행"]
         Hotspot{"추가 role review가 필요한가"}
-        ReviewWave["필요한 Reviewer role을 병렬로 호출<br/>Deep 기본, Fast는 hotspot 있을 때만 추가<br/>각 packet은 artifact 또는 evidence ref를 최소 1개 포함"]
+        ReviewWave["필요한 Reviewer role을 병렬로 호출<br/>Deep 기본, Fast는 hotspot 있을 때만 추가<br/>각 packet은 changed surface와 evidence digest를 포함"]
         Board["마지막 Reviewer board 관문"]
         Verdict{"board verdict"}
     end
@@ -119,10 +119,10 @@ flowchart TD
 ## 읽는 법
 
 - 진입 관문이 실패하면 Execution에 들어가지 않고, 산출물 보강, 사용자 승인 확보, Planning 또는 downstream 보완으로 되돌아간다.
-- Commander는 execution brief가 있으면 먼저 읽고, 없으면 Planning 인계에서 만들어진 planning 산출물 묶음을 읽는다. 그다음 execution intent와 Fast signal을 확인해 Deep 또는 Fast 템플릿을 고르고, 이 넓은 맥락을 실행 계획으로 정리한 뒤 worker dispatch에서는 task-local artifacts로 다시 잠근다.
+- Commander는 먼저 `artifacts.md`를 읽고, listed된 execution brief가 있으면 그것을 우선 읽는다. execution brief가 없으면 listed된 approved PRD와 downstream 문서를 읽는다. 그다음 execution intent와 Fast signal을 확인해 Deep 또는 Fast 템플릿을 고르고, 이 맥락을 실행 계획으로 정리한 뒤 worker dispatch에서는 packet-only brief로 다시 압축한다.
 - exact evidence field definition과 completeness 기준은 Deep Execution Agent의 `Verification`, Reviewer의 `Evidence`, `Risks`가 담당하고, 이 문서는 흐름만 요약한다.
 - plan을 만든 뒤에는 Coordinator `execution` review를 기본 관문으로 거친다. 이 단계는 선택형이 아니라 execution plan 품질을 맞추는 기본 흐름이다.
-- dispatch 전에는 최신 findings를 구현 준비가 된 brief로 합성하고, raw worker findings를 그대로 다음 worker에게 넘기지 않는다. implementation task는 기본적으로 `artifacts=[]`이며, 정말 필요한 ref만 예외적으로 넣는다.
+- dispatch 전에는 최신 findings를 구현 준비가 된 brief로 합성하고, raw worker findings를 그대로 다음 worker에게 넘기지 않는다. implementation task와 review task 모두 generic artifact bag 없이 packet만으로 시작할 수 있어야 한다.
 - code task는 dependency wave를 기준으로 Deep Execution Agent에 배분하고, 독립 task는 병렬로 돌릴 수 있다. generated image asset가 필요한 경우 asset task는 Painter에 배분한다.
 - worker 결과는 pass/fail 한 줄이 아니라 changed files, commands, observed results, skipped checks를 포함한 evidence로 회수한다.
 - 구현 중 drift가 감지되면 Coordinator review를 중간에 다시 열 수 있다.
@@ -130,5 +130,5 @@ flowchart TD
 - review 단계에서는 role review를 병렬 wave로 열 수 있고, 그 결과는 Commander가 lane findings, verification evidence, residual risk로 종합한 뒤 `board` packet에 반영한다.
 - `Fleet Mode(Fast)`는 `self-check`와 final `board`를 기본 검토 경로로 쓰고, specialist review는 hotspot이 뚜렷할 때만 붙인다. `Fleet Mode(Deep)`는 필요한 review role을 병렬로 열고 마지막에 `board`로 닫는다.
 - `board`가 `rework-required`를 내리면 Commander는 전체를 처음부터 다시 돌리지 않고 invalidated task나 wave만 다시 열어 재구현과 재검토를 이어 간다.
-- 구현이 끝나면 review 전략에 맞는 검토를 거친 뒤 `board` 관문으로 최종 verdict를 닫는다. review packet은 artifact 또는 evidence ref를 최소 1개 이상 포함해야 한다.
+- 구현이 끝나면 review 전략에 맞는 검토를 거친 뒤 `board` 관문으로 최종 verdict를 닫는다. review packet은 changed surface와 evidence digest가 빠지면 안 된다.
 - `board` verdict가 승인 가능 수준일 때만 Git Tail과 Memory Tail 판단으로 넘어간다.

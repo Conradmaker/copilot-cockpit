@@ -46,7 +46,7 @@ tools:
 이 agent는 `task_packet`을 읽는다.
 full packet schema는 `.github/instructions/subagent-invocation.instructions.md`가 owner다.
 
-- shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`
+- shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`
 - optional hint: `CURRENT_DATE`
 
 버전이나 target이 중요하면 `CONTEXT`를 우선 적용한다.

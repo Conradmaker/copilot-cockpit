@@ -44,7 +44,7 @@ VS Code Copilot Chat Agent Mode를
 
 ### Human-readable artifacts
 
-채팅 로그에만 의존하지 않고 사람이 다시 읽을 수 있는 산출물을 남깁니다. `prd.md`, `design.md`, `technical.md`, `execution-plan.md`가 그 중심입니다.
+채팅 로그에만 의존하지 않고 사람이 다시 읽을 수 있는 산출물을 남깁니다. `prd.md`, `artifacts.md`, `design.md`, `technical.md`, `execution-plan.md`가 그 중심입니다.
 
 ## 워크플로우
 
@@ -52,7 +52,7 @@ VS Code Copilot Chat Agent Mode를
 
 | Phase | Owner | 주요 결과물 | 다음 단계로 가는 조건 |
 |:---|:---|:---|:---|
-| Planning | Mate | `prd.md`, `references.md` | PRD 승인, 품질 검토, 사용자 정렬 |
+| Planning | Mate | `prd.md`, `artifacts.md` | PRD 승인, 품질 검토, 사용자 정렬 |
 | Downstream Definition | Designer / Architector | `design.md`, `technical.md` | 산출물 준비, 사용자 게이트 통과 |
 | Execution | Commander → Deep Execution Agent | 구현 코드, `execution-plan.md`, 검증 결과 | 구현 및 verification evidence 확보 |
 | Review | Reviewer | 역할별 findings, board verdict | 승인 가능한 수준의 review verdict |
@@ -81,7 +81,7 @@ flowchart LR
 
 | Agent | 하는 일 |
 |:---|:---|
-| Mate | 요구사항을 정리하고 `prd.md`와 `references.md`를 만든다 |
+| Mate | 요구사항을 정리하고 `prd.md`와 `artifacts.md`를 만든다 |
 | Designer | 승인된 PRD를 바탕으로 `design.md`를 만든다 |
 | Architector | 승인된 PRD를 기술 설계 문서로 확장한다 |
 | Commander | 실행 계획을 세우고 구현 작업을 오케스트레이션한다 |

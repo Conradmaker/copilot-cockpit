@@ -34,12 +34,12 @@ flowchart TD
         Evidence{"맥락 공백, 근거 공백,<br/>reference 필요가 있는가"}
         ExploreLane["Explore로 로컬 근거 수집"]
         LibrarianLane["Librarian로 외부 근거 수집"]
-        ReferenceSync["결정 가능한 근거를<br/>references.md에 반영"]
+        ReferenceSync["결정 가능한 근거를<br/>prd.md에 반영하고<br/>artifacts.md를 동기화"]
         Ears["EARS 다차원 점검<br/>functional, visual-design, UX, technical, content"]
         Draft["PRD-TEMPLATE 기준으로 prd.md 작성"]
         Council["Coordinator 관점 최소 2개 열기<br/>role별 검토 수행"]
         Verdict{"Coordinator verdict"}
-        Refine["prd.md와 references.md를 고치고<br/>필요한 관점만 다시 연다"]
+        Refine["prd.md와 artifacts.md를 고치고<br/>필요한 관점만 다시 연다"]
         Gate["Planning 품질 관문 평가"]
         Pass{"품질 관문 통과 여부"}
         Brief["승인된 PRD 요약 안내"]
@@ -145,7 +145,7 @@ flowchart TD
 ## 산출물
 
 - `prd.md`
-- `references.md`
+- `artifacts.md`
 - 승인된 PRD 요약 안내
-- 인계가 열리면 생성된 planning 산출물 묶음과 함께 이어지는 안내형 인계
+- 인계가 열리면 최신 `artifacts.md`와 함께 이어지는 안내형 인계
 - 필요하면 `design.md` 또는 `technical.md`로 이어지는 안내형 인계

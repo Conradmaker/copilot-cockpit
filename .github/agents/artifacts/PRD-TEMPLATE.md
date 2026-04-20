@@ -118,7 +118,7 @@ Dimensions: {해당 차원 — functional / visual-design / UX / technical / con
 - Key findings: {핵심 발견}
 - Resource index:
   - {path/url} — {무엇을 다루는지}
-- Detail: /memories/session/references.md (decision-ready evidence only)
+- Related session artifact index: /memories/session/artifacts.md (generated docs only)
 
 **Quality Gate**
 
@@ -146,5 +146,5 @@ Dimensions: {해당 차원 — functional / visual-design / UX / technical / con
 - scope, out of scope, non-goals가 서로 구분되는가
 - requirements와 constraints, assumptions가 뒤섞이지 않았는가
 - PRD가 design spec이나 task plan으로 과도하게 내려가지 않았는가
-- references가 scratchpad가 아니라 decision-ready evidence만 담고 있는가
+- References & Evidence가 concise summary 수준을 유지하고, `/memories/session/artifacts.md`가 generated docs만 정확히 가리키는가
 - downstream Design 및 Technical work가 시작할 seed가 충분한가

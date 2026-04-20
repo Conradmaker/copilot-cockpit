@@ -46,7 +46,7 @@ agents: []
 이 agent는 `task_packet`을 읽는다.
 full packet schema는 `.github/instructions/subagent-invocation.instructions.md`가 owner다.
 
-- shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`
+- shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`
 - optional hint: `SEARCH_STRATEGY`
 
 `CONTEXT`에는 scope와 desired thoroughness를 함께 둘 수 있다.

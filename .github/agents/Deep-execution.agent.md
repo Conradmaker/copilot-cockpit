@@ -3,10 +3,13 @@ name: Deep Execution Agent
 description: Implementation-focused coding subagent directed by Commander. Use when a self-contained implementation packet needs focused code execution, code-local context gathering, and self-verification inside an assigned scope.
 argument-hint: Provide a self-contained implementation packet, assigned scope, required verification, and only task-essential supporting refs when packet-only execution is insufficient.
 model:
-  ["GPT-5.4 (copilot)", "Claude Sonnet 4.6 (copilot)", "Qwen3.5 Plus (oaicopilot)"]
+  [
+    "Claude Sonnet 4.6 (copilot)",
+    "Qwen3.5 Plus (oaicopilot)"
+    ]
 user-invocable: false
 disable-model-invocation: false
-tools: [vscode/memory, execute, read, agent, edit, search]
+tools: [execute, read, agent, edit, search]
 agents: ["Explore", "Librarian"]
 ---
 

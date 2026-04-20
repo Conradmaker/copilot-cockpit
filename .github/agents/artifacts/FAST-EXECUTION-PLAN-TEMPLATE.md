@@ -2,7 +2,7 @@
 
 ## 1. How to Create This Plan
 
-- approved `prd.md` 와 `references.md`, `design.md`, `technical.md` 와 같은 relevant downstream artifact 를 먼저 읽는다.
+- `/memories/session/artifacts.md`를 먼저 읽고, 첫 번째 entry인 approved `prd.md`와 listed된 relevant downstream artifact만 연다.
 - 이 template 는 구조적으로 연결된 변경을 한 워커가 한 번에 밀고 갈 수 있을 때 우선 사용한다.
 - Fast mode 의 핵심은 병렬화가 아니라 context continuity 다. 같은 feature slice, page-context, route flow, integration surface 는 가능한 한 한 워커에게 묶는다.
 - task 를 micro-step 으로 쪼개지 않는다. Fast mode 의 task 는 작은 구현 조각이 아니라 worker 가 end-to-end 로 책임질 execution bundle 이어야 한다.
@@ -15,7 +15,7 @@
 
 ## 2. Plan Checklist & Cautions
 
-- [ ] approved `prd.md` 와 `references.md`, `design.md`, `technical.md` 와 같은 relevant downstream artifact 를 기준으로 작성했다.
+- [ ] `/memories/session/artifacts.md`를 먼저 읽고, listed된 approved `prd.md`와 relevant downstream artifact를 기준으로 작성했다.
 - [ ] Fast mode 가 실제로 맞는지 먼저 판단했고, 부적합 조건이 보이면 기본 execution plan 으로 되돌리도록 기록했다.
 - [ ] PRD 를 다시 쓰지 않고 approved scope 를 큰 execution bundle 단위로 변환했다.
 - [ ] 각 bundle 이 하나의 명확한 acceptance outcome 을 가진다.
@@ -23,8 +23,8 @@
 - [ ] split 이 있다면 file ownership, outcome, or technical boundary 가 분명히 갈라진다.
 - [ ] 모든 task 에 `depends_on`과 appropriate validation field 가 있다. implementation bundle task 는 `verification_expectation`, review task 는 `validation`을 사용한다.
 - [ ] 모든 task 가 worker brief 역할을 할 만큼 충분한 지시와 reference 를 포함한다.
-- [ ] implementation bundle task 의 `artifacts` 는 `string[]` 로 직접 기술했고, packet 본문만으로 충분하면 `[]` 로 유지해 context isolation 을 지켰다.
-- [ ] review task 의 `artifacts` 는 `string[]` 로 직접 기술했고, 각 review 에 최소 1개 이상의 relevant `/memories/session/**.md` 또는 evidence ref 를 넣었다.
+- [ ] implementation bundle task 는 generic artifact bag 없이도 self-contained 하다.
+- [ ] review task 의 `evidence_inputs` 는 changed surface, validation output, prior findings, 필요한 session doc reference를 concise digest로 기술했다.
 - [ ] implementation bundle task 는 self-contained 하다 — task-local field 만으로 구현 scope 와 done-definition 이 명확하다.
 - [ ] review 기본값을 self-check + final `board`로 두었고, specialist review 는 hotspot 기반으로만 켰다.
 - [ ] phase 와 task 수를 최소화했고, process 가 구현보다 더 커지지 않는다.
@@ -47,7 +47,6 @@
 | `included_scope` | `string` | Yes | 허용된 수정 범위 |
 | `excluded_scope` | `string` | Yes | 이번 task 에서 건드리지 않을 범위 |
 | `verification_expectation` | `string` | Yes | 필수 검증과 evidence expectation |
-| `artifacts` | `string[]` | Yes | task-essential artifact refs, 기본값은 `[]` 이며 packet 본문만으로 충분하면 비운다. 정말 필요시 `/memories/session/**.md` 양식으로 나열한다. |
 | `functional_digest` | `string \| 'N/A'` | No | 기능 요구 핵심 |
 | `design_digest` | `string \| 'N/A'` | No | design/UX 요구 |
 | `technical_digest` | `string \| 'N/A'` | No | technical constraint |
@@ -70,9 +69,8 @@
 | `review_role` | `string \| 'board' \| 'self-check'` | Yes | reviewer role |
 | `review_surface` | `string` | Yes | changed files, hotspot surface, findings summary |
 | `validation` | `string` | Yes | findings 기록과 verdict 판단 방법 |
-| `artifacts` | `string[]` | Yes | review-essential artifact or evidence refs, 최소 1개 이상 넣는다. `/memories/session/**.md` 양식으로 나열한다. |
+| `evidence_inputs` | `string` | Yes | review에 필요한 change summary, validation output, prior findings, 필요한 doc 또는 command reference digest |
 | `review_goal` | `string \| 'N/A'` | No | 검토 목적 |
-| `evidence_inputs` | `string \| 'N/A'` | No | change summary, validation output, prior findings |
 | `review_constraints` | `string` | No | review 가 넓히지 말아야 하는 scope boundary |
 | `known_risks` | `string \| 'N/A'` | No | risk hotspot |
 | `escalation_triggers` | `string` | No | review 중 Commander packet refresh 조건 |
@@ -94,6 +92,7 @@
 
 **Execution Context**
 
+- Artifact index: {path or N/A}
 - Source PRD: {path or title}
 - Design ref: {path or N/A}
 - Technical ref: {path or N/A}
@@ -145,7 +144,7 @@ specialist reviewer 가 여러 개 필요해지면 기본 execution plan 으로 
 
 #### T1: Lock primary execution bundle
 - **depends_on**: []
-- {ImplementationTaskPacket 의 required field 를 모두 기술한다. `artifacts` 는 특별한 필요가 없으면 `[]` 로 둔다}
+- {ImplementationTaskPacket 의 required field 를 모두 기술한다}
 - **status**: not-started
 - **log**: {실행 후 기록}
 
@@ -156,13 +155,13 @@ specialist reviewer 가 여러 개 필요해지면 기본 execution plan 으로 
 
 #### T2: Execute primary bundle
 - **depends_on**: [T1]
-- {ImplementationTaskPacket 의 required field 를 모두 기술한다. `artifacts` 는 특별한 필요가 없으면 `[]` 로 둔다}
+- {ImplementationTaskPacket 의 required field 를 모두 기술한다}
 - **status**: not-started
 - **log**: {실행 후 기록}
 
 #### T3: Execute secondary bundle (Optional)
 - **depends_on**: [T2]
-- {ImplementationTaskPacket 의 required field 를 모두 기술한다. `artifacts` 는 특별한 필요가 없으면 `[]` 로 둔다}
+- {ImplementationTaskPacket 의 required field 를 모두 기술한다}
 - **status**: not-started
 - **log**: {실행 후 기록}
 
@@ -174,19 +173,19 @@ specialist reviewer 가 여러 개 필요해지면 기본 execution plan 으로 
 #### S1: Self-check
 - **depends_on**: {[T2] or [T2, T3]}
 - **review_role**: `self-check`
-- {ReviewTaskPacket 의 required field 를 모두 기술한다. `artifacts` 는 최소 1개 이상의 relevant ref 를 넣는다}
+- {ReviewTaskPacket 의 required field 를 모두 기술한다. `evidence_inputs` 에 review에 필요한 change summary와 validation output을 압축해 넣는다}
 - **status**: not-started
 - **log**: {실행 후 기록}
 
 #### R1: {Optional reviewer role} review
 - **depends_on**: [S1]
-- {ReviewTaskPacket 의 required field 를 모두 기술한다. `artifacts` 는 최소 1개 이상의 relevant ref 를 넣는다}
+- {ReviewTaskPacket 의 required field 를 모두 기술한다. `evidence_inputs` 에 review에 필요한 change summary와 prior findings를 압축해 넣는다}
 - **log**: {실행 후 기록}
 
 #### B1: Final board gate
 - **depends_on**: {[S1] or [S1, R1]}
 - **review_role**: `board`
-- {ReviewTaskPacket 의 required field 를 모두 기술한다. `artifacts` 는 최소 1개 이상의 relevant ref 를 넣는다}
+- {ReviewTaskPacket 의 required field 를 모두 기술한다. `evidence_inputs` 에 lane findings와 residual risk를 압축해 넣는다}
 - **status**: not-started
 - **log**: {실행 후 기록}
 

@@ -20,13 +20,11 @@ agents:
 
 ## Shared Session Artifacts
 
-- Current PRD: `/memories/session/prd.md`
-- Optional downstream artifacts: `/memories/session/design.md`, `/memories/session/technical.md`, `/memories/session/references.md`
+- Current artifact index: `/memories/session/artifacts.md`
 - Current execution plan: `/memories/session/execution-plan.md`
-- Other relevant session memory: current execution brief나 task-relevant supporting artifact
+- Other relevant session memory: `artifacts.md`에 listed된 existing session docs 또는 current execution brief
 
-`prd.md`는 approved scope의 source of truth다.
-`design.md`, `technical.md`, `references.md`는 task boundary와 review focus를 sharpen할 때 읽는 supporting artifact다.
+`artifacts.md`는 generated session document index다. Commander는 먼저 이 파일을 읽고, 파일들을 source of truth로 해석한 뒤 listed된 existing 문서 중 task-relevant한 것만 연다.
 Commander가 `execution-plan.md`을 만든 뒤 `execution-plan.md` orchestration 상태의 source of truth로 유지한다. todo와 plan status는 함께 갱신한다.
 
 
@@ -37,11 +35,10 @@ Commander는 planning artifact와 coding worker, reviewer worker 사이의 trans
 - Deep Execution Agent의 기본 경로는 packet-only다. raw session artifact(`prd.md`, `design.md`, `technical.md`, `execution-plan.md`)는 default dispatch input으로 넘기지 않는다.
 - brief에는 최소한 이번 wave의 goal, exact target, scope boundary, done-definition, verification expectation, escalation condition이 구체적으로 잠겨 있어야 한다.
 - execution-plan의 implementation task block과 review task block은 dispatch packet의 source material이다. Commander는 broad planning context를 다시 던지지 않고 task spec을 거의 손실 없이 packet으로 직렬화한다.
-- execution-plan의 task-local `artifacts` 배열은 dispatch packet의 `ARTIFACTS`로 직렬화한다. implementation task에서 `artifacts`가 비어 있으면 context isolation을 유지하고, review task에서는 listed artifact/evidence ref만 전달한다.
-- task-local `artifacts`가 필요하면 task-specific excerpt나 narrow evidence로 좁히고, 왜 필요한지 `CONTEXT`에 명시한다.
+- upstream 근거나 session 문서가 실제로 필요하면 generic ref bundle 대신 task-specific digest로 압축해 `CONTEXT`와 `EXECUTION_PLAN`에 녹인다. packet만으로 바로 시작할 수 없으면 아직 dispatch-ready가 아니다.
 - same-approach correction처럼 current context overlap이 높으면 existing subagent-worker context를 재사용하고, wrong approach였거나 fresh verification이 필요하면 fresh subagent-worker를 우선한다.
 - execution-plan의 implementation task가 `Shared Implementation Defaults` 또는 `Shared Bundle Defaults`를 쓰면, `task-local/local_overrides -> nearest shared defaults -> current execution context` 순서로 packet을 합성한다. critical field(`owned_outcome`, `exact_file_scope`, `included_scope`, `verification_expectation`)가 비면 dispatch하지 않는다.
-- packet mapping은 간단히 유지한다. `TASK`는 goal, `EXPECTED_OUTCOME`은 done-definition과 quality bar, `MUST_DO`와 `MUST_NOT_DO`는 boundary와 verification, `CONTEXT`는 digest와 risk, `ARTIFACTS`는 task-local `artifacts`에서 고른 narrow ref, `SCOPE`는 file/symbol lock, `EXECUTION_PLAN`은 local work order와 proof plan을 담는다.
+- packet mapping은 간단히 유지한다. `TASK`는 goal, `EXPECTED_OUTCOME`은 done-definition과 quality bar, `MUST_DO`와 `MUST_NOT_DO`는 boundary와 verification, `CONTEXT`는 digest와 risk와 essential evidence를, `SCOPE`는 file/symbol lock을, `EXECUTION_PLAN`은 local work order와 proof plan을 담는다.
 
 ## Rules
 
@@ -60,7 +57,7 @@ Commander는 planning artifact와 coding worker, reviewer worker 사이의 trans
 
 ## Workflow
 
-1. handoff나 user prompt에서 execution mode를 결정하고 Fast signal이 있으면 `.github/agents/artifacts/FAST-EXECUTION-PLAN-TEMPLATE.md`을, 그렇지 않으면 `.github/agents/artifacts/EXECUTION-PLAN-TEMPLATE.md`의 방법과 approved `prd.md`, task-relevant downstream artifact를 이용하여 `execution-plan.md`를 만든다. 이때 evidence gap이나 reference need가 있으면 Explore 또는 Librarian로 먼저 보강한다.
+1. handoff나 user prompt에서 execution mode를 결정하고 `/memories/session/artifacts.md`를 먼저 읽어 available artifact를 확인한다. Fast signal이 있으면 `.github/agents/artifacts/FAST-EXECUTION-PLAN-TEMPLATE.md`을, 그렇지 않으면 `.github/agents/artifacts/EXECUTION-PLAN-TEMPLATE.md`의 방법과 `artifacts.md`에 listed된 approved `prd.md`, task-relevant downstream artifact를 이용하여 `execution-plan.md`를 만든다. 이때 evidence gap이나 reference need가 있으면 Explore 또는 Librarian로 먼저 보강한다.
 2. plan을 만든 뒤 gotcha, edge case, pitfall을 표면화하고, Coordinator에 `execution` role로 plan review을 위임하고, 결과에 따라 수정을 진행하고 plan의 execution unit을 todo와 함께 동기화한다.
 3. `depends_on`이 충족된 task부터 wave 단위로 dispatch한다. code task와 review task는 task-local  `task_packet`으로, asset task는 Painter로 배분하고, 결과는 raw transcript가 아니라 change summary, evidence, remaining risk 형태로 합성한뒤 todo와 `execution-plan.md`에 다시 반영한다. drift나 확신 저하가 보이면 Coordinator review를 다시 연다.
 4. implementation 결과와 verification evidence를 기준으로 review strategy를 갱신한다.

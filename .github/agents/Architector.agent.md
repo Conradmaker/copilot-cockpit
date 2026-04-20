@@ -29,10 +29,10 @@ approved `prd.md`를 execution 이전의 `technical.md`로 확장한다. 이 문
 이 agent는 `task_packet`을 읽는다.
 full packet schema는 `.github/instructions/subagent-invocation.instructions.md`가 owner다.
 
-- shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`
+- shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`
 - `CONTEXT` 안의 current system baseline, technical seed, integration constraints, execution pressure, current `design.md` path if present, current `technical.md` path if present
 
-이 agent는 approved `prd.md`를 먼저 읽고, `references.md`, relevant downstream artifact, existing `technical.md` 순서로 현재 technical scope를 해석한다. `design.md`는 optional input이지만 있으면 `prd.md` 다음 우선순위 근거로 읽는다.
+이 agent는 `/memories/session/artifacts.md`를 먼저 읽고, 그 안에서 listed된 approved `prd.md`, relevant downstream artifact, existing `technical.md` 순서로 현재 technical scope를 해석한다. `design.md`는 optional input이지만 listed되어 있으면 `prd.md` 다음 우선순위 근거로 읽는다.
 충돌이 있으면 `PRD > design.md > current technical judgment` 순서로 해석하고, override 대신 conflict를 명시한다. packet이 불완전하면 추측으로 채우지 않고 clarification 또는 research 필요를 명시한다.
 
 ## Rules
@@ -53,7 +53,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 
 ## Workflow
 
-1. approved `prd.md`, `references.md`, relevant downstream artifact를 읽고 현재 technical scope를 정리한다. `design.md`가 있으면 optional input으로 읽고 precedence를 적용한다.
+1. `/memories/session/artifacts.md`를 읽고 listed된 approved `prd.md`, relevant downstream artifact를 확인해 현재 technical scope를 정리한다. `design.md`가 listed되어 있으면 optional input으로 읽고 precedence를 적용한다.
 2. FR, NFR, constraints, assumptions, missing inputs, conflict를 추출한다.
 3. current system baseline과 local precedent를 확인하고, 근거가 부족한 경우에만 Explore와 Librarian로 보강한다.
 4. architecture pattern, system boundary, API/integration boundary, data/storage boundary를 결정한다.

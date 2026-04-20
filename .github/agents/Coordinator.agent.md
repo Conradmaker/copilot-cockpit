@@ -43,9 +43,9 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 
 이 agent가 직접 해석하는 핵심 입력은 아래와 같다.
 
-- shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`, `ARTIFACTS`
+- shared core: `TASK`, `EXPECTED_OUTCOME`, `MUST_DO`, `MUST_NOT_DO`, `CONTEXT`
 - `ROLE`: 단일 coordinator role
-- `CONTEXT` 안의 current PRD 또는 current implementation state, decision focus, known risks, unresolved items
+- `CONTEXT` 안의 current PRD 또는 current implementation state, decision focus, known risks, unresolved items, 필요한 current document state
 
 packet이 불완전해도 무조건 추측하지 않는다.
 판단 근거가 부족하면 evidence gap을 먼저 드러낸다.

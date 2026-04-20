@@ -38,11 +38,6 @@ runtime behavior와 phase-local workflow는 각 `.agent.md`와 필요한 `.githu
 	<MUST_DO>{non-negotiable requirements}</MUST_DO>
 	<MUST_NOT_DO>{forbidden actions and safety rails}</MUST_NOT_DO>
 	<CONTEXT>{relevant background, patterns, rationale, and constraints}</CONTEXT>
-	<ARTIFACTS>
-		<REF_1>/memories/session/prd.md</REF_1>
-		<REF_2>/memories/session/**.md</REF_2>
-		<REF_3>{optional additional artifact path}</REF_3>
-	</ARTIFACTS>
 	<ROLE>{optional role anchor for role-aware agents}</ROLE>
 	<CURRENT_DATE>{optional freshness anchor for Librarian}</CURRENT_DATE>
 	<SEARCH_STRATEGY>{optional retrieval order, narrowing, and stopping rules for Explore}</SEARCH_STRATEGY>
@@ -65,7 +60,6 @@ runtime behavior와 phase-local workflow는 각 `.agent.md`와 필요한 `.githu
 - `MUST_DO`: 누락되면 안 되는 요구사항, verification expectation, safety-critical rule을 적는다.
 - `MUST_NOT_DO`: scope expansion, shortcut, forbidden action을 적는다.
 - `CONTEXT`: 배경, 파일/심볼 anchor, 관련 패턴, rationale, non-obvious constraint를 적는다.
-- `ARTIFACTS`: caller가 현재 phase에서 receiver에게 의도적으로 열어 준 artifact/evidence ref bundle을 적는다.
 
 ### Optional fields
 
@@ -77,9 +71,8 @@ runtime behavior와 phase-local workflow는 각 `.agent.md`와 필요한 `.githu
 
 ### Packet field semantics
 
-- `REF_{N}`는 caller가 선택한 ordinal slot이다. field name 자체에 semantic meaning을 싣지 않고, receiver는 순서보다 현재 packet 안에 잠긴 artifact set 자체를 읽는다.
-- `ARTIFACTS`에는 `/memories/session/**.md`나 review evidence처럼 현재 packet에 정말 필요한 ref만 넣는다. broad artifact bundle을 기본값으로 다시 열지 않는다.
 - `ROLE`은 role-aware agent에서만 의미가 있다. current workflow에서는 Coordinator와 Reviewer가 사실상 필수 field로 해석하고, 그 외 agent는 기본적으로 무시한다.
+- supporting doc, prior findings, validation output처럼 receiver가 꼭 알아야 하는 근거는 generic bundle 대신 `CONTEXT`나 `EXECUTION_PLAN` 안에서 바로 해석 가능한 digest로 압축한다.
 
 receiver-side field interpretation은 각 `*.agent.md`에서 정의한다.
 
@@ -87,7 +80,7 @@ receiver-side field interpretation은 각 `*.agent.md`에서 정의한다.
 
 - 지금 어떤 phase에 있는가
 - 왜 이 호출이 필요한가
-- caller가 어떤 artifact를 열어 두었는가
+- caller가 어떤 narrow context와 제약을 열어 두었는가
 - 지금 반드시 해야 하는 것과 하면 안 되는 것이 무엇인가
 - 어떤 형태의 결과를 기대하는가
 
@@ -151,7 +144,7 @@ packet field의 세부 해석과 local workflow는 각 `*.agent.md`가 owner다.
 
 - 역할: approved PRD를 downstream `design.md`로 확장하는 UI+UX design-definition lane이다.
 - 이럴 때 쓴다: 화면 구조, UX flow, visual system, interaction specification을 execution 전에 잠가야 할 때.
-- packet에서 강조할 것: `CONTEXT`에는 platform, existing tone evidence, current UI surface, desired depth, reference direction을 적는다. 관련 design artifact는 `ARTIFACTS`로 보낸다. caller는 fixed constraint와 아직 열어 둔 UX question을 같이 넘겨야 한다.
+- packet에서 강조할 것: `CONTEXT`에는 platform, existing tone evidence, current UI surface, desired depth, reference direction, fixed constraint를 적는다. broad artifact bundle 대신 receiver가 바로 읽어야 할 current document state와 unresolved UX question을 digest로 잠가 보낸다.
 - critical guardrail: PRD의 product direction을 다시 쓰지 않는다. technical architecture나 code implementation ownership을 가져오지 않는다. design decision 없이 code shape만 대신 정해 달라고 보내지 않는다.
 - 기대 결과: `Status`, `Work summary`, `Evidence`, `Open items`.
 

@@ -33,8 +33,8 @@
 
 ## Retrieval Order
 
-1. target flow, changed surface, reproduction steps를 먼저 정리한다.
-2. expected behavior가 애매할 때만 current execution brief, `design.md`, `prd.md`, `technical.md` 중 필요한 부분만 읽는다.
+1. packet, prompt, target flow, changed surface, reproduction steps를 먼저 정리한다.
+2. expected behavior가 packet/prompt만으로 애매하고 caller가 관련 artifact를 함께 넘겼다면 필요한 부분만 읽는다.
 3. runtime verification이 실제로 필요할 때만 `.github/instructions/skill-index.instructions.md`에서 `Workflow & tooling` category를 좁히고 browser tooling을 연다.
 4. screenshot, console, observed behavior evidence가 충분하면 더 넓은 탐색을 멈춘다.
 

@@ -27,7 +27,7 @@
 
 1. current `execution-plan.md`의 Review Setup과 current execution brief를 먼저 읽는다.
 2. upstream findings와 verification evidence를 먼저 읽는다.
-3. 충돌이나 evidence gap이 남아 있을 때만 `prd.md`, `design.md`, `technical.md` 같은 source artifact를 다시 연다.
+3. 충돌이나 evidence gap이 남아 있을 때만 `prd.md`, `design.md`, `technical.md` 같은 source artifact의 필요한 부분을 연다.
 4. 추가 reference가 꼭 필요할 때만 `.github/instructions/skill-index.instructions.md`에서 relevant category를 좁힌다.
 
 ## Scope Boundaries

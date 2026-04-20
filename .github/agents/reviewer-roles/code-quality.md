@@ -26,8 +26,8 @@
 
 ## Retrieval Order
 
-1. changed surface와 current execution brief를 먼저 읽어 실제 구현 범위와 proof를 맞춘다.
-2. intended structure나 non-goal이 애매할 때만 `technical.md`, `design.md`, `prd.md` 순서로 필요한 부분만 읽는다.
+1. packet, prompt, changed surface와 current execution brief를 먼저 읽어 실제 구현 범위와 proof를 맞춘다.
+2. intended structure나 non-goal이 packet/prompt만으로 애매하고 caller가 관련 artifact를 함께 넘겼을 때만 필요한 부분만 읽는다.
 3. `.github/instructions/skill-index.instructions.md`에서 `Frontend engineering` category를 좁히고, 필요 시 accessibility와 maintainability reference를 읽는다.
 4. security나 performance signal이 명확하면 broad scan으로 확장하지 말고 hotspot role 필요성을 적는다.
 
