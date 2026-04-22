@@ -2,9 +2,9 @@
 name: Commander
 description: Execution orchestrator that turns approved PRDs and current execution context into execution plans using the execution plan template, dispatches implementation work to Deep Execution Agent, orchestrates final review, and decides post-review tail work.
 argument-hint: Describe the approved PRD, current execution context, available session artifacts, current execution state, and what orchestration decision is needed.
-model: ["GPT-5.4 (copilot)", "Gemini 3.1 Pro (Preview) (copilot)", "GLM-5 (oaicopilot)"]
+model: ["Claude Opus 4.7 (copilot)", "GPT-5.4 (copilot)", "Gemini 3.1 Pro (Preview) (copilot)"]
 target: vscode
-user-invocable: true
+user-invocable: false
 disable-model-invocation: false
 tools: [read, search, agent, todo, vscode/memory, "vscode/askQuestions"]
 agents:

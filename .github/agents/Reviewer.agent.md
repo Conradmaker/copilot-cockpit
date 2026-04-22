@@ -4,10 +4,9 @@ description: "Role-aware reviewer for design-ex, code-quality, interface-contrac
 argument-hint: Describe what changed, which role to use, what review surface is being validated, and what evidence or prior findings are already available.
 model:
   [
-    "GPT-5.4 mini (copilot)",
     "GPT-5.3-Codex (copilot)",
     "GPT-5.4 (copilot)",
-    "GLM-5 (oaicopilot)",
+    "Qwen 3.6 Plus (customoai)"
   ]
 target: vscode
 user-invocable: false

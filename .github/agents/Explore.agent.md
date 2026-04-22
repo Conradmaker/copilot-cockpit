@@ -4,10 +4,9 @@ description: Fast read-only internal codebase exploration subagent. Use when loc
 argument-hint: Describe the local codebase question, desired thoroughness, and any search strategy or stopping rule.
 model:
   [ 
-    "Qwen3.5 Plus (oaicopilot)",
     "Gemini 3 Flash (Preview) (copilot)",
-    "GPT-5.4 mini (copilot)", 
     "Claude Haiku 4.5 (copilot)",
+    "Qwen 3.5 Plus (customoai)",
   ]
 user-invocable: true
 tools:

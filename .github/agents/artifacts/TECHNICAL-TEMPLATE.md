@@ -41,8 +41,6 @@ Conditional section은 architecture 판단이나 execution-plan readiness에 실
 
 **Technical Context**
 
-- Source PRD: {path or title}
-- Design ref: {path or N/A}
 - Existing system baseline: {current stack, modules, services, or none}
 - Technical goal: {이번 technical.md가 구체화해야 하는 핵심}
 - Current technical gaps: {execution 전에 해결해야 할 technical ambiguity}

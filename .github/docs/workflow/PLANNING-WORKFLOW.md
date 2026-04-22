@@ -37,12 +37,12 @@ flowchart TD
         ReferenceSync["결정 가능한 근거를<br/>prd.md에 반영하고<br/>artifacts.md를 동기화"]
         Ears["EARS 다차원 점검<br/>functional, visual-design, UX, technical, content"]
         Draft["PRD-TEMPLATE 기준으로 prd.md 작성"]
-        Council["Coordinator 관점 최소 2개 열기<br/>role별 검토 수행"]
+        Council["Coordinator 관점 최소 2개를<br/>동시에 병렬로 열기<br/>role별 검토 수행"]
         Verdict{"Coordinator verdict"}
         Refine["prd.md와 artifacts.md를 고치고<br/>필요한 관점만 다시 연다"]
         Gate["Planning 품질 관문 평가"]
         Pass{"품질 관문 통과 여부"}
-        Brief["승인된 PRD 요약 안내"]
+        Brief["정리된 PRD 요약 안내"]
     end
 
     subgraph Default["Default Mode 분기"]
@@ -52,7 +52,7 @@ flowchart TD
         DefaultTechPrep{"technical seed가 충분한가"}
         DefaultResearch["추가 조사 또는 확인 질문 재개"]
         DefaultTech["Architector 호출"]
-        DefaultBoth["Designer와 Architector 호출"]
+        DefaultBoth["Designer와 Architector를<br/>동시에 병렬로 호출"]
         DefaultSync["최신 승인 산출물 동기화 후 종료"]
     end
 
@@ -129,7 +129,7 @@ flowchart TD
 | mode 결정 | 사용자가 명시하거나 askQuestions로 선택 | 사용자가 명시하거나 askQuestions로 선택 |
 | 조사 강도 | 필요한 범위까지만 탐색 | 근거를 닫기 위한 깊은 조사 |
 | Coordinator 기준 | Coordinator 관점 최소 2개, 관문 통과 중심 | Coordinator 관점 최소 2개, 열린 관점 모두 green 필요 |
-| Planning 품질 관문 | total 88 이상, 치명적 차단 요소 없음, 명시적 사용자 합의 필요 | total 95 이상, 열린 관점 모두 green, evidence gap이 관리 가능한 범위여야 함 |
+| Planning 품질 관문 | total 88 이상, 치명적 차단 요소 없음, downstream auto-decision을 열 수 있을 만큼 PRD가 정리되어 있어야 함 | total 95 이상, 열린 관점 모두 green, evidence gap이 관리 가능한 범위여야 함 |
 | downstream mode 결정 | Mate가 current PRD와 coordinator signal을 바탕으로 자동 결정 | Mate가 current PRD와 coordinator signal을 바탕으로 자동 결정 |
 | downstream 순서 | auto-decision 뒤 relevant lane을 바로 연다 | design-first review 뒤 technical 진입 필요 여부를 다시 판단할 수 있다 |
 
@@ -137,7 +137,7 @@ flowchart TD
 
 - Planning은 항상 Mate가 주 담당이고, Explore, Librarian, Coordinator는 보조 역할로 붙는다.
 - 공통 반복은 질문, Discovery, Draft Sync, Council 검토, 다듬기, 품질 관문을 checkpoint 중심으로 돈다.
-- default mode에서는 사용자 합의와 Mate의 downstream auto-decision이 Planning 종료 직전의 중요한 관문이다.
+- default mode에서는 정리된 PRD 요약 안내와 Mate의 downstream auto-decision이 Planning 종료 직전의 중요한 관문이다.
 - heavy mode에서는 조사 강도와 Council 기준이 더 강하고, downstream 흐름도 먼저 디자인을 거치는 순서로 다시 검토한다.
 - 두 mode 모두 승인된 PRD가 준비되기 전에는 Execution으로 넘어가지 않는다.
 
@@ -145,6 +145,6 @@ flowchart TD
 
 - `prd.md`
 - `artifacts.md`
-- 승인된 PRD 요약 안내
+- 정리된 PRD 요약 안내
 - 인계가 열리면 최신 `artifacts.md`와 함께 이어지는 안내형 인계
 - 필요하면 `design.md` 또는 `technical.md`로 이어지는 안내형 인계

@@ -2,7 +2,7 @@
 name: Architector
 description: Downstream technical definition owner that turns an approved PRD into a research-backed technical.md when technical elaboration is needed, with architecture, integration, backend-to-frontend data contracts, server-state/query boundaries, stack choices, NFR mapping, and optional library search when local precedent is insufficient.
 argument-hint: Describe the approved PRD, optional design artifact, current system baseline, technical constraints, unresolved architecture or data/query contract choices, and what technical artifact needs to be produced.
-model: ["GPT-5.4 mini (copilot)", "Gemini 3.1 Pro (Preview) (copilot)", "GLM-5 (oaicopilot)"]
+model: ["Claude Opus 4.7 (copilot)", "GPT-5.3-Codex (copilot)", "Qwen 3.6 Plus (customoai)"]
 target: vscode
 user-invocable: true
 disable-model-invocation: false

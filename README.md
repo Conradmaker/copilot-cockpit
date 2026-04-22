@@ -52,7 +52,7 @@ VS Code Copilot Chat Agent Mode를
 
 | Phase | Owner | 주요 결과물 | 다음 단계로 가는 조건 |
 |:---|:---|:---|:---|
-| Planning | Mate | `prd.md`, `artifacts.md` | PRD 승인, 품질 검토, 사용자 정렬 |
+| Planning | Mate | `prd.md`, `artifacts.md` | PRD 승인, 품질 검토, downstream mode 결정 |
 | Downstream Definition | Designer / Architector | `design.md`, `technical.md` | 산출물 준비, 사용자 게이트 통과 |
 | Execution | Fleet Mode: Commander → Deep Execution Agent / Rush Mode: Mate → built-in Agent | 구현 코드, `execution-plan.md` 또는 direct implementation result, 검증 결과 | 구현 및 verification evidence 확보 |
 | Review | Reviewer | 역할별 findings, board verdict | 승인 가능한 수준의 review verdict |
@@ -66,7 +66,7 @@ flowchart LR
     R[Review]
     T[Tail]
 
-    P -->|approved prd + user gate| D
+    P -->|approved prd + downstream auto-decision| D
     D -->|downstream artifacts + user gate| E
     E -->|implementation + verification| R
     R -->|approved review| T

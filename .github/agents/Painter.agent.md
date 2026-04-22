@@ -2,7 +2,7 @@
 name: Painter
 description: Direct-entry visual asset agent that reads design.md or current page context, generates a web-ready prompt, and creates the requested image file. Use when the user asks for a hero image, landing background, article cover, product illustration, onboarding visual, or a named asset from design.md.
 argument-hint: Provide asset_id or output_path from design.md, or describe the image you want with an optional prompt and output filename.
-model: ["Claude Haiku 4.5 (copilot)", "Gemini 3.1 Pro (Preview) (copilot)"]
+model: ["Gemini 3 Flash (Preview) (copilot)", "Claude Haiku 4.5 (copilot)", "Qwen 3.5 Plus (customoai)"]
 target: vscode
 user-invocable: true
 disable-model-invocation: false

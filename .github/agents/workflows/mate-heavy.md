@@ -28,7 +28,7 @@ heavy mode는 `prd.md`와 `artifacts.md`를 갱신하고, downstream lane이 열
 - Explore는 local pattern, reusable template, project-specific rule, symbol flow, local evidence를 read-only로 수집할 때 연다.
 - Librarian는 external contract, official doc, source-level behavior, version-sensitive evidence를 확인하거나 web search로 자료조사가 필요할 때 연다.
 - Explore, Librarian등 자료조사는 PRD를 선명하게 만드는 데 필요한 evidence를 모으는 활동이다.
-- Coordinator Council은 draft의 clarity, scope discipline, metric quality, requirement quality, downstream ambiguity를 점검하는 quality checkpoint다. Mate는 작업 성격에 맞는 coordinator role을 최소 2개 동적으로 선택하고, 각 role을 분리된 lane으로 병렬로 연다.
+- Coordinator Council은 draft의 clarity, scope discipline, metric quality, requirement quality, downstream ambiguity를 점검하는 quality checkpoint다. Mate는 작업 성격에 맞는 coordinator role을 최소 2개 동적으로 선택하고, 각 role을 분리된 lane으로 동시에 병렬로 연다.
 
 
 
@@ -42,7 +42,7 @@ heavy mode는 `prd.md`와 `artifacts.md`를 갱신하고, downstream lane이 열
 6. 각 digging wave의 materially relevant evidence를 PRD의 decision-ready summary에 반영하고, `artifacts.md`는 생성된 문서 인덱스로 유지한다. council에 올리기 전 current PRD가 major assumption, missing acceptance target, scope creep, bounded evidence gap 측면에서 충분히 읽히는지 pre-plan gap analysis를 수행한다.
 7. EARS 다차원 커버리지를 점검하고 `.github/agents/artifacts/PRD-TEMPLATE.md`의 기준으로 PRD를 작성한다. PRD는 downstream owner가 채팅을 다시 읽지 않고도 시작할 수 있을 만큼 self-contained해야 하지만, PRD 전체를 detailed design spec이나 technical execution spec으로 비대화하지 않는다.
 8. drafting 중간에도 framing, tone, priority, scope, tradeoff를 더 정확히 맞출 가치가 있으면 askQuestions로 steering한다.
-9. role별로 분리된 coordinator lane을 최소 2개 열어 병렬로 council review를 진행한다. draft가 high-risk, high-ambiguity, cross-functional이면 추가 lane이나 supporting research lane을 붙일 수 있다.
+9. role별로 분리된 coordinator lane을 최소 2개 열어 동시에 병렬로 council review를 진행한다. draft가 high-risk, high-ambiguity, cross-functional이면 추가 lane이나 supporting research lane을 붙일 수 있다.
 10. Coordinator verdict를 처리한다.
 	- green: 현재 lane을 통과시킨다.
 	- yellow: 해당 항목을 수정하고 같은 lane을 다시 연다.
@@ -54,7 +54,7 @@ heavy mode는 `prd.md`와 `artifacts.md`를 갱신하고, downstream lane이 열
 	- quality 문제면 coordinator lane을 다시 연다.
 	- 문서 구조와 wording 문제면 drafting loop를 다시 연다.
 13. planning quality gate를 평가한다.
-14. gate를 통과하면 approved PRD briefing을 user에게 보여주고, 추가 refinement가 필요한지만 askQuestions로 확인한다.
+14. gate를 통과하면 정리된 PRD 요약을 user에게 간단히 설명한다.
 15. Mate가 PRD coordinator signal을 다시 검토하고 downstream mode를 스스로 결정한다.
 	- `디자인만`: design elaboration이 필요한 경우
 	- `기술설계만`: technical elaboration이 필요한 경우
@@ -104,7 +104,7 @@ heavy mode를 종료하려면 아래 조건이 모두 충족되어야 한다.
 - updated `artifacts.md`
 - optional `design.md`
 - optional `technical.md`
-- approved PRD briefing shown to user
+- organized PRD summary shown to user
 - approved `prd.md`가 준비된 경우 relevant guided handoff trigger
 
 ## Guardrails

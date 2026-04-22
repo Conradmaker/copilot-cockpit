@@ -5,6 +5,7 @@ argument-hint: Describe the active phase, the current PRD or implementation stat
 model:
   [
     "Gemini 3 Flash (Preview) (copilot)",
+    "Qwen 3.5 Plus (customoai)",
     "Claude Sonnet 4.6 (copilot)"
   ]
 target: vscode

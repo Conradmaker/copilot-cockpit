@@ -4,9 +4,9 @@ description: External research subagent for official docs, remote GitHub code, a
 argument-hint: Describe the external target, version if relevant, the question to answer, the expected outcome, and current date if freshness matters.
 model:
   [
-    "GPT-5.4 mini (copilot)",
     "Gemini 3 Flash (Preview) (copilot)",
     "Claude Haiku 4.5 (copilot)",
+    "Qwen 3.5 Plus (customoai)",
   ]
 target: vscode
 user-invocable: true
