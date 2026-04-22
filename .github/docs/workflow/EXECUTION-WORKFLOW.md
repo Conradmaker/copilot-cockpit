@@ -42,7 +42,7 @@ flowchart TD
         CoordMid["필요할 때 Coordinator<br/>role-based review"]
         More{"남은 task가 있는가"}
         RefreshReview["변경된 영역과 verification evidence를 기준으로<br/>검토 전략 갱신"]
-        ReviewSynthesis["role review 결과, verification evidence,<br/>residual risk를 종합해<br/>board packet 준비"]
+        ReviewSynthesis["role review 결과, verification evidence,<br/>residual risk를 종합해<br/>final-review packet 준비"]
         Reopen["invalidated task나 wave만 다시 열고<br/>todo와 execution-plan.md 갱신"]
         GitNeed{"Git Tail이 필요한가"}
         GitTail["Commander가 Git Tail을 결정하고<br/>실제 git 작업은 Deep Execution Agent가 수행"]
@@ -60,8 +60,8 @@ flowchart TD
 
     subgraph Review["Reviewer 검토 흐름"]
         ReviewWave["필요한 Reviewer role을 병렬로 호출<br/>각 packet은 changed surface와 evidence digest를 포함"]
-        Board["마지막 Reviewer board 관문"]
-        Verdict{"board verdict"}
+        FinalReview["마지막 Reviewer final-review 관문"]
+        Verdict{"final-review verdict"}
     end
 
     Start --> Gate
@@ -83,7 +83,7 @@ flowchart TD
     Drift -- "아니오" --> More
     More -- "예" --> Ready
     More -- "아니오" --> RefreshReview --> ReviewWave
-    ReviewWave --> ReviewSynthesis --> Board --> Verdict
+    ReviewWave --> ReviewSynthesis --> FinalReview --> Verdict
     Verdict -- "rework-required" --> Reopen --> Ready
     Verdict -- "approve" --> GitNeed
     Verdict -- "approve-with-risks" --> GitNeed
@@ -112,7 +112,7 @@ flowchart TD
 - worker 결과는 pass/fail 한 줄이 아니라 changed files, commands, observed results, skipped checks를 포함한 evidence로 회수한다.
 - 구현 중 drift가 감지되면 Coordinator review를 중간에 다시 열 수 있다.
 - wrong-approach retry는 fresh worker가 기본이고, local error-context correction은 continue가 기본이다.
-- review 단계에서는 role review를 병렬 wave로 열 수 있고, 그 결과는 Commander가 lane findings, verification evidence, residual risk로 종합한 뒤 `board` packet에 반영한다.
-- `board`가 `rework-required`를 내리면 Commander는 전체를 처음부터 다시 돌리지 않고 invalidated task나 wave만 다시 열어 재구현과 재검토를 이어 간다.
-- 구현이 끝나면 review 전략에 맞는 검토를 거친 뒤 `board` 관문으로 최종 verdict를 닫는다. review packet은 changed surface와 evidence digest가 빠지면 안 된다.
-- `board` verdict가 승인 가능 수준일 때만 Git Tail과 Memory Tail 판단으로 넘어간다.
+- review 단계에서는 role review를 병렬 wave로 열 수 있고, 그 결과는 Commander가 lane findings, verification evidence, residual risk로 종합한 뒤 `final-review` packet에 반영한다.
+- `final-review`가 `rework-required`를 내리면 Commander는 전체를 처음부터 다시 돌리지 않고 invalidated task나 wave만 다시 열어 재구현과 재검토를 이어 간다.
+- 구현이 끝나면 review 전략에 맞는 검토를 거친 뒤 `final-review` 관문으로 최종 verdict를 닫는다. review packet은 changed surface와 evidence digest가 빠지면 안 된다.
+- `final-review` verdict가 승인 가능 수준일 때만 Git Tail과 Memory Tail 판단으로 넘어간다.

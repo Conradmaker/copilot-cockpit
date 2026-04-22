@@ -55,19 +55,18 @@ heavy mode는 `prd.md`와 `artifacts.md`를 갱신하고, downstream lane이 열
 	- 문서 구조와 wording 문제면 drafting loop를 다시 연다.
 13. planning quality gate를 평가한다.
 14. gate를 통과하면 approved PRD briefing을 user에게 보여주고, 추가 refinement가 필요한지만 askQuestions로 확인한다.
-15. spec confidence를 특히 높여야 하거나 downstream seed alignment가 민감하면 Reviewer `product-integrity` role을 optional high-accuracy spec review로 열고, invalidated lane만 다시 연다.
-16. Mate가 PRD coordinator signal을 다시 검토하고 downstream mode를 스스로 결정한다.
+15. Mate가 PRD coordinator signal을 다시 검토하고 downstream mode를 스스로 결정한다.
 	- `디자인만`: design elaboration이 필요한 경우
 	- `기술설계만`: technical elaboration이 필요한 경우
 	- `둘 다`: 두 lane이 모두 필요하지만, heavy는 design review를 먼저 완료한 뒤 technical entry를 재확정해야 하는 경우
-17. 결정된 downstream mode를 실행한다.
+16. 결정된 downstream mode를 실행한다.
 	- `디자인만` 또는 `둘 다`이면 Designer를 먼저 연다.
 	- `기술설계만`이면 technical seed가 약한지 먼저 확인하고, 필요하면 targeted digging wave를 다시 연 뒤 Architector를 연다.
-18. design lane이 열렸으면 generated `design.md`를 `prd.md` major coordinator finding 기준으로 다시 평가한다. PRD conflict, weak evidence, unresolved major design choice, downstream-ready specificity 부족이 보이면 invalidated design lane을 다시 연다.
-19. post-design review 결과를 바탕으로 technical elaboration 필요 여부를 다시 판단한다. `둘 다`였거나 design 결과가 technical definition을 더 필요하게 만들면, technical seed가 충분한지 확인한 뒤 필요할 때만 Architector를 연다.
-20. technical lane이 열렸으면 generated `technical.md`를 `prd.md`, approved design decision 기준으로 다시 평가한다. weak precedent, insufficient technical evidence, unresolved architecture risk, approved design constraint mismatch, PRD conflict가 보이면 invalidated technical lane만 다시 연다.
-21. downstream artifact가 PRD conflict나 unresolved user choice를 드러내면 local patch로 덮지 말고 planning lane으로 되돌린다.
-22. 추가 refinement가 없으면 `prd.md`, `artifacts.md`, `design.md(optional)`, `technical.md(optional)`를 latest approved version으로 동기화하고 heavy mode를 종료한다.
+17. design lane이 열렸으면 generated `design.md`를 `prd.md` major coordinator finding 기준으로 다시 평가한다. PRD conflict, weak evidence, unresolved major design choice, downstream-ready specificity 부족이 보이면 invalidated design lane을 다시 연다.
+18. post-design review 결과를 바탕으로 technical elaboration 필요 여부를 다시 판단한다. `둘 다`였거나 design 결과가 technical definition을 더 필요하게 만들면, technical seed가 충분한지 확인한 뒤 필요할 때만 Architector를 연다.
+19. technical lane이 열렸으면 generated `technical.md`를 `prd.md`, approved design decision 기준으로 다시 평가한다. weak precedent, insufficient technical evidence, unresolved architecture risk, approved design constraint mismatch, PRD conflict가 보이면 invalidated technical lane만 다시 연다.
+20. downstream artifact가 PRD conflict나 unresolved user choice를 드러내면 local patch로 덮지 말고 planning lane으로 되돌린다.
+21. 추가 refinement가 없으면 `prd.md`, `artifacts.md`, `design.md(optional)`, `technical.md(optional)`를 latest approved version으로 동기화하고 heavy mode를 종료한다.
 
 ## Planning Quality Gate
 
@@ -86,7 +85,6 @@ heavy mode를 종료하려면 아래 조건이 모두 충족되어야 한다.
 
 - planning quality gate를 이미 통과했다.
 - Mate가 downstream mode를 결정했고, required design review와 conditional technical entry 판단을 모두 끝냈다.
-- optional high-accuracy spec review를 열었다면 invalidated lane이 정리된 상태다.
 - 열린 `design.md`는 post-design review를 통과했고, 열린 `technical.md`는 current `prd.md`, `artifacts.md`, approved design decision과 정렬되어 있다.
 - invalidated planning lane이나 downstream lane이 남아 있지 않다.
 - latest artifact set이 동기화되어 있다.
@@ -95,7 +93,6 @@ heavy mode를 종료하려면 아래 조건이 모두 충족되어야 한다.
 
 - heavy는 downstream mode를 user 선택 대신 Mate가 결정한다.
 - heavy의 auto-decision은 lane opening과 review ownership만 뜻한다. design/technical decision 자체는 downstream owner가 만든다.
-- spec confidence를 더 높여야 하거나 downstream seed alignment가 민감하면 Reviewer `product-integrity` role을 optional high-accuracy spec review로 연다.
 - `둘 다`는 병렬 실행 뜻이 아니라 두 downstream lane이 모두 eventually 필요하다는 뜻이다.
 - design lane이 열렸다면 technical lane entry는 post-design review 뒤에 확정한다.
 - refinement은 필요한 lane만 다시 열어 지시 및 진행한다.

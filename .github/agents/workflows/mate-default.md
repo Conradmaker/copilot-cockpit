@@ -55,9 +55,8 @@ default mode는 `prd.md`와 `artifacts.md`를 갱신하고, gate 통과 뒤 Mate
 12. planning quality gate를 평가한다.
 13. planning quality gate를 통과하면 approved PRD briefing을 user에게 보여주고, 추가 refinement가 필요한지만 `askQuestions`로 확인한다.
 13. Mate가 current `prd.md`, `artifacts.md`, coordinator signal을 다시 검토해 downstream mode를 auto-decision 한다. downstream mode는 `디자인만`, `기술설계만`, `둘 다` 중 하나다.
-14. spec confidence를 특히 높여야 하거나 downstream seed alignment가 민감하면 Reviewer `product-integrity` role을 optional high-accuracy spec review로 열고, invalidated lane만 다시 연다.
-15. auto-decision 결과가 `디자인만`이면 Designer를 연다. `기술설계만`이면 technical seed가 약한지 확인하고 필요하면 targeted clarification 또는 research 뒤 Architector를 연다. `둘 다`이면 두 downstream owner를 연다.
-16. 추가 refinement가 없으면 `prd.md`, `artifacts.md`, `design.md(optional)`, `technical.md(optional)`를 latest approved version으로 동기화하고 planning을 종료한다.
+14. auto-decision 결과가 `디자인만`이면 Designer를 연다. `기술설계만`이면 technical seed가 약한지 확인하고 필요하면 targeted clarification 또는 research 뒤 Architector를 연다. `둘 다`이면 두 downstream owner를 연다.
+15. 추가 refinement가 없으면 `prd.md`, `artifacts.md`, `design.md(optional)`, `technical.md(optional)`를 latest approved version으로 동기화하고 planning을 종료한다.
 
 ## Planning Quality Gate
 
@@ -79,7 +78,6 @@ Mate는 explicit user gate와 passed planning quality gate 없이는 planning을
 	- `디자인만`이면 Designer를 연다.
 	- `기술설계만`이면 Architector를 연다.
 	- `둘 다`이면 Designer와 Architector를 병렬로 연다.
-- spec confidence를 더 높여야 하거나 downstream seed alignment가 민감하면 Reviewer `product-integrity` role을 optional high-accuracy spec review로 연다.
 - `기술설계만` 또는 `둘 다`가 선택되었는데 technical seed가 약하거나 architecture ambiguity가 남아 있으면, Mate는 clarification 또는 research lane을 먼저 다시 열고 그 뒤 Architector를 연다.
 - coordinator-reviewed PRD가 준비된 시점부터 guided handoff surface는 다음 단계로 사용할 수 있다.
 - existing downstream artifact가 approved PRD와 충돌하면 그대로 handoff하지 않고 planning으로 되돌리거나 escalation한다.

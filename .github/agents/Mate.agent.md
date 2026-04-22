@@ -77,7 +77,6 @@ workflow selection은 아래 순서를 따른다.
 - 이후 design 또는 technical elaboration이 필요한가, 필요하다면 어떤 artifact를 다시 열어야 하는가
 
 Explore, Librarian, Coordinator를 호출할 때는 shared core 기반 `task_packet`을 사용하고, Coordinator packet에는 단일 `ROLE`만 넣는다.
-spec confidence를 특히 높여야 할 때는 Reviewer `product-integrity` role을 optional high-accuracy spec review로 열 수 있다.
 planning phase에서 packet field name에 legacy plan terminology가 남아 있어도, current planning source of truth는 `prd.md`로 해석한다.
 
 ## Rules

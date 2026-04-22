@@ -158,18 +158,18 @@ packet field의 세부 해석과 local workflow는 각 `*.agent.md`가 owner다.
 
 ### Deep Execution Agent
 
-- 역할: scoped implementation work를 실제 코드 변경과 self-verification evidence로 끝내는 implementation lane이다.
+- 역할: scoped implementation work를 실제 코드 변경과 codebase-level essential verification evidence로 끝내는 implementation lane이다.
 - 이럴 때 쓴다: implementation-ready brief가 있고, approved scope 안에서 actual code change를 끝내야 할 때.
-- packet에서 강조할 것: `TASK`에는 atomic goal, `CONTEXT`에는 exact file/symbol anchor, `EXPECTED_OUTCOME`에는 done-definition, `MUST_DO`에는 verification expectation을 잠근다. `SCOPE`와 `EXECUTION_PLAN`은 이 agent에서는 사실상 필수다. caller는 missing scope나 spec ambiguity를 worker에게 떠넘기지 않는다.
-- critical guardrail: smallest correct diff를 우선하고, explicit dispatch 없이 구현하지 않는다. verification evidence 없이 completion을 선언하지 않는다. brief가 self-contained하지 않으면 아직 dispatch-ready가 아니다.
+- packet에서 강조할 것: `TASK`에는 atomic goal, `CONTEXT`에는 exact file/symbol anchor, `EXPECTED_OUTCOME`에는 done-definition을 잠근다. `SCOPE`와 `EXECUTION_PLAN`은 이 agent에서는 사실상 필수다. caller는 missing scope나 spec ambiguity를 worker에게 떠넘기지 않는다.
+- critical guardrail: smallest correct diff를 우선하고, explicit dispatch 없이 구현하지 않는다. 작업한 scope에 대한 codebase-level essential verification(project typecheck, modified files lint, syntax check) evidence 없이 completion을 선언하지 않는다. brief가 self-contained하지 않으면 아직 dispatch-ready가 아니다.
 - 기대 결과: `Status`, `Work summary`, `Verification`, `Open items`, `Next step`.
 
 ### Reviewer
 
-- 역할: role-aware broad review와 final board gate를 담당하는 review lane이다.
-- 이럴 때 쓴다: security, code-quality, design, performance, product-integrity, browser, board gate 관점의 independent review가 필요할 때.
+- 역할: role-aware broad review와 final-review gate를 담당하는 review lane이다.
+- 이럴 때 쓴다: design-ex, code-quality, interface-contract, security, performance, runtime-verification, build-verification, final-review gate 관점의 independent review가 필요할 때.
 - packet에서 강조할 것: 이 agent에서는 `ROLE`이 사실상 필수다. `ROLE`에는 단일 review role을 넣고, `CONTEXT`에는 changed surface, validation focus, available evidence를 적는다. caller는 available evidence와 risk hotspot을 같이 잠가 generic review 요청을 줄인다.
-- critical guardrail: role 하나당 한 호출을 유지한다. evidence gap이 있으면 승인 대신 gap을 findings나 risks에 남긴다. `board`는 final synthesis gate로만 쓴다. evidence 없이 broad approval을 기대하지 않는다.
+- critical guardrail: role 하나당 한 호출을 유지한다. evidence gap이 있으면 승인 대신 gap을 findings나 risks에 남긴다. `final-review`는 final synthesis gate로만 쓴다. evidence 없이 broad approval을 기대하지 않는다. role activation 기준의 source of truth는 `.github/agents/reviewer-roles/_index.md`다.
 - 기대 결과: `Verdict`, `Findings`, `Evidence`, `Risks`, `Next step`.
 
 

@@ -138,7 +138,6 @@ flowchart TD
 - Planning은 항상 Mate가 주 담당이고, Explore, Librarian, Coordinator는 보조 역할로 붙는다.
 - 공통 반복은 질문, Discovery, Draft Sync, Council 검토, 다듬기, 품질 관문을 checkpoint 중심으로 돈다.
 - default mode에서는 사용자 합의와 Mate의 downstream auto-decision이 Planning 종료 직전의 중요한 관문이다.
-- spec confidence가 특히 중요하면 downstream entry 전에 optional high-accuracy spec review를 열 수 있다.
 - heavy mode에서는 조사 강도와 Council 기준이 더 강하고, downstream 흐름도 먼저 디자인을 거치는 순서로 다시 검토한다.
 - 두 mode 모두 승인된 PRD가 준비되기 전에는 Execution으로 넘어가지 않는다.
 

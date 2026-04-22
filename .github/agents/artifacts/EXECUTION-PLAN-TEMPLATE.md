@@ -22,7 +22,7 @@
 - [ ] 각 task 의 validation 이 독립적이고, 한 task 의 실패가 무관한 work 를 불필요하게 막지 않는다.
 - [ ] page-context-heavy UI 를 과도하게 잘게 쪼개지 않았고, design-system or isolated widget work 는 독립 unit 으로 분리했다.
 - [ ] 병렬화 이득보다 coordination cost 가 큰 구간은 한 context 로 유지했다.
-- [ ] review lane 과 board gate 가 같은 dependency model 안에 들어가 있다.
+- [ ] review lane 과 final-review gate 가 같은 dependency model 안에 들어가 있다.
 - [ ] risks, rollback, testing 과 selected reviewer roles 가 빠지지 않았다.
 - [ ] implementation task 는 generic artifact bag 없이도 self-contained 하다.
 - [ ] review task 의 `evidence_inputs` 는 changed surface, validation output, prior findings, 필요한 session doc reference를 concise digest로 기술했다.
@@ -64,7 +64,7 @@
 | Field | Type | Required | Meaning |
 |------|------|----------|---------|
 | `depends_on` | `TaskId[]` | Yes | 선행 dependency |
-| `review_role` | `string \| 'board' \| 'self-check'` | Yes | reviewer role |
+| `review_role` | `string \| 'final-review' \| 'self-check'` | Yes | reviewer role |
 | `review_surface` | `string` | Yes | changed files, hotspot surface, findings summary |
 | `validation` | `string` | Yes | findings 기록과 verdict 판단 방법 |
 | `evidence_inputs` | `string` | Yes | review에 필요한 change summary, validation output, prior findings, 필요한 doc 또는 command reference digest |
@@ -113,13 +113,15 @@
 ## 3. Review Setup
 
 - review target surface: {어떤 변경 surface 를 어떤 review role 이 볼지 요약}
-- mandatory final reviewer: `board`
+- mandatory final reviewer: `final-review`
 
 ### 3.1 Reviewer Role Activation
 
 Reviewer role activation logic 의 source of truth 는 `.github/agents/reviewer-roles/_index.md` 다.
 이 section 에는 이번 execution plan 에서 활성화할 review role 을 기록한다.
-`board`는 병렬 review role 이 아니라 Final Board Gate 에서 다룬다.
+`final-review`는 병렬 review role 이 아니라 Final Review Gate 에서 다룬다.
+
+사용 가능한 role: `design-ex`, `code-quality`, `interface-contract`, `security`, `performance`, `runtime-verification`, `build-verification`. (`final-review`는 Final Review Gate 전용)
 
 | role | Why activated for this plan | Scope | Mapped review task |
 |------|------------------------------|-------|--------------------|
@@ -128,7 +130,7 @@ Reviewer role activation logic 의 source of truth 는 `.github/agents/reviewer-
 
 필요한 만큼 행을 추가한다.
 
-### 3.2 Final Board Gate
+### 3.2 Final Review Gate
 
 - inputs: {lane findings, verification evidence, residual risks}
 - success criteria: {어떤 상태면 approve / approve-with-risks / rework-required 인지}
@@ -181,8 +183,8 @@ Reviewer role activation logic 의 source of truth 는 `.github/agents/reviewer-
 
 ### Phase 3: Review & Validation
 
-**Goal**: {implementation output 을 review role 별로 검증하고 final board gate 를 통과시킨다}
-**Demo/Validation**: {review findings 와 final board verdict 가 기록된다}
+**Goal**: {implementation output 을 review role 별로 검증하고 final-review gate 를 통과시킨다}
+**Demo/Validation**: {review findings 와 final-review verdict 가 기록된다}
 
 #### R1: {Reviewer role} review
 - **depends_on**: [{relevant implementation task ids}]
@@ -202,9 +204,9 @@ Reviewer role activation logic 의 source of truth 는 `.github/agents/reviewer-
 - **status**: not-started
 - **log**: {실행 후 기록}
 
-#### B1: Final board gate
+#### B1: Final review gate
 - **depends_on**: [R1, R2, R3]
-- **review_role**: `board`
+- **review_role**: `final-review`
 - {ReviewTaskPacket 의 required field 를 모두 기술한다. `evidence_inputs` 에 lane findings와 residual risk를 압축해 넣는다}
 - **status**: not-started
 - **log**: {실행 후 기록}
