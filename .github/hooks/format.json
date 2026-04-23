@@ -1,6 +1,6 @@
 {
   "hooks": {
-    "PostToolUse": [
+    "SubagentStop": [
       {
         "type": "command",
         "command": "npx prettier --write \"$TOOL_INPUT_FILE_PATH\""

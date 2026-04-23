@@ -4,8 +4,8 @@ description: Execution orchestrator that turns approved PRDs and current executi
 argument-hint: Describe the approved PRD, current execution context, available session artifacts, current execution state, and what orchestration decision is needed.
 model: ["Claude Opus 4.7 (copilot)", "GPT-5.4 (copilot)", "Gemini 3.1 Pro (Preview) (copilot)"]
 target: vscode
-user-invocable: false
-disable-model-invocation: false
+user-invocable: true
+disable-model-invocation: true
 tools: [read, search, agent, todo, vscode/memory, "vscode/askQuestions"]
 agents:
   ["Explore", "Librarian", "Reviewer", "Deep Execution Agent", "Coordinator", "Painter"]

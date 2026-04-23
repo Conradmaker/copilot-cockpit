@@ -9,13 +9,6 @@ heavy는 speed보다 evidence closure, stricter review, stronger PRD self-contai
 - heavy는 default보다 더 강한 digging, 더 높은 quality gate, 더 엄격한 council loop를 사용한다.
 - heavy는 PRD 승인 뒤 downstream lane을 스스로 결정하고, design-first 순서로 opened artifact를 다시 검토할 수 있다.
 
-## Entry Conditions
-
-아래 상황에서 heavy mode를 연다.
-
-- user가 `heavy` mode를 명시했을 때
-- mode가 명시되지 않았고 askQuestions를 통해 `heavy`를 선택했을 때
-
 ## Inputs And Artifact Responsibilities
 
 shared artifact 정의와 공통 규칙은 Mate.agent를 따른다.
