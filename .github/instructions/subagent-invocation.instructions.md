@@ -100,7 +100,7 @@ receiver-side field interpretation은 각 `*.agent.md`에서 정의한다.
 
 - local research는 현재 상태, 핵심 evidence, 바로 다음 액션 순으로 합성한다.
 - external research는 핵심 결론, 근거 계층, 현재 작업 영향 순으로 합성한다.
-- planning council은 verdict, required changes, quality lift, user gate 필요 여부 순으로 합성한다.
+- planning council은 verdict, PRD quality score, required changes, quality lift, user gate 필요 여부 순으로 합성한다.
 - execution과 review 결과는 검증 근거, 남은 리스크, next checkpoint를 숨기지 않고 남긴다.
 - path, URL, version, uncertainty는 필요한 범위에서 함께 보존한다.
 ## 중단 조건
@@ -138,7 +138,7 @@ packet field의 세부 해석과 local workflow는 각 `*.agent.md`가 owner다.
 - 이럴 때 쓴다: PRD clarity, scope discipline, metric quality, execution drift, decision quality를 특정 관점에서 점검해야 할 때.
 - packet에서 강조할 것: 이 agent에서는 `ROLE`이 사실상 필수다. `ROLE`에는 단일 role만 넣고, `CONTEXT`에는 current artifact state, decision focus, known risks, unresolved items를 적는다. caller는 어떤 verdict가 필요한지와 아직 잠기지 않은 tradeoff를 같이 잠가야 한다.
 - critical guardrail: 한 호출에 role 하나만 준다. 역할 혼합이 필요하면 분리 호출한다. role 상세 기준은 `.github/agents/coord-roles/_index.md`가 owner다. 막연한 `한번 봐줘`보다 decision focus를 명시한다.
-- 기대 결과: `Verdict`, `Findings`, `Evidence`, `Risks`, `Next step`.
+- 기대 결과: `Verdict`, `Findings`, `Scores`, `Evidence`, `Risks`, `Next step`. planning PRD review의 `Scores`는 PRD Quality Gate 5개 dimension과 total score를 포함한다.
 
 ### Designer
 
@@ -171,5 +171,4 @@ packet field의 세부 해석과 local workflow는 각 `*.agent.md`가 owner다.
 - packet에서 강조할 것: 이 agent에서는 `ROLE`이 사실상 필수다. `ROLE`에는 단일 review role을 넣고, `CONTEXT`에는 changed surface, validation focus, available evidence를 적는다. caller는 available evidence와 risk hotspot을 같이 잠가 generic review 요청을 줄인다.
 - critical guardrail: role 하나당 한 호출을 유지한다. evidence gap이 있으면 승인 대신 gap을 findings나 risks에 남긴다. `final-review`는 final synthesis gate로만 쓴다. evidence 없이 broad approval을 기대하지 않는다. role activation 기준의 source of truth는 `.github/agents/reviewer-roles/_index.md`다.
 - 기대 결과: `Verdict`, `Findings`, `Evidence`, `Risks`, `Next step`.
-
 

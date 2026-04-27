@@ -16,6 +16,7 @@ Mate가 primary owner지만, PRD를 직접 검토하거나 downstream 문서를 
 - PRD는 downstream Design 및 Technical work가 채팅을 다시 읽지 않고도 시작할 수 있을 만큼 self-contained 해야 한다.
 - askQuestions는 planning 중 언제든 사용할 수 있지만, PRD 끝에 blocking question만 남기고 멈추는 방식으로 쓰지 않는다.
 - session PRD file은 latest coordinator-reviewed version과 동기화한다.
+- Quality Gate score는 planning Coordinator output의 `Scores`와 동기화한다. Coordinator score와 PRD score가 다르면 PRD를 approved로 닫지 않는다.
 - PRD는 반드시 user에게 제시한다. file만 언급하고 끝내지 않는다.
 - relevant dimension 식별과 requirement quality는 current workflow와 EARS coverage 기준을 따른다.
 - requirements, constraints, assumptions, recommendations, open questions를 섞어 쓰지 않는다.

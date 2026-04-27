@@ -22,6 +22,7 @@ agents: ["Explore", "Librarian"]
 어떤 phase에서든 caller가 지정한 롤을 로드해 그 관점에서 검토하고, verdict와 개선안을 제공한다.
 
 planning phase에서는 caller가 지정한 coordinator role에 맞는 PRD review와 quality lift를 맡는다.
+planning PRD review에서는 `.github/agents/artifacts/PRD-TEMPLATE.md`의 Quality Gate anchors에 맞춰 PRD quality score도 함께 산출한다.
 execution phase에서는 구현 방향이나 품질에 대한 확신이 필요할 때, 또는 drift가 의심될 때 롤 관점의 리뷰 피드백을 제공한다.
 
 coordinator role은 동적으로 로드한다. caller가 지정한 role에 해당하는 `.github/agents/coord-roles/{role}.md` 파일을 읽어 role-specific 검토 기준을 로드한다.
@@ -65,7 +66,7 @@ packet이 불완전해도 무조건 추측하지 않는다.
 1. packet을 읽고 단일 `ROLE`을 확인한다. 복수 role이나 role 목록이 오면 caller가 분리 호출해야 하는 role ambiguity로 본다.
 2. `.github/agents/coord-roles/{role}.md`를 읽어 role-specific 검토 기준을 로드한다. 파일이 없으면 범용 기준으로 검토하되 누락을 명시한다.
 3. active planning artifact 또는 current implementation artifact, latest evidence, session memory 사이의 충돌 여부를 확인한다.
-4. planning lane이면 role-specific 기준으로 problem clarity, user fit, scope discipline, success metrics, requirement quality, risk model, downstream seed quality를 본다.
+4. planning lane이면 role-specific 기준으로 problem clarity, user fit, scope discipline, success metrics, requirement quality, risk model, downstream seed quality를 보고 PRD quality score를 산출한다.
 5. planning lane에서는 pass/fail 판단뿐 아니라 품질과 완성도를 끌어올릴 구체적 아이디어와 필요한 steering question 후보도 제안한다.
 6. execution phase 리뷰면 current implementation state를 role 관점에서 검토하고, drift 여부, 품질 개선 포인트, 놓친 부분을 피드백한다.
 7. evidence gap이 있으면 필요한 범위에서만 Explore 또는 Librarian를 붙인다.
@@ -82,9 +83,12 @@ packet이 불완전해도 무조건 추측하지 않는다.
 
 - `Verdict`
 - `Findings`
+- `Scores`
 - `Evidence`
 - `Risks`
+- `Next step`
 
 `Verdict`는 `green`, `yellow`, `red` 중 하나로 시작한다.
 `Findings`에는 required changes를 먼저, quality lift ideas를 뒤에 적는다.
+`Scores`는 planning PRD review에서 필수다. `.github/agents/artifacts/PRD-TEMPLATE.md`의 Quality Gate anchors를 기준으로 `Problem clarity`, `User & JTBD clarity`, `Success metrics & scope discipline`, `Requirements quality`, `Risks, open questions, downstream readiness`, `Total`을 0-20/0-100 점수로 적고, 점수에 영향을 준 핵심 이유를 한 줄씩 덧붙인다. execution review처럼 PRD quality score가 적용되지 않는 경우에는 `N/A - not a PRD quality review`라고 적는다.
 `Risks`에는 evidence gap, unresolved question, user gate 필요 여부를 적는다.

@@ -46,7 +46,7 @@ heavy mode는 `prd.md`와 `artifacts.md`를 갱신하고, downstream lane이 열
 	- evidence 문제면 digging lane을 다시 연다.
 	- quality 문제면 coordinator lane을 다시 연다.
 	- 문서 구조와 wording 문제면 drafting loop를 다시 연다.
-13. planning quality gate를 평가한다.
+13. Coordinator가 반환한 `Scores`와 PRD의 `Quality Gate` section을 대조해 planning quality gate를 평가한다.
 14. gate를 통과하면 정리된 PRD 요약을 user에게 간단히 설명한다.
 15. Mate가 PRD coordinator signal을 다시 검토하고 downstream mode를 스스로 결정한다.
 	- `디자인만`: design elaboration이 필요한 경우
@@ -67,7 +67,7 @@ heavy mode에서 PRD를 승인하려면 아래 조건이 모두 충족되어야 
 
 - latest revision이 coordinator-reviewed 상태다.
 - opened coordinator lane이 모두 green이다.
-- total score가 95 이상이다.
+- Coordinator `Scores`와 PRD `Quality Gate`의 total score가 95 이상이다.
 - critical blocker가 없다.
 - evidence gap이 닫혔거나 명시적으로 bounded 상태다.
 - downstream owner가 채팅을 다시 읽지 않고도 시작할 수 있을 만큼 approved `prd.md`가 준비되어 있다.
