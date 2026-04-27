@@ -4,7 +4,9 @@ description: Implementation-focused coding subagent directed by Commander. Use w
 argument-hint: Provide a self-contained implementation packet, assigned scope, required verification, and only task-essential supporting refs when packet-only execution is insufficient.
 model: 
   [
+    "GPT-5.5 (copilot)",
     "Claude Opus 4.7 (copilot)",
+    "Mimo v2.5 Pro (customoai)",
     "Kimi-K2.6 (customoai)",
     "Qwen 3.6 Plus (customoai)"
   ]

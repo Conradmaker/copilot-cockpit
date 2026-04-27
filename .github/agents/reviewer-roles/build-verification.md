@@ -5,7 +5,7 @@
 
 ## 활성화 기준
 
-- code 변경이 있는 모든 execution plan에서 default로 켠다. final-review 직전 마지막 wave에 1회 배치한다.
+- code 변경이 있는 모든 execution plan에서 켠다. final-review 직전 wave에 1회 배치한다.
 - Deep Execution worker가 default로 lightweight self-check만 수행하므로, full build/lint/typecheck/test suite는 이 role이 owner다.
 - multi-task wave에서 task별 build 반복을 피하고 wave 끝에 한 번 collapse하는 것이 핵심 가치다.
 

@@ -1,6 +1,6 @@
 # Execution 워크플로
 
-이 문서는 Execution 단계에서 쓰는 Fleet Mode 흐름을 다이어그램 중심으로 설명한다. Rush Mode는 built-in `Agent` direct path라 상위 개념은 [WORKFLOW-PLAYBOOK.md](WORKFLOW-PLAYBOOK.md)에서 본다.
+이 문서는 Execution 단계에서 쓰는 Fleet Mode 흐름을 다이어그램 중심으로 설명한다. Rush Mode는 Commander orchestration 대신 built-in `Agent`의 자율 구현·검증 능력을 신뢰하는 direct path라 상위 개념은 [WORKFLOW-PLAYBOOK.md](WORKFLOW-PLAYBOOK.md)에서 본다.
 
 상위 개념과 phase 전체 규칙은 [WORKFLOW-PLAYBOOK.md](WORKFLOW-PLAYBOOK.md)에서 본다.
 
@@ -98,12 +98,13 @@ flowchart TD
 | 경로 | 설명 |
 | --- | --- |
 | Fleet Mode | Commander가 `artifacts.md`와 `EXECUTION-PLAN-TEMPLATE.md`를 기준으로 실행 계획을 만들고, Deep Execution Agent와 Reviewer를 오케스트레이션한다. |
-| Rush Mode | Mate가 built-in `Agent`로 직접 handoff한다. listed된 relevant artifacts를 함께 읽고 구현, 검증, 후속 조치를 직접 수행한다. 이 문서의 다이어그램 범위 밖이다. |
+| Rush Mode | Mate가 built-in `Agent`로 직접 handoff한다. Commander orchestration 대신 먼저 `artifacts.md`와 listed된 relevant artifacts를 requirement surface로 읽고 구현, 검증, 후속 조치를 직접 수행하는 direct path다. 다만 artifact 충돌이나 evidence gap은 최소 안전 장치로 드러내고 보완 또는 escalation한다. 이 문서의 다이어그램 범위 밖이다. |
 
 ## 읽는 법
 
 - 진입 관문이 실패하면 Execution에 들어가지 않고, 산출물 보강, 사용자 승인 확보, Planning 또는 downstream 보완으로 되돌아간다.
-- 이 문서는 Fleet Mode를 설명한다. Rush Mode는 built-in `Agent` direct path라 상위 playbook에서만 짧게 다룬다.
+- 이 문서는 Fleet Mode를 설명한다. Rush Mode는 Commander orchestration이 아니라 built-in `Agent` direct path라 상위 playbook에서만 짧게 다룬다.
+- Rush Mode에서도 먼저 `artifacts.md`를 읽고, listed된 relevant artifacts를 requirement surface로 해석한다. 다만 artifact 충돌이나 evidence gap은 덮지 않고 드러낸 뒤 필요한 보강이나 escalation을 남긴다.
 - Commander는 먼저 `artifacts.md`를 읽고, listed된 execution brief가 있으면 그것을 우선 읽는다. execution brief가 없으면 listed된 approved PRD와 downstream 문서를 읽는다. 그다음 `EXECUTION-PLAN-TEMPLATE.md`를 기준으로 실행 계획을 정리한 뒤 worker dispatch에서는 packet-only brief로 다시 압축한다.
 - exact evidence field definition과 completeness 기준은 Deep Execution Agent의 `Verification`, Reviewer의 `Evidence`, `Risks`가 담당하고, 이 문서는 흐름만 요약한다.
 - plan을 만든 뒤에는 Coordinator `execution` review를 기본 관문으로 거친다. 이 단계는 선택형이 아니라 execution plan 품질을 맞추는 기본 흐름이다.

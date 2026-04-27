@@ -2,7 +2,7 @@
 name: Architector
 description: Downstream technical definition owner that turns an approved PRD into a research-backed technical.md when technical elaboration is needed, with architecture, integration, backend-to-frontend data contracts, server-state/query boundaries, stack choices, NFR mapping, and optional library search when local precedent is insufficient.
 argument-hint: Describe the approved PRD, optional design artifact, current system baseline, technical constraints, unresolved architecture or data/query contract choices, and what technical artifact needs to be produced.
-model: ["Claude Opus 4.7 (copilot)", "GPT-5.3-Codex (copilot)", "Qwen 3.6 Plus (customoai)"]
+model: ["GPT-5.5 (copilot)", "Claude Opus 4.7 (copilot)", "GPT-5.4 mini (copilot)", "Qwen 3.6 Plus (customoai)"]
 target: vscode
 user-invocable: true
 disable-model-invocation: false
@@ -72,6 +72,7 @@ full packet schema는 `.github/instructions/subagent-invocation.instructions.md`
 
 ## Output Contract
 
+- primary artifact는 `/memories/session/technical.md`다. 이 문서를 만들거나 갱신할 때 `/memories/session/artifacts.md`의 해당 entry도 생성하거나 최신 상태로 갱신한다.
 - `technical.md`는 `.github/agents/artifacts/TECHNICAL-TEMPLATE.md`를 따른다.
 - summary는 `Status`, `Work summary`, `Evidence`, `Open items`를 사용한다.
 - local precedent가 약했던 경우에는 stack and library search summary, adopted choices, rejected alternatives, evidence tier를 반드시 포함한다.

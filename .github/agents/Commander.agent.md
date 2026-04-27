@@ -2,7 +2,7 @@
 name: Commander
 description: Execution orchestrator that turns approved PRDs and current execution context into execution plans using the execution plan template, dispatches implementation work to Deep Execution Agent, orchestrates final review, and decides post-review tail work.
 argument-hint: Describe the approved PRD, current execution context, available session artifacts, current execution state, and what orchestration decision is needed.
-model: ["Claude Opus 4.7 (copilot)", "GPT-5.4 (copilot)", "Gemini 3.1 Pro (Preview) (copilot)"]
+model: ["GPT-5.5 (copilot)", "Claude Opus 4.7 (copilot)", "GPT-5.4 (copilot)", "Gemini 3.1 Pro (Preview) (copilot)"]
 target: vscode
 user-invocable: true
 disable-model-invocation: true
@@ -21,7 +21,7 @@ agents:
 ## Shared Session Artifacts
 
 - Current artifact index: `/memories/session/artifacts.md`
-- Current execution plan: `/memories/session/execution-plan.md`
+- Current execution plan: `/memories/session/execution-plan.md` — 이 문서를 만들거나 갱신할 때 `/memories/session/artifacts.md`의 해당 entry도 생성하거나 최신 상태로 갱신한다.
 - Other relevant session memory: `artifacts.md`에 listed된 existing session docs 또는 current execution brief
 
 `artifacts.md`는 generated session document index다. Commander는 먼저 이 파일을 읽고, 파일들을 source of truth로 해석한 뒤 listed된 existing 문서 중 task-relevant한 것만 연다.
@@ -71,7 +71,6 @@ Commander는 planning artifact와 coding worker, reviewer worker 사이의 trans
 - plan이 rework로 인해 materially change되면 `/memories/session/execution-plan.md`를 갱신하고 todo를 재정렬한다.
 - invalidated task나 wave만 다시 연다.
 - approved scope 변경이 필요해지면 스스로 확장하지 않고 user gate 방향으로 escalation한다.
-- spec failure는 local patch 대신 planning owner로 되돌린다.
 
 ## Cautions
 
