@@ -1,7 +1,7 @@
 # Project Memories
 
 > This file stores project-level knowledge: architecture decisions, technical debt, domain knowledge, team conventions, and project patterns.
-> Project: droid-boiler-plate
+> Project: 프로젝트명
 > Last updated: 2026-03-06
 
 ---

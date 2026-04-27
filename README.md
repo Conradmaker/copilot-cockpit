@@ -1,206 +1,255 @@
 <div align="center">
 
-# Copilot Agent Harness
+# Copilot Agent Harness "Cockpit"
 
-VS Code Copilot Chat Agent Mode를
-작업 가능한 제품 개발 워크플로우로 바꾸기 위한 보일러플레이트
+VS Code Copilot Chat Agent Mode에서 기획·설계·실행·리뷰를 분리해 운영하는 제품 개발 하네스
+
+<img src="public/cover.png" alt="Copilot Agent Harness Cockpit cover" width="720">
 
 </div>
 
-이 저장소는 단순한 프롬프트 모음이 아닙니다. 기획, 설계, 구현, 리뷰를 서로 다른 단계와 역할로 분리하고, 그 과정에서 필요한 문서, 지침, 스킬, 레퍼런스를 함께 제공합니다.
+"Cockpit"은 단발성 프롬프트 모음이 아닙니다. `AGENTS.md`, instruction, agent, skill, workflow 문서를 묶어 AI 에이전트가 작업 맥락을 잃지 않게 돕는 구조입니다.
 
-프로젝트에 그대로 복사해 시작해도 되고, 팀 방식에 맞게 일부만 가져가도 됩니다.
+목표는 모든 일을 거대한 프로세스로 강제하는 것이 아닙니다. 작은 작업은 가볍게 처리하고, 기획·설계·리뷰처럼 판단 비용이 큰 작업에서는 필요한 근거와 역할을 먼저 찾게 합니다.
 
-> Last reviewed: 2026-04-01
+> Last reviewed: 2026-04-27
+> Project status: active boilerplate. 이 저장소는 실행 애플리케이션이 아니라 VS Code Copilot Chat Agent Mode를 위한 하네스 템플릿입니다.
 
 ---
 
 ## 한눈에 보기
 
-- 승인된 PRD 없이 구현으로 넘어가지 않도록 phase와 gate를 둡니다.
-- 역할이 다른 agent를 분리해 한 에이전트가 모든 결정을 떠안지 않게 만듭니다.
-- instruction, skill, reference를 함께 제공해 추측보다 조회를 먼저 하게 만듭니다.
-- 사람이 다시 읽고 판단할 수 있는 산출물을 남기도록 설계되어 있습니다.
+- `AGENTS.md`를 시작점으로 삼아 저장소의 철학과 owner map을 고정합니다.
+- substantial work 전에는 skill discovery index로 필요한 스킬과 레퍼런스를 찾되, 작은 작업에는 무거운 확인 절차를 강제하지 않습니다.
+- Planning, Downstream Definition, Execution, Review, Tail 단계를 나누어 큰 작업의 흐름을 관리합니다.
+- Rush Mode와 Fleet Mode를 모두 열어 둡니다. 빠른 구현은 built-in Agent에 맡기고, 큰 실행은 Commander가 계획과 worker dispatch를 관리합니다.
+- 컨텍스트를 길게 넘기기보다 `task_packet`으로 필요한 정보만 전달합니다.
+- 산출물은 채팅 로그가 아니라 사람이 다시 읽을 수 있는 문서로 남깁니다.
 
-## 이런 경우에 맞습니다
+## 누구에게 맞나요
 
-- Copilot Chat을 단발성 코드 생성기보다 작업 시스템에 가깝게 쓰고 싶은 팀
-- 요구사항 정리, 설계, 구현, 리뷰를 한 대화 안에서 섞지 않고 나누고 싶은 개인
-- agent, instruction, skill 파일을 처음부터 설계하기보다 기본 틀에서 시작하고 싶은 경우
+- Copilot Chat을 코드 생성기보다 작업 파트너에 가깝게 쓰고 싶은 사람
+- agent, instruction, skill 파일을 처음부터 설계하기보다 검증 가능한 뼈대에서 시작하고 싶은 팀
+- 기획, 설계, 구현, 리뷰를 한 대화 안에서 뒤섞지 않고 단계별로 다루고 싶은 프로젝트
+- AI 에이전트에게 너무 많은 배경을 던지는 대신 필요한 정보만 넘기는 방식을 선호하는 사용자
+
+## 무엇을 해결하나요
+
+AI 에이전트는 긴 배경을 모두 기억하는 사람이 아닙니다. 세션과 subagent가 바뀔 때마다 필요한 정보만 다시 인수인계해야 합니다. 이 하네스는 그 전제 위에서 작업 흐름을 정리합니다.
+
+| 문제 | 이 저장소의 접근 |
+| :--- | :--- |
+| 프롬프트와 규칙이 한곳에 쌓임 | `AGENTS.md`는 철학과 owner map만 담고, 세부 규칙은 instructions와 skills로 분리합니다. |
+| 모든 작업에 무거운 워크플로우를 강제함 | 작은 작업은 가볍게 처리하고, 큰 결정에만 planning, council, review gate를 엽니다. |
+| subagent에게 너무 많은 맥락을 넘김 | `task_packet`으로 목표, 기대 결과, 금지 사항, 근거만 압축합니다. |
+| 스킬과 도구가 컨텍스트를 낭비함 | skill index는 위치를 알려주는 discovery surface로 두고, 필요한 순간에만 관련 스킬을 읽게 합니다. |
 
 ## 핵심 원칙
 
-### Retrieval-led reasoning
+### AGENTS.md First
 
-판단 전에 코드베이스, 문서, 레퍼런스를 먼저 조회합니다. 이 하네스는 "아는 척"보다 근거를 우선합니다.
+모든 것의 시작은 [AGENTS.md](AGENTS.md)입니다. 이 파일은 항상 보이는 기본 맥락으로서 저장소의 철학, 책임 경계, 최소 owner map만 담습니다. 세부 규칙은 instructions와 skills로 분리합니다.
 
-### Explicit gates
+### Retrieval-Led Reasoning
 
-기획 산출물과 사용자 승인 없이 다음 단계로 넘어가지 않습니다. 특히 승인된 `prd.md`가 없으면 구현을 열지 않는 점이 핵심입니다.
+모델의 기억보다 현재 저장소와 문서를 먼저 봅니다. 필요하면 [skill index](.github/instructions/skill-index.instructions.md), 관련 `SKILL.md`, workflow 문서, 공식 문서 순서로 근거를 좁혀 갑니다.
 
-### Evidence-first review
+### Context Frugality
 
-중요한 결론은 역할별 리뷰와 evidence를 거칩니다. 근거가 부족하면 더 강한 주장 대신 더 나은 조회를 선택합니다.
+에이전트마다 전체 배경을 다시 넘기지 않습니다. 세션 문서와 `task_packet`은 문제, 기대 결과, 금지 사항, 필요한 근거만 전달합니다.
 
-### Human-readable artifacts
+### Explicit Gates Where They Matter
 
-채팅 로그에만 의존하지 않고 사람이 다시 읽을 수 있는 산출물을 남깁니다. `prd.md`, `artifacts.md`, `design.md`, `technical.md`, `execution-plan.md`가 그 중심입니다.
+모든 수정에 PRD를 요구하지 않습니다. 다만 중대한 의사결정, 범위가 큰 구현, 리뷰가 필요한 작업에서는 planning artifact, council review, final review gate를 사용합니다.
+
+### Shallow Delegation
+
+2뎁스 이상의 subagent 호출을 지양합니다. 프롬프트가 에이전트 사이를 지나갈수록 누락되는 맥락이 늘어나기 때문입니다.
+
+### Human-Readable Artifacts
+
+오래 남겨야 할 결정은 사람이 다시 읽을 수 있는 문서로 남깁니다. 대표 산출물은 `prd.md`, `artifacts.md`, `design.md`, `technical.md`, `execution-plan.md`입니다.
 
 ## 워크플로우
 
-이 하네스는 5단계로 움직입니다.
+이 하네스의 전체 흐름은 아래 5단계입니다. 작은 작업은 전체 흐름을 생략할 수 있고, 큰 작업에서만 필요한 단계와 관문을 엽니다.
 
-| Phase | Owner | 주요 결과물 | 다음 단계로 가는 조건 |
-|:---|:---|:---|:---|
-| Planning | Mate | `prd.md`, `artifacts.md` | PRD 승인, 품질 검토, downstream mode 결정 |
-| Downstream Definition | Designer / Architector | `design.md`, `technical.md` | 산출물 준비, 사용자 게이트 통과 |
-| Execution | Fleet Mode: Commander → Deep Execution Agent / Rush Mode: Mate → built-in Agent | 구현 코드, `execution-plan.md` 또는 direct implementation result, 검증 결과 | 구현 및 verification evidence 확보 |
-| Review | Reviewer | 역할별 findings, board verdict | 승인 가능한 수준의 review verdict |
-| Tail | 현재 owner | git 작업, memory 정리 | review 이후에만 진입 |
+| Phase | Owner | 주요 산출물 | 다음 단계로 가는 조건 |
+| :--- | :--- | :--- | :--- |
+| Planning | Mate / Plan | `prd.md`, `artifacts.md` | 요구사항, 범위, 성공 기준이 충분히 정리됨 |
+| Downstream Definition | Designer / Architector | `design.md`, `technical.md` | 실행 전 필요한 UI/UX 또는 기술 판단이 준비됨 |
+| Execution | Rush: built-in Agent / Fleet: Commander -> Deep Execution Agent | 구현 코드, `execution-plan.md`, 검증 결과 | 구현 결과와 verification evidence 확보 |
+| Review | Reviewer | role-based findings, final verdict | 승인 가능한 수준의 review verdict |
+| Tail | 현재 owner | git 정리, memory 정리 | 리뷰 이후 필요한 후속 정리 완료 |
 
 ```mermaid
 flowchart LR
+    A[AGENTS.md]
     P[Planning]
     D[Downstream Definition]
     E[Execution]
     R[Review]
     T[Tail]
 
-    P -->|approved prd + downstream auto-decision| D
-    D -->|downstream artifacts + user gate| E
-    E -->|implementation + verification| R
-    R -->|approved review| T
-    R -.->|spec-level issue| P
+    A --> P
+    P -->|필요한 경우| D
+    P -->|Rush Mode| E
+    D --> E
+    E --> R
+    R --> T
+    R -.->|spec failure| P
 ```
 
-더 자세한 규칙은 [AGENTS.md](AGENTS.md)와 [.github/instructions/subagent-invocation.instructions.md](.github/instructions/subagent-invocation.instructions.md)를 보면 됩니다.
+자세한 흐름은 [WORKFLOW-PLAYBOOK.md](docs/workflow/WORKFLOW-PLAYBOOK.md), [PLANNING-WORKFLOW.md](docs/workflow/PLANNING-WORKFLOW.md), [EXECUTION-WORKFLOW.md](docs/workflow/EXECUTION-WORKFLOW.md)를 참고하세요.
 
-## 포함된 agent
+## 포함된 Agent
 
-### Core
+### Core Agents
 
-| Agent | 하는 일 |
-|:---|:---|
-| Mate | 요구사항을 정리하고 `prd.md`와 `artifacts.md`를 만든다 |
-| Designer | 승인된 PRD를 바탕으로 `design.md`를 만든다 |
-| Architector | 승인된 PRD를 기술 설계 문서로 확장한다 |
-| Commander | Fleet Mode에서 실행 계획을 세우고 구현 작업을 오케스트레이션한다 |
-| Deep Execution Agent | Fleet Mode에서 구현과 검증을 실제로 수행한다 |
-| Reviewer | 코드, 보안, 성능, 디자인 관점에서 결과를 검토한다 |
+| Agent | 파일 | 역할 |
+| :--- | :--- | :--- |
+| Mate | [.github/agents/Mate.agent.md](.github/agents/Mate.agent.md) | 사용자 요청을 PRD와 artifact index로 정리하고 downstream handoff를 엽니다. |
+| Plan | [.github/agents/Plan.agent.md](.github/agents/Plan.agent.md) | 구현 전 조사와 실행 계획을 작성하는 가벼운 planning agent입니다. |
+| Designer | [.github/agents/Designer.agent.md](.github/agents/Designer.agent.md) | 승인된 PRD를 UI/UX 설계 문서로 확장합니다. |
+| Architector | [.github/agents/Architector.agent.md](.github/agents/Architector.agent.md) | 승인된 PRD를 기술 설계와 통합 경계로 확장합니다. |
+| Commander | [.github/agents/Commander.agent.md](.github/agents/Commander.agent.md) | Fleet Mode에서 실행 계획, worker dispatch, review strategy를 관리합니다. |
+| Deep Execution Agent | [.github/agents/Deep-execution.agent.md](.github/agents/Deep-execution.agent.md) | 스코프가 잠긴 구현과 자체 검증을 수행합니다. |
+| Reviewer | [.github/agents/Reviewer.agent.md](.github/agents/Reviewer.agent.md) | 코드 품질, 보안, 성능, 런타임, final-review gate를 검토합니다. |
 
-Rush Mode는 workspace custom agent가 아니라 VS Code built-in `Agent`로 직접 handoff된다.
+### Support Agents
 
-### Support
+| Agent | 파일 | 쓰는 시점 |
+| :--- | :--- | :--- |
+| Explore | [.github/agents/Explore.agent.md](.github/agents/Explore.agent.md) | 로컬 코드베이스 근거, 재사용 패턴, project-specific rule을 찾을 때 |
+| Librarian | [.github/agents/Librarian.agent.md](.github/agents/Librarian.agent.md) | 공식 문서, 외부 레퍼런스, 최신 API 동작을 확인할 때 |
+| Coordinator | [.github/agents/Coordinator.agent.md](.github/agents/Coordinator.agent.md) | 중대한 의사결정이나 PRD 품질을 role-based council로 검토할 때 |
+| Painter | [.github/agents/Painter.agent.md](.github/agents/Painter.agent.md) | design context를 바탕으로 웹용 비주얼 에셋을 만들 때 |
 
-| Agent | 쓰는 시점 |
-|:---|:---|
-| Explore | 로컬 코드베이스에서 패턴과 근거를 찾을 때 |
-| Librarian | 공식 문서나 외부 레퍼런스가 필요할 때 |
-| Coordinator | 방향성 검토나 role-based council이 필요할 때 |
-| Painter | 디자인 맥락 기반으로 비주얼 에셋을 만들 때 |
+## Skill System
 
-자세한 정의는 [.github/agents/](.github/agents/) 아래 파일에 정리되어 있습니다.
+스킬은 에이전트가 특정 도메인의 판단 기준을 찾는 discovery surface입니다. 이 저장소는 "무조건 이 스킬을 써라"보다 "필요한 스킬을 여기서 찾는다"는 구조를 택합니다.
 
-## 스킬 카탈로그
+| Category | 대표 스킬 |
+| :--- | :--- |
+| Writing & content | `writing-readme`, `writing-clearly`, `writing-document`, `research-content-source` |
+| Design & UX | `ds-product-ux`, `ds-ui-patterns`, `ds-typography`, `ds-visual-design`, `ds-anti-ai-slop`, `ds-visual-review`, `research-design` |
+| Web visuals | `ds-image-gen` |
+| Frontend engineering | `fe-react-patterns`, `fe-a11y`, `fe-tailwindcss`, `fe-code-review`, `fe-zustand`, `fe-tanstack-query`, `fe-ai-elements` |
+| Security & backend | `dev-security`, `be-api-design`, `fastify-best-practices`, `be-prisma`, `be-drizzle`, `be-kysely` |
+| SEO | `seo-technical`, `seo-content` |
+| Workflow & tooling | `agent-browser`, `git-workflow`, `gh-cli`, `dev-vite`, `dev-turbopack`, `pdf`, `research-foundation` |
+| Memory & context | `memory-synthesizer` |
 
-스킬은 에이전트가 특정 도메인에서 더 일관된 결정을 내리도록 돕는 지식 묶음입니다. 아래는 현재 저장소에서 자주 쓰는 핵심 카테고리입니다.
+전체 discovery 기준은 [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md), 실제 스킬 본문은 [.github/skills/](.github/skills/)에서 확인할 수 있습니다.
 
-- Design & UX: `ds-product-ux`, `ds-visual-design`, `ds-ui-patterns`, `researhch-design`
-- Frontend: `fe-react-patterns`, `fe-tailwindcss`, `fe-a11y`, `fe-code-review`, `fe-zustand`, `fe-tanstack-query`
-- Backend & Security: `be-api-design`, `fastify-best-practices`, `dev-security`, `be-prisma`, `be-kysely`
-- Workflow & Tooling: `git-workflow`, `gh-cli`, `agent-browser`, `memory-synthesizer`, `writing-readme`, `research-foundation`
+### Kick Skills
 
-전체 목록은 [.github/skills/](.github/skills/)에서 확인할 수 있습니다.
+`kick-` 접두사 스킬은 사용자가 직접 호출하는 상위 워크플로우입니다. 에이전트가 자동으로 실행하지 않는다는 점이 일반 스킬과 다릅니다.
 
-## Kick Skills (User-Invocable)
+| Skill | 목적 |
+| :--- | :--- |
+| `kick-analyze` | 제품을 시장, 경쟁, UX, 전략 관점에서 분석합니다. |
+| `kick-research` | 특정 주제를 깊게 조사하고 근거 품질을 끌어올립니다. |
+| `kick-init` | 프로젝트 디자인 컨텍스트를 처음 수집합니다. |
+| `kick-design-booster` | 디자인 품질 진단과 개선 워크플로우를 실행합니다. |
 
-kick- 접두사 스킬은 유저가 직접 호출하는 전용 스킬입니다. agent가 자동으로 호출하지 않으며, 유저가 명시적으로 요청해야 실행됩니다.
-
-research-foundation은 자동 호출되는 기반 조사 스킬이고, kick- 계열은 그 위에서 유저가 직접 깊은 조사나 분석을 시작할 때 쓰는 상위 워크플로우입니다.
-
-### 분석·조사
-
-- `kick-analyze`: 현재 프로덕트를 시장, 경쟁, UX, 전략적 관점에서 깊고 넓게 분석해 경쟁력을 높일 수 있는 아이디어와 방법을 추천하고 보고서를 생성. 여러 research-/ds-/fe- 스킬들을 orchestrate.
-- `kick-research`: 특정 주제를 빡세게 조사해야 할 때 쓰는 intensive research orchestrator. research-foundation, research-product, research-design, research-content-source, agent-browser 같은 조사 스킬을 묶어 evidence quality 를 끌어올립니다.
-
-### 디자인·개선
-
-- `kick-init`: 디자인 초기 컨텍스트 수집. 프로젝트의 디자인 컨텍스트 (`.design-context.md`) 가 없을 때 실행. 기존 톤앤매너, 레퍼런스, 디자인 결정 사항을 인터뷰하고 문서화.
-- `kick-design-booster`: 체계적인 디자인 진단·개선 워크플로우. 10 차원 디자인 품질 평가 (AI Slop 탐지 포함) 와 5 차원 기술 품질 감사를 실행한 후, 발견된 문제에 맞는 개선 워크플로우 (distill, harden, overdrive, delight, polish, intensity, arrange, typeset, colorize, animate, clarify) 를 조합 실행. "이 디자인을 개선해줘", "AI-generated 같다", "출시 전 점검해줘" 같은 요청에 사용.
-
-## 디렉토리 구조
+## 디렉터리 구조
 
 ```text
 .
 ├── AGENTS.md
 ├── README.md
-├── skills-lock.json
+├── LICENSE.md
+├── docs/
+│   ├── AGENT-SYSTEM-GUIDE.md
+│   ├── AGENTS.md
+│   └── workflow/
+├── plans/
+├── public/
+│   ├── cover.png
+│   ├── favicon.svg
+│   ├── index.html
+│   ├── logo-dark.png
+│   └── logo-light.png
 ├── .github/
 │   ├── agents/
-│   ├── skills/
+│   ├── hooks/
 │   ├── instructions/
-│   └── docs/
-├── public/
-│   └── generated/
-└── ref/
-    ├── project-concept.md
-    ├── rule-guide.md
-    ├── agent-ref/
-    ├── design-ref2/
-    └── other-harness/
+│   ├── memories/
+│   └── skills/
+└── .agents/
 ```
 
-- [AGENTS.md](AGENTS.md): 철학, owner map, retrieval 원칙
-- [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md): always-on workspace skill discovery index
-- [.github/agents/](.github/agents/): 각 agent 정의
-- [.github/skills/](.github/skills/): 도메인별 전문 스킬
-- [.github/instructions/](.github/instructions/): 항상 적용되는 규칙과 작성 가이드
-- [.github/docs/](.github/docs/): 템플릿과 심층 워크플로우 문서
-- [ref/](ref/): 설계 철학, 레퍼런스, 비교 자료
-- [public/generated/](public/generated/): AI 생성 비주얼 에셋 저장 위치
+## 문서 지도
+
+| 문서 | 역할 |
+| :--- | :--- |
+| [AGENTS.md](AGENTS.md) | 항상 보이는 저장소 철학과 owner map |
+| [docs/AGENT-SYSTEM-GUIDE.md](docs/AGENT-SYSTEM-GUIDE.md) | `.github/` 영역을 유지보수할 때 보는 시스템 안내서 |
+| [docs/workflow/WORKFLOW-PLAYBOOK.md](docs/workflow/WORKFLOW-PLAYBOOK.md) | Planning부터 Tail까지의 전체 흐름 |
+| [.github/instructions/subagent-invocation.instructions.md](.github/instructions/subagent-invocation.instructions.md) | subagent 호출 packet schema와 선택 기준 |
+| [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md) | 작업별 skill discovery registry |
+| [.github/agents/artifacts/](.github/agents/artifacts/) | PRD, design, technical, execution plan 템플릿 |
+| [.github/memories/memories.md](.github/memories/memories.md) | 프로젝트 memory 경로와 오래 남길 사실 관리 기준 |
+| [public/index.html](public/index.html) | 하네스 소개용 정적 페이지 |
 
 ## 빠르게 시작하기
 
 ### 사전 요구사항
 
 - [VS Code](https://code.visualstudio.com/)
+- [Git](https://git-scm.com/)
 - [GitHub Copilot](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot)
 - [GitHub Copilot Chat](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot-chat)
 
-### 시작 절차
+### 저장소 확인
 
 ```bash
-git clone https://github.com/your-username/copilot-agent-harness.git
-cd copilot-agent-harness
+git clone https://github.com/Conradmaker/copilot-cockpit.git
+cd copilot-cockpit
 code .
 ```
 
-1. VS Code에서 Copilot Chat의 Agent Mode를 켭니다.
-2. [AGENTS.md](AGENTS.md)로 철학과 owner map을 보고, [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md)로 skill discovery surface를 확인합니다.
-3. 원하는 작업을 에이전트에게 바로 요청합니다.
+이 저장소는 런타임 서버가 필요하지 않습니다. 실제 시작점은 `.github/`, `AGENTS.md`, `docs/`에 있는 에이전트 하네스 문서입니다. 소개용 정적 페이지는 [public/index.html](public/index.html)에서 확인할 수 있습니다.
 
-예시 프롬프트:
+### 첫 요청 예시
 
-- "새로운 대시보드 기능을 기획해줘"
-- "approved PRD를 기준으로 design.md를 만들어줘"
-- "execution-plan부터 잡고 구현까지 진행해줘"
-- "이 변경사항을 security reviewer 관점에서 검토해줘"
+- "Mate로 새 기능 PRD를 만들어줘."
+- "Plan 모드로 구현 계획만 먼저 정리해줘."
+- "이 PRD에서 design.md가 필요한지 판단하고 Designer를 열어줘."
+- "Fleet Mode로 execution plan부터 잡고 구현까지 진행해줘."
+- "이번 변경을 security reviewer 관점에서 검토해줘."
 
-### 내 프로젝트에 가져가는 방법
+## 내 프로젝트에 가져가기
 
-이 레포는 실행 애플리케이션이 아니라 설정과 지식 보일러플레이트입니다. 보통은 아래 항목을 프로젝트에 맞게 복사하거나 template으로 사용합니다.
+가장 작은 권장 복사 단위는 아래와 같습니다.
 
-- [AGENTS.md](AGENTS.md)
-- [.github/agents/](.github/agents/)
-- [.github/skills/](.github/skills/)
-- [.github/instructions/](.github/instructions/)
-- 필요하면 [ref/](ref/)
+```text
+AGENTS.md
+.github/agents/
+.github/instructions/
+.github/skills/
+docs/workflow/
+```
+
+`.github/agents/`에는 agent 정의와 artifact 템플릿이 함께 들어 있습니다. 둘을 분리해 복사하면 Mate, Commander, Designer, Architector의 계약이 깨질 수 있습니다.
+
+상황에 따라 아래 항목을 추가로 가져갑니다.
+
+| 항목 | 가져갈 때 |
+| :--- | :--- |
+| [.github/memories/](.github/memories/) | 프로젝트 memory convention까지 맞추고 싶을 때 |
+| [.github/hooks/](.github/hooks/) | `SubagentStop` 포맷팅 같은 자동화를 쓰고 싶을 때 |
+| [docs/AGENT-SYSTEM-GUIDE.md](docs/AGENT-SYSTEM-GUIDE.md) | 하네스 유지보수자를 위한 안내서가 필요할 때 |
+| [public/](public/) | 하네스 소개용 정적 페이지와 로고 에셋이 필요할 때 |
+
+복사한 뒤에는 [AGENTS.md](AGENTS.md)를 대상 프로젝트에 맞게 줄이고, [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md)에서 실제로 쓸 skill category만 남기는 편이 좋습니다.
 
 ## 커스터마이징
 
-### agent 추가
+### Agent 추가 또는 수정
 
-`.github/agents/`에 새 `.agent.md` 파일을 추가합니다.
+새 agent는 `.github/agents/` 아래에 `.agent.md`로 추가합니다.
 
 ```text
 .github/agents/MyAgent.agent.md
@@ -208,64 +257,44 @@ code .
 
 작성 규칙은 [.github/instructions/create-agent.instructions.md](.github/instructions/create-agent.instructions.md)를 참고하세요.
 
-### skill 추가
+### Skill 추가 또는 수정
 
-`.github/skills/` 아래에 새 디렉토리와 `SKILL.md`를 추가합니다.
+새 skill은 `.github/skills/<skill-name>/SKILL.md` 형태로 추가합니다.
 
 ```text
 .github/skills/my-skill/SKILL.md
 ```
 
-작성 규칙은 [.github/instructions/create-skills.instructions.md](.github/instructions/create-skills.instructions.md)를 참고하세요.
+작성 규칙은 [.github/instructions/create-skills.instructions.md](.github/instructions/create-skills.instructions.md)를 참고하세요. 카테고리나 대표 trigger를 바꾸면 [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md)도 함께 갱신합니다.
 
-skill discovery registry는 [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md)가 owner입니다. 카테고리나 대표 skill surface를 바꿨다면 이 파일도 함께 갱신하세요.
+### Workflow 조정
 
-### workflow 조정
+workflow의 기준 문서는 아래 위치에 나뉘어 있습니다.
 
-다음 문서가 기준입니다.
+- 사용자용 흐름: [docs/workflow/WORKFLOW-PLAYBOOK.md](docs/workflow/WORKFLOW-PLAYBOOK.md)
+- subagent 호출 계약: [.github/instructions/subagent-invocation.instructions.md](.github/instructions/subagent-invocation.instructions.md)
+- agent별 receiver contract: [.github/agents/](.github/agents/)
+- Mate mode별 세부 흐름: [.github/agents/workflows/](.github/agents/workflows/)
 
-- [.github/instructions/subagent-invocation.instructions.md](.github/instructions/subagent-invocation.instructions.md)
-- [.github/docs/workflow/WORKFLOW-PLAYBOOK.md](.github/docs/workflow/WORKFLOW-PLAYBOOK.md)
+### Hook과 MCP
 
-### template 수정
+이 하네스는 MCP와 hook 자동화를 작게 유지하는 쪽을 권장합니다. 현재 hook 예시는 [.github/hooks/format.json](.github/hooks/format.json)의 `SubagentStop` 포맷팅입니다. 강제 skill 로딩이나 과한 자동화는 컨텍스트를 낭비할 수 있으므로 팀이 감당할 수 있는 수준만 남기세요.
 
-산출물 템플릿은 [.github/agents/artifacts/](.github/agents/artifacts/) 아래에 있습니다.
+## 주의할 점
 
-- [PRD-TEMPLATE.md](.github/agents/artifacts/PRD-TEMPLATE.md)
-- [DESIGN-TEMPLATE.md](.github/agents/artifacts/DESIGN-TEMPLATE.md)
-- [TECHNICAL-TEMPLATE.md](.github/agents/artifacts/TECHNICAL-TEMPLATE.md)
-- [EXECUTION-PLAN-TEMPLATE.md](.github/agents/artifacts/EXECUTION-PLAN-TEMPLATE.md)
-- [WEB_IMAGE_PROMPT_TEMPLATE.md](.github/agents/artifacts/WEB_IMAGE_PROMPT_TEMPLATE.md)
-
-## 참고 자료
-
-- [AGENTS.md](AGENTS.md): 철학과 owner map을 보는 시작 문서
-- [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md): 작업별로 어떤 skill을 먼저 읽어야 하는지 고르는 discovery registry
-- [ref/project-concept.md](ref/project-concept.md): 하네스의 설계 철학
-- [ref/rule-guide.md](ref/rule-guide.md): 규칙 작성 원칙
-- [ref/other-harness/](ref/other-harness/): 다른 하네스와의 비교 자료
-- [ref/agent-ref/](ref/agent-ref/), [ref/create-agent-documents/](ref/create-agent-documents/), [ref/create-skill-documents/](ref/create-skill-documents/): 작성 예시와 참고 자료
+- `chat.subagents.allowInvocationsFromSubagents`를 켜면 subagent가 다른 subagent를 호출할 수 있습니다. 이 하네스는 기본적으로 2뎁스 이상의 호출을 지양합니다.
+- README의 예시는 시작점입니다. 대상 프로젝트에 복사한 뒤에는 불필요한 agent, skill, workflow를 줄여야 합니다.
+- 이 저장소는 애플리케이션 보일러플레이트가 아니라 에이전트 작업 보일러플레이트입니다. `npm install`이나 서버 실행 절차가 중심이 아닙니다.
 
 ## 기여하기
 
 문서, agent, skill, workflow 모두 기여 대상입니다.
 
-1. 저장소를 fork 합니다.
-2. 브랜치를 만듭니다.
-3. 변경 내용을 커밋합니다.
-4. pull request를 엽니다.
-
-새 agent나 skill을 추가할 때는 관련 instruction 파일을 먼저 확인하는 편이 좋습니다.
+1. 변경하려는 영역의 owner 문서를 먼저 확인합니다.
+2. 관련 instruction 또는 skill 작성 규칙을 읽습니다.
+3. 변경 후 README, docs, agent contract가 서로 충돌하지 않는지 확인합니다.
+4. 필요한 경우 PR에서 어떤 판단 기준을 바꿨는지 설명합니다.
 
 ## License
 
 [Apache License 2.0](LICENSE.md)
-
----
-
-시작은 [AGENTS.md](AGENTS.md)에서 하고, skill discovery는 [.github/instructions/skill-index.instructions.md](.github/instructions/skill-index.instructions.md)가 맡습니다.
-
-
-
-## 주의 
-chat.subagents.allowInvocationsFromSubagents 설정을 활성화하면 서브에이전트가 다른 서브에이전트를 호출할 수 있습니다. 

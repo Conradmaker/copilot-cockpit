@@ -3,23 +3,50 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="color-scheme" content="dark" />
-    <meta name="theme-color" content="#0A0B0D" />
-    <title>Copilot Agent Harness | Copilot Chat을 작업 시스템으로</title>
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#0a0b0d" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)" />
+    <title>Cockpit | 코파일럿 에이전트 하네스</title>
     <meta
       name="description"
-      content="VS Code Copilot Chat을 단계 기반 작업 시스템으로 바꾸는 보일러플레이트입니다. 48개 스킬, 11개 에이전트, 5단계 게이트를 제공합니다."
+      content="phase·gate·role·artifact 구조로 Copilot Chat을 정돈된 워크플로로 바꿉니다. 48개 스킬, 11개 에이전트, 5단계 게이트."
     />
-    <meta property="og:title" content="Copilot Agent Harness" />
+    <meta name="robots" content="index, follow" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:site_name" content="Cockpit" />
+    <meta property="og:title" content="Cockpit | 코파일럿 에이전트 하네스" />
     <meta
       property="og:description"
-      content="Copilot Chat을 다시 읽고 검증할 수 있는 작업 시스템으로 바꿉니다. phase, gate, role, artifact를 갖춘 한국어 개발자용 보일러플레이트입니다."
+      content="phase·gate·role·artifact 구조로 Copilot Chat을 정돈된 워크플로로 바꿉니다. 한국어 개발 환경에 바로 쓸 수 있는 에이전트 하네스."
     />
-    <meta property="og:type" content="website" />
-    <link
-      rel="icon"
-      href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230A0B0D'/%3E%3Crect x='10' y='6' width='4' height='20' fill='%237CFFB2'/%3E%3C/svg%3E"
+    <meta property="og:url" content="https://conradmaker.github.io/copilot-cockpit/" />
+    <meta property="og:image" content="https://conradmaker.github.io/copilot-cockpit/cover.png" />
+    <meta
+      property="og:image:alt"
+      content="Cockpit — 채팅을 정돈된 워크플로로 바꾸는 코파일럿 에이전트 하네스"
     />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Cockpit | 코파일럿 에이전트 하네스" />
+    <meta
+      name="twitter:description"
+      content="phase·gate·role·artifact 구조로 Copilot Chat을 정돈된 워크플로로 바꿉니다. 48개 스킬, 11개 에이전트, 5단계 게이트."
+    />
+    <meta name="twitter:image" content="https://conradmaker.github.io/copilot-cockpit/cover.png" />
+
+    <link rel="icon" href="./favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="./favicon.svg" />
+    <script>
+      ;(function () {
+        var t = localStorage.getItem("theme")
+        if (!t) t = matchMedia("(prefers-color-scheme:light)").matches ? "light" : "dark"
+        document.documentElement.dataset.theme = t
+      })()
+    </script>
     <style>
       /* =========================================================
        * 0. Tokens (design.md §13)
@@ -31,9 +58,9 @@
         --fg: #e6e8ec;
         --muted: #7a7f87;
         --dim: #4a4e55;
-        --accent: #7cffb2;
-        --accent-dim: #2a6b4a;
-        --accent-hover: #9fffc8;
+        --accent: #89e508;
+        --accent-dim: #3d6b10;
+        --accent-hover: #a5ff3a;
         --signal-amber: #ffd47a;
         --signal-red: #ff7a8a;
 
@@ -61,6 +88,22 @@
           "Apple SD Gothic Neo", system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
       }
 
+      :root[data-theme="light"] {
+        --bg: #ffffff;
+        --panel: #f6f7f9;
+        --hairline: #e2e4e8;
+        --fg: #1a1c20;
+        --muted: #5a5f67;
+        --dim: #8a8f97;
+        --accent: #5a9a00;
+        --accent-dim: #d4edba;
+        --accent-hover: #4e8a05;
+        --signal-amber: #b8860b;
+        --signal-red: #d32f2f;
+        --border: 1px solid var(--hairline);
+        --border-strong: 1px solid #d0d3d8;
+      }
+
       /* =========================================================
        * 1. Reset & base
        * ========================================================= */
@@ -79,15 +122,11 @@
         background-image:
           radial-gradient(
             ellipse 110% 55% at 50% -5%,
-            rgba(124, 255, 178, 0.055) 0%,
+            rgba(137, 229, 8, 0.055) 0%,
             transparent 65%
           ),
-          radial-gradient(
-            ellipse 50% 30% at 10% 60%,
-            rgba(124, 255, 178, 0.018) 0%,
-            transparent 70%
-          ),
-          linear-gradient(transparent 95%, rgba(124, 255, 178, 0.025) 95%);
+          radial-gradient(ellipse 50% 30% at 10% 60%, rgba(137, 229, 8, 0.018) 0%, transparent 70%),
+          linear-gradient(transparent 95%, rgba(137, 229, 8, 0.025) 95%);
         background-size:
           100% 100%,
           100% 100%,
@@ -102,6 +141,12 @@
         overflow-wrap: break-word;
         -webkit-font-smoothing: antialiased;
         text-rendering: optimizeLegibility;
+      }
+      :root[data-theme="light"] body {
+        background-image:
+          radial-gradient(ellipse 110% 55% at 50% -5%, rgba(90, 154, 0, 0.06) 0%, transparent 65%),
+          radial-gradient(ellipse 50% 30% at 10% 60%, rgba(90, 154, 0, 0.025) 0%, transparent 70%),
+          linear-gradient(transparent 95%, rgba(90, 154, 0, 0.03) 95%);
       }
       a {
         color: inherit;
@@ -118,6 +163,9 @@
       ::selection {
         background: var(--accent);
         color: var(--bg);
+      }
+      :root[data-theme="light"] ::selection {
+        color: #ffffff;
       }
       :focus-visible {
         outline: 2px solid var(--accent);
@@ -225,6 +273,9 @@
         -webkit-backdrop-filter: blur(8px);
         border-bottom-color: var(--hairline);
       }
+      :root[data-theme="light"] .nav.is-scrolled {
+        background: rgba(255, 255, 255, 0.85);
+      }
       .nav__inner {
         display: flex;
         align-items: center;
@@ -241,6 +292,20 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
+      }
+      .logo__img {
+        height: 36px;
+        width: auto;
+        display: block;
+      }
+      .logo__img--light {
+        display: none;
+      }
+      :root[data-theme="light"] .logo__img--dark {
+        display: none;
+      }
+      :root[data-theme="light"] .logo__img--light {
+        display: block;
       }
       .logo .prompt {
         color: var(--accent);
@@ -275,6 +340,35 @@
       }
       .nav__cta {
         color: var(--accent) !important;
+      }
+      .theme-toggle {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 32px;
+        height: 32px;
+        border-radius: var(--radius);
+        color: var(--muted);
+        transition:
+          color var(--d-micro) var(--easing),
+          background var(--d-micro) var(--easing);
+      }
+      .theme-toggle:hover {
+        color: var(--fg);
+        background: rgba(128, 128, 128, 0.1);
+      }
+      .theme-toggle svg {
+        width: 18px;
+        height: 18px;
+      }
+      .theme-toggle__icon--sun {
+        display: none;
+      }
+      :root[data-theme="light"] .theme-toggle__icon--moon {
+        display: none;
+      }
+      :root[data-theme="light"] .theme-toggle__icon--sun {
+        display: block;
       }
 
       /* =========================================================
@@ -707,7 +801,7 @@
       }
       .step__artifact .file {
         color: var(--accent);
-        background: rgba(124, 255, 178, 0.06);
+        background: rgba(137, 229, 8, 0.06);
         padding: 2px 6px;
         border-radius: 2px;
       }
@@ -969,7 +1063,7 @@
       }
       .agent:hover {
         border-color: var(--accent-dim);
-        background: rgba(124, 255, 178, 0.025);
+        background: rgba(137, 229, 8, 0.025);
       }
       .agent__num {
         font-size: 11px;
@@ -985,6 +1079,53 @@
         letter-spacing: 0.06em;
         text-transform: uppercase;
       }
+
+      /* Tooltip base */
+      [data-tooltip] {
+        position: relative;
+        cursor: default;
+      }
+      [data-tooltip]::after {
+        content: attr(data-tooltip);
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px 12px;
+        background: var(--panel);
+        border: var(--border);
+        border-radius: var(--radius);
+        font-family: var(--font-sans);
+        font-size: 12px;
+        font-weight: 400;
+        line-height: 1.5;
+        letter-spacing: 0;
+        text-transform: none;
+        color: var(--fg);
+        white-space: normal;
+        text-align: center;
+        max-width: 220px;
+        min-width: 120px;
+        pointer-events: none;
+        opacity: 0;
+        visibility: hidden;
+        transition:
+          opacity var(--d-micro) var(--easing),
+          visibility var(--d-micro) var(--easing);
+        z-index: 100;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+      }
+      [data-tooltip]:hover::after {
+        opacity: 1;
+        visibility: visible;
+      }
+      .agent[data-tooltip]::after {
+        top: calc(100% + 8px);
+        bottom: auto;
+      }
+      .skills__list [data-tooltip]::after {
+        bottom: calc(100% + 8px);
+      }
+
       @media (max-width: 1023px) {
         .agents {
           grid-template-columns: repeat(2, 1fr);
@@ -1046,7 +1187,7 @@
         border-bottom: var(--border);
       }
       .faq__item[open] {
-        background: linear-gradient(to right, rgba(124, 255, 178, 0.025), transparent 40%);
+        background: linear-gradient(to right, rgba(137, 229, 8, 0.025), transparent 40%);
       }
       .faq__q {
         list-style: none;
@@ -1207,7 +1348,37 @@
       }
 
       /* =========================================================
-       * 11. Reduced motion
+       * 11. Light mode component overrides
+       * ========================================================= */
+      :root[data-theme="light"] .install::before {
+        background-image: linear-gradient(transparent 50%, rgba(0, 0, 0, 0.04) 50%);
+        opacity: 0.5;
+      }
+      :root[data-theme="light"] .agent:hover {
+        background: rgba(90, 154, 0, 0.04);
+      }
+      :root[data-theme="light"] .step__artifact .file {
+        background: rgba(90, 154, 0, 0.08);
+      }
+      :root[data-theme="light"] .faq__item[open] {
+        background: linear-gradient(to right, rgba(90, 154, 0, 0.04), transparent 40%);
+      }
+      :root[data-theme="light"] .logo .prompt {
+        color: var(--accent);
+      }
+      :root[data-theme="light"] .hero h1 .accent::after {
+        color: var(--accent);
+      }
+      :root[data-theme="light"] code {
+        background: var(--panel);
+        border-color: var(--hairline);
+      }
+      :root[data-theme="light"] [data-tooltip]::after {
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+      }
+
+      /* =========================================================
+       * 12. Reduced motion
        * ========================================================= */
       @media (prefers-reduced-motion: reduce) {
         *,
@@ -1218,9 +1389,6 @@
           transition-duration: 0.001ms !important;
           scroll-behavior: auto !important;
         }
-        .logo .prompt {
-          opacity: 0.6;
-        }
       }
     </style>
   </head>
@@ -1230,8 +1398,9 @@
     ====================================================== -->
     <header class="nav" id="nav">
       <div class="container nav__inner">
-        <a class="logo" href="#top" aria-label="Copilot Agent Harness 홈">
-          harness <span class="prompt" aria-hidden="true">▌</span>
+        <a class="logo" href="#top" aria-label="Copilot Agent Cockpit 홈">
+          <img src="logo-dark.png" alt="Cockpit" class="logo__img logo__img--dark" />
+          <img src="logo-light.png" alt="Cockpit" class="logo__img logo__img--light" />
         </a>
         <nav class="nav__links" aria-label="주요">
           <a href="#workflow">워크플로</a>
@@ -1239,12 +1408,45 @@
           <a href="#faq">FAQ</a>
           <a
             class="nav__cta"
-            data-href="github-repo"
-            href="#"
+            href="https://github.com/Conradmaker/copilot-cockpit"
             target="_blank"
             rel="noopener noreferrer"
             >GitHub →</a
           >
+          <button class="theme-toggle" id="theme-toggle" aria-label="테마 전환" type="button">
+            <svg
+              class="theme-toggle__icon theme-toggle__icon--moon"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+            </svg>
+            <svg
+              class="theme-toggle__icon theme-toggle__icon--sun"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="5" />
+              <line x1="12" y1="1" x2="12" y2="3" />
+              <line x1="12" y1="21" x2="12" y2="23" />
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+              <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+              <line x1="1" y1="12" x2="3" y2="12" />
+              <line x1="21" y1="12" x2="23" y2="12" />
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+              <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+            </svg>
+          </button>
         </nav>
       </div>
     </header>
@@ -1256,7 +1458,7 @@
       <section class="container hero-section" aria-labelledby="hero-headline">
         <div class="hero">
           <div class="hero__copy">
-            <p class="eyebrow"><span class="num">v0.1</span>· 코파일럿 에이전트 하네스</p>
+            <p class="eyebrow"><span class="num">v0.1</span>· 코파일럿 에이전트 콕핏</p>
             <h1 id="hero-headline">
               에이전트 채팅을<br />
               <span class="accent">작업 시스템</span>으로.
@@ -1269,8 +1471,7 @@
             <div class="cta-row">
               <a
                 class="btn btn--primary"
-                data-href="github-repo"
-                href="#"
+                href="https://github.com/Conradmaker/copilot-cockpit"
                 target="_blank"
                 rel="noopener noreferrer"
                 >GitHub 저장소 보기 →</a
@@ -1307,7 +1508,7 @@
               <span class="install__line"
                 ><span class="prompt">$</span
                 ><code data-install-command
-                  >npx degit owner/copilot-agent-harness my-project</code
+                  >npx degit Conradmaker/copilot-cockpit my-project</code
                 ></span
               >
               <span class="install__line comment"
@@ -1453,7 +1654,7 @@
         <p class="eyebrow" data-observe><span class="num">03</span>· 핵심 차이</p>
         <h2 class="h-section" id="features-headline">채팅이 아니라 시스템입니다.</h2>
         <p class="lede">
-          같은 모델이라도 운영 방식이 결과를 바꿉니다. 채팅창과 하네스의 차이를 한 화면에서 바로
+          같은 모델이라도 운영 방식이 결과를 바꿉니다. 채팅창과 콕핏의 차이를 한 화면에서 바로
           비교해 보세요.
         </p>
 
@@ -1483,7 +1684,7 @@
           <span class="vs__pill" aria-hidden="true">VS</span>
 
           <div class="vs__panel vs__panel--system">
-            <h3 class="vs__head">하네스 <span class="marker">+</span></h3>
+            <h3 class="vs__head">콕핏 <span class="marker">+</span></h3>
             <div class="vs__rows">
               <div class="vs__row">
                 <span class="vs__label">결과물</span>
@@ -1553,46 +1754,46 @@
 
         <p class="showcase__sub">에이전트 · <span class="count">11</span></p>
         <ul class="agents" role="list">
-          <li class="agent">
+          <li class="agent" data-tooltip="요구사항을 정리하고 PRD를 작성합니다">
             <span class="agent__num">01</span><span>mate</span><span class="agent__role">plan</span>
           </li>
-          <li class="agent">
+          <li class="agent" data-tooltip="화면, 인터랙션, 톤을 설계합니다">
             <span class="agent__num">02</span><span>designer</span
             ><span class="agent__role">design</span>
           </li>
-          <li class="agent">
+          <li class="agent" data-tooltip="기술 스택과 아키텍처를 정의합니다">
             <span class="agent__num">03</span><span>architector</span
             ><span class="agent__role">tech</span>
           </li>
-          <li class="agent">
+          <li class="agent" data-tooltip="구현을 지휘하고 실행 범위를 관리합니다">
             <span class="agent__num">04</span><span>commander</span
             ><span class="agent__role">exec</span>
           </li>
-          <li class="agent">
+          <li class="agent" data-tooltip="실제 코드를 구현하고 빌드합니다">
             <span class="agent__num">05</span><span>deep-execution</span
             ><span class="agent__role">build</span>
           </li>
-          <li class="agent">
+          <li class="agent" data-tooltip="보안, 성능, 디자인을 최종 검토합니다">
             <span class="agent__num">06</span><span>reviewer</span
             ><span class="agent__role">verdict</span>
           </li>
-          <li class="agent">
+          <li class="agent" data-tooltip="로컬 코드베이스를 탐색하고 분석합니다">
             <span class="agent__num">07</span><span>explore</span
             ><span class="agent__role">local</span>
           </li>
-          <li class="agent">
+          <li class="agent" data-tooltip="외부 문서와 레퍼런스를 조회합니다">
             <span class="agent__num">08</span><span>librarian</span
             ><span class="agent__role">external</span>
           </li>
-          <li class="agent">
+          <li class="agent" data-tooltip="여러 관점에서 의사결정을 조율합니다">
             <span class="agent__num">09</span><span>coordinator</span
             ><span class="agent__role">council</span>
           </li>
-          <li class="agent">
+          <li class="agent" data-tooltip="비주얼 리소스와 이미지를 생성합니다">
             <span class="agent__num">10</span><span>painter</span
             ><span class="agent__role">visual</span>
           </li>
-          <li class="agent">
+          <li class="agent" data-tooltip="워크플로를 라우팅하고 단계를 전환합니다">
             <span class="agent__num">11</span><span>plan</span
             ><span class="agent__role">router</span>
           </li>
@@ -1603,51 +1804,79 @@
           <div class="skills__group">
             <h4>frontend <span class="count">· 11</span></h4>
             <p class="skills__list">
-              <span>fe-a11y</span><span>fe-ai-elements</span><span>fe-code-conventions</span
-              ><span>fe-code-review</span><span>fe-react-patterns</span
-              ><span>fe-react-performance</span><span>fe-shadcn-ui</span><span>fe-tailwindcss</span
-              ><span>fe-tanstack-query</span><span>fe-ui-element-components</span
-              ><span>fe-zustand</span>
+              <span data-tooltip="웹 접근성 패턴">fe-a11y</span
+              ><span data-tooltip="AI 채팅 UI 컴포넌트">fe-ai-elements</span
+              ><span data-tooltip="프론트엔드 코드 컨벤션">fe-code-conventions</span
+              ><span data-tooltip="통합 프론트엔드 코드 리뷰">fe-code-review</span
+              ><span data-tooltip="React 컴포넌트 아키텍처">fe-react-patterns</span
+              ><span data-tooltip="React/Next.js 성능 최적화">fe-react-performance</span
+              ><span data-tooltip="shadcn/ui 컴포넌트 통합">fe-shadcn-ui</span
+              ><span data-tooltip="Tailwind CSS 스타일링">fe-tailwindcss</span
+              ><span data-tooltip="TanStack Query 서버 상태 관리">fe-tanstack-query</span
+              ><span data-tooltip="디자인 시스템 컴포넌트 패턴">fe-ui-element-components</span
+              ><span data-tooltip="Zustand 클라이언트 상태 관리">fe-zustand</span>
             </p>
           </div>
           <div class="skills__group">
             <h4>backend & security <span class="count">· 06</span></h4>
             <p class="skills__list">
-              <span>be-api-design</span><span>be-drizzle</span><span>be-kysely</span
-              ><span>be-prisma</span><span>dev-security</span><span>fastify-best-practices</span>
+              <span data-tooltip="REST API 설계 및 명세">be-api-design</span
+              ><span data-tooltip="Drizzle ORM 스키마 설계">be-drizzle</span
+              ><span data-tooltip="타입 안전 SQL 쿼리 빌더">be-kysely</span
+              ><span data-tooltip="Prisma ORM 스키마 설계">be-prisma</span
+              ><span data-tooltip="개발 보안 리뷰 패턴">dev-security</span
+              ><span data-tooltip="Fastify 서버 개발">fastify-best-practices</span>
             </p>
           </div>
           <div class="skills__group">
             <h4>design & ux <span class="count">· 07</span></h4>
             <p class="skills__list">
-              <span>ds-anti-ai-slop</span><span>ds-image-gen</span><span>ds-product-ux</span
-              ><span>ds-typography</span><span>ds-ui-patterns</span><span>ds-visual-design</span
-              ><span>ds-visual-review</span>
+              <span data-tooltip="AI 생성 UI 안티패턴 탐지">ds-anti-ai-slop</span
+              ><span data-tooltip="이미지 생성 및 편집">ds-image-gen</span
+              ><span data-tooltip="제품 UX 원칙">ds-product-ux</span
+              ><span data-tooltip="타이포그래피 의사결정">ds-typography</span
+              ><span data-tooltip="레이아웃 및 섹션 구성">ds-ui-patterns</span
+              ><span data-tooltip="비주얼 디자인 기초">ds-visual-design</span
+              ><span data-tooltip="런타임 비주얼 검토">ds-visual-review</span>
             </p>
           </div>
           <div class="skills__group">
             <h4>research <span class="count">· 04</span></h4>
             <p class="skills__list">
-              <span>research-content-source</span><span>research-design</span
-              ><span>research-foundation</span><span>research-product</span>
+              <span data-tooltip="콘텐츠 소스 리서치">research-content-source</span
+              ><span data-tooltip="레퍼런스 기반 화면 리서치">research-design</span
+              ><span data-tooltip="기초 리서치 방법론">research-foundation</span
+              ><span data-tooltip="제품 디스커버리 리서치">research-product</span>
             </p>
           </div>
           <div class="skills__group">
             <h4>writing & seo <span class="count">· 07</span></h4>
             <p class="skills__list">
-              <span>writing-clearly</span><span>writing-content</span
-              ><span>writing-design-prompt</span><span>writing-document</span
-              ><span>writing-readme</span><span>seo-content</span><span>seo-technical</span>
+              <span data-tooltip="명확하고 간결한 글쓰기">writing-clearly</span
+              ><span data-tooltip="콘텐츠 초안 및 구조화">writing-content</span
+              ><span data-tooltip="디자인 프롬프트 작성">writing-design-prompt</span
+              ><span data-tooltip="기술 문서 작성">writing-document</span
+              ><span data-tooltip="README 작성 및 리뷰">writing-readme</span
+              ><span data-tooltip="SEO 콘텐츠 최적화">seo-content</span
+              ><span data-tooltip="기술 SEO 감사">seo-technical</span>
             </p>
           </div>
           <div class="skills__group">
             <h4>workflow & tooling <span class="count">· 13</span></h4>
             <p class="skills__list">
-              <span>agent-browser</span><span>brainstorming</span><span>dev-turbopack</span
-              ><span>dev-vite</span><span>gh-cli</span><span>git-workflow</span
-              ><span>kick-analyze</span><span>kick-design-booster</span><span>kick-init</span
-              ><span>kick-research</span><span>memory-synthesizer</span><span>pdf</span
-              ><span>skill-creator</span>
+              <span data-tooltip="브라우저 자동화">agent-browser</span
+              ><span data-tooltip="창의적 브레인스토밍">brainstorming</span
+              ><span data-tooltip="Turbopack 번들러 설정">dev-turbopack</span
+              ><span data-tooltip="Vite 빌드 도구 설정">dev-vite</span
+              ><span data-tooltip="GitHub CLI 레퍼런스">gh-cli</span
+              ><span data-tooltip="Git 워크플로 가이드">git-workflow</span
+              ><span data-tooltip="제품 종합 분석">kick-analyze</span
+              ><span data-tooltip="디자인 진단 및 개선">kick-design-booster</span
+              ><span data-tooltip="디자인 컨텍스트 부트스트랩">kick-init</span
+              ><span data-tooltip="집중 리서치 오케스트레이션">kick-research</span
+              ><span data-tooltip="메모리 합성 및 저장">memory-synthesizer</span
+              ><span data-tooltip="PDF 파일 처리">pdf</span
+              ><span data-tooltip="스킬 생성 및 최적화">skill-creator</span>
             </p>
           </div>
         </div>
@@ -1759,7 +1988,7 @@
             </summary>
             <div class="faq__a">
               <p>
-                요즘 CLI/에이전트 코딩 도구는 모두 plan 모드를 제공합니다. 이 하네스는 plan 모드에서
+                요즘 CLI/에이전트 코딩 도구는 모두 plan 모드를 제공합니다. 이 콕핏은 plan 모드에서
                 최대 효율이 나도록 게이트와 산출물 구조를 맞췄습니다.
               </p>
               <p>
@@ -1805,8 +2034,7 @@
           <div class="cta__row">
             <a
               class="btn btn--primary"
-              data-href="github-repo"
-              href="#"
+              href="https://github.com/Conradmaker/copilot-cockpit"
               target="_blank"
               rel="noopener noreferrer"
               >→ GitHub에서 시작하기</a
@@ -1822,11 +2050,11 @@
     ====================================================== -->
     <footer class="footer">
       <div class="container footer__inner">
-        <span>harness <span style="color: var(--accent)">▌</span> MIT 라이선스</span>
+        <span>Cockpit <span style="color: var(--accent)">▌</span> Apache 2.0 라이선스</span>
         <nav class="footer__links" aria-label="footer">
-          <a data-href="github-repo" href="#" target="_blank" rel="noopener noreferrer">GitHub</a>
-          <a data-href="github-repo" href="#" target="_blank" rel="noopener noreferrer">README</a>
-          <a data-href="github-repo" href="#" target="_blank" rel="noopener noreferrer">에이전트</a>
+          <a href="https://github.com/Conradmaker/copilot-cockpit" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://github.com/Conradmaker/copilot-cockpit#readme" target="_blank" rel="noopener noreferrer">README</a>
+          <a href="https://github.com/Conradmaker/copilot-cockpit/tree/main/.github/agents" target="_blank" rel="noopener noreferrer">에이전트</a>
         </nav>
       </div>
     </footer>
@@ -1842,6 +2070,18 @@
       }
       onScroll()
       window.addEventListener("scroll", onScroll, { passive: true })
+
+      // =========================================================
+      // 1-b. Theme toggle
+      // =========================================================
+      const toggle = document.getElementById("theme-toggle")
+      if (toggle) {
+        toggle.addEventListener("click", () => {
+          const next = document.documentElement.dataset.theme === "dark" ? "light" : "dark"
+          document.documentElement.dataset.theme = next
+          localStorage.setItem("theme", next)
+        })
+      }
 
       // =========================================================
       // 2. Eyebrow label color reveal on intersection
